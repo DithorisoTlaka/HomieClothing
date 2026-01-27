@@ -4,20 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>App Hub | Digital Store</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-color: #ffffff;
             --accent-black: #000000;
-            --gray-light: #f4f4f4;
-            --text-secondary: #666666;
+            --gray-subtle: #f8f9fa;
+            --text-main: #1a1a1a;
+            --text-muted: #6b7280;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
+        * { box-sizing: border-box; }
+
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: var(--bg-color);
             margin: 0;
-            color: var(--accent-black);
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+        /* Entry Animation */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* Navigation */
@@ -25,103 +36,162 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1rem 5%;
-            border-bottom: 2px solid var(--accent-black);
+            padding: 1.5rem 8%;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
             position: sticky;
             top: 0;
-            background: white;
-            z-index: 100;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
         }
 
-        .logo { font-weight: 900; font-size: 1.5rem; letter-spacing: -1px; }
+        .logo { 
+            font-weight: 800; 
+            font-size: 1.4rem; 
+            letter-spacing: -1px; 
+            text-transform: uppercase;
+        }
 
+        .search-container { position: relative; width: 40%; }
+        
         .search-bar {
-            background: var(--gray-light);
-            border: none;
-            padding: 10px 20px;
-            border-radius: 50px;
-            width: 300px;
+            width: 100%;
+            background: var(--gray-subtle);
+            border: 1px solid transparent;
+            padding: 12px 24px;
+            border-radius: 14px;
+            font-size: 0.9rem;
+            transition: var(--transition);
             outline: none;
+        }
+
+        .search-bar:focus {
+            background: white;
+            border-color: var(--accent-black);
+            box-shadow: 0 0 0 4px rgba(0,0,0,0.05);
         }
 
         /* Hero Section */
         header {
-            padding: 60px 5%;
-            background-color: var(--gray-light);
+            padding: 100px 8% 60px;
             text-align: center;
+            animation: fadeInUp 0.8s ease-out;
         }
 
-        header h2 { font-size: 3rem; font-weight: 900; margin: 0; }
+        header h2 { 
+            font-size: 4rem; 
+            font-weight: 800; 
+            margin: 0; 
+            letter-spacing: -2px;
+            line-height: 1.1;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            margin-top: 15px;
+        }
 
         /* App Grid */
         .container {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 0 5%;
+            max-width: 1300px;
+            margin: 0 auto 100px;
+            padding: 0 8%;
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 40px;
         }
 
         /* App Card */
         .app-card {
-            border: 1px solid #eee;
-            padding: 20px;
-            border-radius: 20px;
-            transition: transform 0.2s, shadow 0.2s;
+            background: white;
+            border-radius: 32px;
+            padding: 24px;
+            border: 1px solid #f0f0f0;
+            transition: var(--transition);
+            animation: fadeInUp 0.6s ease-out forwards;
+            opacity: 0;
+            display: flex;
+            flex-direction: column;
         }
 
         .app-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            border-color: var(--accent-black);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
         }
 
         .app-icon {
-            width: 80px;
-            height: 80px;
-            background: #eee;
-            border-radius: 18px;
-            margin-bottom: 15px;
+            width: 72px;
+            height: 72px;
+            border-radius: 20px;
+            margin-bottom: 20px;
             object-fit: cover;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.05);
         }
 
-        .app-name { font-weight: 700; font-size: 1.2rem; margin: 5px 0; }
-        .app-desc { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 20px; height: 40px; overflow: hidden; }
+        .app-name { 
+            font-weight: 700; 
+            font-size: 1.25rem; 
+            margin: 0 0 8px 0; 
+        }
 
-        /* Black Buttons */
+        .app-desc { 
+            color: var(--text-muted); 
+            font-size: 0.95rem; 
+            line-height: 1.5;
+            margin-bottom: 24px; 
+            flex-grow: 1;
+        }
+
+        /* Black Button Styling */
         .btn-download {
             background: var(--accent-black);
             color: white;
             text-decoration: none;
-            padding: 10px 0;
+            padding: 14px;
             display: block;
             text-align: center;
-            border-radius: 10px;
-            font-weight: 700;
-            font-size: 0.8rem;
-            transition: opacity 0.2s;
+            border-radius: 16px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            border: 2px solid var(--accent-black);
         }
 
-        .btn-download:hover { opacity: 0.8; }
+        .btn-download:hover {
+            background: transparent;
+            color: var(--accent-black);
+        }
 
-        .loading { text-align: center; padding: 50px; font-weight: bold; }
+        .btn-download:active {
+            transform: scale(0.96);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h2 { font-size: 2.5rem; }
+            .search-container { width: 60%; }
+        }
     </style>
 </head>
 <body>
 
     <nav>
-        <div class="logo">APP HUB</div>
-        <input type="text" class="search-bar" placeholder="Search apps..." id="search">
-        <div style="width: 100px;"></div> </nav>
+        <div class="logo">App Hub</div>
+        <div class="search-container">
+            <input type="text" class="search-bar" placeholder="Search curated apps..." id="search">
+        </div>
+        <div style="width: 100px; text-align: right; font-weight: 600; cursor: pointer;">Login</div>
+    </nav>
 
     <header>
-        <h2>The future of apps.</h2>
-        <p>Minimal. Fast. Secure.</p>
+        <h2>Everything you need,<br>all in one place.</h2>
+        <p>Premium applications, curated for quality.</p>
     </header>
 
     <div class="container" id="app-grid">
-        <div class="loading">Connecting to Store...</div>
-    </div>
+        </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
@@ -137,36 +207,46 @@
             measurementId: "G-2FEJ8K5B2P"
         };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const appGrid = document.getElementById('app-grid');
 
-        // Fetch Data from Firestore
         async function loadApps() {
             try {
                 const querySnapshot = await getDocs(collection(db, "apps"));
-                appGrid.innerHTML = ""; // Clear loading text
+                appGrid.innerHTML = ""; 
 
-                querySnapshot.forEach((doc) => {
+                querySnapshot.docs.forEach((doc, index) => {
                     const data = doc.data();
-                    const card = `
-                        <div class="app-card">
-                            <img src="${data.icon || 'https://via.placeholder.com/80'}" class="app-icon">
-                            <div class="app-name">${data.name}</div>
-                            <div class="app-desc">${data.description}</div>
-                            <a href="${data.downloadUrl}" class="btn-download" target="_blank">DOWNLOAD</a>
-                        </div>
+                    const card = document.createElement('div');
+                    card.className = 'app-card';
+                    // Stagger the animation delay for each card
+                    card.style.animationDelay = `${index * 0.1}s`;
+                    
+                    card.innerHTML = `
+                        <img src="${data.icon || 'https://via.placeholder.com/80'}" class="app-icon" alt="icon">
+                        <div class="app-name">${data.name}</div>
+                        <div class="app-desc">${data.description || 'No description provided.'}</div>
+                        <a href="${data.downloadUrl || '#'}" class="btn-download" target="_blank">GET APP</a>
                     `;
-                    appGrid.innerHTML += card;
+                    appGrid.appendChild(card);
                 });
             } catch (error) {
-                appGrid.innerHTML = "Error loading apps. Make sure your Firestore rules are set to public.";
-                console.error(error);
+                appGrid.innerHTML = "<p>Ensure your Firestore collection is named 'apps' and rules are public.</p>";
             }
         }
 
         loadApps();
+
+        // Simple Search Filter Logic
+        document.getElementById('search').addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            const cards = document.querySelectorAll('.app-card');
+            cards.forEach(card => {
+                const name = card.querySelector('.app-name').innerText.toLowerCase();
+                card.style.display = name.includes(term) ? 'flex' : 'none';
+            });
+        });
     </script>
 </body>
 </html>

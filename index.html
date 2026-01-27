@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App Hub | Digital Store</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --accent-black: #000000;
+            --gray-light: #f4f4f4;
+            --text-secondary: #666666;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            color: var(--accent-black);
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            border-bottom: 2px solid var(--accent-black);
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 100;
+        }
+
+        .logo { font-weight: 900; font-size: 1.5rem; letter-spacing: -1px; }
+
+        .search-bar {
+            background: var(--gray-light);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            width: 300px;
+            outline: none;
+        }
+
+        /* Hero Section */
+        header {
+            padding: 60px 5%;
+            background-color: var(--gray-light);
+            text-align: center;
+        }
+
+        header h2 { font-size: 3rem; font-weight: 900; margin: 0; }
+
+        /* App Grid */
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 5%;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        /* App Card */
+        .app-card {
+            border: 1px solid #eee;
+            padding: 20px;
+            border-radius: 20px;
+            transition: transform 0.2s, shadow 0.2s;
+        }
+
+        .app-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+
+        .app-icon {
+            width: 80px;
+            height: 80px;
+            background: #eee;
+            border-radius: 18px;
+            margin-bottom: 15px;
+            object-fit: cover;
+        }
+
+        .app-name { font-weight: 700; font-size: 1.2rem; margin: 5px 0; }
+        .app-desc { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 20px; height: 40px; overflow: hidden; }
+
+        /* Black Buttons */
+        .btn-download {
+            background: var(--accent-black);
+            color: white;
+            text-decoration: none;
+            padding: 10px 0;
+            display: block;
+            text-align: center;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            transition: opacity 0.2s;
+        }
+
+        .btn-download:hover { opacity: 0.8; }
+
+        .loading { text-align: center; padding: 50px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">APP HUB</div>
+        <input type="text" class="search-bar" placeholder="Search apps..." id="search">
+        <div style="width: 100px;"></div> </nav>
+
+    <header>
+        <h2>The future of apps.</h2>
+        <p>Minimal. Fast. Secure.</p>
+    </header>
+
+    <div class="container" id="app-grid">
+        <div class="loading">Connecting to Store...</div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyD_lFs83fyT6pNcNECGueOYJeedGVKY7GA",
+            authDomain: "homieclothing-da3f7.firebaseapp.com",
+            projectId: "homieclothing-da3f7",
+            storageBucket: "homieclothing-da3f7.firebasestorage.app",
+            messagingSenderId: "1051904277079",
+            appId: "1:1051904277079:web:8166b47b1a1407e2fe0112",
+            measurementId: "G-2FEJ8K5B2P"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const appGrid = document.getElementById('app-grid');
+
+        // Fetch Data from Firestore
+        async function loadApps() {
+            try {
+                const querySnapshot = await getDocs(collection(db, "apps"));
+                appGrid.innerHTML = ""; // Clear loading text
+
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    const card = `
+                        <div class="app-card">
+                            <img src="${data.icon || 'https://via.placeholder.com/80'}" class="app-icon">
+                            <div class="app-name">${data.name}</div>
+                            <div class="app-desc">${data.description}</div>
+                            <a href="${data.downloadUrl}" class="btn-download" target="_blank">DOWNLOAD</a>
+                        </div>
+                    `;
+                    appGrid.innerHTML += card;
+                });
+            } catch (error) {
+                appGrid.innerHTML = "Error loading apps. Make sure your Firestore rules are set to public.";
+                console.error(error);
+            }
+        }
+
+        loadApps();
+    </script>
+</body>
+</html>

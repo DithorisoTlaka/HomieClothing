@@ -24,267 +24,162 @@
             margin: 0;
             color: var(--text-main);
             overflow-x: hidden;
-            padding-bottom: 100px; /* Space for mobile nav */
+            padding-bottom: 100px;
         }
 
+        /* View Management */
+        .view { display: none; animation: fadeInUp 0.5s ease-out forwards; }
+        .view.active { display: block; }
+
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         /* Desktop Navigation */
         nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.5rem 8%;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1.5rem 8%; background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 1000;
             border-bottom: 1px solid rgba(0,0,0,0.05);
         }
 
-        .logo { 
-            font-weight: 800; 
-            font-size: 1.4rem; 
-            letter-spacing: -1px; 
-            text-transform: uppercase;
-        }
+        .logo { font-weight: 800; font-size: 1.4rem; cursor: pointer; text-transform: uppercase; }
 
         .search-container { position: relative; width: 40%; }
-        
         .search-bar {
-            width: 100%;
-            background: var(--gray-subtle);
-            border: 1px solid transparent;
-            padding: 12px 24px;
-            border-radius: 14px;
-            font-size: 0.9rem;
-            transition: var(--transition);
-            outline: none;
+            width: 100%; background: var(--gray-subtle); border: 1px solid transparent;
+            padding: 12px 24px; border-radius: 14px; outline: none; transition: var(--transition);
+        }
+        .search-bar:focus { background: white; border-color: var(--accent-black); }
+
+        /* Mobile Header */
+        .mobile-header {
+            display: none; position: fixed; top: 0; left: 0; width: 100%;
+            background: white; padding: 15px; text-align: center;
+            font-weight: 800; border-bottom: 1px solid #eee; z-index: 2001;
+            text-transform: uppercase; letter-spacing: 1px;
         }
 
-        .search-bar:focus {
-            background: white;
-            border-color: var(--accent-black);
-            box-shadow: 0 0 0 4px rgba(0,0,0,0.05);
-        }
-
-        /* Hero Section */
-        header {
-            padding: 80px 8% 40px;
-            text-align: center;
-            animation: fadeInUp 0.8s ease-out;
-        }
-
-        header h2 { 
-            font-size: 4rem; 
-            font-weight: 800; 
-            margin: 0; 
-            letter-spacing: -2px;
-            line-height: 1.1;
-        }
-
-        header p {
-            color: var(--text-muted);
-            font-size: 1.2rem;
-            margin-top: 15px;
-        }
-
-        /* Category Filter Bar */
-        .category-bar {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 50px;
-            flex-wrap: wrap;
-            padding: 0 8%;
-        }
-
+        /* App Grid & Cards */
+        header { padding: 60px 8% 20px; text-align: center; }
+        header h2 { font-size: 3.5rem; font-weight: 800; margin: 0; letter-spacing: -2px; }
+        
+        .category-bar { display: flex; justify-content: center; gap: 10px; margin: 30px 0; flex-wrap: wrap; }
         .cat-btn {
-            background: var(--gray-subtle);
-            border: none;
-            padding: 10px 20px;
-            border-radius: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
+            background: var(--gray-subtle); border: none; padding: 10px 20px;
+            border-radius: 12px; font-weight: 600; cursor: pointer; transition: var(--transition);
         }
+        .cat-btn.active { background: var(--accent-black); color: white; }
 
-        .cat-btn:hover, .cat-btn.active {
-            background: var(--accent-black);
-            color: white;
-        }
-
-        /* App Grid */
         .container {
-            max-width: 1300px;
-            margin: 0 auto 100px;
-            padding: 0 8%;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 40px;
+            max-width: 1300px; margin: 0 auto; padding: 0 8%;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px;
         }
 
         .app-card {
-            background: white;
-            border-radius: 32px;
-            padding: 24px;
-            border: 1px solid #f0f0f0;
-            transition: var(--transition);
-            animation: fadeInUp 0.6s ease-out forwards;
-            opacity: 0;
-            display: flex;
-            flex-direction: column;
-            position: relative;
+            background: white; border-radius: 28px; padding: 24px; border: 1px solid #f0f0f0;
+            display: flex; flex-direction: column; transition: var(--transition);
         }
-
-        .app-card:hover {
-            border-color: var(--accent-black);
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
-        }
-
-        .category-tag {
-            font-size: 0.7rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            margin-bottom: 10px;
-            letter-spacing: 1px;
-        }
-
-        .app-icon {
-            width: 72px;
-            height: 72px;
-            border-radius: 20px;
-            margin-bottom: 20px;
-            object-fit: cover;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.05);
-        }
-
-        .app-name { font-weight: 700; font-size: 1.25rem; margin: 0 0 8px 0; }
-        .app-desc { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; margin-bottom: 24px; flex-grow: 1; }
+        .app-card:hover { border-color: var(--accent-black); transform: translateY(-8px); }
+        .app-icon { width: 64px; height: 64px; border-radius: 18px; object-fit: cover; margin-bottom: 15px; }
+        .app-name { font-weight: 700; font-size: 1.2rem; margin-bottom: 5px; }
+        .app-desc { color: var(--text-muted); font-size: 0.9rem; flex-grow: 1; margin-bottom: 20px; }
 
         .btn-download {
-            background: var(--accent-black);
-            color: white;
-            text-decoration: none;
-            padding: 14px;
-            display: block;
-            text-align: center;
-            border-radius: 16px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            transition: var(--transition);
-            border: 2px solid var(--accent-black);
+            background: var(--accent-black); color: white; text-decoration: none;
+            padding: 12px; text-align: center; border-radius: 14px; font-weight: 600;
+            border: 2px solid var(--accent-black); transition: var(--transition);
+            cursor: pointer;
         }
-
         .btn-download:hover { background: transparent; color: var(--accent-black); }
 
-        /* Modern Mobile Bottom Nav */
+        /* Mobile Nav */
         @media (max-width: 768px) {
-            header h2 { font-size: 2.5rem; }
-            nav { display: none; } 
-            
+            nav { display: none; }
+            .mobile-header { display: block; }
+            body { padding-top: 60px; }
             .mobile-nav {
-                display: flex;
-                position: fixed;
-                bottom: 20px;
-                left: 50%;
-                transform: translateX(-50%);
-                width: 90%;
-                background: rgba(255, 255, 255, 0.9);
-                backdrop-filter: blur(15px);
-                border: 1px solid rgba(0,0,0,0.1);
-                padding: 12px 20px;
-                border-radius: 25px;
-                justify-content: space-around;
-                align-items: center;
-                z-index: 2000;
-                box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+                display: flex; position: fixed; bottom: 20px; left: 50%;
+                transform: translateX(-50%); width: 90%; background: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(10px); border: 1px solid rgba(0,0,0,0.1);
+                padding: 12px; border-radius: 20px; justify-content: space-around; z-index: 2000;
             }
-
-            .mobile-nav-item {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                text-decoration: none;
-                color: var(--text-muted);
-                transition: var(--transition);
-                font-size: 0.65rem;
-                font-weight: 600;
-                gap: 4px;
+            .mobile-nav-item { 
+                display: flex; flex-direction: column; align-items: center; 
+                text-decoration: none; color: var(--text-muted); font-size: 0.6rem; font-weight: 800;
             }
-
-            .mobile-nav-item.active {
-                color: var(--accent-black);
-                transform: translateY(-5px);
-            }
-
-            .mobile-nav-item i {
-                width: 24px;
-                height: 24px;
-            }
+            .mobile-nav-item.active { color: var(--accent-black); }
         }
-
-        @media (min-width: 769px) {
-            .mobile-nav { display: none; }
-        }
+        @media (min-width: 769px) { .mobile-nav { display: none; } }
     </style>
 </head>
 <body>
 
+    <div class="mobile-header">App Hub</div>
+
     <nav>
-        <div class="logo">App Hub</div>
+        <div class="logo" onclick="showView('home')">App Hub</div>
         <div class="search-container">
-            <input type="text" class="search-bar" placeholder="Search curated apps..." id="search">
+            <input type="text" class="search-bar" placeholder="Search apps..." id="search" oninput="filterApps()">
         </div>
-        <div style="font-weight: 600; cursor: pointer;">Developer Console</div>
+        <div id="auth-btn" style="font-weight: 600; cursor: pointer;" onclick="handleAuth()">Login</div>
     </nav>
 
-    <header>
-        <h2>Everything you need,<br>all in one place.</h2>
-        <p>Premium applications, curated for quality.</p>
-    </header>
-
-    <div class="category-bar">
-        <button class="cat-btn active" data-cat="all">All Apps</button>
-        <button class="cat-btn" data-cat="Social">Social</button>
-        <button class="cat-btn" data-cat="Games">Games</button>
-        <button class="cat-btn" data-cat="Productivity">Productivity</button>
-        <button class="cat-btn" data-cat="Creative">Creative</button>
+    <div id="home" class="view active">
+        <header>
+            <h2>Discover.<br>Download.</h2>
+            <div class="category-bar">
+                <button class="cat-btn active" data-cat="all">All</button>
+                <button class="cat-btn" data-cat="Social">Social</button>
+                <button class="cat-btn" data-cat="Games">Games</button>
+                <button class="cat-btn" data-cat="Productivity">Productivity</button>
+            </div>
+        </header>
+        <div class="container" id="app-grid">
+            <div class="app-card" data-cat="Social">
+                <img src="https://plus.unsplash.com/premium_photo-1661596666992-0f074766978a?w=400&h=400&fit=crop" class="app-icon">
+                <div class="app-name">Connectify</div>
+                <div class="app-desc">Social networking redefined for the modern age.</div>
+                <button class="btn-download">GET</button>
+            </div>
+            <div class="app-card" data-cat="Games">
+                <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=400&h=400&fit=crop" class="app-icon">
+                <div class="app-name">Neon Strike</div>
+                <div class="app-desc">Fast-paced arcade action with stunning visuals.</div>
+                <button class="btn-download">GET</button>
+            </div>
+            <div class="app-card" data-cat="Productivity">
+                <img src="https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=400&h=400&fit=crop" class="app-icon">
+                <div class="app-name">FocusFlow</div>
+                <div class="app-desc">Boost your daily productivity with AI tasks.</div>
+                <button class="btn-download">GET</button>
+            </div>
+        </div>
     </div>
 
-    <div class="container" id="app-grid">
+    <div id="me" class="view">
+        <div style="text-align:center; padding: 100px 8%;">
+            <div id="user-info">
+                <i data-lucide="user" style="width:80px; height:80px; margin-bottom:20px;"></i>
+                <h1>Welcome, Guest</h1>
+                <p>Login with Google to access your profile.</p>
+                <button class="btn-download" onclick="handleAuth()" style="padding: 12px 40px">Login with Google</button>
+            </div>
         </div>
+    </div>
 
     <div class="mobile-nav">
-        <a href="#" class="mobile-nav-item active">
-            <i data-lucide="home"></i>
-            <span>HOME</span>
-        </a>
-        <a href="#" class="mobile-nav-item">
-            <i data-lucide="search"></i>
-            <span>SEARCH</span>
-        </a>
-        <a href="#" class="mobile-nav-item">
-            <i data-lucide="layout-grid"></i>
-            <span>APPS</span>
-        </a>
-        <a href="#" class="mobile-nav-item">
-            <i data-lucide="user"></i>
-            <span>ME</span>
-        </a>
+        <a href="javascript:void(0)" class="mobile-nav-item active" onclick="showView('home', this)"><i data-lucide="home"></i>HOME</a>
+        <a href="javascript:void(0)" class="mobile-nav-item" onclick="document.getElementById('search').focus()"><i data-lucide="search"></i>SEARCH</a>
+        <a href="javascript:void(0)" class="mobile-nav-item" onclick="showView('me', this)"><i data-lucide="user"></i>ME</a>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-        // Initialize Lucide Icons
         lucide.createIcons();
 
         const firebaseConfig = {
@@ -299,67 +194,94 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-        const appGrid = document.getElementById('app-grid');
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
 
         let currentCategory = 'all';
 
-        async function loadApps() {
-            try {
-                const appsRef = collection(db, "apps");
-                const q = query(appsRef, where("status", "==", "approved"));
-                const querySnapshot = await getDocs(q);
-                appGrid.innerHTML = ""; 
-
-                if (querySnapshot.empty) {
-                    appGrid.innerHTML = "<p style='grid-column: 1/-1; text-align: center;'>No approved apps yet.</p>";
-                    return;
+        // Auth Logic
+        window.handleAuth = async () => {
+            if (auth.currentUser) {
+                await signOut(auth);
+            } else {
+                try {
+                    await signInWithPopup(auth, provider);
+                } catch (err) {
+                    console.error("Auth Error", err);
                 }
-
-                querySnapshot.docs.forEach((doc, index) => {
-                    const data = doc.data();
-                    const card = document.createElement('div');
-                    card.className = 'app-card';
-                    card.setAttribute('data-category', data.category);
-                    card.style.animationDelay = `${index * 0.1}s`;
-                    
-                    card.innerHTML = `
-                        <span class="category-tag">${data.category || 'General'}</span>
-                        <img src="${data.icon || 'https://via.placeholder.com/80'}" class="app-icon" alt="icon">
-                        <div class="app-name">${data.name}</div>
-                        <div class="app-desc">${data.description || 'No description provided.'}</div>
-                        <a href="${data.downloadUrl || '#'}" class="btn-download" target="_blank">GET APP</a>
-                    `;
-                    appGrid.appendChild(card);
-                });
-            } catch (error) {
-                appGrid.innerHTML = "<p>Store error. Check database rules.</p>";
             }
-        }
+        };
 
-        const filterApps = () => {
+        onAuthStateChanged(auth, (user) => {
+            const authBtn = document.getElementById('auth-btn');
+            const userInfo = document.getElementById('user-info');
+            if (user) {
+                authBtn.innerText = "Logout";
+                userInfo.innerHTML = `
+                    <img src="${user.photoURL}" style="width:80px; height:80px; border-radius:50%; margin-bottom:20px;">
+                    <h1>Hello, ${user.displayName}</h1>
+                    <p>${user.email}</p>
+                    <button class="btn-download" onclick="handleAuth()">Logout</button>
+                `;
+            } else {
+                authBtn.innerText = "Login";
+                userInfo.innerHTML = `
+                    <i data-lucide="user" style="width:80px; height:80px; margin-bottom:20px;"></i>
+                    <h1>Welcome, Guest</h1>
+                    <p>Login with Google to access your profile.</p>
+                    <button class="btn-download" onclick="handleAuth()" style="padding: 12px 40px">Login with Google</button>
+                `;
+                lucide.createIcons();
+            }
+        });
+
+        // SPA Router
+        window.showView = (viewId, element) => {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.getElementById(viewId).classList.add('active');
+            if(element) {
+                document.querySelectorAll('.mobile-nav-item').forEach(i => i.classList.remove('active'));
+                element.classList.add('active');
+            }
+        };
+
+        // Filter Function
+        window.filterApps = () => {
             const term = document.getElementById('search').value.toLowerCase();
-            const cards = document.querySelectorAll('.app-card');
-            
-            cards.forEach(card => {
+            document.querySelectorAll('.app-card').forEach(card => {
                 const name = card.querySelector('.app-name').innerText.toLowerCase();
-                const cat = card.getAttribute('data-category');
-                const matchesSearch = name.includes(term);
-                const matchesCat = currentCategory === 'all' || cat === currentCategory;
-                card.style.display = (matchesSearch && matchesCat) ? 'flex' : 'none';
+                const cat = card.getAttribute('data-cat');
+                const match = name.includes(term) && (currentCategory === 'all' || cat === currentCategory);
+                card.style.display = match ? 'flex' : 'none';
             });
         };
 
         document.querySelectorAll('.cat-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
+            btn.onclick = (e) => {
                 document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-                e.target.classList.add('active');
-                currentCategory = e.target.getAttribute('data-cat');
+                btn.classList.add('active');
+                currentCategory = btn.dataset.cat;
                 filterApps();
-            });
+            };
         });
 
-        document.getElementById('search').addEventListener('input', filterApps);
-
+        // Database loading
+        async function loadApps() {
+            const grid = document.getElementById('app-grid');
+            const q = query(collection(db, "apps"), where("status", "==", "approved"));
+            const snap = await getDocs(q);
+            // Append real apps if they exist, otherwise keep mock apps
+            snap.forEach(doc => {
+                const data = doc.data();
+                grid.innerHTML += `
+                    <div class="app-card" data-cat="${data.category}">
+                        <img src="${data.icon}" class="app-icon">
+                        <div class="app-name">${data.name}</div>
+                        <div class="app-desc">${data.description}</div>
+                        <a href="${data.downloadUrl}" class="btn-download">GET</a>
+                    </div>`;
+            });
+        }
         loadApps();
     </script>
 </body>

@@ -23,15 +23,15 @@
             margin: 0;
             color: var(--text-main);
             overflow-x: hidden;
+            padding-bottom: 80px; /* Space for mobile nav */
         }
 
-        /* Entry Animation */
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Navigation */
+        /* Desktop Navigation */
         nav {
             display: flex;
             justify-content: space-between;
@@ -99,6 +99,7 @@
             gap: 15px;
             margin-bottom: 50px;
             flex-wrap: wrap;
+            padding: 0 8%;
         }
 
         .cat-btn {
@@ -126,7 +127,6 @@
             gap: 40px;
         }
 
-        /* App Card */
         .app-card {
             background: white;
             border-radius: 32px;
@@ -164,21 +164,9 @@
             box-shadow: 0 8px 16px rgba(0,0,0,0.05);
         }
 
-        .app-name { 
-            font-weight: 700; 
-            font-size: 1.25rem; 
-            margin: 0 0 8px 0; 
-        }
+        .app-name { font-weight: 700; font-size: 1.25rem; margin: 0 0 8px 0; }
+        .app-desc { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; margin-bottom: 24px; flex-grow: 1; }
 
-        .app-desc { 
-            color: var(--text-muted); 
-            font-size: 0.95rem; 
-            line-height: 1.5;
-            margin-bottom: 24px; 
-            flex-grow: 1;
-        }
-
-        /* Black Button Styling */
         .btn-download {
             background: var(--accent-black);
             color: white;
@@ -193,19 +181,40 @@
             border: 2px solid var(--accent-black);
         }
 
-        .btn-download:hover {
-            background: transparent;
-            color: var(--accent-black);
-        }
+        .btn-download:hover { background: transparent; color: var(--accent-black); }
 
-        .btn-download:active {
-            transform: scale(0.96);
-        }
-
-        /* Responsive */
+        /* Mobile Bottom Nav */
         @media (max-width: 768px) {
             header h2 { font-size: 2.5rem; }
-            .search-container { width: 60%; }
+            nav { display: none; } /* Hide top nav on mobile */
+            
+            .mobile-nav {
+                display: flex;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                background: white;
+                border-top: 1px solid #eee;
+                padding: 15px 0;
+                justify-content: space-around;
+                z-index: 2000;
+                box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+            }
+
+            .mobile-nav-item {
+                text-align: center;
+                font-size: 0.7rem;
+                font-weight: 700;
+                text-decoration: none;
+                color: var(--text-muted);
+            }
+
+            .mobile-nav-item.active { color: var(--accent-black); }
+        }
+
+        @media (min-width: 769px) {
+            .mobile-nav { display: none; }
         }
     </style>
 </head>
@@ -216,7 +225,7 @@
         <div class="search-container">
             <input type="text" class="search-bar" placeholder="Search curated apps..." id="search">
         </div>
-        <div style="width: 100px; text-align: right; font-weight: 600; cursor: pointer;">Login</div>
+        <div style="font-weight: 600; cursor: pointer;">Developer Console</div>
     </nav>
 
     <header>
@@ -225,19 +234,26 @@
     </header>
 
     <div class="category-bar">
-        <button class="cat-btn active" onclick="filterCat('all')">All Apps</button>
-        <button class="cat-btn" onclick="filterCat('Social')">Social</button>
-        <button class="cat-btn" onclick="filterCat('Games')">Games</button>
-        <button class="cat-btn" onclick="filterCat('Productivity')">Productivity</button>
-        <button class="cat-btn" onclick="filterCat('Creative')">Creative</button>
+        <button class="cat-btn active" data-cat="all">All Apps</button>
+        <button class="cat-btn" data-cat="Social">Social</button>
+        <button class="cat-btn" data-cat="Games">Games</button>
+        <button class="cat-btn" data-cat="Productivity">Productivity</button>
+        <button class="cat-btn" data-cat="Creative">Creative</button>
     </div>
 
     <div class="container" id="app-grid">
         </div>
 
+    <div class="mobile-nav">
+        <a href="#" class="mobile-nav-item active">HOME</a>
+        <a href="#" class="mobile-nav-item">SEARCH</a>
+        <a href="#" class="mobile-nav-item">APPS</a>
+        <a href="#" class="mobile-nav-item">ME</a>
+    </div>
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyD_lFs83fyT6pNcNECGueOYJeedGVKY7GA",
@@ -253,33 +269,28 @@
         const db = getFirestore(app);
         const appGrid = document.getElementById('app-grid');
 
-        window.filterCat = (category) => {
-            const cards = document.querySelectorAll('.app-card');
-            const btns = document.querySelectorAll('.cat-btn');
-            
-            btns.forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-
-            cards.forEach(card => {
-                const appCat = card.getAttribute('data-category');
-                if (category === 'all' || appCat === category) {
-                    card.style.display = 'flex';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        };
+        // Functional Filter Logic
+        let currentCategory = 'all';
 
         async function loadApps() {
             try {
-                const querySnapshot = await getDocs(collection(db, "apps"));
+                // IMPORTANT: This only shows apps where status is 'approved'
+                const appsRef = collection(db, "apps");
+                const q = query(appsRef, where("status", "==", "approved"));
+                
+                const querySnapshot = await getDocs(q);
                 appGrid.innerHTML = ""; 
+
+                if (querySnapshot.empty) {
+                    appGrid.innerHTML = "<p style='grid-column: 1/-1; text-align: center;'>No approved apps available yet.</p>";
+                    return;
+                }
 
                 querySnapshot.docs.forEach((doc, index) => {
                     const data = doc.data();
                     const card = document.createElement('div');
                     card.className = 'app-card';
-                    card.setAttribute('data-category', data.category || 'Other');
+                    card.setAttribute('data-category', data.category);
                     card.style.animationDelay = `${index * 0.1}s`;
                     
                     card.innerHTML = `
@@ -292,20 +303,40 @@
                     appGrid.appendChild(card);
                 });
             } catch (error) {
-                appGrid.innerHTML = "<p>Check your Firestore collection.</p>";
+                console.error(error);
+                appGrid.innerHTML = "<p>Error connecting to store. Check database rules.</p>";
             }
         }
 
-        loadApps();
-
-        document.getElementById('search').addEventListener('input', (e) => {
-            const term = e.target.value.toLowerCase();
+        // Search and Filter Functionality
+        const filterApps = () => {
+            const term = document.getElementById('search').value.toLowerCase();
             const cards = document.querySelectorAll('.app-card');
+            
             cards.forEach(card => {
                 const name = card.querySelector('.app-name').innerText.toLowerCase();
-                card.style.display = name.includes(term) ? 'flex' : 'none';
+                const cat = card.getAttribute('data-category');
+                const matchesSearch = name.includes(term);
+                const matchesCat = currentCategory === 'all' || cat === currentCategory;
+
+                card.style.display = (matchesSearch && matchesCat) ? 'flex' : 'none';
+            });
+        };
+
+        // UI Event Listeners
+        document.querySelectorAll('.cat-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                currentCategory = e.target.getAttribute('data-cat');
+                filterApps();
             });
         });
+
+        document.getElementById('search').addEventListener('input', filterApps);
+
+        // Initial Load
+        loadApps();
     </script>
 </body>
 </html>

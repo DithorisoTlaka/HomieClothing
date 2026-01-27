@@ -94,23 +94,71 @@
         }
         .btn-download:hover { background: transparent; color: var(--accent-black); }
 
-        /* Mobile Nav */
+        /* Mobile Styles */
         @media (max-width: 768px) {
             nav { display: none; }
             .mobile-header { display: block; }
             body { padding-top: 60px; }
+            
+            header h2 { font-size: 2.2rem; }
+            header p { font-size: 1rem; }
+
+            /* Grid: 2 columns on mobile */
+            .container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+                padding: 0 15px;
+            }
+
+            .app-card {
+                padding: 12px;
+                border-radius: 18px;
+            }
+
+            .app-icon {
+                width: 48px;
+                height: 48px;
+                border-radius: 12px;
+                margin-bottom: 8px;
+            }
+
+            .app-name {
+                font-size: 0.9rem;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .app-desc {
+                font-size: 0.75rem;
+                margin-bottom: 12px;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                line-height: 1.3;
+            }
+
+            .btn-download {
+                padding: 8px;
+                font-size: 0.75rem;
+                border-radius: 10px;
+            }
+
             .mobile-nav {
                 display: flex; position: fixed; bottom: 20px; left: 50%;
-                transform: translateX(-50%); width: 90%; background: rgba(255, 255, 255, 0.95);
+                transform: translateX(-50%); width: 92%; background: rgba(255, 255, 255, 0.95);
                 backdrop-filter: blur(10px); border: 1px solid rgba(0,0,0,0.1);
-                padding: 12px; border-radius: 20px; justify-content: space-around; z-index: 2000;
+                padding: 10px; border-radius: 20px; justify-content: space-around; z-index: 2000;
             }
             .mobile-nav-item { 
                 display: flex; flex-direction: column; align-items: center; 
-                text-decoration: none; color: var(--text-muted); font-size: 0.6rem; font-weight: 800;
+                text-decoration: none; color: var(--text-muted); font-size: 0.55rem; font-weight: 800;
             }
             .mobile-nav-item.active { color: var(--accent-black); }
+            .mobile-nav-item i { width: 20px; height: 20px; }
         }
+
         @media (min-width: 769px) { .mobile-nav { display: none; } }
     </style>
 </head>
@@ -153,6 +201,12 @@
                 <img src="https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=400&h=400&fit=crop" class="app-icon">
                 <div class="app-name">FocusFlow</div>
                 <div class="app-desc">Boost your daily productivity with AI tasks.</div>
+                <button class="btn-download">GET</button>
+            </div>
+            <div class="app-card" data-cat="Social">
+                <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=400&h=400&fit=crop" class="app-icon">
+                <div class="app-name">VibeCheck</div>
+                <div class="app-desc">Share your daily mood with close friends.</div>
                 <button class="btn-download">GET</button>
             </div>
         </div>
@@ -268,19 +322,20 @@
         // Database loading
         async function loadApps() {
             const grid = document.getElementById('app-grid');
-            const q = query(collection(db, "apps"), where("status", "==", "approved"));
-            const snap = await getDocs(q);
-            // Append real apps if they exist, otherwise keep mock apps
-            snap.forEach(doc => {
-                const data = doc.data();
-                grid.innerHTML += `
-                    <div class="app-card" data-cat="${data.category}">
-                        <img src="${data.icon}" class="app-icon">
-                        <div class="app-name">${data.name}</div>
-                        <div class="app-desc">${data.description}</div>
-                        <a href="${data.downloadUrl}" class="btn-download">GET</a>
-                    </div>`;
-            });
+            try {
+                const q = query(collection(db, "apps"), where("status", "==", "approved"));
+                const snap = await getDocs(q);
+                snap.forEach(doc => {
+                    const data = doc.data();
+                    grid.innerHTML += `
+                        <div class="app-card" data-cat="${data.category}">
+                            <img src="${data.icon}" class="app-icon">
+                            <div class="app-name">${data.name}</div>
+                            <div class="app-desc">${data.description}</div>
+                            <a href="${data.downloadUrl}" class="btn-download">GET</a>
+                        </div>`;
+                });
+            } catch (e) { console.log("Real DB empty or permission denied, showing mocks only."); }
         }
         loadApps();
     </script>

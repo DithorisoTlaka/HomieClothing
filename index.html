@@ -73,7 +73,7 @@
 
         /* Hero Section */
         header {
-            padding: 100px 8% 60px;
+            padding: 80px 8% 40px;
             text-align: center;
             animation: fadeInUp 0.8s ease-out;
         }
@@ -90,6 +90,30 @@
             color: var(--text-muted);
             font-size: 1.2rem;
             margin-top: 15px;
+        }
+
+        /* Category Filter Bar */
+        .category-bar {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+        }
+
+        .cat-btn {
+            background: var(--gray-subtle);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .cat-btn:hover, .cat-btn.active {
+            background: var(--accent-black);
+            color: white;
         }
 
         /* App Grid */
@@ -113,12 +137,22 @@
             opacity: 0;
             display: flex;
             flex-direction: column;
+            position: relative;
         }
 
         .app-card:hover {
             border-color: var(--accent-black);
             transform: translateY(-10px);
             box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+        }
+
+        .category-tag {
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+            letter-spacing: 1px;
         }
 
         .app-icon {
@@ -190,6 +224,14 @@
         <p>Premium applications, curated for quality.</p>
     </header>
 
+    <div class="category-bar">
+        <button class="cat-btn active" onclick="filterCat('all')">All Apps</button>
+        <button class="cat-btn" onclick="filterCat('Social')">Social</button>
+        <button class="cat-btn" onclick="filterCat('Games')">Games</button>
+        <button class="cat-btn" onclick="filterCat('Productivity')">Productivity</button>
+        <button class="cat-btn" onclick="filterCat('Creative')">Creative</button>
+    </div>
+
     <div class="container" id="app-grid">
         </div>
 
@@ -211,6 +253,23 @@
         const db = getFirestore(app);
         const appGrid = document.getElementById('app-grid');
 
+        window.filterCat = (category) => {
+            const cards = document.querySelectorAll('.app-card');
+            const btns = document.querySelectorAll('.cat-btn');
+            
+            btns.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            cards.forEach(card => {
+                const appCat = card.getAttribute('data-category');
+                if (category === 'all' || appCat === category) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        };
+
         async function loadApps() {
             try {
                 const querySnapshot = await getDocs(collection(db, "apps"));
@@ -220,10 +279,11 @@
                     const data = doc.data();
                     const card = document.createElement('div');
                     card.className = 'app-card';
-                    // Stagger the animation delay for each card
+                    card.setAttribute('data-category', data.category || 'Other');
                     card.style.animationDelay = `${index * 0.1}s`;
                     
                     card.innerHTML = `
+                        <span class="category-tag">${data.category || 'General'}</span>
                         <img src="${data.icon || 'https://via.placeholder.com/80'}" class="app-icon" alt="icon">
                         <div class="app-name">${data.name}</div>
                         <div class="app-desc">${data.description || 'No description provided.'}</div>
@@ -232,13 +292,12 @@
                     appGrid.appendChild(card);
                 });
             } catch (error) {
-                appGrid.innerHTML = "<p>Ensure your Firestore collection is named 'apps' and rules are public.</p>";
+                appGrid.innerHTML = "<p>Check your Firestore collection.</p>";
             }
         }
 
         loadApps();
 
-        // Simple Search Filter Logic
         document.getElementById('search').addEventListener('input', (e) => {
             const term = e.target.value.toLowerCase();
             const cards = document.querySelectorAll('.app-card');

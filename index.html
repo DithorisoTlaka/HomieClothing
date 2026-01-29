@@ -196,9 +196,84 @@
 
         .cart-total { font-size: 1.3rem; font-weight: 800; text-align: right; margin: 30px 0; }
 
-        .btn-clear-cart {
-            background: #ef4444; color: white; border: none;
+        .btn-clear-cart, .btn-checkout {
             padding: 12px 24px; border-radius: 12px; cursor: pointer; font-weight: 600;
+            border: none; transition: var(--transition);
+        }
+
+        .btn-clear-cart {
+            background: #ef4444; color: white;
+        }
+
+        .btn-checkout {
+            background: var(--accent-black); color: white;
+            margin-left: 12px;
+        }
+
+        .btn-checkout:hover { background: #222; }
+
+        /* Modern Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 3000;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 20px;
+            padding: 32px;
+            max-width: 420px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+            transform: scale(0.9);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .modal.show {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .modal-icon {
+            font-size: 3.5rem;
+            margin-bottom: 16px;
+            color: var(--accent-black);
+        }
+
+        .modal-title {
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        .modal-message {
+            color: var(--text-muted);
+            margin-bottom: 28px;
+            line-height: 1.5;
+        }
+
+        .modal-btn {
+            background: var(--accent-black);
+            color: white;
+            border: none;
+            padding: 14px 36px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .modal-btn:hover {
+            background: #222;
         }
 
         /* Footer - only desktop */
@@ -332,9 +407,12 @@
         </header>
         <div class="container">
             <div id="cart-items"></div>
-            <div style="text-align: right;">
+            <div style="text-align: right; margin-top: 20px;">
                 <div id="cart-total" class="cart-total">Subtotal: R 0.00</div>
-                <button class="btn-clear-cart" onclick="clearCart()">Clear Cart</button>
+                <div style="margin-top: 16px;">
+                    <button class="btn-clear-cart" onclick="clearCart()">Clear Cart</button>
+                    <button class="btn-checkout" onclick="goToCheckout()">Checkout</button>
+                </div>
             </div>
         </div>
     </div>
@@ -350,6 +428,16 @@
             CART
         </a>
         <a href="javascript:void(0)" class="mobile-nav-item" onclick="showView('me', this)"><i data-lucide="user"></i>ME</a>
+    </div>
+
+    <!-- Modern Modal -->
+    <div id="notification-modal" class="modal-overlay">
+        <div class="modal" id="modal-content">
+            <div class="modal-icon" id="modal-icon"></div>
+            <h2 class="modal-title" id="modal-title"></h2>
+            <p class="modal-message" id="modal-message"></p>
+            <button class="modal-btn" onclick="closeModal()">Got it</button>
+        </div>
     </div>
 
     <!-- Footer - hidden on mobile -->
@@ -444,7 +532,7 @@
                 name: "Homie Classic Hoodie",
                 category: "Hoodies",
                 price: 599,
-                description: "Heavyweight 320gsm fleece. Signature embroidered logo.",
+                description: "Heavyweight 320gsm fleece. Signature embroidered logo on chest.",
                 imageUrl: "https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=800",
                 colors: ["Black", "Grey", "Navy", "Forest"],
                 sizes: ["S", "M", "L", "XL", "XXL"],
@@ -456,19 +544,83 @@
                 }
             },
             {
+                id: "hd-007",
+                name: "Homie Zip Hoodie",
+                category: "Hoodies",
+                price: 679,
+                description: "Full zip, double-layer hood, kangaroo pocket. Winter essential.",
+                imageUrl: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=800",
+                colors: ["Charcoal", "Burgundy", "Olive", "Cream"],
+                sizes: ["S", "M", "L", "XL", "XXL"],
+                stock: {
+                    Charcoal: {S:10, M:8, L:5, XL:2, XXL:0},
+                    Burgundy: {S:8, M:6, L:4, XL:1, XXL:0},
+                    Olive:    {S:7, M:5, L:3, XL:0, XXL:0},
+                    Cream:    {S:9, M:7, L:4, XL:2, XXL:1}
+                }
+            },
+            {
+                id: "hd-013",
+                name: "Homie Oversized Pullover",
+                category: "Hoodies",
+                price: 649,
+                description: "Super relaxed fit, dropped shoulders, brushed inside.",
+                imageUrl: "https://images.unsplash.com/photo-1574201635302-2d7e53e37e2f?w=800",
+                colors: ["Black", "Sand", "Mocha", "Camo"],
+                sizes: ["S", "M", "L", "XL"],
+                stock: {
+                    Black: {S:14, M:10, L:6, XL:2},
+                    Sand:  {S:11, M:9,  L:5, XL:1},
+                    Mocha: {S:8,  M:6,  L:3, XL:0},
+                    Camo:  {S:6,  M:4,  L:2, XL:0}
+                }
+            },
+            {
                 id: "tee-042",
                 name: "Homie Box Logo Tee",
                 category: "Tees",
                 price: 289,
-                description: "180gsm premium cotton. Oversized fit, garment dyed.",
+                description: "180gsm premium cotton. Oversized boxy fit, garment dyed.",
                 imageUrl: "https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=800",
                 colors: ["White", "Black", "Bone", "Olive"],
+                sizes: ["S", "M", "L", "XL", "XXL"],
+                stock: {
+                    White: {S:18, M:14, L:9, XL:4, XXL:2},
+                    Black: {S:22, M:16, L:10, XL:3, XXL:1},
+                    Bone:  {S:12, M:9,  L:5, XL:0, XXL:0},
+                    Olive: {S:8,  M:6,  L:4, XL:2, XXL:0}
+                }
+            },
+            {
+                id: "tee-058",
+                name: "Homie Durban Script Tee",
+                category: "Tees",
+                price: 319,
+                description: "Local pride print. Soft 200gsm cotton. Slightly cropped length.",
+                imageUrl: "https://images.unsplash.com/photo-1521577352947-9bb58764b69a?w=800",
+                colors: ["Black", "Mustard", "Teal", "Red"],
                 sizes: ["S", "M", "L", "XL"],
                 stock: {
-                    White: {S:18, M:14, L:9, XL:4},
-                    Black: {S:22, M:16, L:10, XL:3},
-                    Bone:  {S:12, M:9,  L:5, XL:0},
-                    Olive: {S:8,  M:6,  L:4, XL:2}
+                    Black:  {S:15, M:12, L:8, XL:3},
+                    Mustard: {S:10, M:7,  L:4, XL:1},
+                    Teal:   {S:9,  M:6,  L:3, XL:0},
+                    Red:    {S:11, M:8,  L:5, XL:2}
+                }
+            },
+            {
+                id: "tee-071",
+                name: "Homie Pocket Tee",
+                category: "Tees",
+                price: 269,
+                description: "Single chest pocket detail. 100% ring-spun cotton.",
+                imageUrl: "https://images.unsplash.com/photo-1583744946564-b52d6d2a20a6?w=800",
+                colors: ["Grey", "Navy", "Rust", "White"],
+                sizes: ["S", "M", "L", "XL", "XXL"],
+                stock: {
+                    Grey:  {S:16, M:13, L:9, XL:4, XXL:1},
+                    Navy:  {S:14, M:10, L:6, XL:2, XXL:0},
+                    Rust:  {S:9,  M:7,  L:4, XL:1, XXL:0},
+                    White: {S:12, M:9,  L:5, XL:0, XXL:0}
                 }
             },
             {
@@ -476,14 +628,31 @@
                 name: "Homie Work Jacket",
                 category: "Jackets",
                 price: 949,
-                description: "Canvas outer, quilted lining. Multi-pocket utility style.",
+                description: "Heavy canvas, quilted lining, utility pockets. Built to last.",
                 imageUrl: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=800",
-                colors: ["Khaki", "Black", "Navy"],
+                colors: ["Khaki", "Black", "Navy", "Olive"],
                 sizes: ["M", "L", "XL", "XXL"],
                 stock: {
                     Khaki: {M:7, L:5, XL:3, XXL:1},
                     Black: {M:9, L:6, XL:4, XXL:0},
-                    Navy:  {M:5, L:3, XL:1, XXL:0}
+                    Navy:  {M:5, L:3, XL:1, XXL:0},
+                    Olive: {M:6, L:4, XL:2, XXL:0}
+                }
+            },
+            {
+                id: "jkt-022",
+                name: "Homie Bomber Jacket",
+                category: "Jackets",
+                price: 899,
+                description: "Satin finish, ribbed cuffs & hem. Embroidered sleeve detail.",
+                imageUrl: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=800",
+                colors: ["Black", "Satin Red", "Emerald", "Navy"],
+                sizes: ["S", "M", "L", "XL"],
+                stock: {
+                    Black:    {S:8, M:6, L:4, XL:1},
+                    "Satin Red": {S:5, M:4, L:2, XL:0},
+                    Emerald:  {S:6, M:5, L:3, XL:1},
+                    Navy:     {S:7, M:5, L:3, XL:0}
                 }
             },
             {
@@ -491,29 +660,61 @@
                 name: "Homie Dad Cap",
                 category: "Accessories",
                 price: 179,
-                description: "6-panel unstructured cap. Embroidered front logo.",
+                description: "6-panel unstructured. Embroidered front logo. Adjustable strap.",
                 imageUrl: "https://images.unsplash.com/photo-1588853941304-3c0f0585a83a?w=800",
-                colors: ["Black", "Beige", "Navy"],
+                colors: ["Black", "Beige", "Navy", "Camo"],
                 sizes: ["One Size"],
                 stock: {
-                    Black:  {"One Size": 25},
-                    Beige:  {"One Size": 18},
-                    Navy:   {"One Size": 14}
+                    Black: {"One Size": 25},
+                    Beige: {"One Size": 18},
+                    Navy:  {"One Size": 14},
+                    Camo:  {"One Size": 11}
                 }
             },
             {
-                id: "hd-007",
-                name: "Homie Zip Hoodie",
-                category: "Hoodies",
-                price: 679,
-                description: "Full zip, kangaroo pocket, ribbed cuffs. Cozy essential.",
-                imageUrl: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=800",
-                colors: ["Charcoal", "Burgundy", "Olive"],
-                sizes: ["S", "M", "L", "XL"],
+                id: "acc-015",
+                name: "Homie Beanie",
+                category: "Accessories",
+                price: 149,
+                description: "Thick ribbed knit. Cuffed style. Embroidered patch.",
+                imageUrl: "https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?w=800",
+                colors: ["Black", "Grey", "Burgundy", "Mustard"],
+                sizes: ["One Size"],
                 stock: {
-                    Charcoal: {S:10, M:8, L:5, XL:2},
-                    Burgundy: {S:8, M:6, L:4, XL:1},
-                    Olive:    {S:7, M:5, L:3, XL:0}
+                    Black:    {"One Size": 22},
+                    Grey:     {"One Size": 19},
+                    Burgundy: {"One Size": 13},
+                    Mustard:  {"One Size": 10}
+                }
+            },
+            {
+                id: "acc-021",
+                name: "Homie Socks 3-Pack",
+                category: "Accessories",
+                price: 229,
+                description: "Mid-calf length. Cushioned sole. Assorted Homie graphics.",
+                imageUrl: "https://images.unsplash.com/photo-1586350977779-2a3a7e8d6d6e?w=800",
+                colors: ["Multi", "Black/Grey", "White/Red"],
+                sizes: ["One Size"],
+                stock: {
+                    Multi:        {"One Size": 28},
+                    "Black/Grey": {"One Size": 20},
+                    "White/Red":  {"One Size": 15}
+                }
+            },
+            {
+                id: "acc-028",
+                name: "Homie Tote Bag",
+                category: "Accessories",
+                price: 199,
+                description: "Heavy canvas tote. Printed logo. Reinforced handles.",
+                imageUrl: "https://images.unsplash.com/photo-1598532163257-ae3c6b2524b6?w=800",
+                colors: ["Black", "Natural", "Olive"],
+                sizes: ["One Size"],
+                stock: {
+                    Black:   {"One Size": 16},
+                    Natural: {"One Size": 14},
+                    Olive:   {"One Size": 9}
                 }
             }
         ];
@@ -561,6 +762,27 @@
             if (viewId === 'cart') renderCart();
         };
 
+        // ─── Modern Modal Functions ────────────────────────────
+        function showModal(title, message, icon = "check-circle") {
+            const modalOverlay = document.getElementById('notification-modal');
+            const modal = document.getElementById('modal-content');
+            document.getElementById('modal-icon').innerHTML = `<i data-lucide="${icon}"></i>`;
+            document.getElementById('modal-title').textContent = title;
+            document.getElementById('modal-message').textContent = message;
+
+            modalOverlay.style.display = 'flex';
+            setTimeout(() => modal.classList.add('show'), 10);
+            lucide.createIcons();
+        }
+
+        window.closeModal = () => {
+            const modal = document.getElementById('modal-content');
+            modal.classList.remove('show');
+            setTimeout(() => {
+                document.getElementById('notification-modal').style.display = 'none';
+            }, 300);
+        };
+
         // ─── Product Filter ────────────────────────────────────
         window.filterProducts = () => {
             const term = document.getElementById('search')?.value?.toLowerCase() || '';
@@ -601,7 +823,7 @@
 
         window.addToCart = (productId, name, price, imageUrl, category, color, size) => {
             if (!color || !size) {
-                alert("Please select color and size.");
+                showModal("Missing Selection", "Please select both color and size.", "alert-circle");
                 return;
             }
 
@@ -610,7 +832,7 @@
 
             const stock = product.stock?.[color]?.[size] ?? 0;
             if (stock <= 0) {
-                alert(`Sorry, this variant is out of stock.`);
+                showModal("Out of Stock", `Sorry, ${name} in ${color} / ${size} is currently sold out.`, "x-circle");
                 return;
             }
 
@@ -619,7 +841,7 @@
 
             if (existing) {
                 if (existing.quantity + 1 > stock) {
-                    alert(`Only ${stock} left in stock.`);
+                    showModal("Stock Limit", `Only ${stock} available in this variant.`, "alert-circle");
                     return;
                 }
                 existing.quantity += 1;
@@ -639,7 +861,7 @@
             }
 
             saveCart();
-            alert(`Added ${name} (${color} / ${size}) × 1 to cart!`);
+            showModal("Added to Cart", `${name} (${color} / ${size}) × 1 added successfully!`, "check-circle");
         };
 
         window.changeQuantity = (key, delta) => {
@@ -649,7 +871,7 @@
             const newQty = item.quantity + delta;
             if (newQty < 1) return;
             if (newQty > item.maxStock) {
-                alert(`Only ${item.maxStock} available.`);
+                showModal("Stock Limit", `Only ${item.maxStock} available in this variant.`, "alert-circle");
                 return;
             }
 
@@ -669,7 +891,17 @@
                 cart = [];
                 saveCart();
                 renderCart();
+                showModal("Cart Cleared", "Your cart is now empty.", "trash-2");
             }
+        };
+
+        window.goToCheckout = () => {
+            if (cart.length === 0) {
+                showModal("Cart is Empty", "Add some items before checking out.", "shopping-cart");
+                return;
+            }
+            showModal("Checkout Started", "Redirecting to checkout... (demo mode)", "credit-card");
+            // In real app → window.location = "/checkout" or open payment flow
         };
 
         function renderCart() {

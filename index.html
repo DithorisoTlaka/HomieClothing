@@ -416,7 +416,6 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
         lucide.createIcons();
@@ -432,30 +431,92 @@
         };
 
         const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
         const auth = getAuth(app);
         const provider = new GoogleAuthProvider();
 
         let currentCategory = 'all';
         let cart = JSON.parse(localStorage.getItem('homie_cart')) || [];
 
-        // Example stock per product per variant (you should later get this from Firestore)
-        const stockData = {
-            "example-hoodie-001": {
-                colors: {
-                    Black: { S: 12, M: 8, L: 5, XL: 3, XXL: 0 },
-                    Grey: { S: 15, M: 10, L: 7, XL: 4, XXL: 2 },
-                    Navy: { S: 9, M: 6, L: 4, XL: 0, XXL: 0 }
+        // ─── MOCK PRODUCTS ─────────────────────────────────────
+        const mockProducts = [
+            {
+                id: "hd-001",
+                name: "Homie Classic Hoodie",
+                category: "Hoodies",
+                price: 599,
+                description: "Heavyweight 320gsm fleece. Signature embroidered logo.",
+                imageUrl: "https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=800",
+                colors: ["Black", "Grey", "Navy", "Forest"],
+                sizes: ["S", "M", "L", "XL", "XXL"],
+                stock: {
+                    Black:   {S:12, M:8,  L:4,  XL:2, XXL:0},
+                    Grey:    {S:15, M:11, L:7,  XL:5, XXL:3},
+                    Navy:    {S:9,  M:6,  L:3,  XL:0, XXL:0},
+                    Forest:  {S:10, M:7,  L:5,  XL:2, XXL:1}
                 }
             },
-            "example-tee-002": {
-                colors: {
-                    White: { S: 20, M: 18, L: 15, XL: 10, XXL: 5 },
-                    Black: { S: 14, M: 12, L: 8, XL: 3, XXL: 0 }
+            {
+                id: "tee-042",
+                name: "Homie Box Logo Tee",
+                category: "Tees",
+                price: 289,
+                description: "180gsm premium cotton. Oversized fit, garment dyed.",
+                imageUrl: "https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=800",
+                colors: ["White", "Black", "Bone", "Olive"],
+                sizes: ["S", "M", "L", "XL"],
+                stock: {
+                    White: {S:18, M:14, L:9, XL:4},
+                    Black: {S:22, M:16, L:10, XL:3},
+                    Bone:  {S:12, M:9,  L:5, XL:0},
+                    Olive: {S:8,  M:6,  L:4, XL:2}
+                }
+            },
+            {
+                id: "jkt-017",
+                name: "Homie Work Jacket",
+                category: "Jackets",
+                price: 949,
+                description: "Canvas outer, quilted lining. Multi-pocket utility style.",
+                imageUrl: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=800",
+                colors: ["Khaki", "Black", "Navy"],
+                sizes: ["M", "L", "XL", "XXL"],
+                stock: {
+                    Khaki: {M:7, L:5, XL:3, XXL:1},
+                    Black: {M:9, L:6, XL:4, XXL:0},
+                    Navy:  {M:5, L:3, XL:1, XXL:0}
+                }
+            },
+            {
+                id: "acc-009",
+                name: "Homie Dad Cap",
+                category: "Accessories",
+                price: 179,
+                description: "6-panel unstructured cap. Embroidered front logo.",
+                imageUrl: "https://images.unsplash.com/photo-1588853941304-3c0f0585a83a?w=800",
+                colors: ["Black", "Beige", "Navy"],
+                sizes: ["One Size"],
+                stock: {
+                    Black:  {"One Size": 25},
+                    Beige:  {"One Size": 18},
+                    Navy:   {"One Size": 14}
+                }
+            },
+            {
+                id: "hd-007",
+                name: "Homie Zip Hoodie",
+                category: "Hoodies",
+                price: 679,
+                description: "Full zip, kangaroo pocket, ribbed cuffs. Cozy essential.",
+                imageUrl: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=800",
+                colors: ["Charcoal", "Burgundy", "Olive"],
+                sizes: ["S", "M", "L", "XL"],
+                stock: {
+                    Charcoal: {S:10, M:8, L:5, XL:2},
+                    Burgundy: {S:8, M:6, L:4, XL:1},
+                    Olive:    {S:7, M:5, L:3, XL:0}
                 }
             }
-            // Add more products as needed
-        };
+        ];
 
         // ─── Auth Logic ────────────────────────────────────────
         window.handleAuth = async () => {
@@ -472,8 +533,8 @@
             if (user) {
                 authBtn.innerText = "Logout";
                 userInfo.innerHTML = `
-                    <img src="${user.photoURL}" style="width:80px; height:80px; border-radius:50%; margin-bottom:20px;">
-                    <h1>Hello, ${user.displayName}</h1>
+                    <img src="${user.photoURL || 'https://via.placeholder.com/80'}" style="width:80px; height:80px; border-radius:50%; margin-bottom:20px;">
+                    <h1>Hello, ${user.displayName || 'User'}</h1>
                     <p>${user.email}</p>
                     <button class="btn-add-to-cart" onclick="handleAuth()">Logout</button>
                 `;
@@ -535,26 +596,21 @@
         }
 
         function getCartKey(productId, color, size) {
-            return `${productId}_${color}_${size}`;
+            return `${productId}_${color.replace(/\s+/g,'_')}_${size}`;
         }
 
-        window.addToCart = (productId, name, price, imageUrl, category) => {
-            const card = document.querySelector(`.product-card[data-product-id="${productId}"]`);
-            const colorSelect = card?.querySelector('.color-selector');
-            const sizeSelect  = card?.querySelector('.size-selector');
-
-            const color = colorSelect?.value;
-            const size  = sizeSelect?.value;
-
-            if (!color || color === "" || !size || size === "") {
-                alert("Please select both color and size.");
+        window.addToCart = (productId, name, price, imageUrl, category, color, size) => {
+            if (!color || !size) {
+                alert("Please select color and size.");
                 return;
             }
 
-            // Check stock
-            const stock = stockData[productId]?.colors?.[color]?.[size] ?? 0;
+            const product = mockProducts.find(p => p.id === productId);
+            if (!product) return;
+
+            const stock = product.stock?.[color]?.[size] ?? 0;
             if (stock <= 0) {
-                alert(`Sorry, ${name} in ${color} / ${size} is out of stock.`);
+                alert(`Sorry, this variant is out of stock.`);
                 return;
             }
 
@@ -563,7 +619,7 @@
 
             if (existing) {
                 if (existing.quantity + 1 > stock) {
-                    alert(`Only ${stock} available in this variant.`);
+                    alert(`Only ${stock} left in stock.`);
                     return;
                 }
                 existing.quantity += 1;
@@ -583,27 +639,23 @@
             }
 
             saveCart();
-            alert(`Added ${name} (${color} / ${size}) to cart!`);
-
-            // Reset selectors
-            colorSelect.value = "";
-            sizeSelect.value = "";
-            card.querySelector('.btn-add-to-cart').disabled = true;
+            alert(`Added ${name} (${color} / ${size}) × 1 to cart!`);
         };
 
         window.changeQuantity = (key, delta) => {
             const item = cart.find(i => i.key === key);
-            if (item) {
-                const newQty = item.quantity + delta;
-                if (newQty < 1) return;
-                if (newQty > item.maxStock) {
-                    alert(`Only ${item.maxStock} available in this variant.`);
-                    return;
-                }
-                item.quantity = newQty;
-                saveCart();
-                renderCart();
+            if (!item) return;
+
+            const newQty = item.quantity + delta;
+            if (newQty < 1) return;
+            if (newQty > item.maxStock) {
+                alert(`Only ${item.maxStock} available.`);
+                return;
             }
+
+            item.quantity = newQty;
+            saveCart();
+            renderCart();
         };
 
         window.removeFromCart = (key) => {
@@ -633,15 +685,15 @@
             let subtotal = 0;
 
             cart.forEach(item => {
-                const itemEl = document.createElement('div');
-                itemEl.className = 'cart-item';
-                itemEl.innerHTML = `
+                const div = document.createElement('div');
+                div.className = 'cart-item';
+                div.innerHTML = `
                     <img src="${item.imageUrl || 'https://via.placeholder.com/90'}" alt="${item.name}">
                     <div class="cart-item-details">
                         <div style="font-weight:700; margin-bottom:4px;">${item.name}</div>
                         <div style="color:#666; font-size:0.9rem;">
                             ${item.color} / ${item.size} • R ${item.price} × ${item.quantity}
-                            <br><small>(Stock: ${item.maxStock})</small>
+                            <br><small>Stock remaining: ${item.maxStock - item.quantity}</small>
                         </div>
                         <div class="cart-qty-controls">
                             <button class="qty-btn" onclick="changeQuantity('${item.key}', -1)">−</button>
@@ -651,75 +703,61 @@
                         </div>
                     </div>
                 `;
-                container.appendChild(itemEl);
+                container.appendChild(div);
                 subtotal += item.price * item.quantity;
             });
 
             document.getElementById('cart-total').textContent = `Subtotal: R ${subtotal.toFixed(2)}`;
         }
 
-        // ─── Load Products from Firestore ──────────────────────
-        async function loadProducts() {
+        // ─── Render Products ───────────────────────────────────
+        function renderProducts() {
             const grid = document.getElementById('product-grid');
             grid.innerHTML = '';
 
-            try {
-                const q = query(collection(db, "clothing"), where("status", "==", "approved"));
-                const snap = await getDocs(q);
-
-                if (snap.empty) {
-                    grid.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; color: #666; padding: 60px 0;">No products available yet.</p>';
-                    return;
-                }
-
-                snap.forEach(doc => {
-                    const data = doc.data();
-                    const id = doc.id;
-                    const price = data.price || 0;
-
-                    const card = document.createElement('div');
-                    card.className = 'product-card';
-                    card.setAttribute('data-cat', data.category);
-                    card.setAttribute('data-product-id', id);
-
-                    // Simple example color list — in real app you would get this from Firestore per product
-                    const colors = data.colors || ["Black", "White", "Grey", "Navy"];
-
-                    card.innerHTML = `
-                        <img src="${data.imageUrl || 'https://via.placeholder.com/400x400?text=Homie'}" class="product-image" alt="${data.name}">
-                        <div class="product-name">${data.name}</div>
-                        <div class="product-desc">${data.description || 'Signature Homie style'}</div>
-                        <div class="product-price">R ${price}</div>
-
-                        <div class="variant-row">
-                            <span class="variant-label">Color:</span>
-                            <select class="color-selector" onchange="updateSizeOptions('${id}', this.value, this.closest('.product-card'))">
-                                <option value="">Select Color</option>
-                                ${colors.map(c => `<option value="${c}">${c}</option>`).join('')}
-                            </select>
-                        </div>
-
-                        <div class="variant-row">
-                            <span class="variant-label">Size:</span>
-                            <select class="size-selector" onchange="enableAddButton(this.closest('.product-card'))">
-                                <option value="">Select Size</option>
-                            </select>
-                        </div>
-
-                        <button class="btn-add-to-cart" disabled
-                            onclick='addToCart("${id}", "${data.name.replace(/"/g,'\\"')}", ${price}, "${data.imageUrl || ''}", "${data.category}")'>
-                            Add to Cart
-                        </button>
-                    `;
-                    grid.appendChild(card);
-                });
-            } catch (e) {
-                console.error("Error loading products:", e);
-                grid.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; color: #666; padding: 60px 0;">Could not load products.</p>';
+            if (mockProducts.length === 0) {
+                grid.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; color: #666; padding: 60px 0;">No products available yet.</p>';
+                return;
             }
+
+            mockProducts.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.setAttribute('data-cat', product.category);
+                card.setAttribute('data-product-id', product.id);
+
+                const colorOptions = product.colors.map(c => `<option value="${c}">${c}</option>`).join('');
+                
+                card.innerHTML = `
+                    <img src="${product.imageUrl}" class="product-image" alt="${product.name}">
+                    <div class="product-name">${product.name}</div>
+                    <div class="product-desc">${product.description}</div>
+                    <div class="product-price">R ${product.price}</div>
+
+                    <div class="variant-row">
+                        <span class="variant-label">Color:</span>
+                        <select class="color-selector" onchange="updateSizeOptions('${product.id}', this.value, this.closest('.product-card'))">
+                            <option value="">Select Color</option>
+                            ${colorOptions}
+                        </select>
+                    </div>
+
+                    <div class="variant-row">
+                        <span class="variant-label">Size:</span>
+                        <select class="size-selector" onchange="enableAddButton(this.closest('.product-card'))">
+                            <option value="">Select Size</option>
+                        </select>
+                    </div>
+
+                    <button class="btn-add-to-cart" disabled
+                        onclick="const card = this.closest('.product-card'); addToCart('${product.id}', '${product.name.replace(/'/g,"\\'")}', ${product.price}, '${product.imageUrl}', '${product.category}', card.querySelector('.color-selector').value, card.querySelector('.size-selector').value)">
+                        Add to Cart
+                    </button>
+                `;
+                grid.appendChild(card);
+            });
         }
 
-        // Update available sizes based on selected color
         window.updateSizeOptions = (productId, color, card) => {
             const sizeSelect = card.querySelector('.size-selector');
             sizeSelect.innerHTML = '<option value="">Select Size</option>';
@@ -729,12 +767,15 @@
                 return;
             }
 
-            const stockForColor = stockData[productId]?.colors?.[color] || {};
-            Object.keys(stockForColor).forEach(size => {
-                const qty = stockForColor[size];
+            const product = mockProducts.find(p => p.id === productId);
+            if (!product) return;
+
+            const sizes = product.stock[color] || {};
+            Object.keys(sizes).forEach(size => {
+                const qty = sizes[size];
                 const option = document.createElement('option');
                 option.value = size;
-                option.textContent = `${size} (${qty > 0 ? qty + ' left' : 'Sold Out'})`;
+                option.textContent = qty > 0 ? `${size} (${qty} left)` : `${size} (Sold Out)`;
                 if (qty <= 0) option.disabled = true;
                 sizeSelect.appendChild(option);
             });
@@ -743,13 +784,13 @@
         };
 
         window.enableAddButton = (card) => {
-            const colorVal = card.querySelector('.color-selector').value;
-            const sizeVal  = card.querySelector('.size-selector').value;
-            card.querySelector('.btn-add-to-cart').disabled = !(colorVal && sizeVal);
+            const color = card.querySelector('.color-selector').value;
+            const size  = card.querySelector('.size-selector').value;
+            card.querySelector('.btn-add-to-cart').disabled = !(color && size);
         };
 
-        // Init
-        loadProducts();
+        // ─── Init ──────────────────────────────────────────────
+        renderProducts();
         updateCartCount();
         lucide.createIcons();
     </script>

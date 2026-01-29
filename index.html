@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>App Hub | Digital Store</title>
+    <title>Homie | Streetwear & Casual Clothing</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
@@ -61,7 +61,7 @@
             text-transform: uppercase; letter-spacing: 1px;
         }
 
-        /* App Grid & Cards */
+        /* Product Grid & Cards */
         header { padding: 60px 8% 20px; text-align: center; }
         header h2 { font-size: 3.5rem; font-weight: 800; margin: 0; letter-spacing: -2px; }
         
@@ -77,22 +77,23 @@
             display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px;
         }
 
-        .app-card {
+        .product-card {
             background: white; border-radius: 28px; padding: 24px; border: 1px solid #f0f0f0;
             display: flex; flex-direction: column; transition: var(--transition);
         }
-        .app-card:hover { border-color: var(--accent-black); transform: translateY(-8px); }
-        .app-icon { width: 64px; height: 64px; border-radius: 18px; object-fit: cover; margin-bottom: 15px; }
-        .app-name { font-weight: 700; font-size: 1.2rem; margin-bottom: 5px; }
-        .app-desc { color: var(--text-muted); font-size: 0.9rem; flex-grow: 1; margin-bottom: 20px; }
+        .product-card:hover { border-color: var(--accent-black); transform: translateY(-8px); }
+        .product-image { width: 100%; height: 260px; border-radius: 18px; object-fit: cover; margin-bottom: 15px; }
+        .product-name { font-weight: 700; font-size: 1.2rem; margin-bottom: 5px; }
+        .product-desc { color: var(--text-muted); font-size: 0.9rem; flex-grow: 1; margin-bottom: 20px; }
+        .product-price { font-weight: 700; font-size: 1.1rem; margin-bottom: 12px; }
 
-        .btn-download {
+        .btn-add-to-cart {
             background: var(--accent-black); color: white; text-decoration: none;
             padding: 12px; text-align: center; border-radius: 14px; font-weight: 600;
             border: 2px solid var(--accent-black); transition: var(--transition);
             cursor: pointer;
         }
-        .btn-download:hover { background: transparent; color: var(--accent-black); }
+        .btn-add-to-cart:hover { background: transparent; color: var(--accent-black); }
 
         /* Mobile Styles */
         @media (max-width: 768px) {
@@ -103,35 +104,33 @@
             header h2 { font-size: 2.2rem; }
             header p { font-size: 1rem; }
 
-            /* Grid: 2 columns on mobile */
             .container {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 12px;
                 padding: 0 15px;
             }
 
-            .app-card {
+            .product-card {
                 padding: 12px;
                 border-radius: 18px;
             }
 
-            .app-icon {
-                width: 48px;
-                height: 48px;
+            .product-image {
+                height: 180px;
                 border-radius: 12px;
                 margin-bottom: 8px;
             }
 
-            .app-name {
-                font-size: 0.9rem;
+            .product-name {
+                font-size: 0.95rem;
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
             }
 
-            .app-desc {
+            .product-desc {
                 font-size: 0.75rem;
-                margin-bottom: 12px;
+                margin-bottom: 8px;
                 display: -webkit-box;
                 -webkit-line-clamp: 2;
                 -webkit-box-orient: vertical;
@@ -139,9 +138,13 @@
                 line-height: 1.3;
             }
 
-            .btn-download {
+            .product-price {
+                font-size: 0.95rem;
+            }
+
+            .btn-add-to-cart {
                 padding: 8px;
-                font-size: 0.75rem;
+                font-size: 0.8rem;
                 border-radius: 10px;
             }
 
@@ -164,50 +167,56 @@
 </head>
 <body>
 
-    <div class="mobile-header">App Hub</div>
+    <div class="mobile-header">Homie</div>
 
     <nav>
-        <div class="logo" onclick="showView('home')">App Hub</div>
+        <div class="logo" onclick="showView('home')">Homie</div>
         <div class="search-container">
-            <input type="text" class="search-bar" placeholder="Search apps..." id="search" oninput="filterApps()">
+            <input type="text" class="search-bar" placeholder="Search hoodies, tees..." id="search" oninput="filterProducts()">
         </div>
         <div id="auth-btn" style="font-weight: 600; cursor: pointer;" onclick="handleAuth()">Login</div>
     </nav>
 
     <div id="home" class="view active">
         <header>
-            <h2>Discover.<br>Download.</h2>
+            <h2>Streetwear.<br>For Homies.</h2>
             <div class="category-bar">
                 <button class="cat-btn active" data-cat="all">All</button>
-                <button class="cat-btn" data-cat="Social">Social</button>
-                <button class="cat-btn" data-cat="Games">Games</button>
-                <button class="cat-btn" data-cat="Productivity">Productivity</button>
+                <button class="cat-btn" data-cat="Hoodies">Hoodies</button>
+                <button class="cat-btn" data-cat="Tees">Tees</button>
+                <button class="cat-btn" data-cat="Jackets">Jackets</button>
+                <button class="cat-btn" data-cat="Accessories">Accessories</button>
             </div>
         </header>
-        <div class="container" id="app-grid">
-            <div class="app-card" data-cat="Social">
-                <img src="https://plus.unsplash.com/premium_photo-1661596666992-0f074766978a?w=400&h=400&fit=crop" class="app-icon">
-                <div class="app-name">Connectify</div>
-                <div class="app-desc">Social networking redefined for the modern age.</div>
-                <button class="btn-download">GET</button>
+        <div class="container" id="product-grid">
+            <!-- Example static products – will be replaced by Firestore data -->
+            <div class="product-card" data-cat="Hoodies">
+                <img src="https://images.unsplash.com/photo-1552374196-1ab2a1c4e6d6?w=400&h=400&fit=crop" class="product-image" alt="Black Homie Hoodie">
+                <div class="product-name">Classic Homie Hoodie</div>
+                <div class="product-desc">Heavyweight black hoodie with embroidered logo. Cozy & timeless.</div>
+                <div class="product-price">R 799</div>
+                <button class="btn-add-to-cart">Add to Cart</button>
             </div>
-            <div class="app-card" data-cat="Games">
-                <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=400&h=400&fit=crop" class="app-icon">
-                <div class="app-name">Neon Strike</div>
-                <div class="app-desc">Fast-paced arcade action with stunning visuals.</div>
-                <button class="btn-download">GET</button>
+            <div class="product-card" data-cat="Tees">
+                <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop" class="product-image" alt="White Graphic Tee">
+                <div class="product-name">Homie Logo Tee</div>
+                <div class="product-desc">Premium white cotton tee with bold front print.</div>
+                <div class="product-price">R 349</div>
+                <button class="btn-add-to-cart">Add to Cart</button>
             </div>
-            <div class="app-card" data-cat="Productivity">
-                <img src="https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=400&h=400&fit=crop" class="app-icon">
-                <div class="app-name">FocusFlow</div>
-                <div class="app-desc">Boost your daily productivity with AI tasks.</div>
-                <button class="btn-download">GET</button>
+            <div class="product-card" data-cat="Jackets">
+                <img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400&h=400&fit=crop" class="product-image" alt="Denim Jacket">
+                <div class="product-name">Homie Denim Jacket</div>
+                <div class="product-desc">Relaxed fit denim with custom back embroidery.</div>
+                <div class="product-price">R 1 299</div>
+                <button class="btn-add-to-cart">Add to Cart</button>
             </div>
-            <div class="app-card" data-cat="Social">
-                <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=400&h=400&fit=crop" class="app-icon">
-                <div class="app-name">VibeCheck</div>
-                <div class="app-desc">Share your daily mood with close friends.</div>
-                <button class="btn-download">GET</button>
+            <div class="product-card" data-cat="Accessories">
+                <img src="https://images.unsplash.com/photo-1585487000160-6ebcfceb0d26?w=400&h=400&fit=crop" class="product-image" alt="Homie Cap">
+                <div class="product-name">Homie Dad Cap</div>
+                <div class="product-desc">Black 6-panel cap with embroidered logo.</div>
+                <div class="product-price">R 299</div>
+                <button class="btn-add-to-cart">Add to Cart</button>
             </div>
         </div>
     </div>
@@ -217,8 +226,8 @@
             <div id="user-info">
                 <i data-lucide="user" style="width:80px; height:80px; margin-bottom:20px;"></i>
                 <h1>Welcome, Guest</h1>
-                <p>Login with Google to access your profile.</p>
-                <button class="btn-download" onclick="handleAuth()" style="padding: 12px 40px">Login with Google</button>
+                <p>Login with Google to view your orders & wishlist.</p>
+                <button class="btn-add-to-cart" onclick="handleAuth()" style="padding: 12px 40px">Login with Google</button>
             </div>
         </div>
     </div>
@@ -240,7 +249,7 @@
             apiKey: "AIzaSyD_lFs83fyT6pNcNECGueOYJeedGVKY7GA",
             authDomain: "homieclothing-da3f7.firebaseapp.com",
             projectId: "homieclothing-da3f7",
-            storageBucket: "homieclothing-da3f7.firebasestorage.app",
+            storageBucket: "homieclothing-da3f7.appspot.com",
             messagingSenderId: "1051904277079",
             appId: "1:1051904277079:web:8166b47b1a1407e2fe0112",
             measurementId: "G-2FEJ8K5B2P"
@@ -275,15 +284,15 @@
                     <img src="${user.photoURL}" style="width:80px; height:80px; border-radius:50%; margin-bottom:20px;">
                     <h1>Hello, ${user.displayName}</h1>
                     <p>${user.email}</p>
-                    <button class="btn-download" onclick="handleAuth()">Logout</button>
+                    <button class="btn-add-to-cart" onclick="handleAuth()">Logout</button>
                 `;
             } else {
                 authBtn.innerText = "Login";
                 userInfo.innerHTML = `
                     <i data-lucide="user" style="width:80px; height:80px; margin-bottom:20px;"></i>
                     <h1>Welcome, Guest</h1>
-                    <p>Login with Google to access your profile.</p>
-                    <button class="btn-download" onclick="handleAuth()" style="padding: 12px 40px">Login with Google</button>
+                    <p>Login with Google to view your orders & wishlist.</p>
+                    <button class="btn-add-to-cart" onclick="handleAuth()" style="padding: 12px 40px">Login with Google</button>
                 `;
                 lucide.createIcons();
             }
@@ -300,10 +309,10 @@
         };
 
         // Filter Function
-        window.filterApps = () => {
+        window.filterProducts = () => {
             const term = document.getElementById('search').value.toLowerCase();
-            document.querySelectorAll('.app-card').forEach(card => {
-                const name = card.querySelector('.app-name').innerText.toLowerCase();
+            document.querySelectorAll('.product-card').forEach(card => {
+                const name = card.querySelector('.product-name').innerText.toLowerCase();
                 const cat = card.getAttribute('data-cat');
                 const match = name.includes(term) && (currentCategory === 'all' || cat === currentCategory);
                 card.style.display = match ? 'flex' : 'none';
@@ -315,29 +324,39 @@
                 document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
                 currentCategory = btn.dataset.cat;
-                filterApps();
+                filterProducts();
             };
         });
 
-        // Database loading
-        async function loadApps() {
-            const grid = document.getElementById('app-grid');
+        // Load products from Firestore
+        async function loadProducts() {
+            const grid = document.getElementById('product-grid');
+            // Clear static examples
+            grid.innerHTML = '';
+
             try {
-                const q = query(collection(db, "apps"), where("status", "==", "approved"));
+                const q = query(collection(db, "clothing"), where("status", "==", "approved"));
                 const snap = await getDocs(q);
+                if (snap.empty) {
+                    grid.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; color: #666; padding: 60px 0;">No products available yet.</p>';
+                }
                 snap.forEach(doc => {
                     const data = doc.data();
                     grid.innerHTML += `
-                        <div class="app-card" data-cat="${data.category}">
-                            <img src="${data.icon}" class="app-icon">
-                            <div class="app-name">${data.name}</div>
-                            <div class="app-desc">${data.description}</div>
-                            <a href="${data.downloadUrl}" class="btn-download">GET</a>
+                        <div class="product-card" data-cat="${data.category}">
+                            <img src="${data.imageUrl || 'https://via.placeholder.com/400x400?text=Homie'}" class="product-image" alt="${data.name}">
+                            <div class="product-name">${data.name}</div>
+                            <div class="product-desc">${data.description || 'Signature Homie style'}</div>
+                            <div class="product-price">R ${data.price || '—'}</div>
+                            <button class="btn-add-to-cart">Add to Cart</button>
                         </div>`;
                 });
-            } catch (e) { console.log("Real DB empty or permission denied, showing mocks only."); }
+            } catch (e) {
+                console.error("Error loading products:", e);
+                grid.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; color: #666; padding: 60px 0;">Could not load products at the moment.</p>';
+            }
         }
-        loadApps();
+        loadProducts();
     </script>
 </body>
 </html>

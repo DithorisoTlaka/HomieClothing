@@ -550,7 +550,13 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { 
+            getAuth, 
+            signInWithPopup, 
+            GoogleAuthProvider, 
+            signOut, 
+            onAuthStateChanged 
+        } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
         lucide.createIcons();
 
@@ -576,21 +582,49 @@
 
         // ─── Auth Logic ────────────────────────────────────────
         window.handleAuth = async () => {
-            if (auth.currentUser) await signOut(auth);
-            else {
-                try { await signInWithPopup(auth, provider); }
-                catch (err) { console.error("Auth Error", err); }
+            const authBtn = document.getElementById('auth-btn');
+            
+            if (auth.currentUser) {
+                // Logout
+                try {
+                    await signOut(auth);
+                    showModal("Logged Out", "See you next time, homie!", "log-out");
+                } catch (err) {
+                    showModal("Error", "Could not sign out. Try again.", "alert-circle");
+                    console.error("Sign out error:", err);
+                }
+            } else {
+                // Login
+                authBtn.innerHTML = "Logging in...";
+                try {
+                    const result = await signInWithPopup(auth, provider);
+                    const user = result.user;
+                    showModal("Welcome!", `Good to see you, ${user.displayName.split(' ')[0]}!`, "user-check");
+                } catch (err) {
+                    let message = "Something went wrong.";
+                    if (err.code === 'auth/popup-closed-by-user') {
+                        message = "Login cancelled.";
+                    } else if (err.code === 'auth/account-exists-with-different-credential') {
+                        message = "Account exists with different sign-in method.";
+                    }
+                    showModal("Login Failed", message, "x-circle");
+                    console.error("Auth error:", err);
+                } finally {
+                    authBtn.innerHTML = auth.currentUser ? "Logout" : "Login";
+                }
             }
         };
 
         onAuthStateChanged(auth, (user) => {
             const authBtn = document.getElementById('auth-btn');
             const userInfo = document.getElementById('user-info');
+
             if (user) {
                 authBtn.innerText = "Logout";
                 userInfo.innerHTML = `
-                    <img src="${user.photoURL || 'https://via.placeholder.com/80'}" style="width:80px; height:80px; border-radius:50%; margin-bottom:20px;">
-                    <h1>Hello, ${user.displayName || 'User'}</h1>
+                    <img src="${user.photoURL || 'https://via.placeholder.com/80'}" 
+                         style="width:80px; height:80px; border-radius:50%; margin-bottom:20px; object-fit:cover;">
+                    <h1>Hello, ${user.displayName || 'Homie'}</h1>
                     <p>${user.email}</p>
                     <button class="btn-add-to-cart" onclick="handleAuth()">Logout</button>
                 `;
@@ -599,10 +633,12 @@
                 userInfo.innerHTML = `
                     <i data-lucide="user" style="width:80px; height:80px; margin-bottom:20px;"></i>
                     <h1>Welcome, Guest</h1>
-                    <p>Login with Google to view your orders & wishlist.</p>
-                    <button class="btn-add-to-cart" onclick="handleAuth()" style="padding: 12px 40px">Login with Google</button>
+                    <p>Login with Google to save your wishlist & orders</p>
+                    <button class="btn-add-to-cart" onclick="handleAuth()" style="padding: 12px 40px">
+                        Login with Google
+                    </button>
                 `;
-                lucide.createIcons();
+                lucide.createIcons(); // refresh icons
             }
         });
 

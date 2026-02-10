@@ -7,7 +7,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -17,521 +17,458 @@
             --primary-black: #111111;
             --secondary-black: #222222;
             --bg-white: #ffffff;
-            --bg-off-white: #f3f4f6;
+            --bg-off-white: #f9fafb;
             --text-main: #1f2937;
             --text-muted: #6b7280;
-            --accent-green: #10b981; /* For verified badges */
+            --accent-green: #10b981;
             --border-color: #e5e7eb;
-            --radius-md: 12px;
             --radius-lg: 16px;
             --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             --transition: all 0.3s ease;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-white);
-            color: var(--text-main);
-            line-height: 1.6;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--bg-white); color: var(--text-main); line-height: 1.6; }
         a { text-decoration: none; color: inherit; }
         ul { list-style: none; }
+        button { border: none; outline: none; background: none; }
 
         /* --- NAVIGATION --- */
         nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.5rem 5%;
-            position: sticky;
-            top: 0;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            border-bottom: 1px solid var(--border-color);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1.5rem 5%; position: sticky; top: 0;
+            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);
+            z-index: 1000; border-bottom: 1px solid var(--border-color);
         }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--primary-black);
-            letter-spacing: -0.5px;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            display: none; /* Hidden on mobile by default */
-        }
-
-        @media(min-width: 768px) {
-            .nav-links { display: flex; }
-        }
-
-        .nav-link {
-            font-weight: 500;
-            font-size: 0.95rem;
-            color: var(--text-main);
-        }
-
+        .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary-black); letter-spacing: -0.5px; cursor: pointer; }
+        .nav-links { display: flex; gap: 2rem; }
+        .nav-link { font-weight: 500; font-size: 0.95rem; color: var(--text-main); transition: 0.2s; cursor: pointer; }
         .nav-link:hover { color: var(--primary-black); }
+        .btn { padding: 0.75rem 1.5rem; border-radius: 50px; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: var(--transition); }
+        .btn-primary { background: var(--primary-black); color: white; border: 2px solid var(--primary-black); }
+        .btn-primary:hover { background: var(--secondary-black); transform: translateY(-2px); }
+        
+        @media(max-width: 768px) { .nav-links { display: none; } }
 
-        .btn {
-            padding: 0.75rem 1.5rem;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: var(--transition);
-        }
+        /* --- HERO --- */
+        .hero { padding: 4rem 5% 2rem; text-align: center; background: linear-gradient(to bottom, #ffffff, #f9fafb); }
+        .hero h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem; color: var(--primary-black); }
+        .hero p { color: var(--text-muted); font-size: 1.1rem; margin-bottom: 2.5rem; max-width: 600px; margin: 0 auto 2.5rem; }
 
-        .btn-outline {
-            border: 2px solid var(--primary-black);
-            background: transparent;
-            color: var(--primary-black);
-        }
-
-        .btn-primary {
-            background: var(--primary-black);
-            color: white;
-            border: 2px solid var(--primary-black);
-        }
-
-        .btn-primary:hover {
-            background: var(--secondary-black);
-            transform: translateY(-2px);
-        }
-
-        /* --- HERO SECTION --- */
-        .hero {
-            padding: 4rem 5% 2rem;
-            text-align: center;
-            background: linear-gradient(to bottom, #ffffff, #f9fafb);
-        }
-
-        .hero h1 {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: var(--primary-black);
-            margin-bottom: 1rem;
-            line-height: 1.2;
-        }
-
-        .hero p {
-            color: var(--text-muted);
-            font-size: 1.1rem;
-            margin-bottom: 2.5rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        /* --- SEARCH BAR --- */
+        /* --- SEARCH --- */
         .search-container {
-            background: white;
-            padding: 0.5rem;
-            border-radius: 50px;
-            box-shadow: var(--shadow-md);
-            border: 1px solid var(--border-color);
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            max-width: 800px;
-            margin: 0 auto;
+            background: white; padding: 0.5rem; border-radius: 50px;
+            box-shadow: var(--shadow-md); border: 1px solid var(--border-color);
+            display: flex; flex-direction: column; gap: 0.5rem; max-width: 800px; margin: 0 auto;
         }
-
-        @media(min-width: 768px) {
-            .search-container {
-                flex-direction: row;
-                align-items: center;
-                padding: 0.5rem 0.5rem 0.5rem 2rem;
-            }
+        @media(min-width: 768px) { 
+            .search-container { flex-direction: row; align-items: center; padding: 0.5rem 0.5rem 0.5rem 2rem; } 
         }
-
-        .search-input-group {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        @media(min-width: 768px) {
-            .search-input-group {
-                border-bottom: none;
-                border-right: 1px solid var(--border-color);
-                margin-right: 10px;
-            }
-            .search-input-group:last-of-type {
-                border-right: none;
-            }
-        }
-
+        .search-input-group { flex: 1; display: flex; align-items: center; gap: 10px; padding: 10px; }
         .search-input-group i { color: var(--text-muted); }
-
-        .search-input-group input {
-            border: none;
-            outline: none;
-            width: 100%;
-            font-size: 1rem;
-            color: var(--primary-black);
-        }
-
-        .search-btn {
-            background: var(--primary-black);
-            color: white;
-            border: none;
-            padding: 1rem 2rem;
-            border-radius: 40px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            width: 100%;
-        }
-
-        @media(min-width: 768px) {
-            .search-btn { width: auto; }
-        }
+        .search-input-group input { border: none; outline: none; width: 100%; font-size: 1rem; color: var(--primary-black); }
+        .search-btn { background: var(--primary-black); color: white; padding: 1rem 2rem; border-radius: 40px; font-weight: 600; cursor: pointer; width: 100%; }
+        @media(min-width: 768px) { .search-btn { width: auto; } }
 
         /* --- FILTERS --- */
-        .filters {
-            display: flex;
-            gap: 1rem;
-            padding: 2rem 5%;
-            overflow-x: auto;
-            scrollbar-width: none; /* Hide scrollbar Firefox */
-        }
-        .filters::-webkit-scrollbar { display: none; } /* Hide scrollbar Chrome */
-
+        .filters { display: flex; gap: 1rem; padding: 2rem 5%; overflow-x: auto; scrollbar-width: none; }
+        .filters::-webkit-scrollbar { display: none; }
         .filter-tag {
-            padding: 0.5rem 1.2rem;
-            border: 1px solid var(--border-color);
-            border-radius: 50px;
-            white-space: nowrap;
-            font-size: 0.9rem;
-            color: var(--text-main);
-            cursor: pointer;
-            transition: var(--transition);
-            background: white;
+            padding: 0.5rem 1.2rem; border: 1px solid var(--border-color); border-radius: 50px;
+            white-space: nowrap; font-size: 0.9rem; cursor: pointer; transition: var(--transition); background: white;
         }
+        .filter-tag.active, .filter-tag:hover { background: var(--primary-black); color: white; border-color: var(--primary-black); }
 
-        .filter-tag.active, .filter-tag:hover {
-            background: var(--primary-black);
-            color: white;
-            border-color: var(--primary-black);
-        }
-
-        /* --- LISTINGS GRID --- */
-        .section-title {
-            padding: 0 5%;
-            margin-bottom: 1.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
-            padding: 0 5% 4rem;
-        }
-
+        /* --- GRID --- */
+        .section-header { padding: 0 5%; margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: flex-end; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem; padding: 0 5% 4rem; }
+        
         .card {
-            background: white;
-            border-radius: var(--radius-lg);
-            overflow: hidden;
-            border: 1px solid var(--border-color);
-            transition: var(--transition);
-            position: relative;
+            background: white; border-radius: var(--radius-lg); overflow: hidden;
+            border: 1px solid var(--border-color); transition: var(--transition); position: relative;
         }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .card-image {
-            height: 220px;
-            width: 100%;
-            background-color: #ddd;
-            position: relative;
-        }
-
-        .card-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
+        .card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); }
+        .card-image { height: 220px; width: 100%; position: relative; background: #eee; }
+        .card-image img { width: 100%; height: 100%; object-fit: cover; }
+        
         .badge {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            background: rgba(255, 255, 255, 0.9);
-            padding: 4px 12px;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.95);
+            padding: 4px 12px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
         }
-
-        .badge-verified {
-            background: var(--primary-black);
-            color: white;
-        }
-
+        .badge-verified { background: var(--primary-black); color: white; }
+        
         .like-btn {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: white;
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            border: none;
-            box-shadow: var(--shadow-sm);
+            position: absolute; top: 15px; right: 15px; background: white; width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer;
+            box-shadow: var(--shadow-sm); transition: 0.2s;
         }
-
-        .card-content {
-            padding: 1.5rem;
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 0.5rem;
-        }
-
-        .price {
-            font-size: 1.25rem;
-            font-weight: 800;
-            color: var(--primary-black);
-        }
-
-        .price span {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            font-weight: 400;
-        }
-
-        .card-title {
-            font-weight: 600;
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-            color: var(--primary-black);
-        }
-
-        .card-location {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            margin-bottom: 1rem;
-        }
-
-        .amenities {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-bottom: 1.5rem;
-        }
-
-        .amenity {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            background: var(--bg-off-white);
-            padding: 4px 10px;
-            border-radius: 6px;
-        }
-
+        .like-btn.liked { background: #fee2e2; color: #ef4444; }
+        
+        .card-content { padding: 1.5rem; }
+        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; }
+        .price { font-size: 1.25rem; font-weight: 800; color: var(--primary-black); }
+        .price span { font-size: 0.85rem; color: var(--text-muted); font-weight: 400; }
+        .card-title { font-weight: 600; font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--primary-black); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
+        .card-location { color: var(--text-muted); font-size: 0.9rem; display: flex; align-items: center; gap: 5px; margin-bottom: 1rem; }
+        
+        .amenities { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 1.5rem; }
+        .amenity { font-size: 0.8rem; color: var(--text-muted); background: var(--bg-off-white); padding: 4px 10px; border-radius: 6px; }
+        
         .card-btn {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid var(--primary-black);
-            background: transparent;
-            color: var(--primary-black);
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
+            width: 100%; padding: 10px; border: 1px solid var(--primary-black); background: transparent;
+            color: var(--primary-black); border-radius: 8px; font-weight: 600; cursor: pointer; transition: var(--transition);
         }
+        .card-btn:hover { background: var(--primary-black); color: white; }
 
-        .card-btn:hover {
-            background: var(--primary-black);
-            color: white;
+        /* --- MODAL (POPUP) --- */
+        .modal-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6); z-index: 2000; align-items: center; justify-content: center;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal-content {
+            background: white; width: 90%; max-width: 600px; max-height: 90vh; overflow-y: auto;
+            border-radius: 20px; position: relative; animation: slideUp 0.3s ease;
+        }
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .modal-img { width: 100%; height: 300px; object-fit: cover; }
+        .modal-body { padding: 2rem; }
+        .close-modal {
+            position: absolute; top: 15px; right: 15px; background: white; width: 40px; height: 40px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.2rem;
+        }
+        .modal-title { font-size: 1.8rem; font-weight: 800; margin-bottom: 0.5rem; }
+        .modal-meta { display: flex; gap: 20px; margin-bottom: 1.5rem; color: var(--text-muted); font-size: 0.9rem; }
+        .modal-desc { margin-bottom: 2rem; color: #4b5563; }
+        .landlord-box {
+            background: var(--bg-off-white); padding: 1.5rem; border-radius: 12px; display: flex; justify-content: space-between; align-items: center;
         }
 
         /* --- FOOTER --- */
-        footer {
-            background: var(--primary-black);
-            color: white;
-            padding: 4rem 5%;
-            text-align: center;
-        }
-
-        .footer-content {
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-            align-items: center;
-        }
-
-        .footer-links {
-            display: flex;
-            gap: 2rem;
-            font-size: 0.9rem;
-            color: #9ca3af;
-        }
-
-        .copyright {
-            color: #4b5563;
-            font-size: 0.85rem;
-            margin-top: 2rem;
-        }
-
+        footer { background: var(--primary-black); color: white; padding: 4rem 5%; text-align: center; margin-top: auto; }
+        .footer-links { display: flex; gap: 2rem; justify-content: center; margin-top: 1rem; }
+        .copyright { margin-top: 2rem; color: #6b7280; font-size: 0.9rem; }
     </style>
 </head>
 <body>
 
     <nav>
-        <div class="logo">UniStay.</div>
+        <div class="logo" onclick="resetFilters()">UniStay.</div>
         <ul class="nav-links">
-            <li><a href="#" class="nav-link">Search</a></li>
-            <li><a href="#" class="nav-link">Universities</a></li>
-            <li><a href="#" class="nav-link">How it Works</a></li>
+            <li><span class="nav-link">Search</span></li>
+            <li><span class="nav-link">Universities</span></li>
+            <li><span class="nav-link">How it Works</span></li>
         </ul>
         <div style="display: flex; gap: 10px;">
-            <button class="btn btn-outline" style="display: none;">Log In</button>
-            <button class="btn btn-primary">List a Room</button>
+            <button class="btn btn-primary" onclick="alert('Login feature coming soon!')">List a Room</button>
         </div>
     </nav>
 
     <section class="hero">
         <h1>Find your perfect<br>student home.</h1>
-        <p>Search hundreds of verified rooms, studios, and shared apartments near your campus.</p>
+        <p>Search verified rooms, studios, and shared apartments near your campus.</p>
         
         <div class="search-container">
             <div class="search-input-group">
                 <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" placeholder="Search by University or City">
+                <input type="text" id="searchInput" placeholder="University, City, or Keyword...">
             </div>
-            <div class="search-input-group">
+            <div class="search-input-group" style="border-right: none;">
                 <i class="fa-regular fa-calendar"></i>
                 <input type="text" placeholder="Move-in Date" onfocus="(this.type='date')">
             </div>
-            <button class="search-btn">Search Rooms</button>
+            <button class="search-btn" onclick="filterListings()">Search</button>
         </div>
     </section>
 
-    <div class="filters">
-        <button class="filter-tag active">All</button>
-        <button class="filter-tag">Near Campus</button>
-        <button class="filter-tag">Private Studio</button>
-        <button class="filter-tag">Under $500</button>
-        <button class="filter-tag">En-suite</button>
-        <button class="filter-tag">Short Term</button>
+    <div class="filters" id="filterContainer">
+        <button class="filter-tag active" data-filter="all">All</button>
+        <button class="filter-tag" data-filter="campus">Near Campus</button>
+        <button class="filter-tag" data-filter="studio">Private Studio</button>
+        <button class="filter-tag" data-filter="budget">Under $500</button>
+        <button class="filter-tag" data-filter="ensuite">En-suite</button>
     </div>
 
-    <div class="section-title">
-        <h2>Fresh Listings</h2>
-        <a href="#" style="font-weight: 600; text-decoration: underline;">View All</a>
+    <div class="section-header">
+        <h2 id="listingCount">Loading Listings...</h2>
     </div>
 
-    <section class="grid">
-        <div class="card">
-            <div class="card-image">
-                <span class="badge badge-verified"><i class="fa-solid fa-check"></i> Verified</span>
-                <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
-                <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Room Image">
-            </div>
-            <div class="card-content">
-                <div class="card-header">
-                    <div class="price">$450<span>/mo</span></div>
-                    <div style="font-size: 0.8rem; font-weight: 600; color: #10b981;">Available Now</div>
-                </div>
-                <h3 class="card-title">Sunny Loft near Science Campus</h3>
-                <div class="card-location"><i class="fa-solid fa-location-dot"></i> 0.5 miles from University</div>
-                <div class="amenities">
-                    <span class="amenity">WiFi</span>
-                    <span class="amenity">Furnished</span>
-                    <span class="amenity">Bills Inc.</span>
-                </div>
-                <button class="card-btn">View Details</button>
-            </div>
-        </div>
+    <section class="grid" id="listingsGrid">
+        </section>
 
-        <div class="card">
-            <div class="card-image">
-                <span class="badge">New</span>
-                <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
-                <img src="https://images.unsplash.com/photo-1598928506311-c55ded91a20c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Room Image">
-            </div>
-            <div class="card-content">
-                <div class="card-header">
-                    <div class="price">$620<span>/mo</span></div>
+    <div class="modal-overlay" id="detailModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+            <img src="" alt="Room" class="modal-img" id="modalImg">
+            <div class="modal-body">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                    <span class="badge badge-verified" id="modalBadge">Verified</span>
+                    <span class="price" id="modalPrice">$000<span>/mo</span></span>
                 </div>
-                <h3 class="card-title">Modern Studio - City Center</h3>
-                <div class="card-location"><i class="fa-solid fa-location-dot"></i> 15 min bus to Campus</div>
-                <div class="amenities">
-                    <span class="amenity">Private Bath</span>
-                    <span class="amenity">Gym</span>
-                    <span class="amenity">Security</span>
+                <h2 class="modal-title" id="modalTitle">Title</h2>
+                <div class="modal-meta">
+                    <span id="modalLocation"><i class="fa-solid fa-location-dot"></i> Location</span>
+                    <span id="modalType"><i class="fa-solid fa-home"></i> Type</span>
                 </div>
-                <button class="card-btn">View Details</button>
-            </div>
-        </div>
+                <p class="modal-desc" id="modalDesc">Description goes here...</p>
+                
+                <div class="amenities" id="modalAmenities">
+                    </div>
 
-        <div class="card">
-            <div class="card-image">
-                <span class="badge badge-verified"><i class="fa-solid fa-check"></i> Verified</span>
-                <button class="like-btn"><i class="fa-regular fa-heart"></i></button>
-                <img src="https://images.unsplash.com/photo-1555854877-bab0e564b8d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Room Image">
-            </div>
-            <div class="card-content">
-                <div class="card-header">
-                    <div class="price">$380<span>/mo</span></div>
+                <div class="landlord-box">
+                    <div>
+                        <div style="font-weight: 700; color: var(--primary-black);">Hosted by UniStay Agent</div>
+                        <div style="font-size: 0.85rem; color: var(--text-muted);">Responds within 1 hour</div>
+                    </div>
+                    <button class="btn btn-primary" onclick="alert('Contact request sent to landlord!')">Contact</button>
                 </div>
-                <h3 class="card-title">Cozy Room in Shared House</h3>
-                <div class="card-location"><i class="fa-solid fa-location-dot"></i> Walking distance to Library</div>
-                <div class="amenities">
-                    <span class="amenity">Shared Kitchen</span>
-                    <span class="amenity">Garden</span>
-                    <span class="amenity">Washer</span>
-                </div>
-                <button class="card-btn">View Details</button>
             </div>
         </div>
-    </section>
+    </div>
 
     <footer>
-        <div class="footer-content">
-            <div class="logo" style="color: white;">UniStay.</div>
-            <div class="footer-links">
-                <a href="#">About</a>
-                <a href="#">Safety</a>
-                <a href="#">Landlords</a>
-                <a href="#">Contact</a>
-            </div>
-            <div class="copyright">© 2024 UniStay Inc. All rights reserved.</div>
+        <div class="logo" style="color: white;">UniStay.</div>
+        <div class="footer-links">
+            <a href="#">About</a>
+            <a href="#">Safety</a>
+            <a href="#">Landlords</a>
+            <a href="#">Contact</a>
         </div>
+        <div class="copyright">© 2024 UniStay Inc. All rights reserved.</div>
     </footer>
 
+    <script>
+        // --- 1. MOCK DATABASE ---
+        const listingsData = [
+            {
+                id: 1,
+                title: "Sunny Loft near Science Campus",
+                price: 450,
+                location: "West End, 0.5 miles to Uni",
+                type: "Studio",
+                tags: ["campus", "studio"],
+                image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                verified: true,
+                amenities: ["WiFi", "Furnished", "Bills Inc"],
+                desc: "A beautiful, sun-drenched loft perfect for a focused student. Located just a 10-minute walk from the Science building."
+            },
+            {
+                id: 2,
+                title: "Modern Studio - City Center",
+                price: 620,
+                location: "Downtown, 15 min bus",
+                type: "Studio",
+                tags: ["studio", "ensuite"],
+                image: "https://images.unsplash.com/photo-1598928506311-c55ded91a20c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                verified: false,
+                amenities: ["Private Bath", "Gym Access", "Security"],
+                desc: "High-end living in the city center. Includes access to the building's gym and rooftop terrace."
+            },
+            {
+                id: 3,
+                title: "Cozy Room in Shared House",
+                price: 380,
+                location: "Library Dist, Walking distance",
+                type: "Shared",
+                tags: ["budget", "campus"],
+                image: "https://images.unsplash.com/photo-1555854877-bab0e564b8d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                verified: true,
+                amenities: ["Shared Kitchen", "Garden", "Washer"],
+                desc: "Join 3 other friendly students in this Victorian house. Big kitchen and a backyard for BBQs."
+            },
+            {
+                id: 4,
+                title: "En-suite Room in Dorms",
+                price: 550,
+                location: "North Campus",
+                type: "Dorm",
+                tags: ["ensuite", "campus"],
+                image: "https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                verified: true,
+                amenities: ["En-suite", "Meal Plan", "Study Room"],
+                desc: "Official university accommodation. Includes meal plan and cleaning service."
+            },
+            {
+                id: 5,
+                title: "Budget Single Room",
+                price: 290,
+                location: "East Side, 20 min bus",
+                type: "Shared",
+                tags: ["budget"],
+                image: "https://images.unsplash.com/photo-1505691938895-1758d7feb511?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                verified: false,
+                amenities: ["WiFi", "Cheap Rent", "Bike Storage"],
+                desc: "The most affordable option in town. Quiet neighborhood, perfect for saving money."
+            },
+            {
+                id: 6,
+                title: "Luxury Penthouse Share",
+                price: 800,
+                location: "River View",
+                type: "Apartment",
+                tags: ["studio"],
+                image: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                verified: true,
+                amenities: ["Balcony", "AC", "Concierge"],
+                desc: "Live in style. You get the master bedroom in this shared luxury penthouse."
+            }
+        ];
+
+        // --- 2. RENDER FUNCTIONS ---
+        const grid = document.getElementById('listingsGrid');
+        const countLabel = document.getElementById('listingCount');
+
+        function renderListings(data) {
+            grid.innerHTML = ""; // Clear current listings
+            countLabel.innerText = `${data.length} Listings Found`;
+
+            if(data.length === 0) {
+                grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: #6b7280; padding: 2rem;">No results found. Try adjusting your filters.</div>`;
+                return;
+            }
+
+            data.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                
+                // Amenities HTML generation
+                const amenitiesHtml = item.amenities.map(a => `<span class="amenity">${a}</span>`).slice(0,3).join('');
+                
+                // Verified Badge HTML
+                const verifiedHtml = item.verified ? `<span class="badge badge-verified"><i class="fa-solid fa-check"></i> Verified</span>` : '';
+
+                card.innerHTML = `
+                    <div class="card-image">
+                        ${verifiedHtml}
+                        <button class="like-btn" onclick="toggleLike(this)"><i class="fa-regular fa-heart"></i></button>
+                        <img src="${item.image}" alt="${item.title}">
+                    </div>
+                    <div class="card-content">
+                        <div class="card-header">
+                            <div class="price">$${item.price}<span>/mo</span></div>
+                        </div>
+                        <h3 class="card-title">${item.title}</h3>
+                        <div class="card-location"><i class="fa-solid fa-location-dot"></i> ${item.location}</div>
+                        <div class="amenities">${amenitiesHtml}</div>
+                        <button class="card-btn" onclick="openModal(${item.id})">View Details</button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // --- 3. FILTER LOGIC ---
+        let currentFilter = 'all';
+        const filterButtons = document.querySelectorAll('.filter-tag');
+
+        // Handle Filter Buttons
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Visual update
+                filterButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                // Logic update
+                currentFilter = btn.getAttribute('data-filter');
+                applyFilters();
+            });
+        });
+
+        // Handle Search Bar
+        const searchInput = document.getElementById('searchInput');
+        searchInput.addEventListener('input', applyFilters);
+
+        function applyFilters() {
+            const searchTerm = searchInput.value.toLowerCase();
+            
+            const filtered = listingsData.filter(item => {
+                // 1. Text Search match
+                const matchesSearch = item.title.toLowerCase().includes(searchTerm) || 
+                                      item.location.toLowerCase().includes(searchTerm);
+                
+                // 2. Tag/Category match
+                let matchesCategory = false;
+                if (currentFilter === 'all') matchesCategory = true;
+                else if (currentFilter === 'budget' && item.price < 500) matchesCategory = true;
+                else if (item.tags.includes(currentFilter)) matchesCategory = true;
+
+                return matchesSearch && matchesCategory;
+            });
+
+            renderListings(filtered);
+        }
+
+        function resetFilters() {
+            searchInput.value = '';
+            filterButtons.forEach(b => b.classList.remove('active'));
+            filterButtons[0].classList.add('active');
+            currentFilter = 'all';
+            renderListings(listingsData);
+        }
+
+        // --- 4. INTERACTIVITY ---
+        
+        // Toggle Like Heart
+        function toggleLike(btn) {
+            btn.classList.toggle('liked');
+            const icon = btn.querySelector('i');
+            if(btn.classList.contains('liked')) {
+                icon.classList.remove('fa-regular');
+                icon.classList.add('fa-solid');
+            } else {
+                icon.classList.remove('fa-solid');
+                icon.classList.add('fa-regular');
+            }
+        }
+
+        // --- 5. MODAL LOGIC ---
+        const modal = document.getElementById('detailModal');
+        
+        function openModal(id) {
+            const item = listingsData.find(x => x.id === id);
+            if(!item) return;
+
+            // Populate Modal Data
+            document.getElementById('modalImg').src = item.image;
+            document.getElementById('modalTitle').innerText = item.title;
+            document.getElementById('modalPrice').innerHTML = `$${item.price}<span>/mo</span>`;
+            document.getElementById('modalLocation').innerHTML = `<i class="fa-solid fa-location-dot"></i> ${item.location}`;
+            document.getElementById('modalType').innerHTML = `<i class="fa-solid fa-home"></i> ${item.type}`;
+            document.getElementById('modalDesc').innerText = item.desc;
+            
+            // Badge logic
+            const badge = document.getElementById('modalBadge');
+            if(item.verified) {
+                badge.style.display = 'inline-block';
+                badge.className = 'badge badge-verified';
+                badge.innerHTML = '<i class="fa-solid fa-check"></i> Verified';
+            } else {
+                badge.style.display = 'none';
+            }
+
+            // Populate Modal Amenities
+            const amContainer = document.getElementById('modalAmenities');
+            amContainer.innerHTML = item.amenities.map(a => `<span class="amenity">${a}</span>`).join('');
+
+            // Show Modal
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Stop background scrolling
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto'; // Restore scrolling
+        }
+
+        // Close modal if clicking outside content
+        modal.addEventListener('click', (e) => {
+            if(e.target === modal) closeModal();
+        });
+
+        // Initialize
+        renderListings(listingsData);
+
+    </script>
 </body>
 </html>

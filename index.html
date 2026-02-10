@@ -29,7 +29,7 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { background-color: var(--bg-white); color: var(--text-main); line-height: 1.6; }
+        body { background-color: var(--bg-white); color: var(--text-main); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
         a { text-decoration: none; color: inherit; }
         ul { list-style: none; }
         button { border: none; outline: none; background: none; }
@@ -178,7 +178,7 @@
                 <i class="fa-regular fa-calendar"></i>
                 <input type="text" placeholder="Move-in Date" onfocus="(this.type='date')">
             </div>
-            <button class="search-btn" onclick="filterListings()">Search</button>
+            <button class="search-btn" onclick="applyFilters()">Search</button>
         </div>
     </section>
 
@@ -212,10 +212,7 @@
                     <span id="modalType"><i class="fa-solid fa-home"></i> Type</span>
                 </div>
                 <p class="modal-desc" id="modalDesc">Description goes here...</p>
-                
-                <div class="amenities" id="modalAmenities">
-                    </div>
-
+                <div class="amenities" id="modalAmenities"></div>
                 <div class="landlord-box">
                     <div>
                         <div style="font-weight: 700; color: var(--primary-black);">Hosted by UniStay Agent</div>
@@ -238,106 +235,53 @@
         <div class="copyright">© 2024 UniStay Inc. All rights reserved.</div>
     </footer>
 
-    <script>
-        // --- 1. MOCK DATABASE ---
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyD_MtScfT0J5b8LbMm5oAATmw84plKWl-0",
+            authDomain: "kasistay-3b79c.firebaseapp.com",
+            projectId: "kasistay-3b79c",
+            storageBucket: "kasistay-3b79c.firebasestorage.app",
+            messagingSenderId: "19156366595",
+            appId: "1:19156366595:web:c64b9bd6dfde5790e02536",
+            measurementId: "G-7C96E7HBGL"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        console.log("Firebase initialized successfully!");
+
+        // --- MOCK DATABASE (Sync with Firestore later) ---
         const listingsData = [
-            {
-                id: 1,
-                title: "Sunny Loft near Science Campus",
-                price: 450,
-                location: "West End, 0.5 miles to Uni",
-                type: "Studio",
-                tags: ["campus", "studio"],
-                image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-                verified: true,
-                amenities: ["WiFi", "Furnished", "Bills Inc"],
-                desc: "A beautiful, sun-drenched loft perfect for a focused student. Located just a 10-minute walk from the Science building."
-            },
-            {
-                id: 2,
-                title: "Modern Studio - City Center",
-                price: 620,
-                location: "Downtown, 15 min bus",
-                type: "Studio",
-                tags: ["studio", "ensuite"],
-                image: "https://images.unsplash.com/photo-1598928506311-c55ded91a20c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-                verified: false,
-                amenities: ["Private Bath", "Gym Access", "Security"],
-                desc: "High-end living in the city center. Includes access to the building's gym and rooftop terrace."
-            },
-            {
-                id: 3,
-                title: "Cozy Room in Shared House",
-                price: 380,
-                location: "Library Dist, Walking distance",
-                type: "Shared",
-                tags: ["budget", "campus"],
-                image: "https://images.unsplash.com/photo-1555854877-bab0e564b8d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-                verified: true,
-                amenities: ["Shared Kitchen", "Garden", "Washer"],
-                desc: "Join 3 other friendly students in this Victorian house. Big kitchen and a backyard for BBQs."
-            },
-            {
-                id: 4,
-                title: "En-suite Room in Dorms",
-                price: 550,
-                location: "North Campus",
-                type: "Dorm",
-                tags: ["ensuite", "campus"],
-                image: "https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-                verified: true,
-                amenities: ["En-suite", "Meal Plan", "Study Room"],
-                desc: "Official university accommodation. Includes meal plan and cleaning service."
-            },
-            {
-                id: 5,
-                title: "Budget Single Room",
-                price: 290,
-                location: "East Side, 20 min bus",
-                type: "Shared",
-                tags: ["budget"],
-                image: "https://images.unsplash.com/photo-1505691938895-1758d7feb511?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-                verified: false,
-                amenities: ["WiFi", "Cheap Rent", "Bike Storage"],
-                desc: "The most affordable option in town. Quiet neighborhood, perfect for saving money."
-            },
-            {
-                id: 6,
-                title: "Luxury Penthouse Share",
-                price: 800,
-                location: "River View",
-                type: "Apartment",
-                tags: ["studio"],
-                image: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-                verified: true,
-                amenities: ["Balcony", "AC", "Concierge"],
-                desc: "Live in style. You get the master bedroom in this shared luxury penthouse."
-            }
+            { id: 1, title: "Sunny Loft near Science Campus", price: 450, location: "West End, 0.5 miles to Uni", type: "Studio", tags: ["campus", "studio"], image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", verified: true, amenities: ["WiFi", "Furnished", "Bills Inc"], desc: "A beautiful, sun-drenched loft perfect for a focused student." },
+            { id: 2, title: "Modern Studio - City Center", price: 620, location: "Downtown, 15 min bus", type: "Studio", tags: ["studio", "ensuite"], image: "https://images.unsplash.com/photo-1598928506311-c55ded91a20c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", verified: false, amenities: ["Private Bath", "Gym Access", "Security"], desc: "High-end living in the city center." },
+            { id: 3, title: "Cozy Room in Shared House", price: 380, location: "Library Dist, Walking distance", type: "Shared", tags: ["budget", "campus"], image: "https://images.unsplash.com/photo-1555854877-bab0e564b8d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", verified: true, amenities: ["Shared Kitchen", "Garden", "Washer"], desc: "Join 3 other friendly students in this Victorian house." },
+            { id: 4, title: "En-suite Room in Dorms", price: 550, location: "North Campus", type: "Dorm", tags: ["ensuite", "campus"], image: "https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", verified: true, amenities: ["En-suite", "Meal Plan", "Study Room"], desc: "Official university accommodation." },
+            { id: 5, title: "Budget Single Room", price: 290, location: "East Side, 20 min bus", type: "Shared", tags: ["budget"], image: "https://images.unsplash.com/photo-1505691938895-1758d7feb511?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", verified: false, amenities: ["WiFi", "Cheap Rent", "Bike Storage"], desc: "The most affordable option in town." },
+            { id: 6, title: "Luxury Penthouse Share", price: 800, location: "River View", type: "Apartment", tags: ["studio"], image: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", verified: true, amenities: ["Balcony", "AC", "Concierge"], desc: "Live in style. You get the master bedroom." }
         ];
 
-        // --- 2. RENDER FUNCTIONS ---
+        // --- RENDER FUNCTIONS ---
         const grid = document.getElementById('listingsGrid');
         const countLabel = document.getElementById('listingCount');
 
-        function renderListings(data) {
-            grid.innerHTML = ""; // Clear current listings
+        window.renderListings = function(data) {
+            grid.innerHTML = "";
             countLabel.innerText = `${data.length} Listings Found`;
-
             if(data.length === 0) {
-                grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: #6b7280; padding: 2rem;">No results found. Try adjusting your filters.</div>`;
+                grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: #6b7280; padding: 2rem;">No results found.</div>`;
                 return;
             }
-
             data.forEach(item => {
                 const card = document.createElement('div');
                 card.className = 'card';
-                
-                // Amenities HTML generation
                 const amenitiesHtml = item.amenities.map(a => `<span class="amenity">${a}</span>`).slice(0,3).join('');
-                
-                // Verified Badge HTML
                 const verifiedHtml = item.verified ? `<span class="badge badge-verified"><i class="fa-solid fa-check"></i> Verified</span>` : '';
-
                 card.innerHTML = `
                     <div class="card-image">
                         ${verifiedHtml}
@@ -345,9 +289,7 @@
                         <img src="${item.image}" alt="${item.title}">
                     </div>
                     <div class="card-content">
-                        <div class="card-header">
-                            <div class="price">$${item.price}<span>/mo</span></div>
-                        </div>
+                        <div class="card-header"><div class="price">$${item.price}<span>/mo</span></div></div>
                         <h3 class="card-title">${item.title}</h3>
                         <div class="card-location"><i class="fa-solid fa-location-dot"></i> ${item.location}</div>
                         <div class="amenities">${amenitiesHtml}</div>
@@ -358,117 +300,70 @@
             });
         }
 
-        // --- 3. FILTER LOGIC ---
+        // --- FILTER & INTERACTIVITY ---
         let currentFilter = 'all';
-        const filterButtons = document.querySelectorAll('.filter-tag');
-
-        // Handle Filter Buttons
-        filterButtons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                // Visual update
-                filterButtons.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                
-                // Logic update
-                currentFilter = btn.getAttribute('data-filter');
-                applyFilters();
-            });
-        });
-
-        // Handle Search Bar
         const searchInput = document.getElementById('searchInput');
-        searchInput.addEventListener('input', applyFilters);
 
-        function applyFilters() {
+        window.applyFilters = function() {
             const searchTerm = searchInput.value.toLowerCase();
-            
             const filtered = listingsData.filter(item => {
-                // 1. Text Search match
-                const matchesSearch = item.title.toLowerCase().includes(searchTerm) || 
-                                      item.location.toLowerCase().includes(searchTerm);
-                
-                // 2. Tag/Category match
-                let matchesCategory = false;
-                if (currentFilter === 'all') matchesCategory = true;
-                else if (currentFilter === 'budget' && item.price < 500) matchesCategory = true;
-                else if (item.tags.includes(currentFilter)) matchesCategory = true;
-
+                const matchesSearch = item.title.toLowerCase().includes(searchTerm) || item.location.toLowerCase().includes(searchTerm);
+                let matchesCategory = (currentFilter === 'all') || (currentFilter === 'budget' && item.price < 500) || (item.tags.includes(currentFilter));
                 return matchesSearch && matchesCategory;
             });
-
             renderListings(filtered);
         }
 
-        function resetFilters() {
+        window.resetFilters = function() {
             searchInput.value = '';
-            filterButtons.forEach(b => b.classList.remove('active'));
-            filterButtons[0].classList.add('active');
+            document.querySelectorAll('.filter-tag').forEach(b => b.classList.remove('active'));
+            document.querySelector('[data-filter="all"]').classList.add('active');
             currentFilter = 'all';
             renderListings(listingsData);
         }
 
-        // --- 4. INTERACTIVITY ---
-        
-        // Toggle Like Heart
-        function toggleLike(btn) {
+        window.toggleLike = function(btn) {
             btn.classList.toggle('liked');
             const icon = btn.querySelector('i');
-            if(btn.classList.contains('liked')) {
-                icon.classList.remove('fa-regular');
-                icon.classList.add('fa-solid');
-            } else {
-                icon.classList.remove('fa-solid');
-                icon.classList.add('fa-regular');
-            }
+            icon.className = btn.classList.contains('liked') ? 'fa-solid fa-heart' : 'fa-regular fa-heart';
         }
 
-        // --- 5. MODAL LOGIC ---
-        const modal = document.getElementById('detailModal');
-        
-        function openModal(id) {
+        // --- MODAL ---
+        window.openModal = function(id) {
             const item = listingsData.find(x => x.id === id);
             if(!item) return;
-
-            // Populate Modal Data
             document.getElementById('modalImg').src = item.image;
             document.getElementById('modalTitle').innerText = item.title;
             document.getElementById('modalPrice').innerHTML = `$${item.price}<span>/mo</span>`;
             document.getElementById('modalLocation').innerHTML = `<i class="fa-solid fa-location-dot"></i> ${item.location}`;
             document.getElementById('modalType').innerHTML = `<i class="fa-solid fa-home"></i> ${item.type}`;
             document.getElementById('modalDesc').innerText = item.desc;
-            
-            // Badge logic
             const badge = document.getElementById('modalBadge');
-            if(item.verified) {
-                badge.style.display = 'inline-block';
-                badge.className = 'badge badge-verified';
-                badge.innerHTML = '<i class="fa-solid fa-check"></i> Verified';
-            } else {
-                badge.style.display = 'none';
-            }
-
-            // Populate Modal Amenities
-            const amContainer = document.getElementById('modalAmenities');
-            amContainer.innerHTML = item.amenities.map(a => `<span class="amenity">${a}</span>`).join('');
-
-            // Show Modal
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden'; // Stop background scrolling
+            badge.style.display = item.verified ? 'inline-block' : 'none';
+            document.getElementById('modalAmenities').innerHTML = item.amenities.map(a => `<span class="amenity">${a}</span>`).join('');
+            document.getElementById('detailModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
         }
 
-        function closeModal() {
-            modal.classList.remove('active');
-            document.body.style.overflow = 'auto'; // Restore scrolling
+        window.closeModal = function() {
+            document.getElementById('detailModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
         }
 
-        // Close modal if clicking outside content
-        modal.addEventListener('click', (e) => {
-            if(e.target === modal) closeModal();
+        // Event Listeners for Filter Tags
+        document.querySelectorAll('.filter-tag').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-tag').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentFilter = btn.getAttribute('data-filter');
+                applyFilters();
+            });
         });
 
-        // Initialize
-        renderListings(listingsData);
+        searchInput.addEventListener('input', applyFilters);
 
+        // Initial Load
+        renderListings(listingsData);
     </script>
 </body>
 </html>

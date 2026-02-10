@@ -398,7 +398,7 @@
             formData.append('upload_preset', 'admin_tlaka'); // Replace with your Cloudinary upload preset
 
             const xhr = new XMLHttpRequest();
-            xhr.open('POST', 'CLOUDINARY_URL=cloudinary://<your_api_key>:<your_api_secret>@dv5bsbydu'); // Replace 'your_cloud_name' with your Cloudinary cloud name
+            xhr.open('POST', '@dv5bsbydu'); // Replace 'your_cloud_name' with your Cloudinary cloud name
 
             document.getElementById('uploadProgress').style.display = 'block';
             document.getElementById('progressBar').style.width = '0%';
@@ -409,6 +409,38 @@
                     document.getElementById('progressBar').style.width = percent + '%';
                 }
             };
+
+        const cloudinary = require('cloudinary').v2;
+
+// Configure with your credentials
+cloudinary.config({ 
+  cloud_name: 'your_cloud_name', 
+  api_key: 'your_api_key', 
+  api_secret: 'your_api_secret' 
+});
+
+/**
+ * Uploads an image file to Cloudinary
+ * @param {string} filePath - Path to the local file or a base64 string
+ */
+const uploadImage = async (filePath) => {
+    try {
+        const result = await cloudinary.uploader.upload(filePath, {
+            folder: "student_stays", // Optional: Organize into folders
+            use_filename: true,
+            unique_filename: true
+        });
+        
+        console.log("Upload Success!");
+        console.log("URL:", result.secure_url); // This is the URL to store in your DB
+        return result;
+    } catch (error) {
+        console.error("Upload Error:", error);
+    }
+};
+
+// Usage
+// uploadImage('./my-room-photo.jpg');
 
             xhr.onreadystatechange = () => {
                 if (xhr.readyState === 4) {

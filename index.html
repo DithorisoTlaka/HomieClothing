@@ -220,7 +220,7 @@
                     </div>
                     <div style="margin-bottom: 1rem;">
                         <label for="addPrice">Price:</label>
-                        <input type="number" id="addPrice" style="width: 100%; padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 4px;" required>
+                        <input type="number" id="addPrice" step="any" style="width: 100%; padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 4px;" required>
                     </div>
                     <div style="margin-bottom: 1rem;">
                         <label for="addLocation">Location:</label>
@@ -379,7 +379,7 @@
         }
         window.addToDb = function() {
             const title = document.getElementById('addTitle').value;
-            const price = parseInt(document.getElementById('addPrice').value);
+            const price = parseFloat(document.getElementById('addPrice').value);
             const location = document.getElementById('addLocation').value;
             const type = document.getElementById('addType').value;
             const tags = document.getElementById('addTags').value.split(',').map(t => t.trim());
@@ -388,8 +388,8 @@
             const amenities = document.getElementById('addAmenities').value.split(',').map(a => a.trim());
             const desc = document.getElementById('addDesc').value;
 
-            if (!title || !price || !location || !type || !tags.length || !file || !amenities.length || !desc) {
-                alert('Please fill all fields');
+            if (!title || isNaN(price) || !location || !type || !tags.length || !file || !amenities.length || !desc) {
+                alert('Please fill all fields correctly');
                 return;
             }
 

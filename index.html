@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KasiStay | Accommodation Finder</title>
+    <title>UniStay | Student Accommodation Finder</title>
    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -235,8 +235,8 @@
                         <input type="text" id="addTags" style="width: 100%; padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 4px;" required>
                     </div>
                     <div style="margin-bottom: 1rem;">
-                        <label for="addImage">Image URL:</label>
-                        <input type="text" id="addImage" style="width: 100%; padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 4px;" required>
+                        <label for="addImage">Image:</label>
+                        <input type="file" id="addImage" accept="image/*" style="width: 100%; padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 4px;" required>
                     </div>
                     <div style="margin-bottom: 1rem;">
                         <label for="addVerified">Verified:</label>
@@ -251,6 +251,9 @@
                         <textarea id="addDesc" style="width: 100%; padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 4px;" required></textarea>
                     </div>
                     <button type="button" class="btn btn-primary" onclick="addToDb()" style="width: 100%;">Submit</button>
+                    <div id="uploadProgress" style="height: 20px; background: #eee; width: 100%; margin-top: 10px; display: none;">
+                        <div id="progressBar" style="height: 100%; background: green; width: 0%;"></div>
+                    </div>
                 </form>
             </div>
         </div>
@@ -324,7 +327,7 @@
         window.applyFilters = function() {
             const searchTerm = searchInput.value.toLowerCase();
             const filtered = listingsData.filter(item => {
-                const matchesSearch = item.title.toLowerCase().includes(searchTerm) || item.location.toLowerCase().includes(searchTerm);
+                const matchesSearch = item.title.toLowerCase().includes(searchTerm) || item.location.toLowerCase().includes(searchTerm) || item.price.toString().includes(searchTerm);
                 let matchesCategory = (currentFilter === 'all') || (currentFilter === 'budget' && item.price < 500) || (item.tags.includes(currentFilter));
                 return matchesSearch && matchesCategory;
             });
@@ -371,6 +374,8 @@
             document.getElementById('addModal').classList.remove('active');
             document.body.style.overflow = 'auto';
             document.getElementById('addForm').reset();
+            document.getElementById('uploadProgress').style.display = 'none';
+            document.getElementById('progressBar').style.width = '0%';
         }
         window.addToDb = function() {
             const title = document.getElementById('addTitle').value;
@@ -378,20 +383,49 @@
             const location = document.getElementById('addLocation').value;
             const type = document.getElementById('addType').value;
             const tags = document.getElementById('addTags').value.split(',').map(t => t.trim());
-            const image = document.getElementById('addImage').value;
+            const file = document.getElementById('addImage').files[0];
             const verified = document.getElementById('addVerified').checked;
             const amenities = document.getElementById('addAmenities').value.split(',').map(a => a.trim());
             const desc = document.getElementById('addDesc').value;
 
-            if (!title || !price || !location || !type || !tags.length || !image || !amenities.length || !desc) {
+            if (!title || !price || !location || !type || !tags.length || !file || !amenities.length || !desc) {
                 alert('Please fill all fields');
                 return;
             }
 
-            const newListing = { title, price, location, type, tags, image, verified, amenities, desc };
-            push(ref(db, 'listings'), newListing);
-            closeAddModal();
-            alert('Room listed successfully!');
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('upload_preset', 'your_upload_preset'); // Replace with your Cloudinary upload preset
+
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', 'https://api.cloudinary.com/v1_1/your_cloud_name/image/upload'); // Replace 'your_cloud_name' with your Cloudinary cloud name
+
+            document.getElementById('uploadProgress').style.display = 'block';
+            document.getElementById('progressBar').style.width = '0%';
+
+            xhr.upload.onprogress = (event) => {
+                if (event.lengthComputable) {
+                    const percent = (event.loaded / event.total) * 100;
+                    document.getElementById('progressBar').style.width = percent + '%';
+                }
+            };
+
+            xhr.onreadystatechange = () => {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        const data = JSON.parse(xhr.responseText);
+                        const image = data.secure_url;
+                        const newListing = { title, price, location, type, tags, image, verified, amenities, desc };
+                        push(ref(db, 'listings'), newListing);
+                        closeAddModal();
+                        alert('Room listed successfully!');
+                    } else {
+                        alert('Failed to upload image.');
+                    }
+                }
+            };
+
+            xhr.send(formData);
         }
         // Event Listeners for Filter Tags
         document.querySelectorAll('.filter-tag').forEach(btn => {

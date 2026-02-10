@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UniStay | Student Accommodation Finder</title>
-    
+    <title>KasiStay | Accommodation Finder</title>
+   
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
+   
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
     <style>
         /* --- CSS VARIABLES & RESET --- */
         :root {
@@ -27,13 +26,11 @@
             --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             --transition: all 0.3s ease;
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         body { background-color: var(--bg-white); color: var(--text-main); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
         a { text-decoration: none; color: inherit; }
         ul { list-style: none; }
         button { border: none; outline: none; background: none; }
-
         /* --- NAVIGATION --- */
         nav {
             display: flex; justify-content: space-between; align-items: center;
@@ -48,29 +45,26 @@
         .btn { padding: 0.75rem 1.5rem; border-radius: 50px; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: var(--transition); }
         .btn-primary { background: var(--primary-black); color: white; border: 2px solid var(--primary-black); }
         .btn-primary:hover { background: var(--secondary-black); transform: translateY(-2px); }
-        
+       
         @media(max-width: 768px) { .nav-links { display: none; } }
-
         /* --- HERO --- */
         .hero { padding: 4rem 5% 2rem; text-align: center; background: linear-gradient(to bottom, #ffffff, #f9fafb); }
         .hero h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem; color: var(--primary-black); }
         .hero p { color: var(--text-muted); font-size: 1.1rem; margin-bottom: 2.5rem; max-width: 600px; margin: 0 auto 2.5rem; }
-
         /* --- SEARCH --- */
         .search-container {
             background: white; padding: 0.5rem; border-radius: 50px;
             box-shadow: var(--shadow-md); border: 1px solid var(--border-color);
             display: flex; flex-direction: column; gap: 0.5rem; max-width: 800px; margin: 0 auto;
         }
-        @media(min-width: 768px) { 
-            .search-container { flex-direction: row; align-items: center; padding: 0.5rem 0.5rem 0.5rem 2rem; } 
+        @media(min-width: 768px) {
+            .search-container { flex-direction: row; align-items: center; padding: 0.5rem 0.5rem 0.5rem 2rem; }
         }
         .search-input-group { flex: 1; display: flex; align-items: center; gap: 10px; padding: 10px; }
         .search-input-group i { color: var(--text-muted); }
         .search-input-group input { border: none; outline: none; width: 100%; font-size: 1rem; color: var(--primary-black); }
         .search-btn { background: var(--primary-black); color: white; padding: 1rem 2rem; border-radius: 40px; font-weight: 600; cursor: pointer; width: 100%; }
         @media(min-width: 768px) { .search-btn { width: auto; } }
-
         /* --- FILTERS --- */
         .filters { display: flex; gap: 1rem; padding: 2rem 5%; overflow-x: auto; scrollbar-width: none; }
         .filters::-webkit-scrollbar { display: none; }
@@ -79,11 +73,10 @@
             white-space: nowrap; font-size: 0.9rem; cursor: pointer; transition: var(--transition); background: white;
         }
         .filter-tag.active, .filter-tag:hover { background: var(--primary-black); color: white; border-color: var(--primary-black); }
-
         /* --- GRID --- */
         .section-header { padding: 0 5%; margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: flex-end; }
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem; padding: 0 5% 4rem; }
-        
+       
         .card {
             background: white; border-radius: var(--radius-lg); overflow: hidden;
             border: 1px solid var(--border-color); transition: var(--transition); position: relative;
@@ -91,36 +84,35 @@
         .card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); }
         .card-image { height: 220px; width: 100%; position: relative; background: #eee; }
         .card-image img { width: 100%; height: 100%; object-fit: cover; }
-        
+       
         .badge {
             position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.95);
             padding: 4px 12px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
         }
         .badge-verified { background: var(--primary-black); color: white; }
-        
+       
         .like-btn {
             position: absolute; top: 15px; right: 15px; background: white; width: 35px; height: 35px;
             border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer;
             box-shadow: var(--shadow-sm); transition: 0.2s;
         }
         .like-btn.liked { background: #fee2e2; color: #ef4444; }
-        
+       
         .card-content { padding: 1.5rem; }
         .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; }
         .price { font-size: 1.25rem; font-weight: 800; color: var(--primary-black); }
         .price span { font-size: 0.85rem; color: var(--text-muted); font-weight: 400; }
         .card-title { font-weight: 600; font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--primary-black); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
         .card-location { color: var(--text-muted); font-size: 0.9rem; display: flex; align-items: center; gap: 5px; margin-bottom: 1rem; }
-        
+       
         .amenities { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 1.5rem; }
         .amenity { font-size: 0.8rem; color: var(--text-muted); background: var(--bg-off-white); padding: 4px 10px; border-radius: 6px; }
-        
+       
         .card-btn {
             width: 100%; padding: 10px; border: 1px solid var(--primary-black); background: transparent;
             color: var(--primary-black); border-radius: 8px; font-weight: 600; cursor: pointer; transition: var(--transition);
         }
         .card-btn:hover { background: var(--primary-black); color: white; }
-
         /* --- MODAL (POPUP) --- */
         .modal-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -144,7 +136,6 @@
         .landlord-box {
             background: var(--bg-off-white); padding: 1.5rem; border-radius: 12px; display: flex; justify-content: space-between; align-items: center;
         }
-
         /* --- FOOTER --- */
         footer { background: var(--primary-black); color: white; padding: 4rem 5%; text-align: center; margin-top: auto; }
         .footer-links { display: flex; gap: 2rem; justify-content: center; margin-top: 1rem; }
@@ -152,7 +143,6 @@
     </style>
 </head>
 <body>
-
     <nav>
         <div class="logo" onclick="resetFilters()">UniStay.</div>
         <ul class="nav-links">
@@ -161,14 +151,13 @@
             <li><span class="nav-link">How it Works</span></li>
         </ul>
         <div style="display: flex; gap: 10px;">
-            <button class="btn btn-primary" onclick="alert('Login feature coming soon!')">List a Room</button>
+            <button class="btn btn-primary" onclick="openAddModal()">List a Room</button>
         </div>
     </nav>
-
     <section class="hero">
         <h1>Find your perfect<br>student home.</h1>
         <p>Search verified rooms, studios, and shared apartments near your campus.</p>
-        
+       
         <div class="search-container">
             <div class="search-input-group">
                 <i class="fa-solid fa-magnifying-glass"></i>
@@ -181,7 +170,6 @@
             <button class="search-btn" onclick="applyFilters()">Search</button>
         </div>
     </section>
-
     <div class="filters" id="filterContainer">
         <button class="filter-tag active" data-filter="all">All</button>
         <button class="filter-tag" data-filter="campus">Near Campus</button>
@@ -189,14 +177,11 @@
         <button class="filter-tag" data-filter="budget">Under $500</button>
         <button class="filter-tag" data-filter="ensuite">En-suite</button>
     </div>
-
     <div class="section-header">
         <h2 id="listingCount">Loading Listings...</h2>
     </div>
-
     <section class="grid" id="listingsGrid">
         </section>
-
     <div class="modal-overlay" id="detailModal">
         <div class="modal-content">
             <button class="close-modal" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
@@ -223,7 +208,53 @@
             </div>
         </div>
     </div>
-
+    <div class="modal-overlay" id="addModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeAddModal()"><i class="fa-solid fa-xmark"></i></button>
+            <div class="modal-body">
+                <h2 class="modal-title">List Your Room</h2>
+                <form id="addForm">
+                    <div style="margin-bottom: 1rem;">
+                        <label for="addTitle">Title:</label>
+                        <input type="text" id="addTitle" style="width: 100%; padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 4px;" required>
+                    </div>
+                    <div style="margin-bottom: 1rem;">
+                        <label for="addPrice">Price:</label>
+                        <input type="number" id="addPrice" style="width: 100%; padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 4px;" required>
+                    </div>
+                    <div style="margin-bottom: 1rem;">
+                        <label for="addLocation">Location:</label>
+                        <input type="text" id="addLocation" style="width: 100%; padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 4px;" required>
+                    </div>
+                    <div style="margin-bottom: 1rem;">
+                        <label for="addType">Type:</label>
+                        <input type="text" id="addType" style="width: 100%; padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 4px;" required>
+                    </div>
+                    <div style="margin-bottom: 1rem;">
+                        <label for="addTags">Tags (comma separated):</label>
+                        <input type="text" id="addTags" style="width: 100%; padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 4px;" required>
+                    </div>
+                    <div style="margin-bottom: 1rem;">
+                        <label for="addImage">Image URL:</label>
+                        <input type="text" id="addImage" style="width: 100%; padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 4px;" required>
+                    </div>
+                    <div style="margin-bottom: 1rem;">
+                        <label for="addVerified">Verified:</label>
+                        <input type="checkbox" id="addVerified">
+                    </div>
+                    <div style="margin-bottom: 1rem;">
+                        <label for="addAmenities">Amenities (comma separated):</label>
+                        <input type="text" id="addAmenities" style="width: 100%; padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 4px;" required>
+                    </div>
+                    <div style="margin-bottom: 1rem;">
+                        <label for="addDesc">Description:</label>
+                        <textarea id="addDesc" style="width: 100%; padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 4px;" required></textarea>
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="addToDb()" style="width: 100%;">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
     <footer>
         <div class="logo" style="color: white;">UniStay.</div>
         <div class="footer-links">
@@ -234,12 +265,11 @@
         </div>
         <div class="copyright">© 2024 UniStay Inc. All rights reserved.</div>
     </footer>
-
     <script type="module">
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
-
+        import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
         // Your web app's Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyD_MtScfT0J5b8LbMm5oAATmw84plKWl-0",
@@ -250,26 +280,14 @@
             appId: "1:19156366595:web:c64b9bd6dfde5790e02536",
             measurementId: "G-7C96E7HBGL"
         };
-
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const analytics = getAnalytics(app);
+        const db = getDatabase(app);
         console.log("Firebase initialized successfully!");
-
-        // --- MOCK DATABASE (Sync with Firestore later) ---
-        const listingsData = [
-            { id: 1, title: "Sunny Loft near Science Campus", price: 450, location: "West End, 0.5 miles to Uni", type: "Studio", tags: ["campus", "studio"], image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", verified: true, amenities: ["WiFi", "Furnished", "Bills Inc"], desc: "A beautiful, sun-drenched loft perfect for a focused student." },
-            { id: 2, title: "Modern Studio - City Center", price: 620, location: "Downtown, 15 min bus", type: "Studio", tags: ["studio", "ensuite"], image: "https://images.unsplash.com/photo-1598928506311-c55ded91a20c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", verified: false, amenities: ["Private Bath", "Gym Access", "Security"], desc: "High-end living in the city center." },
-            { id: 3, title: "Cozy Room in Shared House", price: 380, location: "Library Dist, Walking distance", type: "Shared", tags: ["budget", "campus"], image: "https://images.unsplash.com/photo-1555854877-bab0e564b8d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", verified: true, amenities: ["Shared Kitchen", "Garden", "Washer"], desc: "Join 3 other friendly students in this Victorian house." },
-            { id: 4, title: "En-suite Room in Dorms", price: 550, location: "North Campus", type: "Dorm", tags: ["ensuite", "campus"], image: "https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", verified: true, amenities: ["En-suite", "Meal Plan", "Study Room"], desc: "Official university accommodation." },
-            { id: 5, title: "Budget Single Room", price: 290, location: "East Side, 20 min bus", type: "Shared", tags: ["budget"], image: "https://images.unsplash.com/photo-1505691938895-1758d7feb511?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", verified: false, amenities: ["WiFi", "Cheap Rent", "Bike Storage"], desc: "The most affordable option in town." },
-            { id: 6, title: "Luxury Penthouse Share", price: 800, location: "River View", type: "Apartment", tags: ["studio"], image: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", verified: true, amenities: ["Balcony", "AC", "Concierge"], desc: "Live in style. You get the master bedroom." }
-        ];
-
         // --- RENDER FUNCTIONS ---
         const grid = document.getElementById('listingsGrid');
         const countLabel = document.getElementById('listingCount');
-
         window.renderListings = function(data) {
             grid.innerHTML = "";
             countLabel.innerText = `${data.length} Listings Found`;
@@ -293,17 +311,16 @@
                         <h3 class="card-title">${item.title}</h3>
                         <div class="card-location"><i class="fa-solid fa-location-dot"></i> ${item.location}</div>
                         <div class="amenities">${amenitiesHtml}</div>
-                        <button class="card-btn" onclick="openModal(${item.id})">View Details</button>
+                        <button class="card-btn" onclick="openModal('${item.id}')">View Details</button>
                     </div>
                 `;
                 grid.appendChild(card);
             });
         }
-
         // --- FILTER & INTERACTIVITY ---
         let currentFilter = 'all';
         const searchInput = document.getElementById('searchInput');
-
+        let listingsData = [];
         window.applyFilters = function() {
             const searchTerm = searchInput.value.toLowerCase();
             const filtered = listingsData.filter(item => {
@@ -313,7 +330,6 @@
             });
             renderListings(filtered);
         }
-
         window.resetFilters = function() {
             searchInput.value = '';
             document.querySelectorAll('.filter-tag').forEach(b => b.classList.remove('active'));
@@ -321,13 +337,11 @@
             currentFilter = 'all';
             renderListings(listingsData);
         }
-
         window.toggleLike = function(btn) {
             btn.classList.toggle('liked');
             const icon = btn.querySelector('i');
             icon.className = btn.classList.contains('liked') ? 'fa-solid fa-heart' : 'fa-regular fa-heart';
         }
-
         // --- MODAL ---
         window.openModal = function(id) {
             const item = listingsData.find(x => x.id === id);
@@ -344,12 +358,41 @@
             document.getElementById('detailModal').classList.add('active');
             document.body.style.overflow = 'hidden';
         }
-
         window.closeModal = function() {
             document.getElementById('detailModal').classList.remove('active');
             document.body.style.overflow = 'auto';
         }
+        // --- ADD MODAL ---
+        window.openAddModal = function() {
+            document.getElementById('addModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        window.closeAddModal = function() {
+            document.getElementById('addModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+            document.getElementById('addForm').reset();
+        }
+        window.addToDb = function() {
+            const title = document.getElementById('addTitle').value;
+            const price = parseInt(document.getElementById('addPrice').value);
+            const location = document.getElementById('addLocation').value;
+            const type = document.getElementById('addType').value;
+            const tags = document.getElementById('addTags').value.split(',').map(t => t.trim());
+            const image = document.getElementById('addImage').value;
+            const verified = document.getElementById('addVerified').checked;
+            const amenities = document.getElementById('addAmenities').value.split(',').map(a => a.trim());
+            const desc = document.getElementById('addDesc').value;
 
+            if (!title || !price || !location || !type || !tags.length || !image || !amenities.length || !desc) {
+                alert('Please fill all fields');
+                return;
+            }
+
+            const newListing = { title, price, location, type, tags, image, verified, amenities, desc };
+            push(ref(db, 'listings'), newListing);
+            closeAddModal();
+            alert('Room listed successfully!');
+        }
         // Event Listeners for Filter Tags
         document.querySelectorAll('.filter-tag').forEach(btn => {
             btn.addEventListener('click', () => {
@@ -359,11 +402,15 @@
                 applyFilters();
             });
         });
-
         searchInput.addEventListener('input', applyFilters);
-
-        // Initial Load
-        renderListings(listingsData);
+        // Initial Load from Firebase
+        onValue(ref(db, 'listings'), (snapshot) => {
+            listingsData = [];
+            snapshot.forEach((child) => {
+                listingsData.push({ id: child.key, ...child.val() });
+            });
+            renderListings(listingsData);
+        });
     </script>
 </body>
 </html>

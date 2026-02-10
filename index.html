@@ -11,7 +11,6 @@
  
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* --- CSS VARIABLES & RESET --- */
         :root {
             --primary-black: #111111;
             --secondary-black: #222222;
@@ -22,16 +21,13 @@
             --accent-green: #10b981;
             --border-color: #e5e7eb;
             --radius-lg: 16px;
-            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-sm: 0 1px 2px 0 rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
             --transition: all 0.3s ease;
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { background-color: var(--bg-white); color: var(--text-main); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
-        a { text-decoration: none; color: inherit; }
-        ul { list-style: none; }
-        button { border: none; outline: none; background: none; }
-        /* --- NAVIGATION --- */
+        * { margin:0; padding:0; box-sizing:border-box; font-family:'Inter',sans-serif; }
+        body { background:var(--bg-white); color:var(--text-main); line-height:1.6; min-height:100vh; display:flex; flex-direction:column; }
+
         nav {
             display: flex; justify-content: space-between; align-items: center;
             padding: 1.5rem 5%; position: sticky; top: 0;
@@ -47,11 +43,11 @@
         .btn-primary:hover { background: var(--secondary-black); transform: translateY(-2px); }
      
         @media(max-width: 768px) { .nav-links { display: none; } }
-        /* --- HERO --- */
+
         .hero { padding: 4rem 5% 2rem; text-align: center; background: linear-gradient(to bottom, #ffffff, #f9fafb); }
         .hero h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem; color: var(--primary-black); }
         .hero p { color: var(--text-muted); font-size: 1.1rem; margin-bottom: 2.5rem; max-width: 600px; margin: 0 auto 2.5rem; }
-        /* --- SEARCH --- */
+
         .search-container {
             background: white; padding: 0.5rem; border-radius: 50px;
             box-shadow: var(--shadow-md); border: 1px solid var(--border-color);
@@ -65,15 +61,84 @@
         .search-input-group input { border: none; outline: none; width: 100%; font-size: 1rem; color: var(--primary-black); }
         .search-btn { background: var(--primary-black); color: white; padding: 1rem 2rem; border-radius: 40px; font-weight: 600; cursor: pointer; width: 100%; }
         @media(min-width: 768px) { .search-btn { width: auto; } }
-        /* --- FILTERS --- */
-        .filters { display: flex; gap: 1rem; padding: 2rem 5%; overflow-x: auto; scrollbar-width: none; }
-        .filters::-webkit-scrollbar { display: none; }
+
+        .filters { 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 2rem 5%;
+        }
+        .filter-tags-row {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
         .filter-tag {
             padding: 0.5rem 1.2rem; border: 1px solid var(--border-color); border-radius: 50px;
             white-space: nowrap; font-size: 0.9rem; cursor: pointer; transition: var(--transition); background: white;
         }
         .filter-tag.active, .filter-tag:hover { background: var(--primary-black); color: white; border-color: var(--primary-black); }
-        /* --- GRID --- */
+
+        .price-range-container {
+            width: 100%;
+            max-width: 500px;
+            padding: 0 1rem;
+        }
+        .price-range-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+        .price-range-values {
+            font-weight: 600;
+            color: var(--primary-black);
+        }
+        .range-container {
+            position: relative;
+            height: 40px;
+        }
+        input[type="range"] {
+            position: absolute;
+            width: 100%;
+            top: 12px;
+            -webkit-appearance: none;
+            height: 6px;
+            background: var(--border-color);
+            border-radius: 3px;
+            outline: none;
+            pointer-events: none;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: var(--primary-black);
+            border-radius: 50%;
+            cursor: pointer;
+            pointer-events: auto;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+        input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: var(--primary-black);
+            border-radius: 50%;
+            cursor: pointer;
+            pointer-events: auto;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+        .range-track {
+            position: absolute;
+            height: 6px;
+            background: var(--accent-green);
+            border-radius: 3px;
+            pointer-events: none;
+        }
+
         .section-header { padding: 0 5%; margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: flex-end; }
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem; padding: 0 5% 4rem; }
      
@@ -113,7 +178,7 @@
             color: var(--primary-black); border-radius: 8px; font-weight: 600; cursor: pointer; transition: var(--transition);
         }
         .card-btn:hover { background: var(--primary-black); color: white; }
-        /* --- MODAL (POPUP) --- */
+
         .modal-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.6); z-index: 2000; align-items: center; justify-content: center;
@@ -136,13 +201,14 @@
         .landlord-box {
             background: var(--bg-off-white); padding: 1.5rem; border-radius: 12px; display: flex; justify-content: space-between; align-items: center;
         }
-        /* --- FOOTER --- */
+
         footer { background: var(--primary-black); color: white; padding: 4rem 5%; text-align: center; margin-top: auto; }
         .footer-links { display: flex; gap: 2rem; justify-content: center; margin-top: 1rem; }
         .copyright { margin-top: 2rem; color: #6b7280; font-size: 0.9rem; }
     </style>
 </head>
 <body>
+
     <nav>
         <div class="logo" onclick="resetFilters()">UniStay.</div>
         <ul class="nav-links">
@@ -154,6 +220,7 @@
             <button class="btn btn-primary" onclick="openAddModal()">List a Room</button>
         </div>
     </nav>
+
     <section class="hero">
         <h1>Find your perfect<br>Accommodation.</h1>
         <p>Search verified rooms, in your area.</p>
@@ -170,18 +237,36 @@
             <button class="search-btn" onclick="applyFilters()">Search</button>
         </div>
     </section>
+
     <div class="filters" id="filterContainer">
-        <button class="filter-tag active" data-filter="all">All</button>
-        <button class="filter-tag" data-filter="campus">Single Rooms</button>
-        <button class="filter-tag" data-filter="studio">Bachelor Rooms</button>
-        <button class="filter-tag" data-filter="budget">2 Room</button>
-        <button class="filter-tag" data-filter="ensuite">Flat Apartments</button>
+        <div class="filter-tags-row">
+            <button class="filter-tag active" data-filter="all">All</button>
+            <button class="filter-tag" data-filter="Single room">Single Rooms</button>
+            <button class="filter-tag" data-filter="Bachelor Room">Bachelor Rooms</button>
+            <button class="filter-tag" data-filter="2 Room">2 Room</button>
+            <button class="filter-tag" data-filter="Flat Apartments">Flat Apartments</button>
+        </div>
+
+        <div class="price-range-container">
+            <div class="price-range-header">
+                <span>Price range</span>
+                <span class="price-range-values">R<span id="minPriceDisplay">0</span> – R<span id="maxPriceDisplay">20000</span></span>
+            </div>
+            <div class="range-container">
+                <input type="range" id="priceMin" min="0" max="30000" value="0" step="250">
+                <input type="range" id="priceMax" min="0" max="30000" value="20000" step="250">
+                <div class="range-track" id="rangeTrack"></div>
+            </div>
+        </div>
     </div>
+
     <div class="section-header">
         <h2 id="listingCount">Loading Listings...</h2>
     </div>
-    <section class="grid" id="listingsGrid">
-        </section>
+
+    <section class="grid" id="listingsGrid"></section>
+
+    <!-- Detail Modal -->
     <div class="modal-overlay" id="detailModal">
         <div class="modal-content">
             <button class="close-modal" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
@@ -208,6 +293,8 @@
             </div>
         </div>
     </div>
+
+    <!-- Add Listing Modal -->
     <div class="modal-overlay" id="addModal">
         <div class="modal-content">
             <button class="close-modal" onclick="closeAddModal()"><i class="fa-solid fa-xmark"></i></button>
@@ -227,8 +314,14 @@
                         <input type="text" id="addLocation" style="width: 100%; padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 4px;" required>
                     </div>
                     <div style="margin-bottom: 1rem;">
-                        <label for="addType">Type:</label>
-                        <input type="text" id="addType" style="width: 100%; padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 4px;" required>
+                        <label for="addType">Room Type:</label>
+                        <select id="addType" required>
+                            <option value="" disabled selected>Select room type</option>
+                            <option value="Single room">Single room</option>
+                            <option value="Bachelor Room">Bachelor Room</option>
+                            <option value="2 Room">2 Room</option>
+                            <option value="Flat Apartments">Flat Apartments</option>
+                        </select>
                     </div>
                     <div style="margin-bottom: 1rem;">
                         <label for="addTags">Tags (comma separated):</label>
@@ -258,6 +351,7 @@
             </div>
         </div>
     </div>
+
     <footer>
         <div class="logo" style="color: white;">UniStay.</div>
         <div class="footer-links">
@@ -268,12 +362,12 @@
         </div>
         <div class="copyright">© 2024 UniStay Inc. All rights reserved.</div>
     </footer>
+
     <script type="module">
-        // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
         import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
-        // Your web app's Firebase configuration
+
         const firebaseConfig = {
             apiKey: "AIzaSyD_MtScfT0J5b8LbMm5oAATmw84plKWl-0",
             authDomain: "kasistay-3b79c.firebaseapp.com",
@@ -283,25 +377,71 @@
             appId: "1:19156366595:web:c64b9bd6dfde5790e02536",
             measurementId: "G-7C96E7HBGL"
         };
-        // Initialize Firebase
+
         const app = initializeApp(firebaseConfig);
         const analytics = getAnalytics(app);
         const db = getDatabase(app);
-        console.log("Firebase initialized successfully!");
-        // --- RENDER FUNCTIONS ---
+
         const grid = document.getElementById('listingsGrid');
         const countLabel = document.getElementById('listingCount');
+        const searchInput = document.getElementById('searchInput');
+
+        let listingsData = [];
+        let currentFilter = 'all';
+        let minPrice = 0;
+        let maxPrice = 20000;
+
+        const priceMinInput = document.getElementById('priceMin');
+        const priceMaxInput = document.getElementById('priceMax');
+        const minPriceDisplay = document.getElementById('minPriceDisplay');
+        const maxPriceDisplay = document.getElementById('maxPriceDisplay');
+        const rangeTrack = document.getElementById('rangeTrack');
+
+        function updateRangeTrack() {
+            const minVal = parseInt(priceMinInput.value);
+            const maxVal = parseInt(priceMaxInput.value);
+            const minPercent = (minVal / priceMinInput.max) * 100;
+            const maxPercent = (maxVal / priceMaxInput.max) * 100;
+
+            rangeTrack.style.left = minPercent + '%';
+            rangeTrack.style.width = (maxPercent - minPercent) + '%';
+
+            minPriceDisplay.textContent = minVal.toLocaleString();
+            maxPriceDisplay.textContent = maxVal.toLocaleString();
+
+            minPrice = minVal;
+            maxPrice = maxVal;
+        }
+
+        priceMinInput.addEventListener('input', () => {
+            if (parseInt(priceMinInput.value) > parseInt(priceMaxInput.value)) {
+                priceMinInput.value = priceMaxInput.value;
+            }
+            updateRangeTrack();
+            applyFilters();
+        });
+
+        priceMaxInput.addEventListener('input', () => {
+            if (parseInt(priceMaxInput.value) < parseInt(priceMinInput.value)) {
+                priceMaxInput.value = priceMinInput.value;
+            }
+            updateRangeTrack();
+            applyFilters();
+        });
+
+        updateRangeTrack();
+
         window.renderListings = function(data) {
             grid.innerHTML = "";
             countLabel.innerText = `${data.length} Listings Found`;
-            if(data.length === 0) {
+            if (data.length === 0) {
                 grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: #6b7280; padding: 2rem;">No results found.</div>`;
                 return;
             }
             data.forEach(item => {
                 const card = document.createElement('div');
                 card.className = 'card';
-                const amenitiesHtml = item.amenities.map(a => `<span class="amenity">${a}</span>`).slice(0,3).join('');
+                const amenitiesHtml = item.amenities?.map(a => `<span class="amenity">${a}</span>`).slice(0,3).join('') || '';
                 const verifiedHtml = item.verified ? `<span class="badge badge-verified"><i class="fa-solid fa-check"></i> Verified</span>` : '';
                 card.innerHTML = `
                     <div class="card-image">
@@ -310,7 +450,7 @@
                         <img src="${item.image}" alt="${item.title}">
                     </div>
                     <div class="card-content">
-                        <div class="card-header"><div class="price">R${item.price}<span>/mo</span></div></div>
+                        <div class="card-header"><div class="price">R${item.price.toLocaleString()}<span>/mo</span></div></div>
                         <h3 class="card-title">${item.title}</h3>
                         <div class="card-location"><i class="fa-solid fa-location-dot"></i> ${item.location}</div>
                         <div class="amenities">${amenitiesHtml}</div>
@@ -319,112 +459,137 @@
                 `;
                 grid.appendChild(card);
             });
-        }
-        // --- FILTER & INTERACTIVITY ---
-        let currentFilter = 'all';
-        const searchInput = document.getElementById('searchInput');
-        let listingsData = [];
+        };
+
         window.applyFilters = function() {
-            const searchTerm = searchInput.value.toLowerCase();
+            const searchTerm = searchInput.value.toLowerCase().trim();
+
             const filtered = listingsData.filter(item => {
-                const matchesSearch = item.title.toLowerCase().includes(searchTerm) || item.location.toLowerCase().includes(searchTerm) || item.price.toString().includes(searchTerm);
-                let matchesCategory = (currentFilter === 'all') || 
-                                     (currentFilter === 'campus' && item.tags.includes('Single Rooms')) ||
-                                     (currentFilter === 'studio' && item.tags.includes('Bachelor Rooms')) ||
-                                     (currentFilter === 'budget' && item.tags.includes('2 Room')) ||
-                                     (currentFilter === 'ensuite' && item.tags.includes('Flat Apartments'));
-                return matchesSearch && matchesCategory;
+                const matchesSearch = 
+                    item.title?.toLowerCase().includes(searchTerm) ||
+                    item.location?.toLowerCase().includes(searchTerm) ||
+                    String(item.price || '').includes(searchTerm);
+
+                const matchesType = (currentFilter === 'all') || (item.type === currentFilter);
+                const matchesPrice = (item.price >= minPrice) && (item.price <= maxPrice);
+
+                return matchesSearch && matchesType && matchesPrice;
             });
+
             renderListings(filtered);
-        }
+        };
+
         window.resetFilters = function() {
             searchInput.value = '';
+            priceMinInput.value = 0;
+            priceMaxInput.value = 20000;
+            updateRangeTrack();
+
             document.querySelectorAll('.filter-tag').forEach(b => b.classList.remove('active'));
             document.querySelector('[data-filter="all"]').classList.add('active');
             currentFilter = 'all';
             renderListings(listingsData);
-        }
+        };
+
         window.toggleLike = function(btn) {
             btn.classList.toggle('liked');
-            const icon = btn.querySelector('i');
-            icon.className = btn.classList.contains('liked') ? 'fa-solid fa-heart' : 'fa-regular fa-heart';
-        }
-        // --- MODAL ---
+            btn.querySelector('i').className = btn.classList.contains('liked') 
+                ? 'fa-solid fa-heart' 
+                : 'fa-regular fa-heart';
+        };
+
         window.openModal = function(id) {
             const item = listingsData.find(x => x.id === id);
-            if(!item) return;
-            document.getElementById('modalImg').src = item.image;
-            document.getElementById('modalTitle').innerText = item.title;
-            document.getElementById('modalPrice').innerHTML = `R${item.price}<span>/mo</span>`;
-            document.getElementById('modalLocation').innerHTML = `<i class="fa-solid fa-location-dot"></i> ${item.location}`;
-            document.getElementById('modalType').innerHTML = `<i class="fa-solid fa-home"></i> ${item.type}`;
-            document.getElementById('modalDesc').innerText = item.desc;
-            const badge = document.getElementById('modalBadge');
-            badge.style.display = item.verified ? 'inline-block' : 'none';
-            document.getElementById('modalAmenities').innerHTML = item.amenities.map(a => `<span class="amenity">${a}</span>`).join('');
+            if (!item) return;
+
+            document.getElementById('modalImg').src = item.image || '';
+            document.getElementById('modalTitle').textContent = item.title || 'Untitled';
+            document.getElementById('modalPrice').innerHTML = `R${(item.price || 0).toLocaleString()}<span>/mo</span>`;
+            document.getElementById('modalLocation').innerHTML = `<i class="fa-solid fa-location-dot"></i> ${item.location || 'N/A'}`;
+            document.getElementById('modalType').innerHTML = `<i class="fa-solid fa-home"></i> ${item.type || 'N/A'}`;
+            document.getElementById('modalDesc').textContent = item.desc || 'No description available.';
+            document.getElementById('modalBadge').style.display = item.verified ? 'inline-block' : 'none';
+            document.getElementById('modalAmenities').innerHTML = (item.amenities || []).map(a => `<span class="amenity">${a}</span>`).join('');
+
             document.getElementById('detailModal').classList.add('active');
             document.body.style.overflow = 'hidden';
-        }
+        };
+
         window.closeModal = function() {
             document.getElementById('detailModal').classList.remove('active');
             document.body.style.overflow = 'auto';
-        }
-        // --- ADD MODAL ---
+        };
+
         window.openAddModal = function() {
             document.getElementById('addModal').classList.add('active');
             document.body.style.overflow = 'hidden';
-        }
+        };
+
         window.closeAddModal = function() {
             document.getElementById('addModal').classList.remove('active');
             document.body.style.overflow = 'auto';
             document.getElementById('addForm').reset();
             document.getElementById('uploadProgress').style.display = 'none';
             document.getElementById('progressBar').style.width = '0%';
-        }
+        };
+
         window.addToDb = function() {
-            const title = document.getElementById('addTitle').value;
+            const title = document.getElementById('addTitle').value.trim();
             const price = parseFloat(document.getElementById('addPrice').value);
-            const location = document.getElementById('addLocation').value;
+            const location = document.getElementById('addLocation').value.trim();
             const type = document.getElementById('addType').value;
-            const tags = document.getElementById('addTags').value.split(',').map(t => t.trim());
+            const tags = document.getElementById('addTags').value.split(',').map(t => t.trim()).filter(Boolean);
             const file = document.getElementById('addImage').files[0];
             const verified = document.getElementById('addVerified').checked;
-            const amenities = document.getElementById('addAmenities').value.split(',').map(a => a.trim());
-            const desc = document.getElementById('addDesc').value;
-            if (!title || isNaN(price) || !location || !type || !tags.length || !file || !amenities.length || !desc) {
-                alert('Please fill all fields correctly');
+            const amenities = document.getElementById('addAmenities').value.split(',').map(a => a.trim()).filter(Boolean);
+            const desc = document.getElementById('addDesc').value.trim();
+
+            if (!title || isNaN(price) || !location || !type || !file || !amenities.length || !desc) {
+                alert('Please fill all required fields correctly');
                 return;
             }
+
             const formData = new FormData();
             formData.append('file', file);
             formData.append('upload_preset', 'admin_tlaka');
+
             const xhr = new XMLHttpRequest();
             xhr.open('POST', 'https://api.cloudinary.com/v1_1/dv5bsbydu/image/upload');
+
             document.getElementById('uploadProgress').style.display = 'block';
             document.getElementById('progressBar').style.width = '0%';
-            xhr.upload.onprogress = (event) => {
-                if (event.lengthComputable) {
-                    const percent = (event.loaded / event.total) * 100;
+
+            xhr.upload.onprogress = (e) => {
+                if (e.lengthComputable) {
+                    const percent = (e.loaded / e.total) * 100;
                     document.getElementById('progressBar').style.width = percent + '%';
                 }
             };
+
             xhr.onreadystatechange = () => {
                 if (xhr.readyState === 4) {
                     if (xhr.status === 200) {
                         const data = JSON.parse(xhr.responseText);
-                        const image = data.secure_url;
-                        const newListing = { title, price, location, type, tags, image, verified, amenities, desc };
+                        const imageUrl = data.secure_url;
+
+                        const newListing = {
+                            title, price, location, type, tags, image: imageUrl,
+                            verified, amenities, desc,
+                            createdAt: new Date().toISOString()
+                        };
+
                         push(ref(db, 'listings'), newListing);
                         closeAddModal();
                         alert('Room listed successfully!');
                     } else {
-                        alert('Failed to upload image.');
+                        alert('Image upload failed. Please try again.');
                     }
                 }
             };
+
             xhr.send(formData);
-        }
-        // Event Listeners for Filter Tags
+        };
+
         document.querySelectorAll('.filter-tag').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.querySelectorAll('.filter-tag').forEach(b => b.classList.remove('active'));
@@ -433,11 +598,12 @@
                 applyFilters();
             });
         });
+
         searchInput.addEventListener('input', applyFilters);
-        // Initial Load from Firebase
+
         onValue(ref(db, 'listings'), (snapshot) => {
             listingsData = [];
-            snapshot.forEach((child) => {
+            snapshot.forEach(child => {
                 listingsData.push({ id: child.key, ...child.val() });
             });
             renderListings(listingsData);

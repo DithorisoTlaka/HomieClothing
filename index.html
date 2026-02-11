@@ -190,56 +190,36 @@
             .nav-btn-container {
                 display: none;
             }
-            .hamburger {
-                display: flex;
-                flex-direction: column;
-                justify-content: space-around;
-                width: 30px;
-                height: 25px;
-                cursor: pointer;
+            nav {
+                justify-content: center;
+                background: rgba(255, 255, 255, 0.6); 
+                backdrop-filter: blur(20px);
             }
-            .hamburger span {
-                width: 100%;
-                height: 3px;
-                background: var(--primary-black);
-                transition: all 0.3s;
-            }
-            .hamburger.active span:nth-child(1) {
-                transform: rotate(45deg) translate(5px, 5px);
-            }
-            .hamburger.active span:nth-child(2) {
-                opacity: 0;
-            }
-            .hamburger.active span:nth-child(3) {
-                transform: rotate(-45deg) translate(7px, -6px);
-            }
-            .mobile-menu {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                width: 100%;
-                background: var(--bg-white);
-                border-bottom: 1px solid var(--border-color);
-                padding: 1rem 5%;
+            .hero {
+                background: rgba(255, 255, 255, 0.6); 
+                backdrop-filter: blur(20px);
+                position: sticky;
+                top: 60px; /* Assuming nav height is about 60px */
                 z-index: 999;
+                padding: 2rem 5% 1rem;
             }
-            .mobile-menu.active {
-                display: block;
+            .search-container {
+                padding: 0.4rem;
+                border-radius: 50px;
+                gap: 0.3rem;
             }
-            .mobile-menu ul {
-                list-style: none;
-                display: flex;
-                flex-direction: column;
-                gap: 1rem;
+            .search-input-group {
+                padding: 8px 16px;
+                border: 1px solid var(--border-color);
+                border-radius: 50px;
+                background: var(--bg-white);
             }
-            .mobile-menu .nav-link {
-                display: block;
-                padding: 0.5rem 0;
+            .search-input-group:last-of-type {
+                border: 1px solid var(--border-color);
             }
-            .mobile-menu .btn-primary {
-                width: 100%;
-                margin-top: 1rem;
+            .search-btn {
+                padding: 1rem;
+                border-radius: 50px;
             }
             footer {
                 display: none;
@@ -279,9 +259,6 @@
             body {
                 padding-bottom: 60px; /* Space for bottom nav */
             }
-            .hero {
-                padding: 4rem 5% 2rem;
-            }
             .hero h1 {
                 font-size: 2.5rem;
             }
@@ -315,12 +292,6 @@
         }
 
         @media (min-width: 768px) {
-            .hamburger {
-                display: none;
-            }
-            .mobile-menu {
-                display: none;
-            }
             .bottom-nav {
                 display: none;
             }
@@ -340,20 +311,7 @@
         <div class="nav-btn-container">
             <button class="btn btn-primary" onclick="openAddModal()"><i class="fa-solid fa-plus"></i> List a Room</button>
         </div>
-        <div class="hamburger" onclick="toggleMobileMenu()">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
     </nav>
-    <div class="mobile-menu" id="mobileMenu">
-        <ul>
-            <li><span class="nav-link">Search</span></li>
-            <li><span class="nav-link">Universities</span></li>
-            <li><span class="nav-link">How it Works</span></li>
-        </ul>
-        <button class="btn btn-primary" onclick="openAddModal()"><i class="fa-solid fa-plus"></i> List a Room</button>
-    </div>
 
     <section class="hero">
         <h1>Your Freedom,<br>starts with a home.</h1>
@@ -364,7 +322,7 @@
                 <i class="fa-solid fa-location-dot"></i>
                 <input type="text" id="searchInput" placeholder="University, City, or Keyword...">
             </div>
-            <div class="search-input-group" style="border-right: none;">
+            <div class="search-input-group">
                 <i class="fa-regular fa-calendar"></i>
                 <input type="text" placeholder="Move-in Date" onfocus="(this.type='date')">
             </div>
@@ -502,14 +460,6 @@
             <i class="fa-solid fa-plus"></i>
             <span>List</span>
         </div>
-        <div class="bottom-nav-item">
-            <i class="fa-solid fa-university"></i>
-            <span>Universities</span>
-        </div>
-        <div class="bottom-nav-item">
-            <i class="fa-solid fa-question-circle"></i>
-            <span>How it Works</span>
-        </div>
     </div>
 
     <script type="module">
@@ -589,6 +539,7 @@
                 const card = document.createElement('div');
                 card.className = 'card';
                 card.style.animationDelay = `${index * 0.05}s`; // Staggered entrance
+                card.dataset.id = item.id;
                 
                 const amenitiesHtml = item.amenities?.map(a => `<span class="amenity">${a}</span>`).slice(0,3).join('') || '';
                 const verifiedHtml = item.verified ? `<span class="badge badge-verified"><i class="fa-solid fa-check-double"></i> Verified</span>` : `<span class="badge">New Listing</span>`;
@@ -608,6 +559,44 @@
                     </div>
                 `;
                 grid.appendChild(card);
+
+                // Add swipe gestures
+                card.addEventListener('touchstart', (evt) => {
+                    card.startX = evt.touches[0].clientX;
+                    card.startY = evt.touches[0].clientY;
+                    card.style.transition = '';
+                });
+
+                card.addEventListener('touchmove', (evt) => {
+                    if (!card.startX || !card.startY) return;
+                    const deltaX = evt.touches[0].clientX - card.startX;
+                    const deltaY = evt.touches[0].clientY - card.startY;
+                    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 10) {
+                        evt.preventDefault();
+                    }
+                    card.style.transform = `translateX(${deltaX}px)`;
+                });
+
+                card.addEventListener('touchend', () => {
+                    if (!card.startX || !card.startY) return;
+                    const deltaX = parseFloat(card.style.transform.replace('translateX(', '').replace('px)', '') || 0);
+                    const threshold = 100;
+                    card.style.transition = 'transform 0.3s';
+                    if (deltaX > threshold) {
+                        // Swiped right - like
+                        const likeBtn = card.querySelector('.like-btn');
+                        toggleLike(likeBtn);
+                    } else if (deltaX < -threshold) {
+                        // Swiped left - view
+                        openModal(card.dataset.id);
+                    }
+                    card.style.transform = '';
+                    setTimeout(() => {
+                        card.style.transition = '';
+                    }, 300);
+                    delete card.startX;
+                    delete card.startY;
+                });
             });
         };
 
@@ -713,14 +702,6 @@
         });
 
         updateRangeTrack();
-
-        // Hamburger Menu Toggle
-        window.toggleMobileMenu = function() {
-            const hamburger = document.querySelector('.hamburger');
-            const mobileMenu = document.getElementById('mobileMenu');
-            hamburger.classList.toggle('active');
-            mobileMenu.classList.toggle('active');
-        };
     </script>
 </body>
 </html>

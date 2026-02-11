@@ -184,6 +184,7 @@
 
         /* --- MOBILE SPECIFIC STYLES --- */
         .mobile-search-view { display: none; } /* Hidden by default */
+        .mobile-filter-row { display: none; }
 
         @media (max-width: 767px) {
             /* 1. Header Changes */
@@ -362,6 +363,20 @@
             #mobileSearchView .filters {
                 display: block;
             }
+
+            /* Mobile Home Page Filters */
+            .mobile-filter-row {
+                display: block;
+                overflow-x: auto;
+                padding: 0 5%;
+                margin: 1rem 0;
+            }
+
+            .mobile-filter-row .filter-tags-row {
+                flex-wrap: nowrap;
+                justify-content: flex-start;
+                white-space: nowrap;
+            }
         }
 
         @media (min-width: 768px) {
@@ -406,6 +421,15 @@
         <div id="homeView">
             <div class="section-header">
                 <h2 id="listingCount">Finding the best spots...</h2>
+            </div>
+            <div class="mobile-filter-row">
+                <div class="filter-tags-row">
+                    <button class="filter-tag active" data-filter="all">All Properties</button>
+                    <button class="filter-tag" data-filter="Single room">Single Rooms</button>
+                    <button class="filter-tag" data-filter="Bachelor Room">Bachelor Rooms</button>
+                    <button class="filter-tag" data-filter="2 Room">2 Room</button>
+                    <button class="filter-tag" data-filter="Flat Apartments">Apartments</button>
+                </div>
             </div>
             <section class="grid" id="listingsGrid"></section>
         </div>
@@ -743,7 +767,7 @@
             priceMaxInput.value = 20000;
             updateRangeTrack();
             document.querySelectorAll('.filter-tag').forEach(b => b.classList.remove('active'));
-            document.querySelector('[data-filter="all"]').classList.add('active');
+            document.querySelectorAll('[data-filter="all"]').forEach(b => b.classList.add('active'));
             currentFilter = 'all';
             renderListings(listingsData);
             

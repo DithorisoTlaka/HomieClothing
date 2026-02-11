@@ -377,6 +377,15 @@
                 justify-content: flex-start;
                 white-space: nowrap;
             }
+
+            .section-header h2 {
+                display: none;
+            }
+
+            .home-price-range {
+                padding: 0 5%;
+                margin-bottom: 1rem;
+            }
         }
 
         @media (min-width: 768px) {
@@ -429,6 +438,18 @@
                     <button class="filter-tag" data-filter="Bachelor Room">Bachelor Rooms</button>
                     <button class="filter-tag" data-filter="2 Room">2 Room</button>
                     <button class="filter-tag" data-filter="Flat Apartments">Apartments</button>
+                </div>
+            </div>
+            <div class="home-price-range price-range-container">
+                <div class="price-range-header">
+                    <span>Budget per Month</span>
+                    <span style="color: var(--accent-green)">R<span id="homeMinPriceDisplay">0</span> – R<span id="homeMaxPriceDisplay">20000</span></span>
+                </div>
+                <div class="range-container">
+                    <div class="range-bg"></div>
+                    <div class="range-track" id="homeRangeTrack"></div>
+                    <input type="range" id="homePriceMin" min="0" max="30000" value="0" step="250">
+                    <input type="range" id="homePriceMax" min="0" max="30000" value="20000" step="250">
                 </div>
             </div>
             <section class="grid" id="listingsGrid"></section>
@@ -609,6 +630,12 @@
         const maxPriceDisplay = document.getElementById('maxPriceDisplay');
         const rangeTrack = document.getElementById('rangeTrack');
 
+        const homePriceMinInput = document.getElementById('homePriceMin');
+        const homePriceMaxInput = document.getElementById('homePriceMax');
+        const homeMinPriceDisplay = document.getElementById('homeMinPriceDisplay');
+        const homeMaxPriceDisplay = document.getElementById('homeMaxPriceDisplay');
+        const homeRangeTrack = document.getElementById('homeRangeTrack');
+
         /* --- NAVIGATION & SWIPE LOGIC --- */
         let currentTab = 0;
         const totalTabs = 3;
@@ -678,47 +705,61 @@
         }
         /* --- END NAVIGATION LOGIC --- */
 
-        function updateRangeTrack() {
-            const minVal = parseInt(priceMinInput.value);
-            const maxVal = parseInt(priceMaxInput.value);
-            const minPercent = (minVal / priceMinInput.max) * 100;
-            const maxPercent = (maxVal / priceMaxInput.max) * 100;
+        function updateRangeTrack(track, minDisplay, maxDisplay, minVal, maxVal) {
+            const minPercent = (minVal / 30000) * 100;
+            const maxPercent = (maxVal / 30000) * 100;
 
-            rangeTrack.style.left = minPercent + '%';
-            rangeTrack.style.width = (maxPercent - minPercent) + '%';
-            minPriceDisplay.textContent = minVal.toLocaleString();
-            maxPriceDisplay.textContent = maxVal.toLocaleString();
-            minPrice = minVal;
-            maxPrice = maxVal;
+            track.style.left = minPercent + '%';
+            track.style.width = (maxPercent - minPercent) + '%';
+            minDisplay.textContent = minVal.toLocaleString();
+            maxDisplay.textContent = maxVal.toLocaleString();
         }
 
         priceMinInput.addEventListener('input', () => {
-            if (parseInt(priceMinInput.value) > parseInt(priceMaxInput.value)) priceMinInput.value = priceMaxInput.value;
-            updateRangeTrack();
+            let val = parseInt(priceMinInput.value);
+            let maxVal = parseInt(priceMaxInput.value);
+            if (val > maxVal) priceMinInput.value = maxVal;
+            minPrice = val;
+            maxPrice = maxVal;
+            updateRangeTrack(rangeTrack, minPriceDisplay, maxPriceDisplay, minPrice, maxPrice);
             applyFilters();
         });
 
         priceMaxInput.addEventListener('input', () => {
-            if (parseInt(priceMaxInput.value) < parseInt(priceMinInput.value)) priceMaxInput.value = priceMinInput.value;
-            updateRangeTrack();
+            let val = parseInt(priceMaxInput.value);
+            let minVal = parseInt(priceMinInput.value);
+            if (val < minVal) priceMaxInput.value = minVal;
+            minPrice = minVal;
+            maxPrice = val;
+            updateRangeTrack(rangeTrack, minPriceDisplay, maxPriceDisplay, minPrice, maxPrice);
             applyFilters();
         });
 
-        window.renderListings = function(data) {
-            grid.innerHTML = "";
-            countLabel.innerText = `${data.length} Amazing Places Found`;
-            
-            if (data.length === 0) {
-                grid.innerHTML = `
-                    <div style="grid-column: 1/-1; text-align: center; padding: 4rem 2rem;">
-                        <i class="fa-solid fa-house-crack" style="font-size: 3rem; color: #e5e7eb; margin-bottom: 1rem;"></i>
-                        <h3 style="color: var(--text-main)">No matching listings</h3>
-                        <p style="color: var(--text-muted)">Try adjusting your filters or search area.</p>
-                        <button class="btn btn-primary" style="margin-top: 1.5rem" onclick="resetFilters()">Clear all filters</button>
-                    </div>`;
-                return;
-            }
+        homePriceMinInput.addEventListener('input', () => {
+            let val = parseInt(homePriceMinInput.value);
+            let maxVal = parseInt(homePriceMaxInput.value);
+            if (val > maxVal) homePriceMinInput.value = maxVal;
+            minPrice = val;
+            maxPrice = maxVal;
+            updateRangeTrack(homeRangeTrack, homeMinPriceDisplay, homeMaxPriceDisplay, minPrice, maxPrice);
+            applyFilters();
+        });
 
+        homePriceMaxInput.addEventListener('input', () => {
+            let val = parseInt(homePriceMaxInput.value);
+            let minVal = parseInt(homePriceMinInput.value);
+            if (val < minVal) homePriceMaxInput.value = minVal;
+            minPrice = minVal;
+            maxPrice = val;
+            updateRangeTrack(homeRangeTrack, homeMinPriceDisplay, homeMaxPriceDisplay, minPrice, maxPrice);
+            applyFilters();
+        });
+
+        let currentFiltered = [];
+        let displayedData = [];
+        const pageSize = 10;
+
+        function renderBatch(data) {
             data.forEach((item, index) => {
                 const card = document.createElement('div');
                 card.className = 'card';
@@ -744,7 +785,35 @@
                 `;
                 grid.appendChild(card);
             });
+        }
+
+        window.renderListings = function(data) {
+            currentFiltered = data;
+            displayedData = [];
+            grid.innerHTML = "";
+            countLabel.innerText = `${data.length} Amazing Places Found`;
+            
+            if (data.length === 0) {
+                grid.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 4rem 2rem;">
+                        <i class="fa-solid fa-house-crack" style="font-size: 3rem; color: #e5e7eb; margin-bottom: 1rem;"></i>
+                        <h3 style="color: var(--text-main)">No matching listings</h3>
+                        <p style="color: var(--text-muted)">Try adjusting your filters or search area.</p>
+                        <button class="btn btn-primary" style="margin-top: 1.5rem" onclick="resetFilters()">Clear all filters</button>
+                    </div>`;
+                return;
+            }
+
+            loadMore();
         };
+
+        function loadMore() {
+            const start = displayedData.length;
+            const end = Math.min(start + pageSize, currentFiltered.length);
+            const batch = currentFiltered.slice(start, end);
+            renderBatch(batch);
+            displayedData = [...displayedData, ...batch];
+        }
 
         window.applyFilters = function() {
             const searchElem = window.innerWidth <= 767 ? mobileSearchInput : searchInput;
@@ -765,10 +834,15 @@
             if (mobileSearchInput) mobileSearchInput.value = '';
             priceMinInput.value = 0;
             priceMaxInput.value = 20000;
-            updateRangeTrack();
+            homePriceMinInput.value = 0;
+            homePriceMaxInput.value = 20000;
+            updateRangeTrack(rangeTrack, minPriceDisplay, maxPriceDisplay, 0, 20000);
+            updateRangeTrack(homeRangeTrack, homeMinPriceDisplay, homeMaxPriceDisplay, 0, 20000);
             document.querySelectorAll('.filter-tag').forEach(b => b.classList.remove('active'));
             document.querySelectorAll('[data-filter="all"]').forEach(b => b.classList.add('active'));
             currentFilter = 'all';
+            minPrice = 0;
+            maxPrice = 20000;
             renderListings(listingsData);
             
             if(window.innerWidth < 768) navigateTab(0);
@@ -867,7 +941,14 @@
             renderListings(listingsData);
         });
 
-        updateRangeTrack();
+        updateRangeTrack(rangeTrack, minPriceDisplay, maxPriceDisplay, 0, 20000);
+        updateRangeTrack(homeRangeTrack, homeMinPriceDisplay, homeMaxPriceDisplay, 0, 20000);
+
+        window.addEventListener('scroll', () => {
+            if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100 && displayedData.length < currentFiltered.length) {
+                loadMore();
+            }
+        });
     </script>
 </body>
 </html>

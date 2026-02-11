@@ -57,7 +57,7 @@
         .nav-link::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -4px; left: 0; background: var(--primary-black); transition: 0.3s; }
         .nav-link:hover::after { width: 100%; }
 
-        .btn { padding: 0.75rem 1.5rem; border-radius: 50px; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: var(--transition); border: none; }
+        .btn { padding: 0.75rem 1.5rem; border-radius: 50px; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: var(--transition); border: none; text-decoration: none; display: inline-block;}
         .btn-primary { background: var(--primary-black); color: white; box-shadow: 0 4px 14px rgba(0,0,0,0.15); }
         .btn-primary:hover { background: #333; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.2); }
 
@@ -293,13 +293,63 @@
                 animation: fadeIn 0.3s ease;
             }
 
-            /* Adjust Grid for Mobile */
+            /* Adjust Grid for Mobile - 2 CARDS PER ROW */
             .grid {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-                padding: 0 5%;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.8rem;
+                padding: 0 10px 6rem;
             }
             
+            .card {
+                border-radius: 16px;
+            }
+            
+            .card-image {
+                height: 130px;
+            }
+            
+            .badge {
+                padding: 4px 8px;
+                font-size: 0.6rem;
+                top: 8px; left: 8px;
+            }
+            
+            .like-btn {
+                width: 30px; height: 30px;
+                top: 8px; right: 8px;
+            }
+            
+            .card-content {
+                padding: 10px;
+            }
+            
+            .price {
+                font-size: 1rem;
+            }
+            
+            .card-title {
+                font-size: 0.9rem;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                margin: 0.3rem 0;
+            }
+            
+            .card-location {
+                font-size: 0.75rem;
+                margin-bottom: 0.8rem;
+            }
+            
+            .amenities {
+                display: none; /* Hide amenities on small cards */
+            }
+            
+            .card-btn {
+                padding: 8px;
+                font-size: 0.8rem;
+                border-width: 1px;
+            }
+
             /* Move Filters to Search View on Mobile */
             .filters {
                 display: none; /* Hidden from main flow on mobile */
@@ -419,13 +469,10 @@
                 </div>
                 <p class="modal-desc" id="modalDesc" style="color: #4b5563; line-height: 1.8; margin-bottom: 2rem;">Description...</p>
                 <div class="amenities" id="modalAmenities"></div>
-                <div class="landlord-box" style="background: #f9fafb; padding: 1.5rem; border-radius: 20px; display: flex; justify-content: space-between; align-items: center; margin-top: 2rem; border: 1px solid var(--border-color);">
-                    <div>
-                        <div style="font-weight: 700; color: var(--primary-black); font-size: 1.1rem;">Verified Landlord</div>
-                        <div style="font-size: 0.85rem; color: var(--accent-green); font-weight: 600;"><i class="fa-solid fa-bolt"></i> Responds fast</div>
+                
+                <div class="landlord-box" id="contactArea" style="background: #f9fafb; padding: 1.5rem; border-radius: 20px; margin-top: 2rem; border: 1px solid var(--border-color);">
                     </div>
-                    <button class="btn btn-primary" onclick="alert('Inquiry sent! The landlord will contact you shortly.')">Book a Viewing</button>
-                </div>
+
             </div>
         </div>
     </div>
@@ -544,48 +591,34 @@
         const navItems = document.querySelectorAll('.bottom-nav-item');
         const homeView = document.getElementById('homeView');
         const searchView = document.getElementById('mobileSearchView');
-        const filtersDiv = document.querySelector('.filters'); // Identify filters
+        const filtersDiv = document.querySelector('.filters'); 
 
         window.navigateTab = function(index) {
             currentTab = index;
             
-            // 1. Update Active Nav Styles
             navItems.forEach(item => item.classList.remove('active'));
             navItems[index].classList.add('active');
 
-            // 2. Logic for each Tab
             if (index === 0) {
-                // Home: Show Grid, Hide Search View
                 homeView.style.display = 'block';
                 searchView.style.display = 'none';
-                
-                // If on Desktop, keep filters visible in normal place. 
-                // Since this is mobile-focused via CSS media queries, 
-                // CSS handles hiding #mobileSearchView on desktop automatically.
                 if(window.innerWidth < 768) {
                    document.querySelector('.section-header h2').innerText = "Finding the best spots...";
                    window.scrollTo(0, 0);
                 }
             } 
             else if (index === 1) {
-                // Search: Hide Grid, Show Search View
                 homeView.style.display = 'none';
                 searchView.style.display = 'block';
-                
-                // Move filters visually if needed or just toggle visibility
                 if(window.innerWidth < 768) {
                     window.scrollTo(0, 0);
                 }
             } 
             else if (index === 2) {
-                // List: Open Modal
                 openAddModal();
-                // We keep the background as whatever view we were on (usually Home)
-                // but we highlight the "List" tab.
             }
         };
 
-        // Swipe Detection Variables
         let touchStartX = 0;
         let touchEndX = 0;
         let touchStartY = 0;
@@ -603,24 +636,16 @@
         }, {passive: true});
 
         function handleSwipe() {
-            // Ignore if screen is wide (Desktop)
             if (window.innerWidth > 768) return;
-            
-            // Ignore small swipes or vertical scrolls
             const xDiff = touchStartX - touchEndX;
             const yDiff = touchStartY - touchEndY;
             
             if (Math.abs(xDiff) > Math.abs(yDiff) && Math.abs(xDiff) > 50) {
-                // Horizontal Swipe detected
                 if (xDiff > 0) {
-                    // Swiped Left (Next Tab)
                     if (currentTab < totalTabs - 1) {
-                        // If current is Search(1) going to List(2), we open modal but maybe keep tab at 1 visually or 2
-                        // Let's standardise: 0 -> 1 -> 2
                         navigateTab(currentTab + 1);
                     }
                 } else {
-                    // Swiped Right (Prev Tab)
                     if (currentTab > 0) {
                         navigateTab(currentTab - 1);
                     }
@@ -722,7 +747,6 @@
             currentFilter = 'all';
             renderListings(listingsData);
             
-            // If on mobile, go to home
             if(window.innerWidth < 768) navigateTab(0);
         };
 
@@ -742,6 +766,24 @@
             document.getElementById('modalType').innerHTML = `<i class="fa-solid fa-home"></i> ${item.type}`;
             document.getElementById('modalDesc').textContent = item.desc || 'A beautiful student-friendly space with great accessibility.';
             document.getElementById('modalAmenities').innerHTML = (item.amenities || []).map(a => `<span class="amenity">${a}</span>`).join('');
+            
+            // Injecting WhatsApp and Call buttons (Using placeholder number as db structure is unchanged)
+            const contactBox = document.getElementById('contactArea');
+            contactBox.innerHTML = `
+                <div style="margin-bottom: 1rem;">
+                    <div style="font-weight: 700; color: var(--primary-black); font-size: 1.1rem;">Verified Landlord</div>
+                    <div style="font-size: 0.85rem; color: var(--accent-green); font-weight: 600;"><i class="fa-solid fa-bolt"></i> Responds fast</div>
+                </div>
+                <div style="display: flex; gap: 10px; width: 100%;">
+                    <a href="https://wa.me/27123456789?text=Hi, I am interested in ${encodeURIComponent(item.title)}" target="_blank" class="btn" style="flex:1; background:#25D366; color:white; text-align:center; display:flex; align-items:center; justify-content:center; gap:8px;">
+                        <i class="fa-brands fa-whatsapp"></i> WhatsApp
+                    </a>
+                    <a href="tel:+27123456789" class="btn" style="flex:1; background:var(--primary-black); color:white; text-align:center; display:flex; align-items:center; justify-content:center; gap:8px;">
+                        <i class="fa-solid fa-phone"></i> Call
+                    </a>
+                </div>
+            `;
+
             document.getElementById('detailModal').classList.add('active');
             document.body.style.overflow = 'hidden';
         };

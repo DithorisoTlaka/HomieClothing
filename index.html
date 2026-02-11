@@ -238,6 +238,17 @@
                 margin-bottom: 0;
             }
 
+            .show-results-btn {
+                border-radius: 50px !important;
+                animation: pulse 1.5s infinite;
+            }
+
+            @keyframes pulse {
+                0% { transform: scale(1); }
+                50% { transform: scale(1.05); }
+                100% { transform: scale(1); }
+            }
+
             /* 4. Modern Bottom Navbar */
             .bottom-nav {
                 display: flex;
@@ -303,6 +314,8 @@
             
             .card {
                 border-radius: 16px;
+                display: flex;
+                flex-direction: column;
             }
             
             .card-image {
@@ -322,6 +335,9 @@
             
             .card-content {
                 padding: 10px;
+                flex-grow: 1;
+                display: flex;
+                flex-direction: column;
             }
             
             .price {
@@ -349,6 +365,7 @@
                 padding: 8px;
                 font-size: 0.8rem;
                 border-width: 1px;
+                margin-top: auto;
             }
 
             /* Move Filters to Search View on Mobile */
@@ -362,6 +379,13 @@
             /* Force show filters inside search view */
             #mobileSearchView .filters {
                 display: block;
+            }
+
+            #mobileSearchView .filter-tags-row {
+                flex-wrap: nowrap;
+                justify-content: flex-start;
+                white-space: nowrap;
+                overflow-x: auto;
             }
 
             /* Mobile Home Page Filters */
@@ -469,7 +493,7 @@
                     <i class="fa-regular fa-calendar"></i>
                     <input type="text" placeholder="Move-in Date" onfocus="(this.type='date')">
                 </div>
-                <button class="btn btn-primary" style="width: 100%; margin-top: 10px; border-radius: 12px;" onclick="applyFilters(); navigateTab(0);">Show Results</button>
+                <button class="btn btn-primary show-results-btn" style="width: 100%; margin-top: 10px; border-radius: 12px;" onclick="applyFilters(); navigateTab(0);">Show Results</button>
             </div>
 
             <div class="filters" id="filterContainer">

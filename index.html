@@ -40,8 +40,7 @@
 
         /* --- Animations --- */
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes slideDown { from { transform: translateY(-100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        @keyframes floatUp { 0% { transform: translateY(0px); } 50% { transform: translateY(-5px); } 100% { transform: translateY(0px); } }
+        @keyframes slideUp { from { transform: translateY(40px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
         /* --- Navigation --- */
         nav {
@@ -152,20 +151,75 @@
         /* --- Modals --- */
         .modal-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.4); backdrop-filter: blur(8px); z-index: 2000; align-items: center; justify-content: center;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: 2000; 
+            align-items: center; justify-content: center;
         }
         .modal-overlay.active { display: flex; }
-        .modal-content {
-            background: white; width: 95%; max-width: 650px; max-height: 90vh; overflow-y: auto;
-            border-radius: 28px; position: relative; animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        @keyframes slideUp { from { transform: translateY(40px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-        .modal-body form input, .modal-body form select, .modal-body form textarea {
-            width: 100%; padding: 12px 16px; border: 1px solid var(--border-color); border-radius: 12px; margin-top: 6px;
-            font-size: 1rem; transition: var(--transition);
+        .modal-content {
+            background: white; width: 90%; max-width: 480px; border-radius: 24px; 
+            overflow: hidden; box-shadow: var(--shadow-md); position: relative;
+            animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .modal-body form input:focus { border-color: var(--primary-black); outline: none; background: #fcfcfc; }
+
+        .modal-header {
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 1.25rem; font-weight: 700; text-align: center;
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .modal-success {
+            text-align: center;
+            padding: 3rem 2rem;
+        }
+
+        .modal-success i {
+            font-size: 4rem;
+            color: var(--accent-green);
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-success h2 {
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+        }
+
+        .modal-success p {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        .progress-modal-content {
+            width: 90%; max-width: 420px;
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .progress-bar-container {
+            height: 8px;
+            background: #eee;
+            border-radius: 4px;
+            margin: 1.5rem 0;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: var(--accent-green);
+            transition: width 0.4s ease;
+        }
+
+        .progress-text {
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
 
         /* --- Footer --- */
         footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; text-align: center; }
@@ -183,44 +237,35 @@
         .range-bg { position: absolute; width: 100%; height: 6px; background: #e5e7eb; border-radius: 3px; }
 
         /* --- MOBILE SPECIFIC STYLES --- */
-        .mobile-search-view { display: none; } /* Hidden by default */
+        .mobile-search-view { display: none; }
         .mobile-filter-row { display: none; }
 
         @media (max-width: 767px) {
-            /* 1. Header Changes */
             nav {
                 justify-content: center;
                 height: 70px;
-                animation: slideDown 0.5s ease-out;
                 border-bottom: none;
                 background: rgba(255, 255, 255, 0.9);
             }
             .nav-links, .nav-btn-container { display: none; }
-            .logo { 
-                font-size: 1.8rem; 
-                margin: 0; 
-            }
+            .logo { font-size: 1.8rem; margin: 0; }
 
-            /* 2. Hide Desktop Elements */
             .hero { display: none; }
             footer { display: none; }
 
-            /* 3. Mobile View Containers */
             #homeView {
                 padding-top: 10px;
                 padding-bottom: 80px;
                 min-height: 80vh;
             }
 
-            /* The "Search" page container */
             #mobileSearchView {
-                display: none; /* Toggled via JS */
+                display: none;
                 padding: 20px;
                 padding-bottom: 100px;
                 animation: fadeIn 0.3s ease;
             }
-            
-            /* Restyle search inputs for the dedicated search page */
+
             .mobile-search-wrapper {
                 background: white;
                 border-radius: 20px;
@@ -249,7 +294,6 @@
                 100% { transform: scale(1); }
             }
 
-            /* 4. Modern Bottom Navbar */
             .bottom-nav {
                 display: flex;
                 justify-content: space-evenly;
@@ -259,9 +303,8 @@
                 left: 50%;
                 transform: translateX(-50%);
                 width: 90%;
-                background: rgba(34, 34, 34, 0.95); /* Secondary Black */
+                background: rgba(34, 34, 34, 0.95);
                 backdrop-filter: blur(16px);
-                -webkit-backdrop-filter: blur(16px);
                 border-radius: 50px;
                 padding: 10px;
                 z-index: 1000;
@@ -271,7 +314,7 @@
 
             .bottom-nav-item {
                 display: flex;
-                flex-direction: row; /* Icon next to text */
+                flex-direction: row;
                 align-items: center;
                 justify-content: center;
                 color: #9ca3af;
@@ -282,18 +325,14 @@
                 gap: 8px;
             }
 
-            .bottom-nav-item i {
-                font-size: 1.2rem;
-            }
-            
+            .bottom-nav-item i { font-size: 1.2rem; }
             .bottom-nav-item span {
                 font-size: 0.85rem;
                 font-weight: 600;
-                display: none; /* Hide text initially */
+                display: none;
                 white-space: nowrap;
             }
 
-            /* Active State Animation */
             .bottom-nav-item.active {
                 background: white;
                 color: var(--primary-black);
@@ -305,7 +344,6 @@
                 animation: fadeIn 0.3s ease;
             }
 
-            /* Adjust Grid for Mobile - 2 CARDS PER ROW */
             .grid {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 0.8rem;
@@ -318,68 +356,18 @@
                 flex-direction: column;
             }
             
-            .card-image {
-                height: 130px;
-            }
-            
-            .badge {
-                padding: 4px 8px;
-                font-size: 0.6rem;
-                top: 8px; left: 8px;
-            }
-            
-            .like-btn {
-                width: 30px; height: 30px;
-                top: 8px; right: 8px;
-            }
-            
-            .card-content {
-                padding: 10px;
-                flex-grow: 1;
-                display: flex;
-                flex-direction: column;
-            }
-            
-            .price {
-                font-size: 1rem;
-            }
-            
-            .card-title {
-                font-size: 0.9rem;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                margin: 0.3rem 0;
-            }
-            
-            .card-location {
-                font-size: 0.75rem;
-                margin-bottom: 0.8rem;
-            }
-            
-            .amenities {
-                display: none; /* Hide amenities on small cards */
-            }
-            
-            .card-btn {
-                padding: 8px;
-                font-size: 0.8rem;
-                border-width: 1px;
-                margin-top: auto;
-            }
+            .card-image { height: 130px; }
+            .badge { padding: 4px 8px; font-size: 0.6rem; top: 8px; left: 8px; }
+            .like-btn { width: 30px; height: 30px; top: 8px; right: 8px; }
+            .card-content { padding: 10px; flex-grow: 1; display: flex; flex-direction: column; }
+            .price { font-size: 1rem; }
+            .card-title { font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0.3rem 0; }
+            .card-location { font-size: 0.75rem; margin-bottom: 0.8rem; }
+            .amenities { display: none; }
+            .card-btn { padding: 8px; font-size: 0.8rem; border-width: 1px; margin-top: auto; }
 
-            /* Move Filters to Search View on Mobile */
-            .filters {
-                display: none; /* Hidden from main flow on mobile */
-                padding: 0;
-                border: none;
-                background: transparent;
-            }
-            
-            /* Force show filters inside search view */
-            #mobileSearchView .filters {
-                display: block;
-            }
+            .filters { display: none; padding: 0; border: none; background: transparent; }
+            #mobileSearchView .filters { display: block; }
 
             #mobileSearchView .filter-tags-row {
                 flex-wrap: nowrap;
@@ -388,7 +376,6 @@
                 overflow-x: auto;
             }
 
-            /* Mobile Home Page Filters */
             .mobile-filter-row {
                 display: block;
                 overflow-x: auto;
@@ -402,14 +389,9 @@
                 white-space: nowrap;
             }
 
-            .section-header h2 {
-                display: none;
-            }
+            .section-header h2 { display: none; }
 
-            .home-price-range {
-                padding: 0 5%;
-                margin-bottom: 1rem;
-            }
+            .home-price-range { padding: 0 5%; margin-bottom: 1rem; }
         }
 
         @media (min-width: 768px) {
@@ -493,7 +475,7 @@
                     <i class="fa-regular fa-calendar"></i>
                     <input type="text" placeholder="Move-in Date" onfocus="(this.type='date')">
                 </div>
-                <button class="btn btn-primary show-results-btn" style="width: 100%; margin-top: 10px; border-radius: 12px;" onclick="applyFilters(); navigateTab(0);">Show Results</button>
+                <button class="btn btn-primary show-results-btn" style="width: 100%; margin-top: 10px;" onclick="applyFilters(); navigateTab(0);">Show Results</button>
             </div>
 
             <div class="filters" id="filterContainer">
@@ -522,46 +504,47 @@
 
     </div>
 
+    <!-- Property Detail Modal -->
     <div class="modal-overlay" id="detailModal" onclick="if(event.target === this) closeModal()">
         <div class="modal-content">
-            <button class="close-modal" onclick="closeModal()" style="position: absolute; top: 20px; right: 20px; z-index: 10; background: white; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
-            <img src="" alt="Room" class="modal-img" id="modalImg" style="width: 100%; height: 350px; object-fit: cover;">
-            <div class="modal-body" style="padding: 2.5rem;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <button class="close-modal" onclick="closeModal()" style="position: absolute; top: 16px; right: 16px; background: white; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; box-shadow: var(--shadow-sm);"><i class="fa-solid fa-xmark"></i></button>
+            <img src="" alt="Room" class="modal-img" id="modalImg" style="width: 100%; height: 280px; object-fit: cover;">
+            <div class="modal-body" style="padding: 2rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
                     <span class="badge badge-verified" id="modalBadge">Verified Listing</span>
                     <span class="price" id="modalPrice">R000<span>/mo</span></span>
                 </div>
-                <h2 class="modal-title" id="modalTitle" style="font-size: 2rem; font-weight: 800; margin-bottom: 10px;">Title</h2>
-                <div class="modal-meta" style="display: flex; gap: 20px; color: var(--text-muted); margin-bottom: 20px;">
+                <h2 class="modal-title" id="modalTitle" style="font-size: 1.8rem; font-weight: 800; margin-bottom: 0.75rem;">Title</h2>
+                <div class="modal-meta" style="display: flex; gap: 1.5rem; color: var(--text-muted); margin-bottom: 1.5rem; font-size: 0.95rem;">
                     <span id="modalLocation"><i class="fa-solid fa-location-dot"></i> Location</span>
                     <span id="modalType"><i class="fa-solid fa-home"></i> Type</span>
                 </div>
-                <p class="modal-desc" id="modalDesc" style="color: #4b5563; line-height: 1.8; margin-bottom: 2rem;">Description...</p>
-                <div class="amenities" id="modalAmenities"></div>
+                <p class="modal-desc" id="modalDesc" style="color: #4b5563; line-height: 1.7; margin-bottom: 1.5rem;">Description...</p>
+                <div class="amenities" id="modalAmenities" style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 2rem;"></div>
                 
-                <div class="landlord-box" id="contactArea" style="background: #f9fafb; padding: 1.5rem; border-radius: 20px; margin-top: 2rem; border: 1px solid var(--border-color);">
-                    </div>
-
+                <div class="landlord-box" id="contactArea" style="background: #f9fafb; padding: 1.5rem; border-radius: 20px; border: 1px solid var(--border-color);">
+                </div>
             </div>
         </div>
     </div>
 
+    <!-- Add Listing Modal -->
     <div class="modal-overlay" id="addModal" onclick="if(event.target === this) closeAddModal()">
-        <div class="modal-content">
-            <div class="modal-body" style="padding: 3rem;">
-                <h2 class="modal-title" style="margin-bottom: 1.5rem;">List Your Property</h2>
+        <div class="modal-content" style="max-width: 520px;">
+            <div style="padding: 2rem;">
+                <h2 style="text-align: center; margin-bottom: 1.5rem; font-size: 1.6rem;">List Your Property</h2>
                 <form id="addForm">
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                        <div style="margin-bottom: 1rem; grid-column: span 2;">
-                            <label style="font-weight: 600; font-size: 0.9rem;">Listing Title</label>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div style="grid-column: span 2;">
+                            <label style="font-weight: 600; font-size: 0.9rem; display: block; margin-bottom: 0.4rem;">Listing Title</label>
                             <input type="text" id="addTitle" placeholder="e.g. Modern Student Studio near UJ" required>
                         </div>
-                        <div style="margin-bottom: 1rem;">
-                            <label style="font-weight: 600; font-size: 0.9rem;">Monthly Rent (R)</label>
+                        <div>
+                            <label style="font-weight: 600; font-size: 0.9rem; display: block; margin-bottom: 0.4rem;">Monthly Rent (R)</label>
                             <input type="number" id="addPrice" placeholder="5500" required>
                         </div>
-                        <div style="margin-bottom: 1rem;">
-                            <label style="font-weight: 600; font-size: 0.9rem;">Room Type</label>
+                        <div>
+                            <label style="font-weight: 600; font-size: 0.9rem; display: block; margin-bottom: 0.4rem;">Room Type</label>
                             <select id="addType" required>
                                 <option value="Single room">Single room</option>
                                 <option value="Bachelor Room">Bachelor Room</option>
@@ -570,28 +553,48 @@
                             </select>
                         </div>
                     </div>
-                    <div style="margin-bottom: 1rem;">
-                        <label style="font-weight: 600; font-size: 0.9rem;">Area / Location</label>
+                    <div style="margin: 1rem 0;">
+                        <label style="font-weight: 600; font-size: 0.9rem; display: block; margin-bottom: 0.4rem;">Area / Location</label>
                         <input type="text" id="addLocation" placeholder="e.g. Braamfontein, Johannesburg" required>
                     </div>
-                    <div style="margin-bottom: 1rem;">
-                        <label style="font-weight: 600; font-size: 0.9rem;">Photos</label>
-                        <input type="file" id="addImage" accept="image/*" required style="padding: 10px; border: 2px dashed var(--border-color); background: #fdfdfd;">
+                    <div style="margin: 1rem 0;">
+                        <label style="font-weight: 600; font-size: 0.9rem; display: block; margin-bottom: 0.4rem;">Photos</label>
+                        <input type="file" id="addImage" accept="image/*" required style="padding: 12px; border: 2px dashed var(--border-color); background: #fdfdfd; border-radius: 12px; width: 100%;">
                     </div>
-                    <div style="margin-bottom: 1rem;">
-                        <label style="font-weight: 600; font-size: 0.9rem;">Amenities (e.g. WiFi, Parking, Gym)</label>
-                        <input type="text" id="addAmenities" placeholder="Separated by commas">
+                    <div style="margin: 1rem 0;">
+                        <label style="font-weight: 600; font-size: 0.9rem; display: block; margin-bottom: 0.4rem;">Amenities (comma separated)</label>
+                        <input type="text" id="addAmenities" placeholder="WiFi, Parking, Study Desk, ...">
                     </div>
                     <div style="margin-bottom: 1.5rem;">
-                        <label style="font-weight: 600; font-size: 0.9rem;">Full Description</label>
-                        <textarea id="addDesc" rows="3" placeholder="Tell students about your space..."></textarea>
+                        <label style="font-weight: 600; font-size: 0.9rem; display: block; margin-bottom: 0.4rem;">Full Description</label>
+                        <textarea id="addDesc" rows="4" placeholder="Tell students about your space..." style="border-radius: 12px;"></textarea>
                     </div>
-                    <button type="button" class="btn btn-primary" onclick="addToDb()" style="width: 100%; padding: 1rem;">Post Listing Now</button>
-                    <div id="uploadProgress" style="height: 8px; background: #eee; width: 100%; margin-top: 15px; border-radius: 10px; display: none; overflow: hidden;">
-                        <div id="progressBar" style="height: 100%; background: var(--accent-green); width: 0%; transition: width 0.3s;"></div>
-                    </div>
+                    <button type="button" class="btn btn-primary" onclick="addToDb()" style="width: 100%; padding: 1.2rem; font-size: 1.1rem;">Post Listing Now</button>
                 </form>
             </div>
+        </div>
+    </div>
+
+    <!-- Upload Progress Modal -->
+    <div class="modal-overlay" id="uploadModal">
+        <div class="progress-modal-content">
+            <h3 class="progress-text">Uploading your listing...</h3>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <p id="progressStatus">Preparing file...</p>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal-overlay" id="successModal" onclick="if(event.target === this) document.getElementById('successModal').classList.remove('active')">
+        <div class="modal-content modal-success">
+            <i class="fa-solid fa-circle-check"></i>
+            <h2>Listing Posted!</h2>
+            <p>Your room is now live and visible to students.</p>
+            <button class="btn btn-primary" onclick="document.getElementById('successModal').classList.remove('active')" style="margin-top: 1rem; padding: 0.9rem 2rem;">
+                Done
+            </button>
         </div>
     </div>
 
@@ -660,79 +663,33 @@
         const homeMaxPriceDisplay = document.getElementById('homeMaxPriceDisplay');
         const homeRangeTrack = document.getElementById('homeRangeTrack');
 
-        /* --- NAVIGATION & SWIPE LOGIC --- */
         let currentTab = 0;
         const totalTabs = 3;
         const navItems = document.querySelectorAll('.bottom-nav-item');
         const homeView = document.getElementById('homeView');
         const searchView = document.getElementById('mobileSearchView');
-        const filtersDiv = document.querySelector('.filters'); 
 
         window.navigateTab = function(index) {
             currentTab = index;
-            
             navItems.forEach(item => item.classList.remove('active'));
             navItems[index].classList.add('active');
 
             if (index === 0) {
                 homeView.style.display = 'block';
                 searchView.style.display = 'none';
-                if(window.innerWidth < 768) {
-                   document.querySelector('.section-header h2').innerText = "Finding the best spots...";
-                   window.scrollTo(0, 0);
-                }
-            } 
-            else if (index === 1) {
+            } else if (index === 1) {
                 homeView.style.display = 'none';
                 searchView.style.display = 'block';
-                if(window.innerWidth < 768) {
-                    window.scrollTo(0, 0);
-                }
-            } 
-            else if (index === 2) {
+            } else if (index === 2) {
                 openAddModal();
             }
+
+            if (window.innerWidth < 768) window.scrollTo({ top: 0, behavior: 'smooth' });
         };
-
-        let touchStartX = 0;
-        let touchEndX = 0;
-        let touchStartY = 0;
-        let touchEndY = 0;
-
-        document.addEventListener('touchstart', e => {
-            touchStartX = e.changedTouches[0].screenX;
-            touchStartY = e.changedTouches[0].screenY;
-        }, {passive: true});
-
-        document.addEventListener('touchend', e => {
-            touchEndX = e.changedTouches[0].screenX;
-            touchEndY = e.changedTouches[0].screenY;
-            handleSwipe();
-        }, {passive: true});
-
-        function handleSwipe() {
-            if (window.innerWidth > 768) return;
-            const xDiff = touchStartX - touchEndX;
-            const yDiff = touchStartY - touchEndY;
-            
-            if (Math.abs(xDiff) > Math.abs(yDiff) && Math.abs(xDiff) > 50) {
-                if (xDiff > 0) {
-                    if (currentTab < totalTabs - 1) {
-                        navigateTab(currentTab + 1);
-                    }
-                } else {
-                    if (currentTab > 0) {
-                        navigateTab(currentTab - 1);
-                    }
-                }
-            }
-        }
-        /* --- END NAVIGATION LOGIC --- */
 
         function updateRangeTrack(track, minDisplay, maxDisplay, minVal, maxVal) {
             const minPercent = (minVal / 30000) * 100;
             const maxPercent = (maxVal / 30000) * 100;
-
             track.style.left = minPercent + '%';
             track.style.width = (maxPercent - minPercent) + '%';
             minDisplay.textContent = minVal.toLocaleString();
@@ -743,7 +700,7 @@
             let val = parseInt(priceMinInput.value);
             let maxVal = parseInt(priceMaxInput.value);
             if (val > maxVal) priceMinInput.value = maxVal;
-            minPrice = val;
+            minPrice = parseInt(priceMinInput.value);
             maxPrice = maxVal;
             updateRangeTrack(rangeTrack, minPriceDisplay, maxPriceDisplay, minPrice, maxPrice);
             applyFilters();
@@ -754,7 +711,7 @@
             let minVal = parseInt(priceMinInput.value);
             if (val < minVal) priceMaxInput.value = minVal;
             minPrice = minVal;
-            maxPrice = val;
+            maxPrice = parseInt(priceMaxInput.value);
             updateRangeTrack(rangeTrack, minPriceDisplay, maxPriceDisplay, minPrice, maxPrice);
             applyFilters();
         });
@@ -787,12 +744,11 @@
             data.forEach((item, index) => {
                 const card = document.createElement('div');
                 card.className = 'card';
-                card.style.animationDelay = `${index * 0.05}s`; 
                 card.dataset.id = item.id;
-                
+
                 const amenitiesHtml = item.amenities?.map(a => `<span class="amenity">${a}</span>`).slice(0,3).join('') || '';
                 const verifiedHtml = item.verified ? `<span class="badge badge-verified"><i class="fa-solid fa-check-double"></i> Verified</span>` : `<span class="badge">New Listing</span>`;
-                
+
                 card.innerHTML = `
                     <div class="card-image">
                         ${verifiedHtml}
@@ -816,7 +772,7 @@
             displayedData = [];
             grid.innerHTML = "";
             countLabel.innerText = `${data.length} Amazing Places Found`;
-            
+
             if (data.length === 0) {
                 grid.innerHTML = `
                     <div style="grid-column: 1/-1; text-align: center; padding: 4rem 2rem;">
@@ -836,7 +792,7 @@
             const end = Math.min(start + pageSize, currentFiltered.length);
             const batch = currentFiltered.slice(start, end);
             renderBatch(batch);
-            displayedData = [...displayedData, ...batch];
+            displayedData = displayedData.concat(batch);
         }
 
         window.applyFilters = function() {
@@ -868,8 +824,7 @@
             minPrice = 0;
             maxPrice = 20000;
             renderListings(listingsData);
-            
-            if(window.innerWidth < 768) navigateTab(0);
+            if (window.innerWidth < 768) navigateTab(0);
         };
 
         window.toggleLike = function(btn) {
@@ -881,6 +836,7 @@
         window.openModal = function(id) {
             const item = listingsData.find(x => x.id === id);
             if (!item) return;
+
             document.getElementById('modalImg').src = item.image;
             document.getElementById('modalTitle').textContent = item.title;
             document.getElementById('modalPrice').innerHTML = `R${item.price.toLocaleString()}<span>/mo</span>`;
@@ -888,19 +844,18 @@
             document.getElementById('modalType').innerHTML = `<i class="fa-solid fa-home"></i> ${item.type}`;
             document.getElementById('modalDesc').textContent = item.desc || 'A beautiful student-friendly space with great accessibility.';
             document.getElementById('modalAmenities').innerHTML = (item.amenities || []).map(a => `<span class="amenity">${a}</span>`).join('');
-            
-            // Injecting WhatsApp and Call buttons (Using placeholder number as db structure is unchanged)
+
             const contactBox = document.getElementById('contactArea');
             contactBox.innerHTML = `
                 <div style="margin-bottom: 1rem;">
                     <div style="font-weight: 700; color: var(--primary-black); font-size: 1.1rem;">Verified Landlord</div>
                     <div style="font-size: 0.85rem; color: var(--accent-green); font-weight: 600;"><i class="fa-solid fa-bolt"></i> Responds fast</div>
                 </div>
-                <div style="display: flex; gap: 10px; width: 100%;">
-                    <a href="https://wa.me/27123456789?text=Hi, I am interested in ${encodeURIComponent(item.title)}" target="_blank" class="btn" style="flex:1; background:#25D366; color:white; text-align:center; display:flex; align-items:center; justify-content:center; gap:8px;">
+                <div style="display: flex; gap: 12px;">
+                    <a href="https://wa.me/27123456789?text=Hi, I am interested in ${encodeURIComponent(item.title)}" target="_blank" class="btn" style="flex:1; background:#25D366; color:white;">
                         <i class="fa-brands fa-whatsapp"></i> WhatsApp
                     </a>
-                    <a href="tel:+27123456789" class="btn" style="flex:1; background:var(--primary-black); color:white; text-align:center; display:flex; align-items:center; justify-content:center; gap:8px;">
+                    <a href="tel:+27123456789" class="btn" style="flex:1; background:var(--primary-black); color:white;">
                         <i class="fa-solid fa-phone"></i> Call
                     </a>
                 </div>
@@ -910,26 +865,62 @@
             document.body.style.overflow = 'hidden';
         };
 
-        window.closeModal = () => { document.getElementById('detailModal').classList.remove('active'); document.body.style.overflow = 'auto'; };
-        window.openAddModal = () => { document.getElementById('addModal').classList.add('active'); document.body.style.overflow = 'hidden'; };
-        window.closeAddModal = () => { document.getElementById('addModal').classList.remove('active'); document.body.style.overflow = 'auto'; };
+        window.closeModal = () => { 
+            document.getElementById('detailModal').classList.remove('active'); 
+            document.body.style.overflow = 'auto'; 
+        };
 
-        window.addToDb = function() {
+        window.openAddModal = () => { 
+            document.getElementById('addModal').classList.add('active'); 
+            document.body.style.overflow = 'hidden'; 
+        };
+
+        window.closeAddModal = () => { 
+            document.getElementById('addModal').classList.remove('active'); 
+            document.body.style.overflow = 'auto'; 
+        };
+
+        // Show upload progress modal
+        function showUploadProgress() {
+            document.getElementById('uploadModal').classList.add('active');
+            document.getElementById('progressBar').style.width = '0%';
+            document.getElementById('progressStatus').textContent = 'Preparing file...';
+        }
+
+        // Update progress (simulated here – real progress would come from upload events)
+        function updateProgress(percent) {
+            document.getElementById('progressBar').style.width = percent + '%';
+            document.getElementById('progressStatus').textContent = `Uploading... ${percent}%`;
+        }
+
+        window.addToDb = async function() {
             const file = document.getElementById('addImage').files[0];
             if (!file) return alert('Please upload an image');
-            
+
+            showUploadProgress();
+
             const formData = new FormData();
             formData.append('file', file);
             formData.append('upload_preset', 'admin_tlaka');
 
-            document.getElementById('uploadProgress').style.display = 'block';
-            
-            fetch('https://api.cloudinary.com/v1_1/dv5bsbydu/image/upload', {
-                method: 'POST',
-                body: formData
-            })
-            .then(res => res.json())
-            .then(data => {
+            // Simulate progress (in real-world you'd use XMLHttpRequest for real progress events)
+            let progress = 0;
+            const fakeProgress = setInterval(() => {
+                progress += 12;
+                if (progress <= 96) updateProgress(progress);
+            }, 400);
+
+            try {
+                const res = await fetch('https://api.cloudinary.com/v1_1/dv5bsbydu/image/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await res.json();
+
+                clearInterval(fakeProgress);
+                updateProgress(100);
+
                 const newListing = {
                     title: document.getElementById('addTitle').value,
                     price: parseFloat(document.getElementById('addPrice').value),
@@ -937,15 +928,25 @@
                     type: document.getElementById('addType').value,
                     image: data.secure_url,
                     verified: false,
-                    amenities: document.getElementById('addAmenities').value.split(','),
+                    amenities: document.getElementById('addAmenities').value.split(',').map(s => s.trim()).filter(Boolean),
                     desc: document.getElementById('addDesc').value,
                     createdAt: new Date().toISOString()
                 };
-                push(ref(db, 'listings'), newListing);
-                closeAddModal();
-                alert('Success! Your room is now live.');
-            })
-            .catch(() => alert('Upload failed. Check your connection.'));
+
+                await push(ref(db, 'listings'), newListing);
+
+                setTimeout(() => {
+                    document.getElementById('uploadModal').classList.remove('active');
+                    closeAddModal();
+                    document.getElementById('successModal').classList.add('active');
+                }, 600);
+
+            } catch (err) {
+                clearInterval(fakeProgress);
+                document.getElementById('uploadModal').classList.remove('active');
+                alert('Upload failed. Please check your connection and try again.');
+                console.error(err);
+            }
         };
 
         document.querySelectorAll('.filter-tag').forEach(btn => {
@@ -959,9 +960,12 @@
 
         searchInput.addEventListener('input', applyFilters);
         mobileSearchInput.addEventListener('input', applyFilters);
+
         onValue(ref(db, 'listings'), (snapshot) => {
             listingsData = [];
-            snapshot.forEach(child => { listingsData.push({ id: child.key, ...child.val() }); });
+            snapshot.forEach(child => {
+                listingsData.push({ id: child.key, ...child.val() });
+            });
             renderListings(listingsData);
         });
 

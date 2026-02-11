@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>KasiStay | Accommodation Finder</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -40,8 +40,8 @@
 
         /* --- Animations --- */
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
-        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
+        @keyframes slideDown { from { transform: translateY(-100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes floatUp { 0% { transform: translateY(0px); } 50% { transform: translateY(-5px); } 100% { transform: translateY(0px); } }
 
         /* --- Navigation --- */
         nav {
@@ -80,7 +80,7 @@
 
         .search-input-group { flex: 1; display: flex; align-items: center; gap: 12px; padding: 10px; }
         .search-input-group i { color: var(--accent-green); font-size: 1.1rem; }
-        .search-input-group input { border: none; outline: none; width: 100%; font-size: 1rem; color: var(--primary-black); font-weight: 500; }
+        .search-input-group input { border: none; outline: none; width: 100%; font-size: 1rem; color: var(--primary-black); font-weight: 500; background: transparent; }
         
         .search-btn { background: var(--primary-black); color: white; padding: 1.1rem 2.5rem; border-radius: 40px; font-weight: 700; cursor: pointer; border: none; transition: var(--transition); }
         .search-btn:hover { background: var(--accent-green); }
@@ -182,117 +182,141 @@
         .range-track { position: absolute; height: 6px; background: var(--accent-green); border-radius: 3px; z-index: 1; }
         .range-bg { position: absolute; width: 100%; height: 6px; background: #e5e7eb; border-radius: 3px; }
 
-        .mobile-search-container { display: none; }
+        /* --- MOBILE SPECIFIC STYLES --- */
+        .mobile-search-view { display: none; } /* Hidden by default */
 
-        /* Mobile Optimizations */
         @media (max-width: 767px) {
-            .nav-links {
-                display: none;
-            }
-            .nav-btn-container {
-                display: none;
-            }
+            /* 1. Header Changes */
             nav {
                 justify-content: center;
-                background: rgba(255, 255, 255, 0.6); 
-                backdrop-filter: blur(20px);
-                flex-direction: column;
-                align-items: center;
+                height: 70px;
+                animation: slideDown 0.5s ease-out;
+                border-bottom: none;
+                background: rgba(255, 255, 255, 0.9);
             }
-            .hero {
-                display: none;
+            .nav-links, .nav-btn-container { display: none; }
+            .logo { 
+                font-size: 1.8rem; 
+                margin: 0; 
             }
-            .mobile-search-container {
-                display: flex;
-                width: 100%;
-                margin-top: 1rem;
+
+            /* 2. Hide Desktop Elements */
+            .hero { display: none; }
+            footer { display: none; }
+
+            /* 3. Mobile View Containers */
+            #homeView {
+                padding-top: 10px;
+                padding-bottom: 80px;
+                min-height: 80vh;
             }
-            .search-container {
-                padding: 0.4rem;
-                border-radius: 50px;
-                gap: 0.3rem;
+
+            /* The "Search" page container */
+            #mobileSearchView {
+                display: none; /* Toggled via JS */
+                padding: 20px;
+                padding-bottom: 100px;
+                animation: fadeIn 0.3s ease;
             }
-            .search-input-group {
-                padding: 8px 16px;
-                border: 1px solid var(--border-color);
-                border-radius: 50px;
-                background: var(--bg-white);
-            }
-            .search-input-group:last-of-type {
-                border: 1px solid var(--border-color);
-            }
-            .search-btn {
+            
+            /* Restyle search inputs for the dedicated search page */
+            .mobile-search-wrapper {
+                background: white;
+                border-radius: 20px;
                 padding: 1rem;
-                border-radius: 50px;
+                box-shadow: var(--shadow-md);
+                border: 1px solid var(--border-color);
+                margin-bottom: 2rem;
             }
-            footer {
-                display: none;
+            .mobile-search-wrapper .search-input-group {
+                border-bottom: 1px solid #eee;
+                margin-bottom: 10px;
             }
+            .mobile-search-wrapper .search-input-group:last-child {
+                border-bottom: none;
+                margin-bottom: 0;
+            }
+
+            /* 4. Modern Bottom Navbar */
             .bottom-nav {
                 display: flex;
-                justify-content: space-around;
+                justify-content: space-evenly;
                 align-items: center;
                 position: fixed;
-                bottom: 0;
-                left: 0;
-                width: 100%;
-                background: var(--bg-white);
-                border-top: 1px solid var(--border-color);
-                padding: 0.75rem 0;
+                bottom: 25px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 90%;
+                background: rgba(34, 34, 34, 0.95); /* Secondary Black */
+                backdrop-filter: blur(16px);
+                -webkit-backdrop-filter: blur(16px);
+                border-radius: 50px;
+                padding: 10px;
                 z-index: 1000;
+                box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+                border: 1px solid rgba(255,255,255,0.1);
             }
+
             .bottom-nav-item {
                 display: flex;
-                flex-direction: column;
+                flex-direction: row; /* Icon next to text */
                 align-items: center;
-                font-size: 0.8rem;
-                color: var(--text-muted);
+                justify-content: center;
+                color: #9ca3af;
                 cursor: pointer;
-                transition: color 0.3s;
+                padding: 10px 15px;
+                border-radius: 30px;
+                transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                gap: 8px;
             }
+
             .bottom-nav-item i {
                 font-size: 1.2rem;
-                margin-bottom: 0.25rem;
             }
+            
+            .bottom-nav-item span {
+                font-size: 0.85rem;
+                font-weight: 600;
+                display: none; /* Hide text initially */
+                white-space: nowrap;
+            }
+
+            /* Active State Animation */
             .bottom-nav-item.active {
+                background: white;
                 color: var(--primary-black);
+                transform: scale(1.05);
             }
-            .bottom-nav-item:hover {
-                color: var(--primary-black);
+            
+            .bottom-nav-item.active span {
+                display: inline-block;
+                animation: fadeIn 0.3s ease;
             }
-            body {
-                padding-bottom: 60px; /* Space for bottom nav */
-            }
+
+            /* Adjust Grid for Mobile */
             .grid {
                 grid-template-columns: 1fr;
                 gap: 1.5rem;
-                padding: 0 5% 4rem;
+                padding: 0 5%;
             }
-            .card-image {
-                height: 200px;
-            }
+            
+            /* Move Filters to Search View on Mobile */
             .filters {
-                padding: 1.5rem 5%;
+                display: none; /* Hidden from main flow on mobile */
+                padding: 0;
+                border: none;
+                background: transparent;
             }
-            .filter-tags-row {
-                gap: 0.5rem;
-            }
-            .filter-tag {
-                padding: 0.5rem 1rem;
-                font-size: 0.85rem;
-            }
-            .section-header {
-                padding: 2rem 5% 0.5rem;
-            }
-            .section-header h2 {
-                font-size: 1.5rem;
+            
+            /* Force show filters inside search view */
+            #mobileSearchView .filters {
+                display: block;
             }
         }
 
         @media (min-width: 768px) {
-            .bottom-nav {
-                display: none;
-            }
+            .bottom-nav { display: none; }
+            #mobileSearchView { display: none !important; }
         }
 
     </style>
@@ -309,23 +333,11 @@
         <div class="nav-btn-container">
             <button class="btn btn-primary" onclick="openAddModal()"><i class="fa-solid fa-plus"></i> List a Room</button>
         </div>
-        <div class="mobile-search-container search-container">
-            <div class="search-input-group">
-                <i class="fa-solid fa-location-dot"></i>
-                <input type="text" id="mobileSearchInput" placeholder="University, City, or Keyword...">
-            </div>
-            <div class="search-input-group">
-                <i class="fa-regular fa-calendar"></i>
-                <input type="text" placeholder="Move-in Date" onfocus="(this.type='date')">
-            </div>
-            <button class="search-btn" onclick="applyFilters()">Find Rooms</button>
-        </div>
     </nav>
 
     <section class="hero">
         <h1>Your Freedom,<br>starts with a home.</h1>
         <p>Discover verified rooms and apartments in your area. Safe, affordable, and just a click away.</p>
-     
         <div class="search-container">
             <div class="search-input-group">
                 <i class="fa-solid fa-location-dot"></i>
@@ -339,34 +351,57 @@
         </div>
     </section>
 
-    <div class="filters" id="filterContainer">
-        <div class="filter-tags-row">
-            <button class="filter-tag active" data-filter="all">All Properties</button>
-            <button class="filter-tag" data-filter="Single room">Single Rooms</button>
-            <button class="filter-tag" data-filter="Bachelor Room">Bachelor Rooms</button>
-            <button class="filter-tag" data-filter="2 Room">2 Room</button>
-            <button class="filter-tag" data-filter="Flat Apartments">Apartments</button>
+    <div id="mainContentWrapper">
+        
+        <div id="homeView">
+            <div class="section-header">
+                <h2 id="listingCount">Finding the best spots...</h2>
+            </div>
+            <section class="grid" id="listingsGrid"></section>
         </div>
 
-        <div class="price-range-container">
-            <div class="price-range-header">
-                <span>Budget per Month</span>
-                <span style="color: var(--accent-green)">R<span id="minPriceDisplay">0</span> – R<span id="maxPriceDisplay">20000</span></span>
+        <div id="mobileSearchView">
+            <div class="section-header" style="padding: 0 0 1.5rem 0;">
+                <h2>Filter your search</h2>
             </div>
-            <div class="range-container">
-                <div class="range-bg"></div>
-                <div class="range-track" id="rangeTrack"></div>
-                <input type="range" id="priceMin" min="0" max="30000" value="0" step="250">
-                <input type="range" id="priceMax" min="0" max="30000" value="20000" step="250">
+            
+            <div class="mobile-search-wrapper">
+                <div class="search-input-group">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <input type="text" id="mobileSearchInput" placeholder="University, City, or Keyword...">
+                </div>
+                <div class="search-input-group">
+                    <i class="fa-regular fa-calendar"></i>
+                    <input type="text" placeholder="Move-in Date" onfocus="(this.type='date')">
+                </div>
+                <button class="btn btn-primary" style="width: 100%; margin-top: 10px; border-radius: 12px;" onclick="applyFilters(); navigateTab(0);">Show Results</button>
+            </div>
+
+            <div class="filters" id="filterContainer">
+                <div class="filter-tags-row">
+                    <button class="filter-tag active" data-filter="all">All Properties</button>
+                    <button class="filter-tag" data-filter="Single room">Single Rooms</button>
+                    <button class="filter-tag" data-filter="Bachelor Room">Bachelor Rooms</button>
+                    <button class="filter-tag" data-filter="2 Room">2 Room</button>
+                    <button class="filter-tag" data-filter="Flat Apartments">Apartments</button>
+                </div>
+
+                <div class="price-range-container">
+                    <div class="price-range-header">
+                        <span>Budget per Month</span>
+                        <span style="color: var(--accent-green)">R<span id="minPriceDisplay">0</span> – R<span id="maxPriceDisplay">20000</span></span>
+                    </div>
+                    <div class="range-container">
+                        <div class="range-bg"></div>
+                        <div class="range-track" id="rangeTrack"></div>
+                        <input type="range" id="priceMin" min="0" max="30000" value="0" step="250">
+                        <input type="range" id="priceMax" min="0" max="30000" value="20000" step="250">
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="section-header">
-        <h2 id="listingCount">Finding the best spots...</h2>
     </div>
-
-    <section class="grid" id="listingsGrid"></section>
 
     <div class="modal-overlay" id="detailModal" onclick="if(event.target === this) closeModal()">
         <div class="modal-content">
@@ -457,15 +492,15 @@
     </footer>
 
     <div class="bottom-nav">
-        <div class="bottom-nav-item active">
-            <i class="fa-solid fa-home"></i>
+        <div class="bottom-nav-item active" data-tab="0" onclick="navigateTab(0)">
+            <i class="fa-solid fa-house"></i>
             <span>Home</span>
         </div>
-        <div class="bottom-nav-item">
-            <i class="fa-solid fa-search"></i>
+        <div class="bottom-nav-item" data-tab="1" onclick="navigateTab(1)">
+            <i class="fa-solid fa-magnifying-glass"></i>
             <span>Search</span>
         </div>
-        <div class="bottom-nav-item" onclick="openAddModal()">
+        <div class="bottom-nav-item" data-tab="2" onclick="navigateTab(2)">
             <i class="fa-solid fa-plus"></i>
             <span>List</span>
         </div>
@@ -475,7 +510,6 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        // Configuration (Keeping your original credentials)
         const firebaseConfig = {
             apiKey: "AIzaSyD_MtScfT0J5b8LbMm5oAATmw84plKWl-0",
             authDomain: "kasistay-3b79c.firebaseapp.com",
@@ -503,6 +537,97 @@
         const minPriceDisplay = document.getElementById('minPriceDisplay');
         const maxPriceDisplay = document.getElementById('maxPriceDisplay');
         const rangeTrack = document.getElementById('rangeTrack');
+
+        /* --- NAVIGATION & SWIPE LOGIC --- */
+        let currentTab = 0;
+        const totalTabs = 3;
+        const navItems = document.querySelectorAll('.bottom-nav-item');
+        const homeView = document.getElementById('homeView');
+        const searchView = document.getElementById('mobileSearchView');
+        const filtersDiv = document.querySelector('.filters'); // Identify filters
+
+        window.navigateTab = function(index) {
+            currentTab = index;
+            
+            // 1. Update Active Nav Styles
+            navItems.forEach(item => item.classList.remove('active'));
+            navItems[index].classList.add('active');
+
+            // 2. Logic for each Tab
+            if (index === 0) {
+                // Home: Show Grid, Hide Search View
+                homeView.style.display = 'block';
+                searchView.style.display = 'none';
+                
+                // If on Desktop, keep filters visible in normal place. 
+                // Since this is mobile-focused via CSS media queries, 
+                // CSS handles hiding #mobileSearchView on desktop automatically.
+                if(window.innerWidth < 768) {
+                   document.querySelector('.section-header h2').innerText = "Finding the best spots...";
+                   window.scrollTo(0, 0);
+                }
+            } 
+            else if (index === 1) {
+                // Search: Hide Grid, Show Search View
+                homeView.style.display = 'none';
+                searchView.style.display = 'block';
+                
+                // Move filters visually if needed or just toggle visibility
+                if(window.innerWidth < 768) {
+                    window.scrollTo(0, 0);
+                }
+            } 
+            else if (index === 2) {
+                // List: Open Modal
+                openAddModal();
+                // We keep the background as whatever view we were on (usually Home)
+                // but we highlight the "List" tab.
+            }
+        };
+
+        // Swipe Detection Variables
+        let touchStartX = 0;
+        let touchEndX = 0;
+        let touchStartY = 0;
+        let touchEndY = 0;
+
+        document.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+            touchStartY = e.changedTouches[0].screenY;
+        }, {passive: true});
+
+        document.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            touchEndY = e.changedTouches[0].screenY;
+            handleSwipe();
+        }, {passive: true});
+
+        function handleSwipe() {
+            // Ignore if screen is wide (Desktop)
+            if (window.innerWidth > 768) return;
+            
+            // Ignore small swipes or vertical scrolls
+            const xDiff = touchStartX - touchEndX;
+            const yDiff = touchStartY - touchEndY;
+            
+            if (Math.abs(xDiff) > Math.abs(yDiff) && Math.abs(xDiff) > 50) {
+                // Horizontal Swipe detected
+                if (xDiff > 0) {
+                    // Swiped Left (Next Tab)
+                    if (currentTab < totalTabs - 1) {
+                        // If current is Search(1) going to List(2), we open modal but maybe keep tab at 1 visually or 2
+                        // Let's standardise: 0 -> 1 -> 2
+                        navigateTab(currentTab + 1);
+                    }
+                } else {
+                    // Swiped Right (Prev Tab)
+                    if (currentTab > 0) {
+                        navigateTab(currentTab - 1);
+                    }
+                }
+            }
+        }
+        /* --- END NAVIGATION LOGIC --- */
 
         function updateRangeTrack() {
             const minVal = parseInt(priceMinInput.value);
@@ -548,7 +673,7 @@
             data.forEach((item, index) => {
                 const card = document.createElement('div');
                 card.className = 'card';
-                card.style.animationDelay = `${index * 0.05}s`; // Staggered entrance
+                card.style.animationDelay = `${index * 0.05}s`; 
                 card.dataset.id = item.id;
                 
                 const amenitiesHtml = item.amenities?.map(a => `<span class="amenity">${a}</span>`).slice(0,3).join('') || '';
@@ -569,44 +694,6 @@
                     </div>
                 `;
                 grid.appendChild(card);
-
-                // Add swipe gestures
-                card.addEventListener('touchstart', (evt) => {
-                    card.startX = evt.touches[0].clientX;
-                    card.startY = evt.touches[0].clientY;
-                    card.style.transition = '';
-                });
-
-                card.addEventListener('touchmove', (evt) => {
-                    if (!card.startX || !card.startY) return;
-                    const deltaX = evt.touches[0].clientX - card.startX;
-                    const deltaY = evt.touches[0].clientY - card.startY;
-                    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 10) {
-                        evt.preventDefault();
-                    }
-                    card.style.transform = `translateX(${deltaX}px)`;
-                });
-
-                card.addEventListener('touchend', () => {
-                    if (!card.startX || !card.startY) return;
-                    const deltaX = parseFloat(card.style.transform.replace('translateX(', '').replace('px)', '') || 0);
-                    const threshold = 100;
-                    card.style.transition = 'transform 0.3s';
-                    if (deltaX > threshold) {
-                        // Swiped right - like
-                        const likeBtn = card.querySelector('.like-btn');
-                        toggleLike(likeBtn);
-                    } else if (deltaX < -threshold) {
-                        // Swiped left - view
-                        openModal(card.dataset.id);
-                    }
-                    card.style.transform = '';
-                    setTimeout(() => {
-                        card.style.transition = '';
-                    }, 300);
-                    delete card.startX;
-                    delete card.startY;
-                });
             });
         };
 
@@ -634,6 +721,9 @@
             document.querySelector('[data-filter="all"]').classList.add('active');
             currentFilter = 'all';
             renderListings(listingsData);
+            
+            // If on mobile, go to home
+            if(window.innerWidth < 768) navigateTab(0);
         };
 
         window.toggleLike = function(btn) {
@@ -642,7 +732,6 @@
             icon.className = btn.classList.contains('liked') ? 'fa-solid fa-heart' : 'fa-regular fa-heart';
         };
 
-        // Modal Controls
         window.openModal = function(id) {
             const item = listingsData.find(x => x.id === id);
             if (!item) return;
@@ -661,7 +750,6 @@
         window.openAddModal = () => { document.getElementById('addModal').classList.add('active'); document.body.style.overflow = 'hidden'; };
         window.closeAddModal = () => { document.getElementById('addModal').classList.remove('active'); document.body.style.overflow = 'auto'; };
 
-        // Database logic
         window.addToDb = function() {
             const file = document.getElementById('addImage').files[0];
             if (!file) return alert('Please upload an image');
@@ -696,7 +784,6 @@
             .catch(() => alert('Upload failed. Check your connection.'));
         };
 
-        // Listeners
         document.querySelectorAll('.filter-tag').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.querySelectorAll('.filter-tag').forEach(b => b.classList.remove('active'));

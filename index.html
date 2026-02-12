@@ -89,7 +89,7 @@
         .section-header { padding: 3rem 5% 1rem; }
         .section-header h2 { font-size: 1.75rem; font-weight: 800; letter-spacing: -0.5px; }
         
-        /* Horizontal scroll container for cards */
+        /* Horizontal scroll container for cards with visible scrollbar */
         .horizontal-scroll-container {
             display: flex;
             gap: 1rem;
@@ -97,10 +97,28 @@
             padding: 0 5% 2rem;
             scroll-snap-type: x mandatory;
             -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
+            /* Custom scrollbar styling */
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent-green) var(--bg-off-white);
         }
+        
+        /* Webkit scrollbar styling */
         .horizontal-scroll-container::-webkit-scrollbar {
-            display: none;
+            height: 8px;
+        }
+        
+        .horizontal-scroll-container::-webkit-scrollbar-track {
+            background: var(--bg-off-white);
+            border-radius: 4px;
+        }
+        
+        .horizontal-scroll-container::-webkit-scrollbar-thumb {
+            background: var(--accent-green);
+            border-radius: 4px;
+        }
+        
+        .horizontal-scroll-container::-webkit-scrollbar-thumb:hover {
+            background: #059669;
         }
         
         /* Smaller card styles */
@@ -769,9 +787,9 @@
                 <h2 id="listingCount">Finding the best spots...</h2>
             </div>
             
-            <!-- Filter tabs row like mobile -->
+            <!-- Filter tabs row centered -->
             <div class="mobile-filter-row" style="display: block; padding: 0 5%; margin: 1rem 0;">
-                <div class="filter-tags-row" style="flex-wrap: nowrap; justify-content: flex-start; white-space: nowrap; overflow-x: auto;">
+                <div class="filter-tags-row" style="flex-wrap: nowrap; justify-content: center; white-space: nowrap; overflow-x: auto; scrollbar-width: thin; scrollbar-color: var(--accent-green) transparent;">
                     <button class="filter-tag active" data-filter="all">All Properties</button>
                     <button class="filter-tag" data-filter="Single room">Single Rooms</button>
                     <button class="filter-tag" data-filter="Bachelor Room">Bachelor Rooms</button>
@@ -793,7 +811,7 @@
                 </div>
             </div>
             
-            <!-- Horizontal scroll container for cards -->
+            <!-- Horizontal scroll container for cards with visible scrollbar -->
             <section class="horizontal-scroll-container" id="listingsGrid"></section>
         </div>
         <div id="mobileSearchView">

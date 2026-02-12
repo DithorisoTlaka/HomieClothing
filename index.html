@@ -46,10 +46,6 @@
         }
         .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary-black); letter-spacing: -1px; cursor: pointer; transition: var(--transition); }
         .logo:hover { transform: scale(1.05); }
-        .nav-links { display: flex; gap: 2rem; }
-        .nav-link { font-weight: 500; font-size: 0.95rem; color: var(--text-main); transition: 0.2s; cursor: pointer; position: relative; }
-        .nav-link::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -4px; left: 0; background: var(--primary-black); transition: 0.3s; }
-        .nav-link:hover::after { width: 100%; }
         .btn { padding: 0.75rem 1.5rem; border-radius: 50px; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: var(--transition); border: none; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;}
         .btn-primary { background: var(--primary-black); color: white; box-shadow: 0 4px 14px rgba(0,0,0,0.15); }
         .btn-primary:hover { background: #333; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.2); }
@@ -121,7 +117,8 @@
         .price { font-size: 1.4rem; font-weight: 800; color: var(--primary-black); }
         .price span { font-size: 0.9rem; color: var(--text-muted); font-weight: 400; }
         .card-title { font-weight: 700; font-size: 1.15rem; margin: 0.5rem 0; }
-        .card-location { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.2rem; display: flex; align-items: center; gap: 6px; }
+        .card-location { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.2rem; display: flex; align-items: center; gap: 6px; cursor: pointer; transition: var(--transition); }
+        .card-location:hover { color: var(--accent-green); }
         .amenities { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1.5rem; }
         .amenity { font-size: 0.75rem; font-weight: 600; color: var(--text-main); background: #f3f4f6; padding: 5px 12px; border-radius: 8px; }
         .card-btn {
@@ -348,7 +345,13 @@
 
         /* --- MODAL STYLES --- */
         
-        /* Property Detail Modal */
+        /* Property Detail Modal - Desktop wider */
+        @media (min-width: 768px) {
+            #detailModal .modal-content {
+                max-width: 700px;
+            }
+        }
+        
         #detailModal .modal-content {
             width: 90%;
             max-width: 420px;
@@ -413,6 +416,15 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
+        }
+        
+        #detailModal .modal-location-link {
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        #detailModal .modal-location-link:hover {
+            color: var(--accent-green);
         }
         
         #detailModal .modal-desc {
@@ -538,6 +550,28 @@
         #detailModal .close-modal:hover {
             transform: scale(1.1);
             background: white;
+        }
+        
+        /* Map Modal */
+        #mapModal .modal-content {
+            width: 95%;
+            max-width: 900px;
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        #mapModal .map-container {
+            flex: 1;
+            width: 100%;
+            border-radius: 0 0 24px 24px;
+            overflow: hidden;
+        }
+        
+        #mapModal iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
         }
         
         /* Add Listing Modal */
@@ -719,11 +753,6 @@
 <body>
     <nav>
         <div class="logo" onclick="resetFilters()">KasiStay<span style="color:var(--accent-green)">.</span></div>
-        <ul class="nav-links">
-            <li><span class="nav-link">Search</span></li>
-            <li><span class="nav-link">Universities</span></li>
-            <li><span class="nav-link">How it Works</span></li>
-        </ul>
         <div class="nav-btn-container">
             <button class="btn btn-primary" onclick="openAddModal()"><i class="fa-solid fa-plus"></i> List a Room</button>
         </div>
@@ -834,8 +863,8 @@
                     <div class="modal-price" id="modalPrice">R000<span>/mo</span></div>
                 </div>
                 <div class="modal-meta">
-                    <span id="modalLocation"><i class="fa-solid fa-location-dot"></i> Location</span>
-                    <span id="modalType"><i class="fa-solid fa-home"></i> Type</span>
+                    <span id="modalLocation" class="modal-location-link" onclick="openMapModal()"><i class="fa-solid fa-location-dot"></i> <span id="modalLocationText">Location</span> <i class="fa-solid fa-external-link-alt" style="font-size: 0.7rem; margin-left: 4px;"></i></span>
+                    <span id="modalType"><i class="fa-solid fa-home"></i> <span id="modalTypeText">Type</span></span>
                 </div>
                 <p class="modal-desc" id="modalDesc">Description...</p>
                 <div class="modal-amenities" id="modalAmenities"></div>
@@ -857,6 +886,18 @@
                         </a>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+    <!-- Map Modal -->
+    <div class="modal-overlay" id="mapModal" onclick="if(event.target === this) closeMapModal()">
+        <div class="modal-content">
+            <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem;">
+                <h2 style="font-size: 1.1rem; font-weight: 700;">Location</h2>
+                <button class="close-modal" onclick="closeMapModal()" style="position: static; width: 32px; height: 32px;"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="map-container">
+                <iframe id="mapFrame" src="" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
         </div>
     </div>
@@ -988,6 +1029,7 @@
         let currentFilter = 'all';
         let minPrice = 0;
         let maxPrice = 20000;
+        let currentItemLocation = '';
         const priceMinInput = document.getElementById('priceMin');
         const priceMaxInput = document.getElementById('priceMax');
         const minPriceDisplay = document.getElementById('minPriceDisplay');
@@ -1081,7 +1123,7 @@
                     <div class="card-content">
                         <div class="price">R${item.price.toLocaleString()}<span>/month</span></div>
                         <h3 class="card-title">${item.title}</h3>
-                        <div class="card-location"><i class="fa-solid fa-location-dot" style="color:var(--accent-green)"></i> ${item.location}</div>
+                        <div class="card-location" onclick="openMapModal('${item.location}'); event.stopPropagation();"><i class="fa-solid fa-location-dot" style="color:var(--accent-green)"></i> ${item.location}</div>
                         <div class="amenities">${amenitiesHtml}</div>
                         <button class="card-btn" onclick="openModal('${item.id}')">View Property</button>
                     </div>
@@ -1154,10 +1196,13 @@
             document.getElementById('modalImg').src = item.image;
             document.getElementById('modalTitle').textContent = item.title;
             document.getElementById('modalPrice').innerHTML = `R${item.price.toLocaleString()}<span>/mo</span>`;
-            document.getElementById('modalLocation').innerHTML = `<i class="fa-solid fa-location-dot"></i> ${item.location}`;
-            document.getElementById('modalType').innerHTML = `<i class="fa-solid fa-home"></i> ${item.type}`;
+            document.getElementById('modalLocationText').textContent = item.location;
+            document.getElementById('modalTypeText').textContent = item.type;
             document.getElementById('modalDesc').textContent = item.desc || 'A beautiful student-friendly space with great accessibility.';
             document.getElementById('modalAmenities').innerHTML = (item.amenities || []).map(a => `<span class="amenity">${a}</span>`).join('');
+            
+            // Store current location for map
+            currentItemLocation = item.location;
             
             // Update contact links
             const whatsappLink = document.getElementById('whatsappLink');
@@ -1170,6 +1215,27 @@
         };
         window.closeModal = () => {
             document.getElementById('detailModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        };
+        window.openMapModal = function(location) {
+            // Use provided location or fall back to stored location
+            const loc = location || currentItemLocation;
+            if (!loc) return;
+            
+            // Encode location for Google Maps embed
+            const encodedLocation = encodeURIComponent(loc + ', South Africa');
+            const mapUrl = `https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d114584.7047205965!2d27.9576224!3d-26.2041024!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjbCsDEyJzE0LjgiUyAyN8KwNTcnMjcuNCJF!5e0!3m2!1sen!2sza!4v1&q=${encodedLocation}`;
+            
+            // Alternative: use search-based embed
+            const searchMapUrl = `https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d100000!2d0!3d0!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1s${encodedLocation}!5e0!3m2!1sen!2sza!4v1`;
+            
+            document.getElementById('mapFrame').src = searchMapUrl;
+            document.getElementById('mapModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        };
+        window.closeMapModal = () => {
+            document.getElementById('mapModal').classList.remove('active');
+            document.getElementById('mapFrame').src = '';
             document.body.style.overflow = 'auto';
         };
         window.openAddModal = () => {

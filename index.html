@@ -1376,6 +1376,14 @@ window.closeModal = function(){
     if(modal) modal.classList.remove('active');
     document.body.style.overflow='auto';
 };
+         window.openAddModal = () => {
+    document.getElementById('addModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+};
+window.closeAddModal = () => {
+    document.getElementById('addModal').classList.remove('active');
+    document.body.style.overflow = 'auto';
+};
 
 // --- Event listeners ---
 document.querySelectorAll('.filter-tag').forEach(btn=>{

@@ -1220,9 +1220,11 @@ function renderBatch(data) {
 
         const imageDiv = card.querySelector('.card-image');
         const viewBtn = card.querySelector('.card-btn');
+        const locDiv = card.querySelector('.card-location');
 
         if (imageDiv) imageDiv.addEventListener('click', () => openModal(item.id));
         if (viewBtn) viewBtn.addEventListener('click', () => openModal(item.id));
+        if (locDiv) locDiv.addEventListener('click', () => openMapModal(item.location));
 
         grid.appendChild(card);
     });
@@ -1345,7 +1347,7 @@ window.openMapModal = function(location) {
     const loc = location || currentItemLocation;
     if (!loc) return;
     const encoded = encodeURIComponent(loc + ', South Africa');
-    const mapUrl = `https://www.google.com/maps/embed/v1/place?key=YOUR_GOOGLE_MAPS_API_KEY&q=${encoded}`;
+    const mapUrl = `https://www.google.com/maps?q=${encoded}&output=embed`;
     const frame = document.getElementById('mapFrame');
     if (frame) frame.src = mapUrl;
     const modal = document.getElementById('mapModal');

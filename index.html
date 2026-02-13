@@ -328,7 +328,7 @@
                 display: block;
                 overflow-x: auto;
                 padding: 0 5%;
-                margin: 1rem 0;
+                margin: 0.5rem 0 0.75rem 0;
             }
             .mobile-filter-row .filter-tags-row {
                 flex-wrap: nowrap;
@@ -348,7 +348,7 @@
         /* Property Detail Modal - Desktop wider */
         @media (min-width: 768px) {
             #detailModal .modal-content {
-                max-width: 700px;
+                max-width: 900px;
             }
         }
         
@@ -733,7 +733,7 @@
         #addForm select {
             cursor: pointer;
             appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg ' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b7280' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b7280' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
             background-repeat: no-repeat;
             background-position: right 1rem center;
             padding-right: 2.5rem;
@@ -1273,7 +1273,7 @@
             // Update contact links
             const whatsappLink = document.getElementById('whatsappLink');
             const callLink = document.getElementById('callLink');
-            whatsappLink.href = `https://wa.me/27123456789?text=Hi , I am interested in ${encodeURIComponent(item.title)}`;
+            whatsappLink.href = `https://wa.me/27123456789?text=Hi, I am interested in ${encodeURIComponent(item.title)}`;
             callLink.href = `tel:+27123456789`;
             
             document.getElementById('detailModal').classList.add('active');

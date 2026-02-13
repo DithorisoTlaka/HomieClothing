@@ -791,6 +791,32 @@
             padding: 1rem;
             font-size: 1rem;
         }
+        .modal {
+  display: none; 
+  position: fixed; 
+  z-index: 1000; 
+  left: 0; top: 0; 
+  width: 100%; height: 100%; 
+  overflow: auto; 
+  background-color: rgba(0,0,0,0.6);
+}
+.modal-content {
+  background-color: #fff;
+  margin: 10% auto;
+  padding: 1rem;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 600px;
+  position: relative;
+}
+.close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
         
         @media (max-width: 480px) {
             #addForm .form-row {
@@ -894,6 +920,14 @@
                         <input type="range" id="priceMin" min="0" max="30000" value="0" step="250">
                         <input type="range" id="priceMax" min="0" max="30000" value="20000" step="250">
                     </div>
+                    <!-- Map Modal -->
+<div id="mapModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeMapModal()">&times;</span>
+    <iframe id="mapFrame" width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+  </div>
+</div>
+
                 </div>
             </div>
         </div>
@@ -1066,7 +1100,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-// --- Firebase config ---
 const firebaseConfig = {
     apiKey: "AIzaSyD_MtScfT0J5b8LbMm5oAATmw84plKWl-0",
     authDomain: "kasistay-3b79c.firebaseapp.com",
@@ -1078,7 +1111,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-// --- DOM elements ---
 const grid = document.getElementById('listingsGrid');
 const countLabel = document.getElementById('listingCount');
 const searchInput = document.getElementById('searchInput');
@@ -1100,7 +1132,6 @@ const navItems = document.querySelectorAll('.bottom-nav-item');
 const homeView = document.getElementById('homeView');
 const searchView = document.getElementById('mobileSearchView');
 
-// --- State ---
 let listingsData = [];
 let currentFiltered = [];
 let displayedData = [];
@@ -1113,7 +1144,6 @@ let currentImages = [];
 let currentImageIndex = 0;
 const pageSize = 10;
 
-// --- Navigation ---
 window.navigateTab = function(index) {
     currentTab = index;
     navItems.forEach(item => item.classList.remove('active'));
@@ -1130,7 +1160,6 @@ window.navigateTab = function(index) {
     if (window.innerWidth < 768) window.scrollTo({ top: 0, behavior: 'smooth' });
 };
 
-// --- Price range update ---
 function updateRangeTrack(track, minDisplay, maxDisplay, minVal, maxVal) {
     const minPercent = (minVal / 30000) * 100;
     const maxPercent = (maxVal / 30000) * 100;
@@ -1142,7 +1171,6 @@ function updateRangeTrack(track, minDisplay, maxDisplay, minVal, maxVal) {
     if (maxDisplay) maxDisplay.textContent = maxVal.toLocaleString();
 }
 
-// --- Price input events ---
 [priceMinInput, priceMaxInput].forEach((input, idx) => {
     input.addEventListener('input', () => {
         let minVal = parseInt(priceMinInput.value) || 0;
@@ -1173,7 +1201,6 @@ function updateRangeTrack(track, minDisplay, maxDisplay, minVal, maxVal) {
     });
 });
 
-// --- Render listings ---
 function renderBatch(data) {
     data.forEach(item => {
         const card = document.createElement('div');
@@ -1320,6 +1347,27 @@ window.openModal = function(id) {
     currentItemLocation = item.location;
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
+};
+         // Open the map modal for a specific location
+window.openMapModal = function(location) {
+    const loc = location || currentItemLocation;
+    if (!loc) return;
+    const encoded = encodeURIComponent(loc + ', South Africa');
+    const mapUrl = `https://www.google.com/maps/embed/v1/place?key=YOUR_GOOGLE_MAPS_API_KEY&q=${encoded}`;
+    const frame = document.getElementById('mapFrame');
+    if (frame) frame.src = mapUrl;
+    const modal = document.getElementById('mapModal');
+    if (modal) modal.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+};
+
+// Close the map modal
+window.closeMapModal = function() {
+    const modal = document.getElementById('mapModal');
+    if (modal) modal.style.display = 'none';
+    const frame = document.getElementById('mapFrame');
+    if (frame) frame.src = '';
+    document.body.style.overflow = 'auto';
 };
 
 window.closeModal = function(){

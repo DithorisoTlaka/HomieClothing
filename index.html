@@ -1062,244 +1062,362 @@
             <span>List</span>
         </div>
     </div>
-    <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+     <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        const firebaseConfig = {
+            apiKey: "AIzaSyD_MtScfT0J5b8LbMm5oAATmw84plKWl-0",
+            authDomain: "kasistay-3b79c.firebaseapp.com",
+            projectId: "kasistay-3b79c",
+            storageBucket: "kasistay-3b79c.firebasestorage.app",
+            messagingSenderId: "19156366595",
+            appId: "1:19156366595:web:c64b9bd6dfde5790e02536"
+        };
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const grid = document.getElementById('listingsGrid');
+        const countLabel = document.getElementById('listingCount');
+        const searchInput = document.getElementById('searchInput');
+        const mobileSearchInput = document.getElementById('mobileSearchInput');
+        let listingsData = [];
+        let currentFilter = 'all';
+        let minPrice = 0;
+        let maxPrice = 20000;
+        let currentItemLocation = '';
+        let currentImages = [];
+        let currentImageIndex = 0;
+        const priceMinInput = document.getElementById('priceMin');
+        const priceMaxInput = document.getElementById('priceMax');
+        const minPriceDisplay = document.getElementById('minPriceDisplay');
+        const maxPriceDisplay = document.getElementById('maxPriceDisplay');
+        const rangeTrack = document.getElementById('rangeTrack');
+        const homePriceMinInput = document.getElementById('homePriceMin');
+        const homePriceMaxInput = document.getElementById('homePriceMax');
+        const homeMinPriceDisplay = document.getElementById('homeMinPriceDisplay');
+        const homeMaxPriceDisplay = document.getElementById('homeMaxPriceDisplay');
+        const homeRangeTrack = document.getElementById('homeRangeTrack');
+        let currentTab = 0;
+        const totalTabs = 3;
+        const navItems = document.querySelectorAll('.bottom-nav-item');
+        const homeView = document.getElementById('homeView');
+        const searchView = document.getElementById('mobileSearchView');
+        window.navigateTab = function(index) {
+            currentTab = index;
+            navItems.forEach(item => item.classList.remove('active'));
+            navItems[index].classList.add('active');
+            if (index === 0) {
+                homeView.style.display = 'block';
+                searchView.style.display = 'none';
+            } else if (index === 1) {
+                homeView.style.display = 'none';
+                searchView.style.display = 'block';
+            } else if (index === 2) {
+                openAddModal();
+            }
+            if (window.innerWidth < 768) window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+        function updateRangeTrack(track, minDisplay, maxDisplay, minVal, maxVal) {
+            const minPercent = (minVal / 30000) * 100;
+            const maxPercent = (maxVal / 30000) * 100;
+            track.style.left = minPercent + '%';
+            track.style.width = (maxPercent - minPercent) + '%';
+            minDisplay.textContent = minVal.toLocaleString();
+            maxDisplay.textContent = maxVal.toLocaleString();
+        }
+        priceMinInput.addEventListener('input', () => {
+            let val = parseInt(priceMinInput.value);
+            let maxVal = parseInt(priceMaxInput.value);
+            if (val > maxVal) priceMinInput.value = maxVal;
+            minPrice = parseInt(priceMinInput.value);
+            maxPrice = maxVal;
+            updateRangeTrack(rangeTrack, minPriceDisplay, maxPriceDisplay, minPrice, maxPrice);
+            applyFilters();
+        });
+        priceMaxInput.addEventListener('input', () => {
+            let val = parseInt(priceMaxInput.value);
+            let minVal = parseInt(priceMinInput.value);
+            if (val < minVal) priceMaxInput.value = minVal;
+            minPrice = minVal;
+            maxPrice = parseInt(priceMaxInput.value);
+            updateRangeTrack(rangeTrack, minPriceDisplay, maxPriceDisplay, minPrice, maxPrice);
+            applyFilters();
+        });
+        homePriceMinInput.addEventListener('input', () => {
+            let val = parseInt(homePriceMinInput.value);
+            let maxVal = parseInt(homePriceMaxInput.value);
+            if (val > maxVal) homePriceMinInput.value = maxVal;
+            minPrice = val;
+            maxPrice = maxVal;
+            updateRangeTrack(homeRangeTrack, homeMinPriceDisplay, homeMaxPriceDisplay, minPrice, maxPrice);
+            applyFilters();
+        });
+        homePriceMaxInput.addEventListener('input', () => {
+            let val = parseInt(homePriceMaxInput.value);
+            let minVal = parseInt(homePriceMinInput.value);
+            if (val < minVal) homePriceMaxInput.value = minVal;
+            minPrice = minVal;
+            maxPrice = val;
+            updateRangeTrack(homeRangeTrack, homeMinPriceDisplay, homeMaxPriceDisplay, minPrice, maxPrice);
+            applyFilters();
+        });
+        let currentFiltered = [];
+        let displayedData = [];
+        const pageSize = 10;
+        function renderBatch(data) {
+            data.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.dataset.id = item.id;
+                const amenitiesHtml = item.amenities?.map(a => `<span class="amenity">${a}</span>`).slice(0,3).join('') || '';
+                const verifiedHtml = item.verified ? `<span class="badge badge-verified"><i class="fa-solid fa-check-double"></i> Verified</span>` : `<span class="badge">New Listing</span>`;
+                card.innerHTML = `
+                    <div class="card-image">
+                        ${verifiedHtml}
+                        <button class="like-btn" onclick="toggleLike(this); event.stopPropagation();"><i class="fa-regular fa-heart"></i></button>
+                        <img src="${item.image}" alt="${item.title}" loading="lazy">
+                    </div>
+                    <div class="card-content">
+                        <div class="price">R${item.price.toLocaleString()}<span>/month</span></div>
+                        <h3 class="card-title">${item.title}</h3>
+                        <div class="card-location" onclick="openMapModal('${item.location}'); event.stopPropagation();"><i class="fa-solid fa-location-dot" style="color:var(--accent-green)"></i> ${item.location}</div>
+                        <div class="amenities">${amenitiesHtml}</div>
+                        <button class="card-btn" onclick="openModal('${item.id}')">View Property</button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+        window.renderListings = function(data) {
+            currentFiltered = data;
+            displayedData = [];
+            grid.innerHTML = "";
+            countLabel.innerText = `${data.length} Amazing Places Found`;
+            if (data.length === 0) {
+                grid.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 4rem 2rem;">
+                        <i class="fa-solid fa-house-crack" style="font-size: 3rem; color: #e5e7eb; margin-bottom: 1rem;"></i>
+                        <h3 style="color: var(--text-main)">No matching listings</h3>
+                        <p style="color: var(--text-muted)">Try adjusting your filters or search area.</p>
+                        <button class="btn btn-primary" style="margin-top: 1.5rem" onclick="resetFilters()">Clear all filters</button>
+                    </div>`;
+                return;
+            }
+            loadMore();
+        };
+        function loadMore() {
+            const start = displayedData.length;
+            const end = Math.min(start + pageSize, currentFiltered.length);
+            const batch = currentFiltered.slice(start, end);
+            renderBatch(batch);
+            displayedData = displayedData.concat(batch);
+        }
+        window.applyFilters = function() {
+            const searchElem = window.innerWidth <= 767 ? mobileSearchInput : searchInput;
+            const searchTerm = searchElem.value.toLowerCase().trim();
+            const filtered = listingsData.filter(item => {
+                const matchesSearch = !searchTerm ||
+                    item.title?.toLowerCase().includes(searchTerm) ||
+                    item.location?.toLowerCase().includes(searchTerm);
+                const matchesType = (currentFilter === 'all') || (item.type === currentFilter);
+                const matchesPrice = (item.price >= minPrice) && (item.price <= maxPrice);
+                return matchesSearch && matchesType && matchesPrice;
+            });
+            renderListings(filtered);
+        };
+        window.resetFilters = function() {
+            searchInput.value = '';
+            if (mobileSearchInput) mobileSearchInput.value = '';
+            priceMinInput.value = 0;
+            priceMaxInput.value = 20000;
+            homePriceMinInput.value = 0;
+            homePriceMaxInput.value = 20000;
+            updateRangeTrack(rangeTrack, minPriceDisplay, maxPriceDisplay, 0, 20000);
+            updateRangeTrack(homeRangeTrack, homeMinPriceDisplay, homeMaxPriceDisplay, 0, 20000);
+            document.querySelectorAll('.filter-tag').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('[data-filter="all"]').forEach(b => b.classList.add('active'));
+            currentFilter = 'all';
+            minPrice = 0;
+            maxPrice = 20000;
+            renderListings(listingsData);
+            if (window.innerWidth < 768) navigateTab(0);
+        };
+        window.toggleLike = function(btn) {
+            btn.classList.toggle('liked');
+            const icon = btn.querySelector('i');
+            icon.className = btn.classList.contains('liked') ? 'fa-solid fa-heart' : 'fa-regular fa-heart';
+        };
+        window.openModal = function(id) {
+            const item = listingsData.find(x => x.id === id);
+            if (!item) return;
+            document.getElementById('modalImg').src = item.image;
+            
+            // Setup images array - use main image and any additional images
+            currentImages = [item.image];
+            if (item.additionalImages && Array.isArray(item.additionalImages)) {
+                currentImages = currentImages.concat(item.additionalImages);
+            }
+            currentImageIndex = 0;
+            
+            // Render gallery
+            renderGallery();
+            
+            document.getElementById('modalTitle').textContent = item.title;
+            document.getElementById('modalPrice').innerHTML = `R${item.price.toLocaleString()}<span>/mo</span>`;
+            document.getElementById('modalLocationText').textContent = item.location;
+            document.getElementById('modalTypeText').textContent = item.type;
+            document.getElementById('modalDesc').textContent = item.desc || 'A beautiful student-friendly space with great accessibility.';
+            document.getElementById('modalAmenities').innerHTML = (item.amenities || []).map(a => `<span class="amenity">${a}</span>`).join('');
 
-// ====== Firebase Setup ======
-const firebaseConfig = {
-    apiKey: "AIzaSyD_MtScfT0J5b8LbMm5oAATmw84plKWl-0",
-    authDomain: "kasistay-3b79c.firebaseapp.com",
-    projectId: "kasistay-3b79c",
-    storageBucket: "kasistay-3b79c.firebasestorage.app",
-    messagingSenderId: "19156366595",
-    appId: "1:19156366595:web:c64b9bd6dfde5790e02536"
-};
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
+            // Store current location for map
+            currentItemLocation = item.location;
 
-// ====== DOM Elements ======
-const grid = document.getElementById('listingsGrid');
-const countLabel = document.getElementById('listingCount');
-const searchInput = document.getElementById('searchInput');
-const mobileSearchInput = document.getElementById('mobileSearchInput');
-const navItems = document.querySelectorAll('.bottom-nav-item');
-const homeView = document.getElementById('homeView');
-const searchView = document.getElementById('mobileSearchView');
+            // Update contact links
+            const whatsappLink = document.getElementById('whatsappLink');
+            const callLink = document.getElementById('callLink');
+            whatsappLink.href = `https://wa.me/27123456789?text=Hi , I am interested in ${encodeURIComponent(item.title)}`;
+            callLink.href = `tel:+27123456789`;
 
-// ====== State ======
-let listingsData = [];
-let currentFiltered = [];
-let displayedData = [];
-let currentFilter = 'all';
-let minPrice = 0;
-let maxPrice = 20000;
-let currentTab = 0;
+            document.getElementById('detailModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        };
+        
+        function renderGallery() {
+            const mainImage = document.getElementById('modalMainImage');
+            const thumbnailsContainer = document.getElementById('modalThumbnails');
+            
+            mainImage.src = currentImages[currentImageIndex];
+            
+            // Render thumbnails
+            thumbnailsContainer.innerHTML = currentImages.map((img, index) => `
+                <img src="${img}" class="modal-thumbnail ${index === currentImageIndex ? 'active' : ''}" onclick="selectImage(${index})">
+            `).join('');
+        }
+        
+        window.changeImage = function(direction) {
+            currentImageIndex += direction;
+            if (currentImageIndex < 0) currentImageIndex = currentImages.length - 1;
+            if (currentImageIndex >= currentImages.length) currentImageIndex = 0;
+            renderGallery();
+        };
+        
+        window.selectImage = function(index) {
+            currentImageIndex = index;
+            renderGallery();
+        };
+        
+        window.closeModal = () => {
+            document.getElementById('detailModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        };
+        window.openMapModal = function(location) {
+            // Use provided location or fall back to stored location
+            const loc = location || currentItemLocation;
+            if (!loc) return;
 
-// ====== PRICE SLIDER UTILITY ======
-function setupPriceSlider(minInput, maxInput, track, minDisplay, maxDisplay, callback) {
-    function update() {
-        const minVal = Math.min(parseInt(minInput.value), parseInt(maxInput.value));
-        const maxVal = Math.max(parseInt(minInput.value), parseInt(maxInput.value));
-        minInput.value = minVal;
-        maxInput.value = maxVal;
-        const minPercent = (minVal / 30000) * 100;
-        const maxPercent = (maxVal / 30000) * 100;
-        track.style.left = minPercent + '%';
-        track.style.width = (maxPercent - minPercent) + '%';
-        minDisplay.textContent = minVal.toLocaleString();
-        maxDisplay.textContent = maxVal.toLocaleString();
-        if (callback) callback(minVal, maxVal);
-    }
-    minInput.addEventListener('input', update);
-    maxInput.addEventListener('input', update);
-    update();
-}
+            // Encode location for Google Maps embed
+            const encodedLocation = encodeURIComponent(loc + ', South Africa');
+            const mapUrl = `https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d114584.7047205965!2d27.9576224!3d-26.2041024!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjbCsDEyJzE0LjgiUyAyN8KwNTcnMjcuNCJF!5e0!3m2!1sen!2sza!4v1&q=${encodedLocation}`;
+            
+            // Alternative: use search-based embed
+            const searchMapUrl = `https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d100000!2d0!3d0!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1s${encodedLocation}!5e0!3m2!1sen!2sza!4v1`;
 
-// ====== FILTER LOGIC ======
-function applyFilters() {
-    const searchTerm = (window.innerWidth <= 767 ? mobileSearchInput : searchInput).value.toLowerCase().trim();
-    currentFiltered = listingsData.filter(item => {
-        const matchesSearch = !searchTerm || item.title?.toLowerCase().includes(searchTerm) || item.location?.toLowerCase().includes(searchTerm);
-        const matchesType = currentFilter === 'all' || item.type === currentFilter;
-        const matchesPrice = item.price >= minPrice && item.price <= maxPrice;
-        return matchesSearch && matchesType && matchesPrice;
-    });
-    renderListings(currentFiltered);
-}
-
-function resetFilters() {
-    searchInput.value = '';
-    if (mobileSearchInput) mobileSearchInput.value = '';
-    currentFilter = 'all';
-    minPrice = 0;
-    maxPrice = 20000;
-    document.querySelectorAll('.filter-tag').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('[data-filter="all"]').forEach(b => b.classList.add('active'));
-    renderListings(listingsData);
-    if (window.innerWidth < 768) navigateTab(0);
-}
-
-// ====== NAVIGATION ======
-window.navigateTab = function(index) {
-    currentTab = index;
-    navItems.forEach(item => item.classList.remove('active'));
-    navItems[index].classList.add('active');
-    homeView.style.display = index === 0 ? 'block' : 'none';
-    searchView.style.display = index === 1 ? 'block' : 'none';
-    if (index === 2) openModalById('addModal');
-    if (window.innerWidth < 768) window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-// ====== LISTINGS ======
-function renderBatch(data) {
-    data.forEach(item => {
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.dataset.id = item.id;
-        const amenitiesHtml = item.amenities?.slice(0,3).map(a => `<span class="amenity">${a}</span>`).join('') || '';
-        const verifiedHtml = item.verified ? `<span class="badge badge-verified"><i class="fa-solid fa-check-double"></i> Verified</span>` : `<span class="badge">New Listing</span>`;
-        card.innerHTML = `
-            <div class="card-image">
-                ${verifiedHtml}
-                <button class="like-btn" onclick="toggleLike(this); event.stopPropagation();"><i class="fa-regular fa-heart"></i></button>
-                <img src="${item.image}" alt="${item.title}" loading="lazy">
-            </div>
-            <div class="card-content">
-                <div class="price">R${item.price.toLocaleString()}<span>/month</span></div>
-                <h3 class="card-title">${item.title}</h3>
-                <div class="card-location" onclick="openMapModal('${item.location}'); event.stopPropagation();"><i class="fa-solid fa-location-dot" style="color:var(--accent-green)"></i> ${item.location}</div>
-                <div class="amenities">${amenitiesHtml}</div>
-                <button class="card-btn" onclick="openListingModal('${item.id}')">View Property</button>
-            </div>
-        `;
-        grid.appendChild(card);
-    });
-}
-
-window.renderListings = function(data) {
-    displayedData = [];
-    grid.innerHTML = '';
-    countLabel.innerText = `${data.length} Amazing Places Found`;
-    if (!data.length) {
-        grid.innerHTML = `
-            <div style="grid-column:1/-1;text-align:center;padding:4rem 2rem;">
-                <i class="fa-solid fa-house-crack" style="font-size:3rem;color:#e5e7eb;margin-bottom:1rem;"></i>
-                <h3 style="color:var(--text-main)">No matching listings</h3>
-                <p style="color:var(--text-muted)">Try adjusting your filters or search area.</p>
-                <button class="btn btn-primary" onclick="resetFilters()">Clear all filters</button>
-            </div>`;
-        return;
-    }
-    loadMore();
-}
-
-function loadMore() {
-    const start = displayedData.length;
-    const batch = currentFiltered.slice(start, start + 10);
-    renderBatch(batch);
-    displayedData = displayedData.concat(batch);
-}
-
-// ====== MODAL SYSTEM ======
-const modalState = {};
-
-function openModalById(id) {
-    const modal = document.getElementById(id);
-    if (!modal) return;
-    modal.classList.add('active');
-    document.body.style.overflow = 'hidden';
-}
-
-function closeModalById(id) {
-    const modal = document.getElementById(id);
-    if (!modal) return;
-    modal.classList.remove('active');
-    document.body.style.overflow = 'auto';
-}
-
-// ====== GALLERY SYSTEM ======
-function setupGallery(modalId, mainImgId, thumbsContainerId) {
-    modalState[modalId] = { images: [], index: 0, mainImgId, thumbsContainerId };
-}
-
-function openGallery(modalId, images, startIndex = 0) {
-    if (!modalState[modalId]) return;
-    const state = modalState[modalId];
-    state.images = images;
-    state.index = startIndex;
-    renderGallery(modalId);
-    openModalById(modalId);
-}
-
-function renderGallery(modalId) {
-    const state = modalState[modalId];
-    const mainImg = document.getElementById(state.mainImgId);
-    const thumbsContainer = document.getElementById(state.thumbsContainerId);
-    mainImg.src = state.images[state.index];
-    thumbsContainer.innerHTML = state.images.map((img, i) => `
-        <img src="${img}" class="modal-thumbnail ${i===state.index?'active':''}" onclick="selectGalleryImage('${modalId}', ${i})">
-    `).join('');
-}
-
-window.changeGalleryImage = function(modalId, direction) {
-    const state = modalState[modalId];
-    state.index = (state.index + direction + state.images.length) % state.images.length;
-    renderGallery(modalId);
-}
-
-window.selectGalleryImage = function(modalId, index) {
-    modalState[modalId].index = index;
-    renderGallery(modalId);
-}
-
-// ====== LIKE BUTTON ======
-window.toggleLike = function(btn) {
-    btn.classList.toggle('liked');
-    btn.querySelector('i').className = btn.classList.contains('liked') ? 'fa-solid fa-heart' : 'fa-regular fa-heart';
-}
-
-// ====== SETUP ======
-document.querySelectorAll('.filter-tag').forEach(btn => {
-    btn.addEventListener('click', () => {
-        document.querySelectorAll('.filter-tag').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        currentFilter = btn.getAttribute('data-filter');
-        applyFilters();
-    });
-});
-searchInput.addEventListener('input', applyFilters);
-mobileSearchInput.addEventListener('input', applyFilters);
-
-onValue(ref(db, 'listings'), snapshot => {
-    listingsData = [];
-    snapshot.forEach(child => listingsData.push({ id: child.key, ...child.val() }));
-    renderListings(listingsData);
-});
-
-// Example: Setup two sliders with reusable function
-setupPriceSlider(
-    document.getElementById('priceMin'),
-    document.getElementById('priceMax'),
-    document.getElementById('rangeTrack'),
-    document.getElementById('minPriceDisplay'),
-    document.getElementById('maxPriceDisplay'),
-    (min, max) => { minPrice = min; maxPrice = max; applyFilters(); }
-);
-setupPriceSlider(
-    document.getElementById('homePriceMin'),
-    document.getElementById('homePriceMax'),
-    document.getElementById('homeRangeTrack'),
-    document.getElementById('homeMinPriceDisplay'),
-    document.getElementById('homeMaxPriceDisplay'),
-    (min, max) => { minPrice = min; maxPrice = max; applyFilters(); }
-);
-
-window.addEventListener('scroll', () => {
-    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100 && displayedData.length < currentFiltered.length) {
-        loadMore();
-    }
-});
-</script>
+            document.getElementById('mapFrame').src = searchMapUrl;
+            document.getElementById('mapModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        };
+        window.closeMapModal = () => {
+            document.getElementById('mapModal').classList.remove('active');
+            document.getElementById('mapFrame').src = '';
+            document.body.style.overflow = 'auto';
+        };
+        window.openAddModal = () => {
+            document.getElementById('addModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        };
+        window.closeAddModal = () => {
+            document.getElementById('addModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        };
+        // Show upload progress modal
+        function showUploadProgress() {
+            document.getElementById('uploadModal').classList.add('active');
+            document.getElementById('progressBar').style.width = '0%';
+            document.getElementById('progressStatus').textContent = 'Preparing file...';
+        }
+        // Update progress (simulated here – real progress would come from upload events)
+        function updateProgress(percent) {
+            document.getElementById('progressBar').style.width = percent + '%';
+            document.getElementById('progressStatus').textContent = `Uploading... ${percent}%`;
+        }
+        window.addToDb = async function() {
+            const file = document.getElementById('addImage').files[0];
+            if (!file) return alert('Please upload an image');
+            showUploadProgress();
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('upload_preset', 'admin_tlaka');
+            // Simulate progress (in real-world you'd use XMLHttpRequest for real progress events)
+            let progress = 0;
+            const fakeProgress = setInterval(() => {
+                progress += 12;
+                if (progress <= 96) updateProgress(progress);
+            }, 400);
+            try {
+                const res = await fetch('https://api.cloudinary.com/v1_1/dv5bsbydu/image/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await res.json();
+                clearInterval(fakeProgress);
+                updateProgress(100);
+                const newListing = {
+                    title: document.getElementById('addTitle').value,
+                    price: parseFloat(document.getElementById('addPrice').value),
+                    location: document.getElementById('addLocation').value,
+                    type: document.getElementById('addType').value,
+                    image: data.secure_url,
+                    verified: false,
+                    amenities: document.getElementById('addAmenities').value.split(',').map(s => s.trim()).filter(Boolean),
+                    desc: document.getElementById('addDesc').value,
+                    createdAt: new Date().toISOString()
+                };
+                await push(ref(db, 'listings'), newListing);
+                setTimeout(() => {
+                    document.getElementById('uploadModal').classList.remove('active');
+                    closeAddModal();
+                    document.getElementById('successModal').classList.add('active');
+                }, 600);
+            } catch (err) {
+                clearInterval(fakeProgress);
+                document.getElementById('uploadModal').classList.remove('active');
+                alert('Upload failed. Please check your connection and try again.');
+                console.error(err);
+            }
+        };
+        document.querySelectorAll('.filter-tag').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-tag').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentFilter = btn.getAttribute('data-filter');
+                applyFilters();
+            });
+        });
+        searchInput.addEventListener('input', applyFilters);
+        mobileSearchInput.addEventListener('input', applyFilters);
+        onValue(ref(db, 'listings'), (snapshot) => {
+            listingsData = [];
+            snapshot.forEach(child => {
+                listingsData.push({ id: child.key, ...child.val() });
+            });
+            renderListings(listingsData);
+        });
+        updateRangeTrack(rangeTrack, minPriceDisplay, maxPriceDisplay, 0, 20000);
+        updateRangeTrack(homeRangeTrack, homeMinPriceDisplay, homeMaxPriceDisplay, 0, 20000);
+        window.addEventListener('scroll', () => {
+            if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100 && displayedData.length < currentFiltered.length) {
+                loadMore();
+            }
+        });
+    </script>
 </body>
 </html>

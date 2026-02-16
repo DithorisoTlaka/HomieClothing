@@ -949,7 +949,7 @@
                 </div>
                 <p class="modal-desc" id="modalDesc">Description...</p>
                 <div class="modal-amenities" id="modalAmenities"></div>
-
+                
                 <div class="landlord-box" id="contactArea">
                     <div class="landlord-header">
                         <div class="landlord-avatar">K</div>
@@ -1046,10 +1046,11 @@
     <!-- Upload Progress Modal -->
     <div class="modal-overlay" id="uploadModal">
         <div class="progress-modal-content">
-            <h3 class="progress-text" id="progressStatus">Uploading your listing...</h3>
+            <h3 class="progress-text">Uploading your listing...</h3>
             <div class="progress-bar-container">
                 <div class="progress-bar" id="progressBar"></div>
             </div>
+            <p id="progressStatus">Preparing file...</p>
         </div>
     </div>
     <!-- Success Modal -->
@@ -1335,22 +1336,23 @@ window.openModal = function(id) {
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
 };
-
+         // Open the map modal for a specific location
 window.openMapModal = function(location) {
     const loc = location || currentItemLocation;
     if (!loc) return;
     const encoded = encodeURIComponent(loc + ', South Africa');
-    const mapUrl = `https://www.google.com/maps/embed/v1/place?key=YOUR_API_KEY&q=${encoded}`;
+    const mapUrl = `https://www.google.com/maps?q=${encoded}&output=embed`;
     const frame = document.getElementById('mapFrame');
     if (frame) frame.src = mapUrl;
     const modal = document.getElementById('mapModal');
-    if (modal) modal.classList.add('active');
+    if (modal) modal.style.display = 'block';
     document.body.style.overflow = 'hidden';
 };
 
+// Close the map modal
 window.closeMapModal = function() {
     const modal = document.getElementById('mapModal');
-    if (modal) modal.classList.remove('active');
+    if (modal) modal.style.display = 'none';
     const frame = document.getElementById('mapFrame');
     if (frame) frame.src = '';
     document.body.style.overflow = 'auto';
@@ -1361,8 +1363,7 @@ window.closeModal = function(){
     if(modal) modal.classList.remove('active');
     document.body.style.overflow='auto';
 };
-
-window.openAddModal = () => {
+         window.openAddModal = () => {
     document.getElementById('addModal').classList.add('active');
     document.body.style.overflow = 'hidden';
 };
@@ -1371,14 +1372,14 @@ window.closeAddModal = () => {
     document.body.style.overflow = 'auto';
 };
 
-// --- Add new listing (with automatic subscription node creation for each property) ---
+// --- Add new listing + auto-create subscription node for each property ---
 window.addToDb = function() {
     const uploadModal = document.getElementById('uploadModal');
     const progressBar = document.getElementById('progressBar');
     const progressStatus = document.getElementById('progressStatus');
 
     uploadModal.classList.add('active');
-    progressBar.style.width = '0%';
+    progressBar.style.width = '20%';
     progressStatus.textContent = 'Preparing...';
 
     const title = document.getElementById('addTitle').value.trim();
@@ -1391,53 +1392,54 @@ window.addToDb = function() {
     const imageFile = document.getElementById('addImage').files[0];
 
     if (!title || !price || !type || !location || !imageFile) {
-        alert('Please complete all required fields, including uploading a photo.');
+        alert('Please fill all required fields and upload at least one photo.');
         uploadModal.classList.remove('active');
         return;
     }
 
-    // Placeholder image (replace with Firebase Storage upload in production)
-    const image = 'https://via.placeholder.com/800x600.png?text=KasiStay+Room';
+    // Placeholder image (replace with real Storage upload later)
+    const image = 'https://via.placeholder.com/800x600/10b981/ffffff?text=Room+Photo';
 
     const newListing = {
         title,
         price,
         type,
         location,
-        desc: desc || 'No description provided.',
+        desc: desc || 'No description provided',
         amenities,
         image,
-        verified: false
+        verified: false,
+        timestamp: Date.now()
     };
 
     progressStatus.textContent = 'Saving listing...';
-    progressBar.style.width = '40%';
+    progressBar.style.width = '50%';
 
     const newRef = push(ref(db, 'listings'));
     set(newRef, newListing)
         .then(() => {
             progressStatus.textContent = 'Creating subscription channel...';
-            progressBar.style.width = '70%';
+            progressBar.style.width = '80%';
 
-            // Create subscription node for this specific property
+            // Automatically create a subscription node for this property
             return set(ref(db, `subscriptions/${newRef.key}`), {
                 subscribers: {}
             });
         })
         .then(() => {
             progressBar.style.width = '100%';
-            progressStatus.textContent = 'Listing posted successfully!';
+            progressStatus.textContent = 'Done!';
 
             setTimeout(() => {
                 uploadModal.classList.remove('active');
                 document.getElementById('successModal').classList.add('active');
                 document.getElementById('addForm').reset();
                 closeAddModal();
-            }, 800);
+            }, 600);
         })
-        .catch((error) => {
-            console.error('Error posting listing:', error);
-            alert('Failed to post listing. Please try again.');
+        .catch(err => {
+            console.error(err);
+            alert('Error posting listing. Try again.');
             uploadModal.classList.remove('active');
         });
 };

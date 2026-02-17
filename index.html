@@ -1387,14 +1387,6 @@ window.closeAddModal = () => {
 document.getElementById('addModal').classList.remove('active');
 document.body.style.overflow = 'auto';
 };
- import { ref, set, push, get, child } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
-import { getAuth } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-import { getDatabase } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
-
-// Initialize Auth & Database
-const auth = getAuth();
-const db = getDatabase();
- 
 // --- Add new listing + auto-create subscription node for each property ---
 <!-- Updated JS -->
 <script>

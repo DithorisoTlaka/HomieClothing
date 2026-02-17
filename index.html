@@ -1099,19 +1099,26 @@ Done
 </div>
 </div>
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js ";
-import { getDatabase, ref, push, onValue, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js ";
- 
+// Import Firebase modules
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+// Your Firebase config
 const firebaseConfig = {
-apiKey: "AIzaSyD_MtScfT0J5b8LbMm5oAATmw84plKWl-0",
-authDomain: "kasistay-3b79c.firebaseapp.com",
-projectId: "kasistay-3b79c",
-storageBucket: "kasistay-3b79c.firebasestorage.app",
-messagingSenderId: "19156366595",
-appId: "1:19156366595:web:c64b9bd6dfde5790e02536"
+    apiKey: "AIzaSyD_MtScfT0J5b8LbMm5oAATmw84plKWl-0",
+    authDomain: "kasistay-3b79c.firebaseapp.com",
+    projectId: "kasistay-3b79c",
+    storageBucket: "kasistay-3b79c.firebasestorage.app",
+    messagingSenderId: "19156366595",
+    appId: "1:19156366595:web:c64b9bd6dfde5790e02536"
 };
+
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 const db = getDatabase(app);
+
  
 const grid = document.getElementById('listingsGrid');
 const countLabel = document.getElementById('listingCount');
@@ -1380,6 +1387,13 @@ window.closeAddModal = () => {
 document.getElementById('addModal').classList.remove('active');
 document.body.style.overflow = 'auto';
 };
+ import { ref, set, push, get, child } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { getDatabase } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+// Initialize Auth & Database
+const auth = getAuth();
+const db = getDatabase();
  
 // --- Add new listing + auto-create subscription node for each property ---
 <!-- Updated JS -->
@@ -1400,6 +1414,7 @@ window.addToDb = function() {
         uploadModal.classList.remove('active');
         return;
     }
+const ownerRef = ref(db, 'users/' + auth.currentUser.uid);
 
     // 2️⃣ Check/Create Owner Account in Firebase
     const ownerRef = firebase.database().ref('users/' + firebase.auth().currentUser.uid);

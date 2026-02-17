@@ -1406,7 +1406,6 @@ window.addToDb = function() {
         uploadModal.classList.remove('active');
         return;
     }
-const ownerRef = ref(db, 'users/' + auth.currentUser.uid);
 
     // 2️⃣ Check/Create Owner Account in Firebase
     const ownerRef = firebase.database().ref('users/' + firebase.auth().currentUser.uid);

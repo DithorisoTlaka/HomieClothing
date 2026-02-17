@@ -1389,183 +1389,75 @@ document.body.style.overflow = 'auto';
 };
 // --- Add new listing + auto-create subscription node for each property ---
 window.addToDb = function() {
-const uploadModal = document.getElementById('uploadModal');
-const progressBar = document.getElementById('progressBar');
-const progressStatus = document.getElementById('progressStatus');
- 
-uploadModal.classList.add('active');
-progressBar.style.width = '20%';
-progressStatus.textContent = 'Preparing...';
- 
-// 1️⃣ Capture Owner Name
-const ownerName = document.getElementById('ownerName').value.trim();
-if (!ownerName) {
-alert("Please enter your property owner name.");
-uploadModal.classList.remove('active');
-return;
-}
- 
-// 2️⃣ Check/Create Owner Account in Firebase
-const ownerRef = ref(db, 'users/' + auth.currentUser.uid);
- 
-get(ownerRef).then(snapshot => {
-if (!snapshot.exists()) {
-// Owner does not exist → create with inactive subscription
-set(ownerRef, {
-name: ownerName,
-subscriptionStatus: 'inactive',
-subscriptionExpiry: null
-}).then(() => {
-// Redirect to subscription page
-window.location.href = '/subscribe.html?ownerId=' + auth.currentUser.uid;
-});
-} else {
-// Owner exists → check subscription
-const data = snapshot.val();
-if (data.subscriptionStatus !== 'active') {
-// Redirect to subscription page if subscription inactive
-window.location.href = '/subscribe.html?ownerId=' + auth.currentUser.uid;
-} else {
-// Owner active → proceed to save listing
-saveListing();
-}
-}
-}).catch(err => {
-console.error(err);
-alert('Error checking owner account. Try again.');
-uploadModal.classList.remove('active');
-});
- 
-// 3️⃣ Function to Save Listing
-function saveListing() {
-const title = document.getElementById('addTitle').value.trim();
-const price = Number(document.getElementById('addPrice').value);
-const type = document.getElementById('addType').value;
-const location = document.getElementById('addLocation').value.trim();
-const desc = document.getElementById('addDesc').value.trim();
-const amenitiesStr = document.getElementById('addAmenities').value;
-const amenities = amenitiesStr ? amenitiesStr.split(',').map(a => a.trim()).filter(a => a) : [];
-const imageFile = document.getElementById('addImage').files[0];
- 
-if (!title || !price || !type || !location || !imageFile) {
-alert('Please fill all required fields and upload at least one photo.');
-uploadModal.classList.remove('active');
-return;
-}
- 
-progressStatus.textContent = 'Uploading image to Cloudinary...';
-progressBar.style.width = '40%';
+    window.addToDb = function() {
+    const uploadModal = document.getElementById('uploadModal');
+    const progressBar = document.getElementById('progressBar');
+    const progressStatus = document.getElementById('progressStatus');
 
-const cloudName = 'dv5bsbydu'; 
-const uploadPreset = 'admin_tlaka'; 
+    uploadModal.classList.add('active');
+    progressBar.style.width = '20%';
+    progressStatus.textContent = 'Preparing...';
 
-const formData = new FormData();
-formData.append('file', imageFile);
-formData.append('upload_preset', uploadPreset);
+    const title = document.getElementById('addTitle').value.trim();
+    const price = Number(document.getElementById('addPrice').value);
+    const type = document.getElementById('addType').value;
+    const location = document.getElementById('addLocation').value.trim();
+    const desc = document.getElementById('addDesc').value.trim();
+    const amenitiesStr = document.getElementById('addAmenities').value;
+    const amenities = amenitiesStr ? amenitiesStr.split(',').map(a => a.trim()).filter(a => a) : [];
+    const imageFile = document.getElementById('addImage').files[0];
 
-fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
-  method: 'POST',
-  body: formData
-})
-.then(response => response.json())
-.then(data => {
-  if (!data.secure_url) {
-    throw new Error('Image upload failed');
-  }
-  const image = data.secure_url;
+    if (!title || !price || !type || !location || !imageFile) {
+        alert('Please fill all required fields and upload at least one photo.');
+        uploadModal.classList.remove('active');
+        return;
+    }
 
-  progressStatus.textContent = 'Saving listing...';
-  progressBar.style.width = '50%';
+    // Placeholder image (replace with real Storage upload later)
+    const image = 'https://via.placeholder.com/800x600/10b981/ffffff?text=Room+Photo';
 
-  const newListing = {
-    ownerId: auth.currentUser.uid, // attach owner ID
-    title,
-    price,
-    type,
-    location,
-    desc: desc || 'No description provided',
-    amenities,
-    image,
-    verified: false,
-    timestamp: Date.now()
-  };
- 
-  const newRef = push(ref(db, 'listings'));
-  set(newRef, newListing)
-  .then(() => {
-    progressStatus.textContent = 'Creating subscription channel...';
-    progressBar.style.width = '80%';
-   
-    // Optional subscription node (keep for future expansion)
-    return set(ref(db, `subscriptions/${newRef.key}`), {
-      subscribers: {}
-    });
-  })
-  .then(() => {
-    progressBar.style.width = '100%';
-    progressStatus.textContent = 'Done!';
-   
-    setTimeout(() => {
-      uploadModal.classList.remove('active');
-      document.getElementById('successModal').classList.add('active');
-      document.getElementById('addForm').reset();
-      closeAddModal();
-    }, 600);
-  });
-})
-.catch(err => {
-  console.error(err);
-  alert('Error posting listing. Try again.');
-  uploadModal.classList.remove('active');
-});
-}
-};
+    const newListing = {
+        title,
+        price,
+        type,
+        location,
+        desc: desc || 'No description provided',
+        amenities,
+        image,
+        verified: false,
+        timestamp: Date.now()
+    };
 
-    // ---- Save Listing Function ----
-    function saveListing() {
-        const title = document.getElementById('addTitle').value.trim();
-        const price = Number(document.getElementById('addPrice').value);
-        const type = document.getElementById('addType').value;
-        const location = document.getElementById('addLocation').value.trim();
-        const desc = document.getElementById('addDesc').value.trim();
-        const amenitiesStr = document.getElementById('addAmenities').value;
-        const amenities = amenitiesStr ? amenitiesStr.split(',').map(a => a.trim()).filter(a => a) : [];
-        const imageFile = document.getElementById('addImage').files[0];
+    progressStatus.textContent = 'Saving listing...';
+    progressBar.style.width = '50%';
 
-        if (!title || !price || !type || !location || !imageFile) {
-            alert('Please fill all required fields and upload a photo.');
-            uploadModal.classList.remove('active');
-            return;
-        }
+    const newRef = push(ref(db, 'listings'));
+    set(newRef, newListing)
+        .then(() => {
+            progressStatus.textContent = 'Creating subscription channel...';
+            progressBar.style.width = '80%';
 
-        // Placeholder image
-        const image = 'https://via.placeholder.com/800x600/10b981/ffffff?text=Room+Photo';
-        const newListing = {
-            ownerId: auth.currentUser.uid,
-            title,
-            price,
-            type,
-            location,
-            desc,
-            amenities,
-            image,
-            verified: false,
-            timestamp: Date.now()
-        };
+            // Automatically create a subscription node for this property
+            return set(ref(db, `subscriptions/${newRef.key}`), {
+                subscribers: {}
+            });
+        })
+        .then(() => {
+            progressBar.style.width = '100%';
+            progressStatus.textContent = 'Done!';
 
-        const newRef = push(ref(db, 'listings'));
-        set(newRef, newListing)
-            .then(() => {
-                alert('Listing posted successfully!');
+            setTimeout(() => {
+                uploadModal.classList.remove('active');
+                document.getElementById('successModal').classList.add('active');
                 document.getElementById('addForm').reset();
                 closeAddModal();
-            })
-            .catch(err => {
-                console.error(err);
-                alert('Error posting listing.');
-                uploadModal.classList.remove('active');
-            });
-    }
+            }, 600);
+        })
+        .catch(err => {
+            console.error(err);
+            alert('Error posting listing. Try again.');
+            uploadModal.classList.remove('active');
+        });
 };
 // --- Event listeners ---
 document.querySelectorAll('.filter-tag').forEach(btn=>{

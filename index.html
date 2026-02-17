@@ -24,7 +24,6 @@
 --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 * { margin:0; padding:0; box-sizing:border-box; font-family:'Inter',sans-serif; }
- 
 body {
 background: var(--bg-white);
 color: var(--text-main);
@@ -66,7 +65,6 @@ transition: var(--transition);
 .search-input-group { flex: 1; display: flex; align-items: center; gap: 12px; padding: 10px; }
 .search-input-group i { color: var(--accent-green); font-size: 1.1rem; }
 .search-input-group input { border: none; outline: none; width: 100%; font-size: 1rem; color: var(--primary-black); font-weight: 500; background: transparent; }
- 
 .search-btn { background: var(--primary-black); color: white; padding: 1.1rem 2.5rem; border-radius: 40px; font-weight: 700; cursor: pointer; border: none; transition: var(--transition); }
 .search-btn:hover { background: var(--accent-green); }
 /* --- Filters --- */
@@ -80,7 +78,6 @@ font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: var(--transiti
 .filter-tag.active { background: var(--primary-black); color: white; border-color: var(--primary-black); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
 .price-range-container { width: 100%; max-width: 450px; margin: 0 auto; }
 .price-range-header { display: flex; justify-content: space-between; margin-bottom: 1rem; font-size: 0.9rem; font-weight: 600; }
- 
 /* --- Grid & Cards --- */
 .section-header { padding: 3rem 5% 1rem; }
 .section-header h2 { font-size: 1.75rem; font-weight: 800; letter-spacing: -0.5px; }
@@ -96,11 +93,9 @@ background: white; border-radius: 24px; overflow: hidden;
 border: 1px solid var(--border-color); transition: var(--transition); position: relative;
 }
 .card:hover { transform: translateY(-10px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
- 
 .card-image { height: 240px; width: 100%; position: relative; overflow: hidden; background: #f3f4f6; }
 .card-image img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s ease; }
 .card:hover .card-image img { transform: scale(1.1); }
- 
 .badge {
 position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.9);
 padding: 6px 12px; border-radius: 10px; font-size: 0.7rem; font-weight: 800; backdrop-filter: blur(4px);
@@ -290,7 +285,6 @@ background: white;
 color: var(--primary-black);
 transform: scale(1.05);
 }
- 
 .bottom-nav-item.active span {
 display: inline-block;
 animation: fadeIn 0.3s ease;
@@ -300,13 +294,11 @@ grid-template-columns: repeat(2, 1fr);
 gap: 0.8rem;
 padding: 0 10px 6rem;
 }
- 
 .card {
 border-radius: 16px;
 display: flex;
 flex-direction: column;
 }
- 
 .card-image { height: 130px; }
 .badge { padding: 4px 8px; font-size: 0.6rem; top: 8px; left: 8px; }
 .like-btn { width: 30px; height: 30px; top: 8px; right: 8px; }
@@ -342,16 +334,13 @@ white-space: nowrap;
 .bottom-nav { display: none; }
 #mobileSearchView { display: none !important; }
 }
- 
 /* --- MODAL STYLES --- */
- 
 /* Property Detail Modal - Desktop wider */
 @media (min-width: 768px) {
 #detailModal .modal-content {
 max-width: 900px;
 }
 }
- 
 #detailModal .modal-content {
 width: 90%;
 max-width: 420px;
@@ -360,7 +349,6 @@ display: flex;
 flex-direction: column;
 overflow: hidden;
 }
- 
 #detailModal .modal-gallery {
 width: 100%;
 height: 300px;
@@ -368,13 +356,11 @@ position: relative;
 background: #f3f4f6;
 flex-shrink: 0;
 }
- 
 #detailModal .modal-main-image {
 width: 100%;
 height: 100%;
 object-fit: cover;
 }
- 
 #detailModal .modal-thumbnails {
 display: flex;
 gap: 8px;
@@ -383,7 +369,6 @@ overflow-x: auto;
 background: white;
 border-bottom: 1px solid var(--border-color);
 }
- 
 #detailModal .modal-thumbnail {
 width: 80px;
 height: 60px;
@@ -394,12 +379,10 @@ border: 2px solid transparent;
 transition: var(--transition);
 flex-shrink: 0;
 }
- 
 #detailModal .modal-thumbnail:hover,
 #detailModal .modal-thumbnail.active {
 border-color: var(--accent-green);
 }
- 
 #detailModal .gallery-nav {
 position: absolute;
 top: 50%;
@@ -416,28 +399,23 @@ justify-content: center;
 z-index: 10;
 transition: var(--transition);
 }
- 
 #detailModal .gallery-nav:hover {
 background: white;
 transform: translateY(-50%) scale(1.1);
 }
- 
 #detailModal .gallery-nav.prev { left: 12px; }
 #detailModal .gallery-nav.next { right: 12px; }
- 
 #detailModal .modal-body {
 padding: 1.25rem;
 overflow-y: auto;
 flex: 1;
 }
- 
 #detailModal .modal-header-info {
 display: flex;
 justify-content: space-between;
 align-items: flex-start;
 margin-bottom: 0.75rem;
 }
- 
 #detailModal .modal-title {
 font-size: 1.25rem;
 font-weight: 800;
@@ -446,20 +424,17 @@ line-height: 1.3;
 flex: 1;
 padding-right: 1rem;
 }
- 
 #detailModal .modal-price {
 font-size: 1.1rem;
 font-weight: 800;
 color: var(--primary-black);
 white-space: nowrap;
 }
- 
 #detailModal .modal-price span {
 font-size: 0.75rem;
 color: var(--text-muted);
 font-weight: 400;
 }
- 
 #detailModal .modal-meta {
 display: flex;
 flex-direction: column;
@@ -468,55 +443,46 @@ color: var(--text-muted);
 font-size: 0.85rem;
 margin-bottom: 1rem;
 }
- 
 #detailModal .modal-meta span {
 display: flex;
 align-items: center;
 gap: 0.5rem;
 }
- 
 #detailModal .modal-location-link {
 cursor: pointer;
 transition: var(--transition);
 }
- 
 #detailModal .modal-location-link:hover {
 color: var(--accent-green);
 }
- 
 #detailModal .modal-desc {
 color: #4b5563;
 line-height: 1.6;
 margin-bottom: 1rem;
 font-size: 0.9rem;
 }
- 
 #detailModal .modal-amenities {
 display: flex;
 flex-wrap: wrap;
 gap: 6px;
 margin-bottom: 1.25rem;
 }
- 
 #detailModal .modal-amenities .amenity {
 font-size: 0.7rem;
 padding: 4px 10px;
 }
- 
 #detailModal .landlord-box {
 background: #f9fafb;
 padding: 1rem;
 border-radius: 16px;
 border: 1px solid var(--border-color);
 }
- 
 #detailModal .landlord-header {
 display: flex;
 align-items: center;
 gap: 0.75rem;
 margin-bottom: 0.75rem;
 }
- 
 #detailModal .landlord-avatar {
 width: 40px;
 height: 40px;
@@ -529,17 +495,14 @@ color: white;
 font-weight: 700;
 font-size: 1rem;
 }
- 
 #detailModal .landlord-info {
 flex: 1;
 }
- 
 #detailModal .landlord-name {
 font-weight: 700;
 color: var(--primary-black);
 font-size: 0.95rem;
 }
- 
 #detailModal .landlord-status {
 font-size: 0.75rem;
 color: var(--accent-green);
@@ -548,12 +511,10 @@ display: flex;
 align-items: center;
 gap: 0.25rem;
 }
- 
 #detailModal .contact-buttons {
 display: flex;
 gap: 8px;
 }
- 
 #detailModal .contact-btn {
 flex: 1;
 padding: 0.75rem;
@@ -567,25 +528,20 @@ justify-content: center;
 gap: 0.4rem;
 transition: var(--transition);
 }
- 
 #detailModal .contact-btn.whatsapp {
 background: #25D366;
 color: white;
 }
- 
 #detailModal .contact-btn.whatsapp:hover {
 background: #128C7E;
 }
- 
 #detailModal .contact-btn.call {
 background: var(--primary-black);
 color: white;
 }
- 
 #detailModal .contact-btn.call:hover {
 background: #333;
 }
- 
 #detailModal .close-modal {
 position: absolute;
 top: 12px;
@@ -603,12 +559,10 @@ justify-content: center;
 z-index: 10;
 transition: var(--transition);
 }
- 
 #detailModal .close-modal:hover {
 transform: scale(1.1);
 background: white;
 }
- 
 /* Map Modal */
 #mapModal .modal-content {
 width: 95%;
@@ -617,20 +571,17 @@ height: 80vh;
 display: flex;
 flex-direction: column;
 }
- 
 #mapModal .map-container {
 flex: 1;
 width: 100%;
 border-radius: 0 0 24px 24px;
 overflow: hidden;
 }
- 
 #mapModal iframe {
 width: 100%;
 height: 100%;
 border: none;
 }
- 
 /* Add Listing Modal */
 #addModal .modal-content {
 width: 90%;
@@ -640,7 +591,6 @@ display: flex;
 flex-direction: column;
 overflow: hidden;
 }
- 
 #addModal .modal-header {
 padding: 1.25rem 1.5rem;
 border-bottom: 1px solid var(--border-color);
@@ -648,13 +598,11 @@ display: flex;
 align-items: center;
 justify-content: space-between;
 }
- 
 #addModal .modal-header h2 {
 font-size: 1.25rem;
 font-weight: 800;
 margin: 0;
 }
- 
 #addModal .close-modal {
 background: transparent;
 border: none;
@@ -668,46 +616,38 @@ justify-content: center;
 color: var(--text-muted);
 transition: var(--transition);
 }
- 
 #addModal .close-modal:hover {
 background: var(--bg-off-white);
 color: var(--primary-black);
 }
- 
 #addModal .modal-body {
 padding: 1.5rem;
 overflow-y: auto;
 flex: 1;
 }
- 
 #addForm {
 display: flex;
 flex-direction: column;
 gap: 1rem;
 }
- 
 #addForm .form-row {
 display: grid;
 grid-template-columns: 1fr 1fr;
 gap: 1rem;
 }
- 
 #addForm .form-group {
 display: flex;
 flex-direction: column;
 gap: 0.4rem;
 }
- 
 #addForm .form-group.full-width {
 grid-column: span 2;
 }
- 
 #addForm label {
 font-weight: 600;
 font-size: 0.85rem;
 color: var(--text-main);
 }
- 
 #addForm input[type="text"],
 #addForm input[type="number"],
 #addForm select,
@@ -721,7 +661,6 @@ background: white;
 transition: var(--transition);
 outline: none;
 }
- 
 #addForm input[type="text"]:focus,
 #addForm input[type="number"]:focus,
 #addForm select:focus,
@@ -729,7 +668,6 @@ outline: none;
 border-color: var(--accent-green);
 box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
 }
- 
 #addForm select {
 cursor: pointer;
 appearance: none;
@@ -738,12 +676,10 @@ background-repeat: no-repeat;
 background-position: right 1rem center;
 padding-right: 2.5rem;
 }
- 
 #addForm textarea {
 resize: vertical;
 min-height: 80px;
 }
- 
 #addForm .file-upload {
 position: relative;
 border: 2px dashed var(--border-color);
@@ -754,12 +690,10 @@ transition: var(--transition);
 cursor: pointer;
 background: var(--bg-off-white);
 }
- 
 #addForm .file-upload:hover {
 border-color: var(--accent-green);
 background: #f0fdf4;
 }
- 
 #addForm .file-upload input[type="file"] {
 position: absolute;
 inset: 0;
@@ -768,24 +702,20 @@ cursor: pointer;
 width: 100%;
 height: 100%;
 }
- 
 #addForm .file-upload-icon {
 font-size: 1.5rem;
 color: var(--accent-green);
 margin-bottom: 0.5rem;
 }
- 
 #addForm .file-upload-text {
 font-size: 0.85rem;
 color: var(--text-muted);
 font-weight: 500;
 }
- 
 #addForm .file-upload-text span {
 color: var(--accent-green);
 font-weight: 600;
 }
- 
 #addForm .submit-btn {
 margin-top: 0.5rem;
 padding: 1rem;
@@ -816,20 +746,120 @@ right: 15px;
 font-size: 1.5rem;
 cursor: pointer;
 }
- 
- 
 @media (max-width: 480px) {
 #addForm .form-row {
 grid-template-columns: 1fr;
 }
- 
 #addForm .form-group.full-width {
 grid-column: span 1;
 }
- 
 #addModal .modal-body {
 padding: 1.25rem;
 }
+}
+/* --- Reviews Styles --- */
+.rating-stars {
+display: flex;
+gap: 4px;
+color: #eab308; /* Gold color for stars */
+}
+.rating-stars i {
+font-size: 0.9rem;
+}
+.review-section {
+margin-top: 1.5rem;
+border-top: 1px solid var(--border-color);
+padding-top: 1rem;
+}
+.review-header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-bottom: 1rem;
+}
+.review-header h3 {
+font-size: 1rem;
+font-weight: 700;
+}
+.review-average {
+display: flex;
+align-items: center;
+gap: 0.5rem;
+font-weight: 600;
+}
+.review-list {
+display: flex;
+flex-direction: column;
+gap: 1rem;
+max-height: 200px;
+overflow-y: auto;
+}
+.review-item {
+background: #f9fafb;
+padding: 1rem;
+border-radius: 12px;
+border: 1px solid var(--border-color);
+}
+.review-item .review-top {
+display: flex;
+justify-content: space-between;
+margin-bottom: 0.5rem;
+}
+.review-item .review-user {
+font-weight: 600;
+font-size: 0.85rem;
+}
+.review-item .review-date {
+font-size: 0.75rem;
+color: var(--text-muted);
+}
+.review-item .review-rating {
+display: flex;
+gap: 4px;
+color: #eab308;
+font-size: 0.8rem;
+}
+.review-item p {
+font-size: 0.85rem;
+line-height: 1.5;
+color: #4b5563;
+}
+.add-review-btn {
+background: var(--accent-green);
+color: white;
+padding: 0.75rem 1.5rem;
+border-radius: 50px;
+font-weight: 600;
+cursor: pointer;
+transition: var(--transition);
+}
+.add-review-btn:hover {
+background: #059669;
+transform: translateY(-1px);
+}
+#reviewModal .modal-content {
+max-width: 480px;
+}
+#reviewModal .form-group {
+margin-bottom: 1rem;
+}
+#reviewModal .star-rating {
+display: flex;
+gap: 8px;
+justify-content: center;
+margin-bottom: 1rem;
+}
+#reviewModal .star-rating i {
+font-size: 1.5rem;
+color: #d1d5db;
+cursor: pointer;
+transition: color 0.2s;
+}
+#reviewModal .star-rating i.selected {
+color: #eab308;
+}
+#reviewModal textarea {
+height: 100px;
 }
 </style>
 </head>
@@ -841,7 +871,6 @@ padding: 1.25rem;
     <button class="btn btn-primary" onclick="openAddModal()"><i class="fa-solid fa-plus"></i> List a Room</button>
   </div>
 </nav>
-
 <!-- HERO SECTION -->
 <section class="hero">
   <h1>Your Freedom,<br>starts with a home.</h1>
@@ -858,16 +887,13 @@ padding: 1.25rem;
     <button class="search-btn" onclick="applyFilters()">Find Rooms</button>
   </div>
 </section>
-
 <!-- MAIN CONTENT -->
 <div id="mainContentWrapper">
-
   <!-- HOME VIEW -->
   <div id="homeView">
     <div class="section-header">
       <h2 id="listingCount">Finding the best spots...</h2>
     </div>
-
     <div class="mobile-filter-row">
       <div class="filter-tags-row">
         <button class="filter-tag active" data-filter="all">All Properties</button>
@@ -877,7 +903,6 @@ padding: 1.25rem;
         <button class="filter-tag" data-filter="Flat Apartments">Apartments</button>
       </div>
     </div>
-
     <div class="home-price-range price-range-container">
       <div class="price-range-header">
         <span>Budget per Month</span>
@@ -890,10 +915,8 @@ padding: 1.25rem;
         <input type="range" id="homePriceMax" min="0" max="30000" value="20000" step="250">
       </div>
     </div>
-
     <section class="grid" id="listingsGrid"></section>
   </div>
-
   <!-- MOBILE SEARCH VIEW -->
   <div id="mobileSearchView">
     <div class="section-header" style="padding: 0 0 1.5rem 0;">
@@ -923,8 +946,6 @@ padding: 1.25rem;
           <span>Budget per Month</span>
           <span style="color: var(--accent-green)">R<span id="minPriceDisplay">0</span> – R<span id="maxPriceDisplay">20000</span></span>
         </div>
-        <label for="ownerName">Property Owner Name</label>
-        <input type="text" id="ownerName" placeholder="Enter your name" required>
         <div class="range-container">
           <div class="range-bg"></div>
           <div class="range-track" id="rangeTrack"></div>
@@ -935,7 +956,6 @@ padding: 1.25rem;
     </div>
   </div>
 </div>
-
 <!-- DETAIL MODAL -->
 <div class="modal-overlay" id="detailModal" onclick="if(event.target===this) closeModal()">
   <div class="modal-content">
@@ -970,10 +990,23 @@ padding: 1.25rem;
           <a href="#" class="contact-btn call" id="callLink"><i class="fa-solid fa-phone"></i> Call</a>
         </div>
       </div>
+      <!-- Reviews Section -->
+      <div class="review-section">
+        <div class="review-header">
+          <h3>Reviews</h3>
+          <div class="review-average" id="modalAvgRating">
+            <span class="rating-stars" id="modalAvgStars"></span>
+            <span id="modalReviewCount">(0 reviews)</span>
+          </div>
+        </div>
+        <div class="review-list" id="modalReviewList">
+          <!-- Reviews will be populated here -->
+        </div>
+        <button class="add-review-btn" onclick="openReviewModal()">Add Review</button>
+      </div>
     </div>
   </div>
 </div>
-
 <!-- MAP MODAL -->
 <div class="modal-overlay" id="mapModal" onclick="if(event.target===this) closeMapModal()">
   <div class="modal-content">
@@ -986,7 +1019,6 @@ padding: 1.25rem;
     </div>
   </div>
 </div>
-
 <!-- ADD LISTING MODAL -->
 <div class="modal-overlay" id="addModal" onclick="if(event.target===this) closeAddModal()">
   <div class="modal-content">
@@ -1044,7 +1076,34 @@ padding: 1.25rem;
     </div>
   </div>
 </div>
-
+<!-- REVIEW MODAL -->
+<div class="modal-overlay" id="reviewModal" onclick="if(event.target===this) closeReviewModal()">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Add Your Review</h2>
+      <button class="close-modal" onclick="closeReviewModal()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body">
+      <form id="reviewForm">
+        <div class="form-group">
+          <label>Rating</label>
+          <div class="star-rating" id="reviewStars">
+            <i class="fa-solid fa-star" data-rating="1"></i>
+            <i class="fa-solid fa-star" data-rating="2"></i>
+            <i class="fa-solid fa-star" data-rating="3"></i>
+            <i class="fa-solid fa-star" data-rating="4"></i>
+            <i class="fa-solid fa-star" data-rating="5"></i>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Your Review</label>
+          <textarea id="reviewComment" placeholder="Share your experience..." required></textarea>
+        </div>
+        <button type="button" class="btn btn-primary submit-btn" onclick="submitReview()">Submit Review</button>
+      </form>
+    </div>
+  </div>
+</div>
 <!-- UPLOAD & SUCCESS MODALS -->
 <div class="modal-overlay" id="uploadModal">
   <div class="progress-modal-content">
@@ -1061,7 +1120,6 @@ padding: 1.25rem;
     <button class="btn btn-primary" onclick="document.getElementById('successModal').classList.remove('active')" style="margin-top:1rem; padding:0.9rem 2rem;">Done</button>
   </div>
 </div>
-
 <!-- FOOTER -->
 <footer>
   <div class="logo" style="color:white; font-size:2rem;">KasiStay<span style="color:var(--accent-green)">.</span></div>
@@ -1074,7 +1132,6 @@ padding: 1.25rem;
   </div>
   <div class="copyright">© 2026 KasiStay Inc. Built to make your, job easier.</div>
 </footer>
-
 <!-- BOTTOM NAV -->
 <div class="bottom-nav">
   <div class="bottom-nav-item active" data-tab="0" onclick="navigateTab(0)">
@@ -1087,14 +1144,12 @@ padding: 1.25rem;
     <i class="fa-solid fa-plus"></i><span>List</span>
   </div>
 </div>
-
 <!-- SCRIPT -->
 <script type="module">
 // Import Firebase modules
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-import { getDatabase, ref, push, set, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
-
+import { getDatabase, ref, push, set, onValue, update } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 // Firebase config
 const firebaseConfig = {
     apiKey: "AIzaSyD_MtScfT0J5b8LbMm5oAATmw84plKWl-0",
@@ -1104,34 +1159,28 @@ const firebaseConfig = {
     messagingSenderId: "19156366595",
     appId: "1:19156366595:web:c64b9bd6dfde5790e02536"
 };
-
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getDatabase(app);
-
 // --- ELEMENT REFERENCES ---
 const grid = document.getElementById('listingsGrid');
 const countLabel = document.getElementById('listingCount');
 const searchInput = document.getElementById('searchInput');
 const mobileSearchInput = document.getElementById('mobileSearchInput');
-
 const priceMinInput = document.getElementById('priceMin');
 const priceMaxInput = document.getElementById('priceMax');
 const minPriceDisplay = document.getElementById('minPriceDisplay');
 const maxPriceDisplay = document.getElementById('maxPriceDisplay');
 const rangeTrack = document.getElementById('rangeTrack');
-
 const homePriceMinInput = document.getElementById('homePriceMin');
 const homePriceMaxInput = document.getElementById('homePriceMax');
 const homeMinPriceDisplay = document.getElementById('homeMinPriceDisplay');
 const homeMaxPriceDisplay = document.getElementById('homeMaxPriceDisplay');
 const homeRangeTrack = document.getElementById('homeRangeTrack');
-
 const navItems = document.querySelectorAll('.bottom-nav-item');
 const homeView = document.getElementById('homeView');
 const searchView = document.getElementById('mobileSearchView');
-
 // --- STATE ---
 let listingsData = [];
 let currentFiltered = [];
@@ -1143,8 +1192,9 @@ let currentTab = 0;
 let currentItemLocation = '';
 let currentImages = [];
 let currentImageIndex = 0;
+let currentListingId = null;
+let selectedRating = 0;
 const pageSize = 10;
-
 // --- NAVIGATION ---
 window.navigateTab = function(index) {
     currentTab = index;
@@ -1155,7 +1205,6 @@ window.navigateTab = function(index) {
     if (index === 2) openAddModal();
     if (window.innerWidth < 768) window.scrollTo({top:0, behavior:'smooth'});
 };
-
 // --- PRICE RANGE TRACK ---
 function updateRangeTrack(track, minDisplay, maxDisplay, minVal, maxVal){
     const minPercent = (minVal/30000)*100;
@@ -1164,7 +1213,6 @@ function updateRangeTrack(track, minDisplay, maxDisplay, minVal, maxVal){
     if(minDisplay) minDisplay.textContent = minVal.toLocaleString();
     if(maxDisplay) maxDisplay.textContent = maxVal.toLocaleString();
 }
-
 // Bind range inputs
 [priceMinInput, priceMaxInput].forEach(input=>{
     input.addEventListener('input',()=>{
@@ -1178,7 +1226,6 @@ function updateRangeTrack(track, minDisplay, maxDisplay, minVal, maxVal){
         applyFilters();
     });
 });
-
 [homePriceMinInput, homePriceMaxInput].forEach(input=>{
     input.addEventListener('input',()=>{
         let minVal=parseInt(homePriceMinInput.value)||0;
@@ -1191,7 +1238,6 @@ function updateRangeTrack(track, minDisplay, maxDisplay, minVal, maxVal){
         applyFilters();
     });
 });
-
 // --- RENDER LISTINGS ---
 function renderBatch(data){
     data.forEach(item=>{
@@ -1200,6 +1246,8 @@ function renderBatch(data){
         card.dataset.id=item.id;
         const amenitiesHtml = item.amenities?.map(a=>`<span class="amenity">${a}</span>`).slice(0,3).join('')||'';
         const verifiedHtml = item.verified ? `<span class="badge badge-verified"><i class="fa-solid fa-check-double"></i> Verified</span>` : `<span class="badge">New Listing</span>`;
+        const avgRating = calculateAverageRating(item.reviews || []);
+        const ratingHtml = avgRating > 0 ? `<div class="rating-stars">${generateStars(avgRating)}</div>` : '';
         card.innerHTML=`
             <div class="card-image" style="cursor:pointer;">
                 ${verifiedHtml}
@@ -1210,6 +1258,7 @@ function renderBatch(data){
                 <h3 class="card-title">${item.title}</h3>
                 <div class="card-location"><i class="fa-solid fa-location-dot"></i> ${item.location}</div>
                 <div class="amenities">${amenitiesHtml}</div>
+                ${ratingHtml}
                 <button class="card-btn">View Property</button>
             </div>
         `;
@@ -1222,7 +1271,6 @@ function renderBatch(data){
         grid.appendChild(card);
     });
 }
-
 window.renderListings = function(data){
     currentFiltered = data; displayedData=[];
     grid.innerHTML='';
@@ -1238,7 +1286,6 @@ window.renderListings = function(data){
     }
     loadMore();
 }
-
 function loadMore(){
     const start = displayedData.length;
     const end = Math.min(start+pageSize, currentFiltered.length);
@@ -1246,7 +1293,6 @@ function loadMore(){
     renderBatch(batch);
     displayedData = displayedData.concat(batch);
 }
-
 // --- FILTERS ---
 window.applyFilters=function(){
     const searchElem=window.innerWidth<=767 ? mobileSearchInput : searchInput;
@@ -1259,7 +1305,6 @@ window.applyFilters=function(){
     });
     renderListings(filtered);
 }
-
 window.resetFilters=function(){
     searchInput.value=''; if(mobileSearchInput) mobileSearchInput.value='';
     priceMinInput.value=homePriceMinInput.value=0;
@@ -1272,11 +1317,11 @@ window.resetFilters=function(){
     renderListings(listingsData);
     if(window.innerWidth<768) navigateTab(0);
 }
-
 // --- MODALS & GALLERY ---
 window.openModal=function(id){
     const item = listingsData.find(x=>x.id===id);
     if(!item) return;
+    currentListingId = id;
     currentImages=[item.image]; if(item.additionalImages?.length) currentImages=currentImages.concat(item.additionalImages);
     currentImageIndex=0;
     const modal = document.getElementById('detailModal');
@@ -1289,8 +1334,11 @@ window.openModal=function(id){
     const amenitiesElem=document.getElementById('modalAmenities');
     const whatsappLink=document.getElementById('whatsappLink');
     const callLink=document.getElementById('callLink');
+    const reviewList = document.getElementById('modalReviewList');
+    const avgRatingElem = document.getElementById('modalAvgRating');
+    const avgStarsElem = document.getElementById('modalAvgStars');
+    const reviewCountElem = document.getElementById('modalReviewCount');
     if(!modal||!mainImg) return;
-
     function renderGallery(){
         mainImg.src=currentImages[currentImageIndex];
         const thumbs=document.getElementById('modalThumbnails');
@@ -1308,9 +1356,25 @@ window.openModal=function(id){
     if(whatsappLink) whatsappLink.href=`https://wa.me/27123456789?text=Hi , I'm interested in ${encodeURIComponent(item.title)}`;
     if(callLink) callLink.href=`tel:+27123456789`;
     currentItemLocation=item.location;
+    // Render reviews
+    const reviews = item.reviews || [];
+    const avgRating = calculateAverageRating(reviews);
+    if (avgStarsElem) avgStarsElem.innerHTML = generateStars(avgRating);
+    if (reviewCountElem) reviewCountElem.textContent = `(${reviews.length} reviews)`;
+    if (reviewList) {
+        reviewList.innerHTML = reviews.length > 0 ? reviews.map(review => `
+            <div class="review-item">
+                <div class="review-top">
+                    <span class="review-user">Anonymous</span>
+                    <span class="review-date">${new Date(review.timestamp).toLocaleDateString()}</span>
+                </div>
+                <div class="review-rating">${generateStars(review.rating)}</div>
+                <p>${review.comment}</p>
+            </div>
+        `).join('') : '<p>No reviews yet. Be the first!</p>';
+    }
     modal.classList.add('active'); document.body.style.overflow='hidden';
 }
-
 window.openMapModal=function(location){
     const loc=location||currentItemLocation; if(!loc) return;
     const encoded=encodeURIComponent(loc+', South Africa');
@@ -1325,7 +1389,72 @@ window.closeMapModal=function(){ const modal=document.getElementById('mapModal')
 window.closeModal=function(){ const modal=document.getElementById('detailModal'); if(modal) modal.classList.remove('active'); document.body.style.overflow='auto'; }
 window.openAddModal=()=>{ document.getElementById('addModal').classList.add('active'); document.body.style.overflow='hidden'; }
 window.closeAddModal=()=>{ document.getElementById('addModal').classList.remove('active'); document.body.style.overflow='auto'; }
-
+// --- REVIEWS ---
+function calculateAverageRating(reviews) {
+    if (reviews.length === 0) return 0;
+    const sum = reviews.reduce((acc, review) => acc + review.rating, 0);
+    return Math.round((sum / reviews.length) * 10) / 10;
+}
+function generateStars(rating) {
+    let stars = '';
+    for (let i = 1; i <= 5; i++) {
+        if (i <= rating) {
+            stars += '<i class="fa-solid fa-star"></i>';
+        } else if (i - 0.5 <= rating) {
+            stars += '<i class="fa-solid fa-star-half-alt"></i>';
+        } else {
+            stars += '<i class="fa-regular fa-star"></i>';
+        }
+    }
+    return stars;
+}
+window.openReviewModal = function() {
+    selectedRating = 0;
+    document.getElementById('reviewComment').value = '';
+    const stars = document.querySelectorAll('#reviewStars i');
+    stars.forEach(star => {
+        star.classList.remove('selected');
+        star.addEventListener('click', () => {
+            selectedRating = parseInt(star.dataset.rating);
+            stars.forEach(s => s.classList.toggle('selected', parseInt(s.dataset.rating) <= selectedRating));
+        });
+    });
+    document.getElementById('reviewModal').classList.add('active');
+}
+window.closeReviewModal = function() {
+    document.getElementById('reviewModal').classList.remove('active');
+}
+window.submitReview = function() {
+    const comment = document.getElementById('reviewComment').value.trim();
+    if (selectedRating === 0 || !comment) {
+        alert('Please select a rating and add a comment.');
+        return;
+    }
+    const newReview = {
+        rating: selectedRating,
+        comment: comment,
+        timestamp: Date.now()
+    };
+    const listingRef = ref(db, `listings/${currentListingId}`);
+    onValue(listingRef, (snapshot) => {
+        const data = snapshot.val();
+        const reviews = data.reviews || [];
+        reviews.push(newReview);
+        update(listingRef, { reviews: reviews }).then(() => {
+            closeReviewModal();
+            closeModal();
+            // Refresh data
+            onValue(ref(db, 'listings'), snapshot => {
+                listingsData = [];
+                snapshot.forEach(child => listingsData.push({id: child.key, ...child.val()}));
+                renderListings(listingsData);
+            });
+        }).catch(err => {
+            console.error(err);
+            alert('Error submitting review.');
+        });
+    }, { onlyOnce: true });
+}
 // --- ADD LISTING ---
 window.addToDb=function(){
     const uploadModal=document.getElementById('uploadModal');
@@ -1342,7 +1471,7 @@ window.addToDb=function(){
     const imageFile=document.getElementById('addImage').files[0];
     if(!title||!price||!type||!location||!imageFile){ alert('Please fill all required fields and upload at least one photo.'); uploadModal.classList.remove('active'); return; }
     const image='https://via.placeholder.com/800x600/10b981/ffffff?text=Room+Photo';
-    const newListing={ title, price, type, location, desc:desc||'No description provided', amenities, image, verified:false, timestamp:Date.now() };
+    const newListing={ title, price, type, location, desc:desc||'No description provided', amenities, image, verified:false, timestamp:Date.now(), reviews: [] };
     progressStatus.textContent='Saving listing...'; progressBar.style.width='50%';
     const newRef=push(ref(db,'listings'));
     set(newRef,newListing)
@@ -1350,7 +1479,6 @@ window.addToDb=function(){
         .then(()=>{ progressBar.style.width='100%'; progressStatus.textContent='Done!'; setTimeout(()=>{ uploadModal.classList.remove('active'); document.getElementById('successModal').classList.add('active'); document.getElementById('addForm').reset(); closeAddModal(); },600); })
         .catch(err=>{ console.error(err); alert('Error posting listing. Try again.'); uploadModal.classList.remove('active'); });
 }
-
 // --- FILTER BUTTONS ---
 document.querySelectorAll('.filter-tag').forEach(btn=>{
     btn.addEventListener('click',()=>{
@@ -1362,18 +1490,15 @@ document.querySelectorAll('.filter-tag').forEach(btn=>{
 });
 searchInput&&searchInput.addEventListener('input',applyFilters);
 mobileSearchInput&&mobileSearchInput.addEventListener('input',applyFilters);
-
 // --- FIREBASE LISTENER ---
 onValue(ref(db,'listings'),snapshot=>{
     listingsData=[];
     snapshot.forEach(child=>listingsData.push({id:child.key, ...child.val()}));
     renderListings(listingsData);
 });
-
 // --- INITIAL RANGE ---
 updateRangeTrack(rangeTrack, minPriceDisplay, maxPriceDisplay,0,20000);
 updateRangeTrack(homeRangeTrack, homeMinPriceDisplay, homeMaxPriceDisplay,0,20000);
-
 // --- INFINITE SCROLL ---
 window.addEventListener('scroll',()=>{
     if(window.innerHeight+window.scrollY>=document.body.offsetHeight-100 && displayedData.length<currentFiltered.length){
@@ -1383,4 +1508,3 @@ window.addEventListener('scroll',()=>{
 </script>
 </body>
 </html>
-

@@ -197,7 +197,7 @@
         .range-container { position: relative; height: 30px; display: flex; align-items: center; }
         input[type="range"] { -webkit-appearance: none; width: 100%; background: transparent; position: absolute; }
         input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; height: 22px; width: 22px; border-radius: 50%; background: white; border: 2px solid var(--primary-black); cursor: pointer; margin-top: -8px; position: relative; z-index: 2; }
-        .range-track { position: absolute; height: 6px; background: var(--accent-green); border-radius: 3px; z-index: 1; }
+        .range-track { position: absolute; height: 6px; background: var(--accent-teal); border-radius: 3px; z-index: 1; }
         .range-bg { position: absolute; width: 100%; height: 6px; background: #e5e7eb; border-radius: 3px; }
         /* --- MOBILE SPECIFIC STYLES --- */
         .mobile-search-view { display: none; }
@@ -915,6 +915,8 @@
                         <span>Budget per Month</span>
                         <span style="color: var(--accent-green)">R<span id="minPriceDisplay">0</span> – R<span id="maxPriceDisplay">20000</span></span>
                     </div>
+                    <label for="ownerName">Property Owner Name</label>
+                    <input type="text" id="ownerName" placeholder="Enter your name" required>
                     <div class="range-container">
                         <div class="range-bg"></div>
                         <div class="range-track" id="rangeTrack"></div>
@@ -1382,68 +1384,110 @@ window.addToDb = function() {
     progressBar.style.width = '20%';
     progressStatus.textContent = 'Preparing...';
 
-    const title = document.getElementById('addTitle').value.trim();
-    const price = Number(document.getElementById('addPrice').value);
-    const type = document.getElementById('addType').value;
-    const location = document.getElementById('addLocation').value.trim();
-    const desc = document.getElementById('addDesc').value.trim();
-    const amenitiesStr = document.getElementById('addAmenities').value;
-    const amenities = amenitiesStr ? amenitiesStr.split(',').map(a => a.trim()).filter(a => a) : [];
-    const imageFile = document.getElementById('addImage').files[0];
-
-    if (!title || !price || !type || !location || !imageFile) {
-        alert('Please fill all required fields and upload at least one photo.');
+    // 1️⃣ Capture Owner Name
+    const ownerName = document.getElementById('ownerName').value.trim();
+    if (!ownerName) {
+        alert("Please enter your property owner name.");
         uploadModal.classList.remove('active');
         return;
     }
 
-    // Placeholder image (replace with real Storage upload later)
-    const image = 'https://via.placeholder.com/800x600/10b981/ffffff?text=Room+Photo';
+    // 2️⃣ Check/Create Owner Account in Firebase
+    const ownerRef = ref(db, 'users/' + auth.currentUser.uid);
 
-    const newListing = {
-        title,
-        price,
-        type,
-        location,
-        desc: desc || 'No description provided',
-        amenities,
-        image,
-        verified: false,
-        timestamp: Date.now()
-    };
-
-    progressStatus.textContent = 'Saving listing...';
-    progressBar.style.width = '50%';
-
-    const newRef = push(ref(db, 'listings'));
-    set(newRef, newListing)
-        .then(() => {
-            progressStatus.textContent = 'Creating subscription channel...';
-            progressBar.style.width = '80%';
-
-            // Automatically create a subscription node for this property
-            return set(ref(db, `subscriptions/${newRef.key}`), {
-                subscribers: {}
+    get(ownerRef).then(snapshot => {
+        if (!snapshot.exists()) {
+            // Owner does not exist → create with inactive subscription
+            set(ownerRef, {
+                name: ownerName,
+                subscriptionStatus: 'inactive',
+                subscriptionExpiry: null
+            }).then(() => {
+                // Redirect to subscription page
+                window.location.href = '/subscribe.html?ownerId=' + auth.currentUser.uid;
             });
-        })
-        .then(() => {
-            progressBar.style.width = '100%';
-            progressStatus.textContent = 'Done!';
+        } else {
+            // Owner exists → check subscription
+            const data = snapshot.val();
+            if (data.subscriptionStatus !== 'active') {
+                // Redirect to subscription page if subscription inactive
+                window.location.href = '/subscribe.html?ownerId=' + auth.currentUser.uid;
+            } else {
+                // Owner active → proceed to save listing
+                saveListing();
+            }
+        }
+    }).catch(err => {
+        console.error(err);
+        alert('Error checking owner account. Try again.');
+        uploadModal.classList.remove('active');
+    });
 
-            setTimeout(() => {
-                uploadModal.classList.remove('active');
-                document.getElementById('successModal').classList.add('active');
-                document.getElementById('addForm').reset();
-                closeAddModal();
-            }, 600);
-        })
-        .catch(err => {
-            console.error(err);
-            alert('Error posting listing. Try again.');
+    // 3️⃣ Function to Save Listing
+    function saveListing() {
+        const title = document.getElementById('addTitle').value.trim();
+        const price = Number(document.getElementById('addPrice').value);
+        const type = document.getElementById('addType').value;
+        const location = document.getElementById('addLocation').value.trim();
+        const desc = document.getElementById('addDesc').value.trim();
+        const amenitiesStr = document.getElementById('addAmenities').value;
+        const amenities = amenitiesStr ? amenitiesStr.split(',').map(a => a.trim()).filter(a => a) : [];
+        const imageFile = document.getElementById('addImage').files[0];
+
+        if (!title || !price || !type || !location || !imageFile) {
+            alert('Please fill all required fields and upload at least one photo.');
             uploadModal.classList.remove('active');
-        });
-};
+            return;
+        }
 
+        progressStatus.textContent = 'Saving listing...';
+        progressBar.style.width = '50%';
+
+        // Placeholder image (replace with real Storage upload later)
+        const image = 'https://via.placeholder.com/800x600/10b981/ffffff?text=Room+Photo';
+
+        const newListing = {
+            ownerId: auth.currentUser.uid, // attach owner ID
+            title,
+            price,
+            type,
+            location,
+            desc: desc || 'No description provided',
+            amenities,
+            image,
+            verified: false,
+            timestamp: Date.now()
+        };
+
+        const newRef = push(ref(db, 'listings'));
+        set(newRef, newListing)
+            .then(() => {
+                progressStatus.textContent = 'Creating subscription channel...';
+                progressBar.style.width = '80%';
+
+                // Optional subscription node (keep for future expansion)
+                return set(ref(db, `subscriptions/${newRef.key}`), {
+                    subscribers: {}
+                });
+            })
+            .then(() => {
+                progressBar.style.width = '100%';
+                progressStatus.textContent = 'Done!';
+
+                setTimeout(() => {
+                    uploadModal.classList.remove('active');
+                    document.getElementById('successModal').classList.add('active');
+                    document.getElementById('addForm').reset();
+                    closeAddModal();
+                }, 600);
+            })
+            .catch(err => {
+                console.error(err);
+                alert('Error posting listing. Try again.');
+                uploadModal.classList.remove('active');
+            });
+    }
+};
 // --- Event listeners ---
 document.querySelectorAll('.filter-tag').forEach(btn=>{
     btn.addEventListener('click',()=>{

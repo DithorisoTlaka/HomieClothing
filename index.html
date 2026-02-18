@@ -1310,7 +1310,8 @@ function updateRangeTrack(track, minDisplay, maxDisplay, minVal, maxVal){
     });
 });
 // --- RENDER LISTINGS ---
-function renderBatch(data){
+console.log("Batch size:", data.length);
+  function renderBatch(data){
     data.forEach((item, index)=>{
         const card = document.createElement('div');
         card.className='card';

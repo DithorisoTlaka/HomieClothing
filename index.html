@@ -224,7 +224,7 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
 .range-container { position: relative; height: 30px; display: flex; align-items: center; }
 input[type="range"] { -webkit-appearance: none; width: 100%; background: transparent; position: absolute; }
 input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; height: 22px; width: 22px; border-radius: 50%; background: white; border: 2px solid var(--primary-black); cursor: pointer; margin-top: -8px; position: relative; z-index: 2; }
-.range-track { position: absolute; height: 6px; background: var(--accent-blue); border-radius: 3px; z-index: 1; }
+.range-track { position: absolute; height: 6px; background: var(--accent-green); border-radius: 3px; z-index: 1; }
 .range-bg { position: absolute; width: 100%; height: 6px; background: #e5e7eb; border-radius: 3px; }
 .dark-mode .range-bg { background: #333; }
 /* --- MOBILE SPECIFIC STYLES --- */
@@ -372,6 +372,7 @@ white-space: nowrap;
 @media (min-width: 768px) {
 .bottom-nav { display: none; }
 #mobileSearchView { display: none !important; }
+#desktopFilters { display: block; }
 }
 /* --- MODAL STYLES --- */
 /* Property Detail Modal - Desktop wider */
@@ -923,9 +924,9 @@ height: 100px;
 <!-- NAVIGATION -->
 <nav>
   <div class="logo" onclick="resetFilters()">KasiStay<span style="color:var(--accent-green)">.</span></div>
-  <i class="fa-solid fa-moon dark-toggle" onclick="toggleDarkMode()"></i>
   <div class="nav-btn-container">
     <button class="btn btn-primary" onclick="openAddModal()"><i class="fa-solid fa-plus"></i> List a Room</button>
+    <button class="btn btn-primary" id="authButton">Sign In</button>
   </div>
 </nav>
 <!-- HERO SECTION -->
@@ -944,6 +945,27 @@ height: 100px;
     <button class="search-btn" onclick="applyFilters()">Find Rooms</button>
   </div>
 </section>
+<div class="filters" id="desktopFilters">
+  <div class="filter-tags-row">
+    <button class="filter-tag active" data-filter="all">All Properties</button>
+    <button class="filter-tag" data-filter="Single room">Single Rooms</button>
+    <button class="filter-tag" data-filter="Bachelor Room">Bachelor Rooms</button>
+    <button class="filter-tag" data-filter="2 Room">2 Room</button>
+    <button class="filter-tag" data-filter="Flat Apartments">Apartments</button>
+  </div>
+  <div class="price-range-container">
+    <div class="price-range-header">
+      <span>Budget per Month</span>
+      <span style="color: var(--accent-green)">R<span id="minPriceDisplay">0</span> – R<span id="maxPriceDisplay">20000</span></span>
+    </div>
+    <div class="range-container">
+      <div class="range-bg"></div>
+      <div class="range-track" id="rangeTrack"></div>
+      <input type="range" id="priceMin" min="0" max="30000" value="0" step="250">
+      <input type="range" id="priceMax" min="0" max="30000" value="20000" step="250">
+    </div>
+  </div>
+</div>
 <!-- MAIN CONTENT -->
 <div id="mainContentWrapper">
   <!-- HOME VIEW -->
@@ -1200,15 +1222,12 @@ height: 100px;
   <div class="bottom-nav-item" data-tab="2" onclick="navigateTab(2)">
     <i class="fa-solid fa-plus"></i><span>List</span>
   </div>
-  <div class="bottom-nav-item" onclick="toggleDarkMode()">
-    <i class="fa-solid fa-moon"></i><span>Dark</span>
-  </div>
 </div>
 <!-- SCRIPT -->
 <script type="module">
 // Import Firebase modules
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getAuth } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 import { getDatabase, ref, push, set, onValue, update } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
 // Firebase config
@@ -1225,6 +1244,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getDatabase(app);
 const storage = getStorage(app);
+const provider = new GoogleAuthProvider();
 // --- ELEMENT REFERENCES ---
 const grid = document.getElementById('listingsGrid');
 const countLabel = document.getElementById('listingCount');
@@ -1266,6 +1286,27 @@ window.toggleDarkMode = function() {
 if (localStorage.getItem('darkMode') === 'true') {
     document.body.classList.add('dark-mode');
 }
+// --- AUTH ---
+window.signIn = async () => {
+  try {
+    await signInWithPopup(auth, provider);
+  } catch (err) {
+    console.error(err);
+  }
+}
+window.signOutUser = async () => {
+  await signOut(auth);
+}
+onAuthStateChanged(auth, user => {
+  const authButton = document.getElementById('authButton');
+  if (user) {
+    authButton.textContent = 'Sign Out';
+    authButton.onclick = signOutUser;
+  } else {
+    authButton.textContent = 'Sign In';
+    authButton.onclick = signIn;
+  }
+});
 // --- NAVIGATION ---
 window.navigateTab = function(index) {
     currentTab = index;
@@ -1481,6 +1522,10 @@ function generateStars(rating) {
     return stars;
 }
 window.openReviewModal = function() {
+    if (!auth.currentUser) {
+        alert('Please sign in to leave a review.');
+        return;
+    }
     selectedRating = 0;
     document.getElementById('reviewComment').value = '';
     const stars = document.querySelectorAll('#reviewStars i');

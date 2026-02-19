@@ -373,6 +373,7 @@ white-space: nowrap;
 .bottom-nav { display: none; }
 #mobileSearchView { display: none !important; }
 #desktopFilters { display: block; }
+.home-price-range { display: none; }
 }
 /* --- MODAL STYLES --- */
 /* Property Detail Modal - Desktop wider */
@@ -956,13 +957,13 @@ height: 100px;
   <div class="price-range-container">
     <div class="price-range-header">
       <span>Budget per Month</span>
-      <span style="color: var(--accent-green)">R<span id="minPriceDisplay">0</span> – R<span id="maxPriceDisplay">20000</span></span>
+      <span style="color: var(--accent-green)">R<span id="desktop-minPriceDisplay">0</span> – R<span id="desktop-maxPriceDisplay">20000</span></span>
     </div>
     <div class="range-container">
       <div class="range-bg"></div>
-      <div class="range-track" id="rangeTrack"></div>
-      <input type="range" id="priceMin" min="0" max="30000" value="0" step="250">
-      <input type="range" id="priceMax" min="0" max="30000" value="20000" step="250">
+      <div class="range-track" id="desktop-rangeTrack"></div>
+      <input type="range" id="desktop-priceMin" min="0" max="30000" value="0" step="250">
+      <input type="range" id="desktop-priceMax" min="0" max="30000" value="20000" step="250">
     </div>
   </div>
 </div>
@@ -985,7 +986,7 @@ height: 100px;
     <div class="home-price-range price-range-container">
       <div class="price-range-header">
         <span>Budget per Month</span>
-        <span style="color: var(--accent-teal)">R<span id="homeMinPriceDisplay">0</span> – R<span id="homeMaxPriceDisplay">20000</span></span>
+        <span style="color: var(--accent-green)">R<span id="homeMinPriceDisplay">0</span> – R<span id="homeMaxPriceDisplay">20000</span></span>
       </div>
       <div class="range-container">
         <div class="range-bg"></div>
@@ -1023,13 +1024,13 @@ height: 100px;
       <div class="price-range-container">
         <div class="price-range-header">
           <span>Budget per Month</span>
-          <span style="color: var(--accent-green)">R<span id="minPriceDisplay">0</span> – R<span id="maxPriceDisplay">20000</span></span>
+          <span style="color: var(--accent-green)">R<span id="mobile-minPriceDisplay">0</span> – R<span id="mobile-maxPriceDisplay">20000</span></span>
         </div>
         <div class="range-container">
           <div class="range-bg"></div>
-          <div class="range-track" id="rangeTrack"></div>
-          <input type="range" id="priceMin" min="0" max="30000" value="0" step="250">
-          <input type="range" id="priceMax" min="0" max="30000" value="20000" step="250">
+          <div class="range-track" id="mobile-rangeTrack"></div>
+          <input type="range" id="mobile-priceMin" min="0" max="30000" value="0" step="250">
+          <input type="range" id="mobile-priceMax" min="0" max="30000" value="20000" step="250">
         </div>
       </div>
     </div>
@@ -1250,11 +1251,16 @@ const grid = document.getElementById('listingsGrid');
 const countLabel = document.getElementById('listingCount');
 const searchInput = document.getElementById('searchInput');
 const mobileSearchInput = document.getElementById('mobileSearchInput');
-const priceMinInput = document.getElementById('priceMin');
-const priceMaxInput = document.getElementById('priceMax');
-const minPriceDisplay = document.getElementById('minPriceDisplay');
-const maxPriceDisplay = document.getElementById('maxPriceDisplay');
-const rangeTrack = document.getElementById('rangeTrack');
+const desktopPriceMinInput = document.getElementById('desktop-priceMin');
+const desktopPriceMaxInput = document.getElementById('desktop-priceMax');
+const desktopMinPriceDisplay = document.getElementById('desktop-minPriceDisplay');
+const desktopMaxPriceDisplay = document.getElementById('desktop-maxPriceDisplay');
+const desktopRangeTrack = document.getElementById('desktop-rangeTrack');
+const mobilePriceMinInput = document.getElementById('mobile-priceMin');
+const mobilePriceMaxInput = document.getElementById('mobile-priceMax');
+const mobileMinPriceDisplay = document.getElementById('mobile-minPriceDisplay');
+const mobileMaxPriceDisplay = document.getElementById('mobile-maxPriceDisplay');
+const mobileRangeTrack = document.getElementById('mobile-rangeTrack');
 const homePriceMinInput = document.getElementById('homePriceMin');
 const homePriceMaxInput = document.getElementById('homePriceMax');
 const homeMinPriceDisplay = document.getElementById('homeMinPriceDisplay');
@@ -1326,29 +1332,29 @@ function updateRangeTrack(track, minDisplay, maxDisplay, minVal, maxVal){
     if(maxDisplay) maxDisplay.textContent = maxVal.toLocaleString();
 }
 // Bind range inputs
-[priceMinInput, priceMaxInput].forEach(input=>{
-    input.addEventListener('input',()=>{
-        let minVal = parseInt(priceMinInput.value)||0;
-        let maxVal = parseInt(priceMaxInput.value)||20000;
-        if(minVal>maxVal) minVal=maxVal;
-        if(maxVal<minVal) maxVal=minVal;
-        minPrice=minVal; maxPrice=maxVal;
-        priceMinInput.value=minPrice; priceMaxInput.value=maxPrice;
-        updateRangeTrack(rangeTrack, minPriceDisplay, maxPriceDisplay, minPrice, maxPrice);
+const inputGroups = [
+  {min: desktopPriceMinInput, max: desktopPriceMaxInput, track: desktopRangeTrack, minDisp: desktopMinPriceDisplay, maxDisp: desktopMaxPriceDisplay},
+  {min: mobilePriceMinInput, max: mobilePriceMaxInput, track: mobileRangeTrack, minDisp: mobileMinPriceDisplay, maxDisp: mobileMaxPriceDisplay},
+  {min: homePriceMinInput, max: homePriceMaxInput, track: homeRangeTrack, minDisp: homeMinPriceDisplay, maxDisp: homeMaxPriceDisplay}
+];
+inputGroups.forEach(group => {
+  [group.min, group.max].forEach(input => {
+    if (input) {
+      input.addEventListener('input', () => {
+        let minVal = parseInt(group.min.value) || 0;
+        let maxVal = parseInt(group.max.value) || 20000;
+        if (minVal > maxVal) minVal = maxVal;
+        if (maxVal < minVal) maxVal = minVal;
+        minPrice = minVal; maxPrice = maxVal;
+        inputGroups.forEach(g => {
+          if (g.min) g.min.value = minPrice;
+          if (g.max) g.max.value = maxPrice;
+          updateRangeTrack(g.track, g.minDisp, g.maxDisp, minPrice, maxPrice);
+        });
         applyFilters();
-    });
-});
-[homePriceMinInput, homePriceMaxInput].forEach(input=>{
-    input.addEventListener('input',()=>{
-        let minVal=parseInt(homePriceMinInput.value)||0;
-        let maxVal=parseInt(homePriceMaxInput.value)||20000;
-        if(minVal>maxVal) minVal=maxVal;
-        if(maxVal<minVal) maxVal=minVal;
-        minPrice=minVal; maxPrice=maxVal;
-        homePriceMinInput.value=minPrice; homePriceMaxInput.value=maxPrice;
-        updateRangeTrack(homeRangeTrack, homeMinPriceDisplay, homeMaxPriceDisplay, minPrice, maxPrice);
-        applyFilters();
-    });
+      });
+    }
+  });
 });
 // --- RENDER LISTINGS ---
 function renderBatch(data){
@@ -1420,13 +1426,15 @@ window.applyFilters=function(){
 }
 window.resetFilters=function(){
     searchInput.value=''; if(mobileSearchInput) mobileSearchInput.value='';
-    priceMinInput.value=homePriceMinInput.value=0;
-    priceMaxInput.value=homePriceMaxInput.value=20000;
-    updateRangeTrack(rangeTrack, minPriceDisplay, maxPriceDisplay,0,20000);
-    updateRangeTrack(homeRangeTrack, homeMinPriceDisplay, homeMaxPriceDisplay,0,20000);
+    minPrice=0; maxPrice=20000;
+    inputGroups.forEach(g => {
+      if (g.min) g.min.value = 0;
+      if (g.max) g.max.value = 20000;
+      updateRangeTrack(g.track, g.minDisp, g.maxDisp, 0, 20000);
+    });
     document.querySelectorAll('.filter-tag').forEach(b=>b.classList.remove('active'));
     document.querySelectorAll('[data-filter="all"]').forEach(b=>b.classList.add('active'));
-    currentFilter='all'; minPrice=0; maxPrice=20000;
+    currentFilter='all';
     renderListings(listingsData);
     if(window.innerWidth<768) navigateTab(0);
 }
@@ -1603,10 +1611,10 @@ window.addToDb = async function(){
         progressStatus.textContent='Saving listing...'; progressBar.style.width='100%';
         await set(newRef,newListing);
         await set(ref(db,`subscriptions/${newRef.key}`),{subscribers:{}});
-        progressStatus.textContent='Done!'; 
+        progressStatus.textContent='Done!';
         setTimeout(()=>{ uploadModal.classList.remove('active'); document.getElementById('successModal').classList.add('active'); document.getElementById('addForm').reset(); closeAddModal(); },600);
-    } catch(err){ 
-        console.error(err); alert('Error posting listing. Try again.'); uploadModal.classList.remove('active'); 
+    } catch(err){
+        console.error(err); alert('Error posting listing. Try again.'); uploadModal.classList.remove('active');
     }
 }
 // --- FILTER BUTTONS ---
@@ -1627,8 +1635,7 @@ onValue(ref(db,'listings'),snapshot=>{
     renderListings(listingsData);
 });
 // --- INITIAL RANGE ---
-updateRangeTrack(rangeTrack, minPriceDisplay, maxPriceDisplay,0,20000);
-updateRangeTrack(homeRangeTrack, homeMinPriceDisplay, homeMaxPriceDisplay,0,20000);
+inputGroups.forEach(g => updateRangeTrack(g.track, g.minDisp, g.maxDisp, 0, 20000));
 // --- INFINITE SCROLL ---
 window.addEventListener('scroll',()=>{
     if(window.innerHeight+window.scrollY>=document.body.offsetHeight-100 && displayedData.length<currentFiltered.length){

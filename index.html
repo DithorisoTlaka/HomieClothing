@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>KasiStay | Accommodation Finder</title>
-<link rel="preconnect" href="https://fonts.googleapis.com ">
-<link rel="preconnect" href="https://fonts.gstatic.com " crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300 ;400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css ">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
 :root {
 --primary-black: #111111;
@@ -214,7 +214,95 @@ transition: width 0.4s ease;
 font-weight: 600;
 margin-bottom: 1rem;
 }
-/* --- Footer --- */
+
+/* ==================== NEW SIGN IN MODAL STYLES ==================== */
+#signInModal .modal-content {
+  max-width: 380px;
+  padding: 0;
+}
+#signInModal .modal-header {
+  padding: 1.75rem 1.5rem 1rem;
+  border-bottom: none;
+  text-align: center;
+}
+#signInModal .modal-body {
+  padding: 1.5rem 1.5rem 2rem;
+}
+#signInModal input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1.5px solid var(--border-color);
+  border-radius: 12px;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  transition: var(--transition);
+}
+#signInModal input:focus {
+  border-color: var(--accent-green);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(16,185,129,0.1);
+}
+#signInModal .sign-in-btn {
+  width: 100%;
+  padding: 14px;
+  background: var(--primary-black);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 1.05rem;
+  margin: 1rem 0 1.25rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+#signInModal .sign-in-btn:hover {
+  background: var(--accent-green);
+}
+#signInModal .google-btn {
+  width: 100%;
+  padding: 13px;
+  background: white;
+  color: #333;
+  border: 1.5px solid #ddd;
+  border-radius: 50px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.dark-mode #signInModal .google-btn {
+  background: #333;
+  color: white;
+  border-color: #555;
+}
+#signInModal .or-divider {
+  text-align: center;
+  margin: 1.25rem 0;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  position: relative;
+}
+#signInModal .or-divider::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--border-color);
+}
+#signInModal .or-divider span {
+  background: white;
+  padding: 0 12px;
+}
+.dark-mode #signInModal .or-divider span {
+  background: #1e1e1e;
+}
+/* ==================== END SIGN IN MODAL ==================== */
+
 footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; text-align: center; transition: var(--transition); }
 .footer-links { display: flex; gap: 2.5rem; justify-content: center; margin: 2rem 0; }
 .footer-links a { color: #9ca3af; text-decoration: none; font-size: 0.95rem; transition: 0.3s; }
@@ -736,7 +824,7 @@ box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
 #addForm select {
 cursor: pointer;
 appearance: none;
-background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg ' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b7280' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b7280' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
 background-repeat: no-repeat;
 background-position: right 1rem center;
 padding-right: 2.5rem;
@@ -924,7 +1012,6 @@ color: #eab308;
 #reviewModal textarea {
 height: 100px;
 }
-
 /* =====================================================
    NEARBY / RECOMMENDED SECTION — NEW STYLES ONLY
    ===================================================== */
@@ -1126,7 +1213,6 @@ height: 100px;
     </div>
   </div>
 </div>
-
 <!-- =====================================================
      NEARBY / RECOMMENDED SECTION — NEW HTML ONLY
      ===================================================== -->
@@ -1167,7 +1253,6 @@ height: 100px;
   </div>
 </div>
 <!-- ===================================================== -->
-
 <!-- MAIN CONTENT -->
 <div id="mainContentWrapper">
   <!-- HOME VIEW -->
@@ -1385,6 +1470,35 @@ height: 100px;
     </div>
   </div>
 </div>
+
+<!-- ==================== NEW SIGN IN MODAL ==================== -->
+<div class="modal-overlay" id="signInModal" onclick="if(event.target===this) closeSignInModal()">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Sign in to KasiStay</h2>
+      <button class="close-modal" onclick="closeSignInModal()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body">
+      <input type="email" id="signInEmail" placeholder="Email address" autocomplete="email">
+      <input type="password" id="signInPassword" placeholder="Password" autocomplete="current-password">
+      
+      <button class="sign-in-btn" onclick="signInWithCredentials()">Sign In</button>
+      
+      <div class="or-divider"><span>or</span></div>
+      
+      <button class="google-btn" onclick="signInWithGoogle()">
+        <i class="fa-brands fa-google"></i>
+        Continue with Google
+      </button>
+      
+      <p style="text-align:center; margin-top:1.5rem; font-size:0.9rem; color:var(--text-muted);">
+        Don't have an account? <span style="color:var(--accent-green); cursor:pointer; font-weight:600;" onclick="alert('Sign up coming soon!')">Sign up</span>
+      </p>
+    </div>
+  </div>
+</div>
+<!-- ==================== END SIGN IN MODAL ==================== -->
+
 <!-- UPLOAD & SUCCESS MODALS -->
 <div class="modal-overlay" id="uploadModal">
   <div class="progress-modal-content">
@@ -1429,7 +1543,7 @@ height: 100px;
 <script type="module">
 // Import Firebase modules
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 import { getDatabase, ref, push, set, onValue, update } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
 // Firebase config
@@ -1493,17 +1607,7 @@ window.toggleDarkMode = function() {
 if (localStorage.getItem('darkMode') === 'true') {
     document.body.classList.add('dark-mode');
 }
-// --- AUTH ---
-window.signIn = async () => {
-  try {
-    await signInWithPopup(auth, provider);
-  } catch (err) {
-    console.error(err);
-  }
-}
-window.signOutUser = async () => {
-  await signOut(auth);
-}
+// --- AUTH STATE ---
 onAuthStateChanged(auth, user => {
   const authButton = document.getElementById('authButton');
   if (user) {
@@ -1511,9 +1615,49 @@ onAuthStateChanged(auth, user => {
     authButton.onclick = signOutUser;
   } else {
     authButton.textContent = 'Sign In';
-    authButton.onclick = signIn;
+    authButton.onclick = openSignInModal;
   }
 });
+// --- SIGN IN MODAL FUNCTIONS ---
+window.openSignInModal = function() {
+  document.getElementById('signInModal').classList.add('active');
+  document.body.style.overflow = 'hidden';
+  // Clear fields
+  document.getElementById('signInEmail').value = '';
+  document.getElementById('signInPassword').value = '';
+};
+window.closeSignInModal = function() {
+  document.getElementById('signInModal').classList.remove('active');
+  document.body.style.overflow = 'auto';
+};
+// Email + Password Sign In
+window.signInWithCredentials = async function() {
+  const email = document.getElementById('signInEmail').value.trim();
+  const password = document.getElementById('signInPassword').value;
+  if (!email || !password) {
+    alert("Please enter both email and password");
+    return;
+  }
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+    closeSignInModal();
+  } catch (error) {
+    alert("Sign in failed: " + error.message);
+  }
+};
+// Google Sign In (reused)
+window.signInWithGoogle = async function() {
+  try {
+    await signInWithPopup(auth, provider);
+    closeSignInModal();
+  } catch (err) {
+    console.error(err);
+  }
+};
+// Sign Out
+window.signOutUser = async () => {
+  await signOut(auth);
+};
 // --- NAVIGATION ---
 window.navigateTab = function(index) {
     currentTab = index;
@@ -1845,35 +1989,32 @@ window.addEventListener('scroll',()=>{
         loadMore();
     }
 });
-
 // =============================================================
 // NEARBY / RECOMMENDED SECTION — NEW CODE ONLY BELOW THIS LINE
 // =============================================================
-
 // Known SA city coordinates for matching listing location strings
 const SA_CITY_COORDS = {
   'johannesburg': { lat: -26.2041, lng: 28.0473 },
-  'cape town':    { lat: -33.9249, lng: 18.4241 },
-  'durban':       { lat: -29.8587, lng: 31.0218 },
-  'pretoria':     { lat: -25.7461, lng: 28.1881 },
-  'soweto':       { lat: -26.2677, lng: 27.8587 },
-  'sandton':      { lat: -26.1070, lng: 28.0567 },
-  'randburg':     { lat: -26.0926, lng: 27.9940 },
-  'roodepoort':   { lat: -26.1631, lng: 27.8600 },
+  'cape town': { lat: -33.9249, lng: 18.4241 },
+  'durban': { lat: -29.8587, lng: 31.0218 },
+  'pretoria': { lat: -25.7461, lng: 28.1881 },
+  'soweto': { lat: -26.2677, lng: 27.8587 },
+  'sandton': { lat: -26.1070, lng: 28.0567 },
+  'randburg': { lat: -26.0926, lng: 27.9940 },
+  'roodepoort': { lat: -26.1631, lng: 27.8600 },
   'braamfontein': { lat: -26.1938, lng: 28.0348 },
-  'midrand':      { lat: -25.9975, lng: 28.1284 },
-  'boksburg':     { lat: -26.2121, lng: 28.2600 },
-  'germiston':    { lat: -26.2228, lng: 28.1549 },
-  'nelspruit':    { lat: -25.4753, lng: 30.9694 },
-  'polokwane':    { lat: -23.9045, lng: 29.4689 },
-  'east london':  { lat: -33.0153, lng: 27.9116 },
-  'kimberley':    { lat: -28.7282, lng: 24.7499 },
+  'midrand': { lat: -25.9975, lng: 28.1284 },
+  'boksburg': { lat: -26.2121, lng: 28.2600 },
+  'germiston': { lat: -26.2228, lng: 28.1549 },
+  'nelspruit': { lat: -25.4753, lng: 30.9694 },
+  'polokwane': { lat: -23.9045, lng: 29.4689 },
+  'east london': { lat: -33.0153, lng: 27.9116 },
+  'kimberley': { lat: -28.7282, lng: 24.7499 },
   'bloemfontein': { lat: -29.0852, lng: 26.1596 },
   'port elizabeth':{ lat: -33.9608, lng: 25.6022 },
-  'ekurhuleni':   { lat: -26.3036, lng: 28.1555 },
-  'tshwane':      { lat: -25.7479, lng: 28.2293 },
+  'ekurhuleni': { lat: -26.3036, lng: 28.1555 },
+  'tshwane': { lat: -25.7479, lng: 28.2293 },
 };
-
 // Haversine formula — returns distance in km between two lat/lng points
 function haversineKm(lat1, lng1, lat2, lng2) {
   const R = 6371;
@@ -1884,7 +2025,6 @@ function haversineKm(lat1, lng1, lat2, lng2) {
             Math.sin(dLng / 2) ** 2;
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
-
 // Attempt to match a listing's location string to known city coordinates
 function coordsFromLocationString(locationStr) {
   if (!locationStr) return null;
@@ -1894,22 +2034,18 @@ function coordsFromLocationString(locationStr) {
   }
   return null;
 }
-
 // Render nearby cards into the scroll container
 function renderNearbyCards(items, showDist) {
   const scroll = document.getElementById('nearbyScroll');
   scroll.innerHTML = '';
-
   if (!items.length) {
     scroll.innerHTML = '<p style="color:var(--text-muted);font-size:0.9rem;padding:0.5rem 0;">No nearby listings found.</p>';
     return;
   }
-
   items.forEach((item, idx) => {
     const distHtml = showDist && item._dist < 9999
       ? `<div class="nearby-dist-badge"><i class="fa-solid fa-location-dot"></i> ${item._dist < 1 ? '< 1 km' : Math.round(item._dist) + ' km'} away</div>`
       : '';
-
     const card = document.createElement('div');
     card.className = 'nearby-card';
     card.style.animationDelay = `${idx * 0.07}s`;
@@ -1926,39 +2062,31 @@ function renderNearbyCards(items, showDist) {
     scroll.appendChild(card);
   });
 }
-
 // Sort listings by distance from given coords and render
 function populateNearby(userLat, userLng, locationName) {
   const label = document.getElementById('nearbyLocationLabel');
   if (locationName) label.textContent = locationName;
-
   const withDist = listingsData.map(item => {
     const c = coordsFromLocationString(item.location || '');
     return { ...item, _dist: c ? haversineKm(userLat, userLng, c.lat, c.lng) : 9999 };
   }).sort((a, b) => a._dist - b._dist).slice(0, 8);
-
   renderNearbyCards(withDist, true);
 }
-
 // Main entry — called after listings load (and on badge click to retry)
 window.initNearbySection = function() {
   const wrapper = document.getElementById('nearbySectionWrapper');
-  const label   = document.getElementById('nearbyLocationLabel');
-
+  const label = document.getElementById('nearbyLocationLabel');
   // Show the section immediately with skeletons still visible
   wrapper.style.display = 'block';
   label.textContent = 'Detecting location...';
-
   if (!navigator.geolocation) {
     label.textContent = 'Johannesburg';
     populateNearby(-26.2041, 28.0473, 'Johannesburg');
     return;
   }
-
   navigator.geolocation.getCurrentPosition(
     position => {
       const { latitude, longitude } = position.coords;
-
       // Reverse geocode with Nominatim (free, no key required)
       fetch(`https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`)
         .then(r => r.json())

@@ -1561,6 +1561,26 @@ const auth = getAuth(app);
 const db = getDatabase(app);
 const storage = getStorage(app);
 const provider = new GoogleAuthProvider();
+
+  // ==================== CLOUDINARY CONFIG ====================
+const CLOUD_NAME = "dv5bsbydu";           //
+const UPLOAD_PRESET = "admin_tlaka";        //
+
+async function uploadToCloudinary(file) {
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("upload_preset", UPLOAD_PRESET);
+
+  const response = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
+    method: "POST",
+    body: formData
+  });
+
+  const data = await response.json();
+  if (data.secure_url) return data.secure_url;
+  throw new Error(data.error?.message || "Cloudinary upload failed");
+}
+// ==========================================================
 // --- ELEMENT REFERENCES ---
 const grid = document.getElementById('listingsGrid');
 const countLabel = document.getElementById('listingCount');

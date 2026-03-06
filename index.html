@@ -950,153 +950,6 @@ color: #eab308;
 #reviewModal textarea {
 height: 100px;
 }
-#nearbySectionWrapper {
-  display: none;
-  background: var(--bg-off-white);
-  border-top: 1px solid var(--border-color);
-  border-bottom: 1px solid var(--border-color);
-  padding: 2rem 5%;
-  transition: var(--transition);
-  animation: fadeIn 0.5s ease;
-}
-.nearby-header-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 1.25rem;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-}
-.nearby-header-row h2 {
-  font-size: 1.4rem;
-  font-weight: 800;
-  letter-spacing: -0.5px;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-.nearby-header-row h2 i {
-  color: var(--accent-green);
-  font-size: 1.1rem;
-}
-.nearby-location-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  background: white;
-  border: 1px solid var(--border-color);
-  border-radius: 50px;
-  padding: 0.4rem 0.9rem;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--text-muted);
-  cursor: pointer;
-  transition: var(--transition);
-}
-.dark-mode .nearby-location-badge { background: #222; }
-.nearby-location-badge:hover { border-color: var(--accent-green); color: var(--accent-green); }
-.nearby-location-badge .loc-dot {
-  width: 8px;
-  height: 8px;
-  background: var(--accent-green);
-  border-radius: 50%;
-  animation: nearbyPulse 1.8s ease-in-out infinite;
-  flex-shrink: 0;
-}
-@keyframes nearbyPulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(16,185,129,0.4); }
-  50% { box-shadow: 0 0 0 6px rgba(16,185,129,0); }
-}
-.nearby-scroll {
-  display: flex;
-  gap: 1.25rem;
-  overflow-x: auto;
-  padding-bottom: 0.5rem;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-.nearby-scroll::-webkit-scrollbar { display: none; }
-.nearby-skeleton {
-  flex-shrink: 0;
-  width: 220px;
-  background: white;
-  border-radius: 16px;
-  border: 1px solid var(--border-color);
-  overflow: hidden;
-  animation: skeletonPulse 1.4s ease-in-out infinite;
-}
-.dark-mode .nearby-skeleton { background: #1e1e1e; }
-@keyframes skeletonPulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
-}
-.nearby-skeleton-img { height: 130px; background: #e5e7eb; }
-.dark-mode .nearby-skeleton-img { background: #333; }
-.nearby-skeleton-body { padding: 0.9rem; display: flex; flex-direction: column; gap: 8px; }
-.nearby-skeleton-line { height: 12px; background: #e5e7eb; border-radius: 6px; }
-.dark-mode .nearby-skeleton-line { background: #333; }
-.nearby-card {
-  flex-shrink: 0;
-  width: 220px;
-  background: white;
-  border-radius: 16px;
-  border: 1px solid var(--border-color);
-  overflow: hidden;
-  cursor: pointer;
-  transition: var(--transition);
-  animation: slideUp 0.4s ease both;
-}
-.dark-mode .nearby-card { background: #1e1e1e; }
-.nearby-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-md); }
-.nearby-card-image {
-  width: 100%;
-  height: 130px;
-  object-fit: cover;
-  background: #f3f4f6;
-  display: block;
-  transition: transform 0.4s ease;
-}
-.dark-mode .nearby-card-image { background: #333; }
-.nearby-card:hover .nearby-card-image { transform: scale(1.05); }
-.nearby-card-body { padding: 0.9rem; }
-.nearby-card-price {
-  font-size: 1.05rem;
-  font-weight: 800;
-  color: var(--primary-black);
-}
-.nearby-card-price span { font-size: 0.78rem; color: var(--text-muted); font-weight: 400; }
-.nearby-card-title {
-  font-weight: 700;
-  font-size: 0.88rem;
-  margin: 0.25rem 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  color: var(--text-main);
-}
-.nearby-card-location {
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  margin-bottom: 0.6rem;
-}
-.nearby-card-location i { color: var(--accent-green); font-size: 0.7rem; }
-.nearby-dist-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
-  background: #f0fdf4;
-  color: #065f46;
-  border: 1px solid #a7f3d0;
-  font-size: 0.7rem;
-  font-weight: 700;
-  padding: 3px 8px;
-  border-radius: 20px;
-}
-.dark-mode .nearby-dist-badge { background: #052e16; color: #6ee7b7; border-color: #065f46; }
-.nearby-dist-badge i { font-size: 0.65rem; }
 </style>
 </head>
 <body>
@@ -1140,41 +993,6 @@ height: 100px;
       <div class="range-track" id="desktop-rangeTrack"></div>
       <input type="range" id="desktop-priceMin" min="0" max="30000" value="0" step="250">
       <input type="range" id="desktop-priceMax" min="0" max="30000" value="20000" step="250">
-    </div>
-  </div>
-</div>
-<div id="nearbySectionWrapper">
-  <div class="nearby-header-row">
-    <h2><i class="fa-solid fa-location-crosshairs"></i> Recommended Near You</h2>
-    <span class="nearby-location-badge" id="nearbyLocationBadge" onclick="initNearbySection()">
-      <span class="loc-dot"></span>
-      <span id="nearbyLocationLabel">Detecting location...</span>
-    </span>
-  </div>
-  <div class="nearby-scroll" id="nearbyScroll">
-    <div class="nearby-skeleton">
-      <div class="nearby-skeleton-img"></div>
-      <div class="nearby-skeleton-body">
-        <div class="nearby-skeleton-line" style="width:55%"></div>
-        <div class="nearby-skeleton-line" style="width:80%"></div>
-        <div class="nearby-skeleton-line" style="width:45%"></div>
-      </div>
-    </div>
-    <div class="nearby-skeleton">
-      <div class="nearby-skeleton-img"></div>
-      <div class="nearby-skeleton-body">
-        <div class="nearby-skeleton-line" style="width:60%"></div>
-        <div class="nearby-skeleton-line" style="width:75%"></div>
-        <div class="nearby-skeleton-line" style="width:50%"></div>
-      </div>
-    </div>
-    <div class="nearby-skeleton">
-      <div class="nearby-skeleton-img"></div>
-      <div class="nearby-skeleton-body">
-        <div class="nearby-skeleton-line" style="width:50%"></div>
-        <div class="nearby-skeleton-line" style="width:70%"></div>
-        <div class="nearby-skeleton-line" style="width:40%"></div>
-      </div>
     </div>
   </div>
 </div>
@@ -1836,7 +1654,7 @@ window.addToDb = async function(){
             amenities,
             image: imageUrls[0],
             additionalImages: imageUrls.slice(1),
-            verified: true,
+            verified: false,
             timestamp: Date.now(),
             reviews: []
         };
@@ -1877,7 +1695,6 @@ onValue(ref(db,'listings'),snapshot=>{
     listingsData=[];
     snapshot.forEach(child=>listingsData.push({id:child.key, ...child.val()}));
     renderListings(listingsData);
-    initNearbySection();
 });
 inputGroups.forEach(g => updateRangeTrack(g.track, g.minDisp, g.maxDisp, 0, 20000));
 window.addEventListener('scroll',()=>{
@@ -1885,116 +1702,6 @@ window.addEventListener('scroll',()=>{
         loadMore();
     }
 });
-const SA_CITY_COORDS = {
-  'johannesburg': { lat: -26.2041, lng: 28.0473 },
-  'cape town': { lat: -33.9249, lng: 18.4241 },
-  'durban': { lat: -29.8587, lng: 31.0218 },
-  'pretoria': { lat: -25.7461, lng: 28.1881 },
-  'soweto': { lat: -26.2677, lng: 27.8587 },
-  'sandton': { lat: -26.1070, lng: 28.0567 },
-  'randburg': { lat: -26.0926, lng: 27.9940 },
-  'roodepoort': { lat: -26.1631, lng: 27.8600 },
-  'braamfontein': { lat: -26.1938, lng: 28.0348 },
-  'midrand': { lat: -25.9975, lng: 28.1284 },
-  'boksburg': { lat: -26.2121, lng: 28.2600 },
-  'germiston': { lat: -26.2228, lng: 28.1549 },
-  'nelspruit': { lat: -25.4753, lng: 30.9694 },
-  'polokwane': { lat: -23.9045, lng: 29.4689 },
-  'east london': { lat: -33.0153, lng: 27.9116 },
-  'kimberley': { lat: -28.7282, lng: 24.7499 },
-  'bloemfontein': { lat: -29.0852, lng: 26.1596 },
-  'port elizabeth':{ lat: -33.9608, lng: 25.6022 },
-  'ekurhuleni': { lat: -26.3036, lng: 28.1555 },
-  'tshwane': { lat: -25.7479, lng: 28.2293 },
-};
-function haversineKm(lat1, lng1, lat2, lng2) {
-  const R = 6371;
-  const dLat = (lat2 - lat1) * Math.PI / 180;
-  const dLng = (lng2 - lng1) * Math.PI / 180;
-  const a = Math.sin(dLat / 2) ** 2 +
-            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-            Math.sin(dLng / 2) ** 2;
-  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-}
-function coordsFromLocationString(locationStr) {
-  if (!locationStr) return null;
-  const lower = locationStr.toLowerCase();
-  for (const [city, coords] of Object.entries(SA_CITY_COORDS)) {
-    if (lower.includes(city)) return coords;
-  }
-  return null;
-}
-function renderNearbyCards(items, showDist) {
-  const scroll = document.getElementById('nearbyScroll');
-  scroll.innerHTML = '';
-  if (!items.length) {
-    scroll.innerHTML = '<p style="color:var(--text-muted);font-size:0.9rem;padding:0.5rem 0;">No nearby listings found.</p>';
-    return;
-  }
-  items.forEach((item, idx) => {
-    const distHtml = showDist && item._dist < 9999
-      ? `<div class="nearby-dist-badge"><i class="fa-solid fa-location-dot"></i> ${item._dist < 1 ? '< 1 km' : Math.round(item._dist) + ' km'} away</div>`
-      : '';
-    const card = document.createElement('div');
-    card.className = 'nearby-card';
-    card.style.animationDelay = `${idx * 0.07}s`;
-    card.innerHTML = `
-      <img class="nearby-card-image" src="${item.image || ''}" alt="${item.title || ''}" loading="lazy">
-      <div class="nearby-card-body">
-        <div class="nearby-card-price">R${(item.price || 0).toLocaleString()}<span>/month</span></div>
-        <div class="nearby-card-title">${item.title || ''}</div>
-        <div class="nearby-card-location"><i class="fa-solid fa-location-dot"></i>${item.location || ''}</div>
-        ${distHtml}
-      </div>
-    `;
-    card.addEventListener('click', () => openModal(item.id));
-    scroll.appendChild(card);
-  });
-}
-function populateNearby(userLat, userLng, locationName) {
-  const label = document.getElementById('nearbyLocationLabel');
-  if (locationName) label.textContent = locationName;
-  const withDist = listingsData.map(item => {
-    const c = coordsFromLocationString(item.location || '');
-    return { ...item, _dist: c ? haversineKm(userLat, userLng, c.lat, c.lng) : 9999 };
-  }).sort((a, b) => a._dist - b._dist).slice(0, 8);
-  renderNearbyCards(withDist, true);
-}
-window.initNearbySection = function() {
-  const wrapper = document.getElementById('nearbySectionWrapper');
-  const label = document.getElementById('nearbyLocationLabel');
-  wrapper.style.display = 'block';
-  label.textContent = 'Detecting location...';
-  if (!navigator.geolocation) {
-    label.textContent = 'Johannesburg';
-    populateNearby(-26.2041, 28.0473, 'Johannesburg');
-    return;
-  }
-  navigator.geolocation.getCurrentPosition(
-    position => {
-      const { latitude, longitude } = position.coords;
-      fetch(`https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`)
-        .then(r => r.json())
-        .then(data => {
-          const suburb =
-            data.address?.suburb ||
-            data.address?.city_district ||
-            data.address?.town ||
-            data.address?.city ||
-            'Your area';
-          populateNearby(latitude, longitude, suburb);
-        })
-        .catch(() => {
-          populateNearby(latitude, longitude, 'Your area');
-        });
-    },
-    () => {
-      label.textContent = 'Johannesburg';
-      populateNearby(-26.2041, 28.0473, 'Johannesburg');
-    },
-    { timeout: 6000, maximumAge: 300000 }
-  );
-};
 </script>
 </body>
 </html>

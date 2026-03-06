@@ -214,7 +214,6 @@ transition: width 0.4s ease;
 font-weight: 600;
 margin-bottom: 1rem;
 }
-
 /* ==================== NEW SIGN IN MODAL STYLES ==================== */
 #signInModal .modal-content {
   max-width: 380px;
@@ -302,7 +301,6 @@ margin-bottom: 1rem;
   background: #1e1e1e;
 }
 /* ==================== END SIGN IN MODAL ==================== */
-
 footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; text-align: center; transition: var(--transition); }
 .footer-links { display: flex; gap: 2.5rem; justify-content: center; margin: 2rem 0; }
 .footer-links a { color: #9ca3af; text-decoration: none; font-size: 0.95rem; transition: 0.3s; }
@@ -1429,17 +1427,7 @@ height: 100px;
             <input type="file" id="addImage" accept="image/*" multiple required>
             <div id="imagesPreviewContainer" style="display:flex; flex-wrap:wrap; margin-top:10px;"></div>
           </div>
-          <div class="form-group full-width">
         </div>
-            <label>Property Image</label>
-  <div class="file-upload">
-    <i class="fa fa-cloud-upload file-upload-icon"></i>
-    <p class="file-upload-text">Click to upload image <span>(JPG/PNG)</span></p>
-    <input type="file" id="propertyImage" accept="image/*" required>
-    <!-- Image preview -->
-    <img id="imagePreview" style="display:none; margin-top:10px; max-width:100%; border-radius:12px;" />
-  </div>
-</div>
         <div class="form-group full-width">
           <label>Amenities (comma separated)</label>
           <input type="text" id="addAmenities" placeholder="WiFi, Parking, Study Desk, ...">
@@ -1481,7 +1469,6 @@ height: 100px;
     </div>
   </div>
 </div>
-
 <!-- ==================== NEW SIGN IN MODAL ==================== -->
 <div class="modal-overlay" id="signInModal" onclick="if(event.target===this) closeSignInModal()">
   <div class="modal-content">
@@ -1492,16 +1479,16 @@ height: 100px;
     <div class="modal-body">
       <input type="email" id="signInEmail" placeholder="Email address" autocomplete="email">
       <input type="password" id="signInPassword" placeholder="Password" autocomplete="current-password">
-      
+     
       <button class="sign-in-btn" onclick="signInWithCredentials()">Sign In</button>
-      
+     
       <div class="or-divider"><span>or</span></div>
-      
+     
       <button class="google-btn" onclick="signInWithGoogle()">
         <i class="fa-brands fa-google"></i>
         Continue with Google
       </button>
-      
+     
       <p style="text-align:center; margin-top:1.5rem; font-size:0.9rem; color:var(--text-muted);">
         Don't have an account? <span style="color:var(--accent-green); cursor:pointer; font-weight:600;" onclick="alert('Sign up coming soon!')">Sign up</span>
       </p>
@@ -1509,7 +1496,6 @@ height: 100px;
   </div>
 </div>
 <!-- ==================== END SIGN IN MODAL ==================== -->
-
 <!-- UPLOAD & SUCCESS MODALS -->
 <div class="modal-overlay" id="uploadModal">
   <div class="progress-modal-content">
@@ -1572,21 +1558,17 @@ const auth = getAuth(app);
 const db = getDatabase(app);
 const storage = getStorage(app);
 const provider = new GoogleAuthProvider();
-
   // ==================== CLOUDINARY CONFIG ====================
-const CLOUD_NAME = "dv5bsbydu";           //
-const UPLOAD_PRESET = "admin_tlaka";        //
-
+const CLOUD_NAME = "dv5bsbydu"; //
+const UPLOAD_PRESET = "admin_tlaka"; //
 async function uploadToCloudinary(file) {
   const formData = new FormData();
   formData.append("file", file);
   formData.append("upload_preset", UPLOAD_PRESET);
-
   const response = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
     method: "POST",
     body: formData
   });
-
   const data = await response.json();
   if (data.secure_url) return data.secure_url;
   throw new Error(data.error?.message || "Cloudinary upload failed");
@@ -1817,11 +1799,11 @@ window.resetFilters=function(){
   // ===== Image Preview for Multiple Files =====
 const propertyImagesInput = document.getElementById("addImage");
 const imagesPreviewContainer = document.getElementById("imagesPreviewContainer");
-  
+ 
   propertyImagesInput.addEventListener('change', () => {
   imagesPreviewContainer.innerHTML = ''; // Clear previous previews
   const files = propertyImagesInput.files;
-  
+ 
   Array.from(files).forEach(file => {
     const reader = new FileReader();
     reader.onload = () => {

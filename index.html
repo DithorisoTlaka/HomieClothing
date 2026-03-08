@@ -1054,17 +1054,17 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
 <section class="hero">
   <h1>Your Freedom,<br>starts with a home.</h1>
   <p>Discover verified rooms and apartments in your area. Safe, affordable, and just a click away.</p>
+  
+  <!-- DESKTOP SEARCH: REMOVED DATE INPUT -->
   <div class="search-container">
     <div class="search-input-group">
       <i class="fa-solid fa-location-dot"></i>
       <input type="text" id="searchInput" placeholder="University, City, or Keyword...">
     </div>
-    <div class="search-input-group">
-      <i class="fa-regular fa-calendar"></i>
-      <input type="text" placeholder="Move-in Date" onfocus="(this.type='date')">
-    </div>
+    <!-- Date input removed -->
     <button class="search-btn" onclick="applyFilters()">Find Rooms</button>
   </div>
+
 </section>
 <div class="filters" id="desktopFilters">
   <div class="filter-tags-row">
@@ -1129,17 +1129,17 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
     <div class="section-header" style="padding: 0 0 1.5rem 0;">
       <h2>Filter your search</h2>
     </div>
+    
+    <!-- MOBILE SEARCH: REMOVED DATE INPUT -->
     <div class="mobile-search-wrapper">
       <div class="search-input-group">
         <i class="fa-solid fa-location-dot"></i>
         <input type="text" id="mobileSearchInput" placeholder="University, City, or Keyword...">
       </div>
-      <div class="search-input-group">
-        <i class="fa-regular fa-calendar"></i>
-        <input type="text" placeholder="Move-in Date" onfocus="(this.type='date')">
-      </div>
+      <!-- Date input removed -->
       <button class="btn btn-primary show-results-btn" style="width: 100%; margin-top: 10px;" onclick="applyFilters(); navigateTab(0);">Show Results</button>
     </div>
+
     <div class="filters" id="filterContainer">
       <div class="filter-tags-row">
         <button class="filter-tag active" data-filter="all">All Properties</button>
@@ -1855,11 +1855,25 @@ document.querySelectorAll('.filter-tag').forEach(btn=>{
 });
 searchInput&&searchInput.addEventListener('input',applyFilters);
 mobileSearchInput&&mobileSearchInput.addEventListener('input',applyFilters);
+
+// --- FIXED: ENSURE ALL LISTINGS APPEAR ---
 onValue(ref(db,'listings'),snapshot=>{
     listingsData=[];
-    snapshot.forEach(child=>listingsData.push({id:child.key, ...child.val()}));
+    // Check if snapshot exists and has children
+    if(snapshot.exists()) {
+        snapshot.forEach(child=>{
+            // Push all data, ensuring ID is attached
+            listingsData.push({
+                id: child.key, 
+                ...child.val()
+            });
+        });
+    }
+    // Render all listings initially
     renderListings(listingsData);
 });
+// --- END FIX ---
+
 window.addEventListener('scroll',()=>{
     if(window.innerHeight+window.scrollY>=document.body.offsetHeight-100 && displayedData.length<currentFiltered.length){
         loadMore();

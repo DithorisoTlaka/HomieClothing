@@ -133,7 +133,7 @@ nav {
     height: 6px;
     background: #e5e7eb;
     border-radius: 5px;
-    margin: 0 10px; /* Space for handles */
+    margin: 0 10px;
 }
 .dark-mode .range-slider-container {
     background: #444;
@@ -1341,8 +1341,8 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
 <div class="modal-overlay" id="successModal" onclick="if(event.target===this) document.getElementById('successModal').classList.remove('active')">
   <div class="modal-content modal-success">
     <i class="fa-solid fa-circle-check"></i>
-    <h2>Listing Posted!</h2>
-    <p>Your room is now live and visible to students.</p>
+    <h2>Listing Submitted!</h2>
+    <p>Your listing is under review. It will appear on the site once an admin approves it.</p>
     <button class="btn btn-primary" onclick="document.getElementById('successModal').classList.remove('active')" style="margin-top:1rem; padding:0.9rem 2rem;">Done</button>
   </div>
 </div>
@@ -1774,9 +1774,13 @@ window.submitReview = function() {
         reviews.push(newReview);
         update(listingRef, { reviews }).then(() => {
             closeReviewModal(); closeModal();
+            // Re-fetch and filter only approved listings
             onValue(ref(db, 'listings'), s => {
                 listingsData = [];
-                s.forEach(c => listingsData.push({id: c.key, ...c.val()}));
+                s.forEach(c => {
+                    const item = { id: c.key, ...c.val() };
+                    if (item.adminStatus === 'approved') listingsData.push(item);
+                });
                 renderListings(listingsData);
             });
         });
@@ -1819,6 +1823,7 @@ window.addToDb = async function(){
             image: imageUrls[0],
             additionalImages: imageUrls.slice(1),
             verified: false,
+            adminStatus: 'pending',  // ← Always pending until admin approves
             timestamp: Date.now(),
             reviews: []
         };
@@ -1833,11 +1838,7 @@ window.addToDb = async function(){
             document.getElementById('addForm').reset();
             imagesPreviewContainer.innerHTML = '';
             closeAddModal();
-            onValue(ref(db, 'listings'), snapshot => {
-                listingsData = [];
-                snapshot.forEach(child => listingsData.push({id: child.key, ...child.val()}));
-                renderListings(listingsData);
-            });
+            // No re-render here — the new listing is pending and won't show until approved
         }, 800);
     } catch (err) {
         console.error(err);
@@ -1856,23 +1857,22 @@ document.querySelectorAll('.filter-tag').forEach(btn=>{
 searchInput&&searchInput.addEventListener('input',applyFilters);
 mobileSearchInput&&mobileSearchInput.addEventListener('input',applyFilters);
 
-// --- FIXED: ENSURE ALL LISTINGS APPEAR ---
-onValue(ref(db,'listings'),snapshot=>{
-    listingsData=[];
-    // Check if snapshot exists and has children
-    if(snapshot.exists()) {
-        snapshot.forEach(child=>{
-            // Push all data, ensuring ID is attached
-            listingsData.push({
-                id: child.key, 
-                ...child.val()
-            });
+// ── APPROVAL GATE ──
+// Only listings where adminStatus === 'approved' are shown to users.
+// The admin dashboard sets this field when approving a listing.
+onValue(ref(db,'listings'), snapshot => {
+    listingsData = [];
+    if (snapshot.exists()) {
+        snapshot.forEach(child => {
+            const item = { id: child.key, ...child.val() };
+            // ONLY show listings explicitly approved by the admin
+            if (item.adminStatus === 'approved') {
+                listingsData.push(item);
+            }
         });
     }
-    // Render all listings initially
     renderListings(listingsData);
 });
-// --- END FIX ---
 
 window.addEventListener('scroll',()=>{
     if(window.innerHeight+window.scrollY>=document.body.offsetHeight-100 && displayedData.length<currentFiltered.length){

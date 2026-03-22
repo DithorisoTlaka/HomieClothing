@@ -283,6 +283,41 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
   .sheet-contact-btn, .ps-signin-cta, .ps-google-cta, .mobile-home-search-btn, .show-results-btn, .ps-edit-btn, .ps-signout, .ps-edit-save, .sheet-add-review, .add-review-btn {
     border-radius: 50px !important;
   }
+  /* MOBILE DARK MODE HEADER BLACK */
+  .dark-mode nav {
+    background: #111111 !important;
+  }
+  /* FILTER TABS: ACTIVE = GREEN BACKGROUND + WHITE TEXT */
+  .mobile-filter-row .filter-tag.active {
+    background: var(--accent-green) !important;
+    color: white !important;
+    border-color: var(--accent-green) !important;
+  }
+  /* PRICE RANGE SLIDER MODERN + FLOATING ON MOBILE */
+  .home-price-range .price-range-wrapper {
+    box-shadow: 0 15px 35px -10px rgba(0,0,0,0.18) !important;
+    border: none !important;
+  }
+  .range-selected {
+    box-shadow: 0 0 12px var(--accent-green) !important;
+  }
+  .range-input input::-webkit-slider-thumb {
+    box-shadow: 0 4px 12px rgba(16,185,129,0.3) !important;
+  }
+  /* CALL BUTTON BLACK IN DARK MODE */
+  .dark-mode .sheet-contact-btn.call {
+    background: #111111 !important;
+    color: white !important;
+  }
+  /* SUBMIT REVIEW BUTTON BLACK IN DARK MODE */
+  .dark-mode .sheet-add-review {
+    background: #111111 !important;
+    color: white !important;
+  }
+  /* SIGN OUT CONFIRM MODAL IN FRONT OF BOTTOM SHEET */
+  #signOutConfirmModal {
+    z-index: 3500 !important;
+  }
   /* ── MOBILE HOME SEARCH BAR (full style matching filters tab) ── */
   .mobile-home-search {
     margin: 10px 12px 0;
@@ -407,8 +442,6 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
   .mobile-filter-row .filter-tags-row { flex-wrap: nowrap; justify-content: flex-start; white-space: nowrap; gap: 6px; }
   .mobile-filter-row .filter-tag { padding: 5px 12px; font-size: 0.75rem; border-color: #ddd; background: white; border-radius: 50px; flex-shrink: 0; }
   .dark-mode .mobile-filter-row .filter-tag { background: #2a2a2a; border-color: #444; }
-  .mobile-filter-row .filter-tag.active { background: #111; color: white; border-color: #111; }
-  .dark-mode .mobile-filter-row .filter-tag.active { background: white; color: #111; border-color: white; }
   .home-price-range { padding: 0 12px; margin-bottom: 6px; }
   /* ── ENHANCED GOOGLE BUTTON (mobile sign-in sheet) ── */
   .ps-google-cta {

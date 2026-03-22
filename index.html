@@ -91,7 +91,7 @@ nav {
 .filter-tag:hover { border-color: var(--primary-black); transform: translateY(-1px); }
 .filter-tag.active { background: var(--primary-black); color: white; border-color: var(--primary-black); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
 
-/* --- NEW PRICE SLIDER STYLES --- */
+/* --- PRICE SLIDER STYLES --- */
 .price-range-wrapper {
     background: white;
     padding: 1.5rem;
@@ -186,8 +186,8 @@ nav {
     box-shadow: 0 2px 6px rgba(0,0,0,0.15);
     cursor: pointer;
 }
-/* --- END NEW PRICE SLIDER STYLES --- */
 
+/* DESKTOP CARD GRID */
 .section-header { padding: 3rem 5% 1rem; }
 .section-header h2 { font-size: 1.75rem; font-weight: 800; letter-spacing: -0.5px; }
 .grid {
@@ -228,6 +228,8 @@ nav {
   color: var(--primary-black); border-radius: 14px; font-weight: 700; cursor: pointer; transition: var(--transition);
 }
 .card-btn:hover { background: var(--primary-black); color: white; }
+
+/* MODALS */
 .modal-overlay {
   display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
   background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: 2000;
@@ -385,10 +387,13 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
 .footer-links a:hover { color: white; }
 .copyright { border-top: 1px solid #222; padding-top: 2rem; color: #4b5563; font-size: 0.85rem; }
 
+/* =============================================
+   MOBILE STYLES — AIRBNB-INSPIRED
+   ============================================= */
 @media (max-width: 767px) {
   nav {
     justify-content: center;
-    height: 70px;
+    height: 64px;
     border-bottom: none;
     background: var(--primary-black);
   }
@@ -396,15 +401,17 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
   .logo { font-size: 1.8rem; margin: 0; color: white; }
   .hero { display: none; }
   footer { display: none; }
+
   #homeView {
-    padding-top: 10px;
-    padding-bottom: 80px;
+    padding-top: 6px;
+    padding-bottom: 100px;
     min-height: 80vh;
   }
+
   #mobileSearchView {
     display: none;
     padding: 20px;
-    padding-bottom: 100px;
+    padding-bottom: 110px;
     animation: fadeIn 0.3s ease;
   }
   .mobile-search-wrapper {
@@ -420,88 +427,247 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
     border-bottom: 1px solid #eee;
     margin-bottom: 10px;
   }
-  .dark-mode .mobile-search-wrapper .search-input-group { border-bottom: 1px solid #333; }
+  .dark-mode .mobile-search-wrapper .search-input-group { border-bottom: 1px solid #444; }
   .mobile-search-wrapper .search-input-group:last-child {
     border-bottom: none;
     margin-bottom: 0;
   }
   .show-results-btn {
     border-radius: 50px !important;
-    animation: pulse 1.5s infinite;
   }
-  @keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
-  }
+
+  /* ---- AIRBNB BOTTOM NAV ---- */
   .bottom-nav {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-around;
     align-items: center;
     position: fixed;
-    bottom: 25px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 90%;
-    background: rgba(34, 34, 34, 0.95);
-    backdrop-filter: blur(16px);
-    border-radius: 50px;
-    padding: 10px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background: var(--bg-white);
+    border-top: 1px solid var(--border-color);
+    padding: 8px 0 20px;
     z-index: 1000;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-    border: 1px solid rgba(255,255,255,0.1);
     transition: var(--transition);
   }
-  .dark-mode .bottom-nav { background: rgba(255,255,255,0.95); border: 1px solid rgba(0,0,0,0.1); }
+  .dark-mode .bottom-nav {
+    background: #1a1a1a;
+    border-top: 1px solid #333;
+  }
   .bottom-nav-item {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    color: #9ca3af;
+    color: #b0b0b0;
     cursor: pointer;
-    padding: 10px 15px;
-    border-radius: 30px;
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    gap: 8px;
+    padding: 4px 16px;
+    border-radius: 0;
+    transition: color 0.2s ease;
+    gap: 4px;
+    background: transparent;
+    flex: 1;
   }
-  .dark-mode .bottom-nav-item { color: #4b5563; }
-  .bottom-nav-item i { font-size: 1.2rem; }
+  .dark-mode .bottom-nav-item { color: #666; }
+  .bottom-nav-item i {
+    font-size: 1.35rem;
+    transition: transform 0.2s ease;
+  }
   .bottom-nav-item span {
-    font-size: 0.85rem;
-    font-weight: 600;
-    display: none;
+    font-size: 0.7rem;
+    font-weight: 500;
+    display: block;
     white-space: nowrap;
+    letter-spacing: 0.01em;
   }
   .bottom-nav-item.active {
-    background: white;
     color: var(--primary-black);
-    transform: scale(1.05);
+    background: transparent;
+    transform: none;
   }
-  .dark-mode .bottom-nav-item.active { background: #1e1e1e; color: white; }
-  .bottom-nav-item.active span {
-    display: inline-block;
-    animation: fadeIn 0.3s ease;
+  .dark-mode .bottom-nav-item.active { color: white; }
+  .bottom-nav-item.active i {
+    transform: none;
   }
+
+  /* ---- AIRBNB-STYLE CARD GRID ---- */
   .grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.8rem;
-    padding: 0 10px 6rem;
-  }
-  .card {
-    border-radius: 16px;
     display: flex;
     flex-direction: column;
+    gap: 0;
+    padding: 0 0 1rem;
+    animation: fadeIn 0.6s ease;
   }
-  .card-image { height: 130px; }
-  .badge { padding: 4px 8px; font-size: 0.6rem; top: 8px; left: 8px; }
-  .like-btn { width: 30px; height: 30px; top: 8px; right: 8px; }
-  .card-content { padding: 10px; flex-grow: 1; display: flex; flex-direction: column; }
-  .price { font-size: 1rem; }
-  .card-title { font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0.3rem 0; }
-  .card-location { font-size: 0.75rem; margin-bottom: 0.8rem; }
+
+  /* Each card is a full-width Airbnb-style listing row */
+  .card {
+    background: transparent;
+    border-radius: 0;
+    overflow: visible;
+    border: none;
+    border-bottom: 1px solid var(--border-color);
+    transition: none;
+    position: relative;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    animation: none;
+  }
+  .dark-mode .card { background: transparent; border-bottom: 1px solid #2a2a2a; }
+  .card:hover { transform: none; box-shadow: none; }
+  .card:last-child { border-bottom: none; }
+
+  /* Full-width square-ish image */
+  .card-image {
+    height: 0;
+    padding-bottom: 66.66%;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    background: #f0f0f0;
+    border-radius: 16px;
+    flex-shrink: 0;
+  }
+  .dark-mode .card-image { background: #2a2a2a; }
+  .card-image img {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 16px;
+    transition: transform 0.4s ease;
+  }
+  .card:hover .card-image img { transform: none; }
+
+  /* Badge */
+  .badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: rgba(255,255,255,0.95);
+    color: #111;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    backdrop-filter: blur(4px);
+    z-index: 2;
+  }
+  .dark-mode .badge { background: rgba(0,0,0,0.85); color: white; }
+  .badge-verified { background: #111 !important; color: white !important; }
+
+  /* Heart / like button — top right of image, Airbnb style */
+  .like-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 32px;
+    height: 32px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+    padding: 0;
+  }
+  .like-btn i {
+    font-size: 1.35rem;
+    color: white;
+    filter: drop-shadow(0 1px 3px rgba(0,0,0,0.45));
+    transition: transform 0.15s ease, color 0.15s ease;
+  }
+  .like-btn.liked i { color: #ff385c; filter: none; }
+  .like-btn:active i { transform: scale(1.25); }
+
+  /* Card content — tight Airbnb layout */
+  .card-content {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  /* Title row: name + rating */
+  .card-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .card-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-main);
+    margin: 0;
+    line-height: 1.3;
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .card-rating {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-main);
+    flex-shrink: 0;
+  }
+  .card-rating i { font-size: 0.75rem; color: var(--text-main); }
+
+  /* Location / type — muted, underlined like Airbnb */
+  .card-location {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-bottom: 0;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    transition: none;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+  }
+  .card-location:hover { color: var(--text-muted); text-decoration-color: var(--text-muted); }
+  .card-location i { display: none; }
+
+  /* Price row — Airbnb style: bold price, muted /month */
+  .price {
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: var(--text-main);
+    margin-top: 2px;
+  }
+  .price strong {
+    font-weight: 600;
+    text-decoration: underline;
+  }
+  .price span { font-size: 0.9rem; color: var(--text-main); font-weight: 400; }
+
+  /* Hide amenities and card button on mobile */
   .amenities { display: none; }
-  .card-btn { padding: 8px; font-size: 0.8rem; border-width: 1px; margin-top: auto; }
+  .card-btn { display: none; }
+
+  /* Rating stars */
+  .rating-stars {
+    display: flex;
+    gap: 2px;
+    color: #eab308;
+    font-size: 0.7rem;
+  }
+
+  /* Section header */
+  .section-header { padding: 12px 16px 4px; }
+  .section-header h2 { font-size: 1rem; font-weight: 600; color: var(--text-main); display: block; }
+
+  /* Horizontal filter scroll */
   .filters { display: none; padding: 0; border: none; background: transparent; }
   #mobileSearchView .filters { display: block; }
   #mobileSearchView .filter-tags-row {
@@ -510,26 +676,49 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
     white-space: nowrap;
     overflow-x: auto;
   }
+
   .mobile-filter-row {
     display: block;
     overflow-x: auto;
-    padding: 0 5%;
-    margin: 0.5rem 0 0.75rem 0;
+    padding: 0 16px;
+    margin: 4px 0 8px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
   }
+  .mobile-filter-row::-webkit-scrollbar { display: none; }
   .mobile-filter-row .filter-tags-row {
     flex-wrap: nowrap;
     justify-content: flex-start;
     white-space: nowrap;
+    gap: 8px;
   }
-  .section-header h2 { display: none; }
-  .home-price-range { padding: 0 5%; margin-bottom: 1rem; }
+  .mobile-filter-row .filter-tag {
+    padding: 6px 14px;
+    font-size: 0.8rem;
+    border-color: #ddd;
+    background: white;
+    border-radius: 50px;
+    flex-shrink: 0;
+  }
+  .dark-mode .mobile-filter-row .filter-tag { background: #2a2a2a; border-color: #444; }
+  .mobile-filter-row .filter-tag.active {
+    background: #111;
+    color: white;
+    border-color: #111;
+  }
+  .dark-mode .mobile-filter-row .filter-tag.active { background: white; color: #111; border-color: white; }
+
+  .home-price-range { padding: 0 16px; margin-bottom: 8px; }
 }
+
 @media (min-width: 768px) {
   .bottom-nav { display: none; }
   #mobileSearchView { display: none !important; }
   #desktopFilters { display: block; }
   .home-price-range { display: none; }
 }
+
+/* DETAIL MODAL */
 @media (min-width: 768px) {
   #detailModal .modal-content {
     max-width: 900px;
@@ -1054,17 +1243,13 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
 <section class="hero">
   <h1>Your Freedom,<br>starts with a home.</h1>
   <p>Discover verified rooms and apartments in your area. Safe, affordable, and just a click away.</p>
-  
-  <!-- DESKTOP SEARCH: REMOVED DATE INPUT -->
   <div class="search-container">
     <div class="search-input-group">
       <i class="fa-solid fa-location-dot"></i>
       <input type="text" id="searchInput" placeholder="University, City, or Keyword...">
     </div>
-    <!-- Date input removed -->
     <button class="search-btn" onclick="applyFilters()">Find Rooms</button>
   </div>
-
 </section>
 <div class="filters" id="desktopFilters">
   <div class="filter-tags-row">
@@ -1074,8 +1259,6 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
     <button class="filter-tag" data-filter="2 Room">2 Room</button>
     <button class="filter-tag" data-filter="Flat Apartments">Apartments</button>
   </div>
-  
-  <!-- NEW DESKTOP PRICE SLIDER -->
   <div class="price-range-wrapper">
     <div class="price-range-header">
         <span>Price Range</span>
@@ -1089,8 +1272,6 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
         <input type="range" class="range-max" id="desktop-priceMax" min="0" max="30000" value="30000" step="500">
     </div>
   </div>
-  <!-- END NEW SLIDER -->
-
 </div>
 <div id="mainContentWrapper">
   <div id="homeView">
@@ -1106,8 +1287,6 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
         <button class="filter-tag" data-filter="Flat Apartments">Apartments</button>
       </div>
     </div>
-    
-    <!-- MOBILE HOME PRICE SLIDER -->
     <div class="home-price-range price-range-wrapper">
         <div class="price-range-header">
             <span>Price Range</span>
@@ -1121,25 +1300,19 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
             <input type="range" class="range-max" id="homePriceMax" min="0" max="30000" value="30000" step="500">
         </div>
     </div>
-    <!-- END MOBILE SLIDER -->
-
     <section class="grid" id="listingsGrid"></section>
   </div>
   <div id="mobileSearchView">
     <div class="section-header" style="padding: 0 0 1.5rem 0;">
       <h2>Filter your search</h2>
     </div>
-    
-    <!-- MOBILE SEARCH: REMOVED DATE INPUT -->
     <div class="mobile-search-wrapper">
       <div class="search-input-group">
         <i class="fa-solid fa-location-dot"></i>
         <input type="text" id="mobileSearchInput" placeholder="University, City, or Keyword...">
       </div>
-      <!-- Date input removed -->
       <button class="btn btn-primary show-results-btn" style="width: 100%; margin-top: 10px;" onclick="applyFilters(); navigateTab(0);">Show Results</button>
     </div>
-
     <div class="filters" id="filterContainer">
       <div class="filter-tags-row">
         <button class="filter-tag active" data-filter="all">All Properties</button>
@@ -1148,8 +1321,6 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
         <button class="filter-tag" data-filter="2 Room">2 Room</button>
         <button class="filter-tag" data-filter="Flat Apartments">Apartments</button>
       </div>
-      
-      <!-- MOBILE SEARCH PRICE SLIDER -->
       <div class="price-range-wrapper">
         <div class="price-range-header">
             <span>Price Range</span>
@@ -1163,11 +1334,11 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
             <input type="range" class="range-max" id="mobile-priceMax" min="0" max="30000" value="30000" step="500">
         </div>
       </div>
-      <!-- END MOBILE SEARCH SLIDER -->
-
     </div>
   </div>
 </div>
+
+<!-- MODALS — unchanged -->
 <div class="modal-overlay" id="detailModal" onclick="if(event.target===this) closeModal()">
   <div class="modal-content">
     <button class="close-modal" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
@@ -1346,6 +1517,7 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
     <button class="btn btn-primary" onclick="document.getElementById('successModal').classList.remove('active')" style="margin-top:1rem; padding:0.9rem 2rem;">Done</button>
   </div>
 </div>
+
 <footer>
   <div class="logo" style="color:white; font-size:2rem;">KasiStay<span style="color:var(--accent-green)">.</span></div>
   <p style="color:#6b7280; margin-top:10px;">South Africa's #1 Accommodation Finder</p>
@@ -1357,17 +1529,23 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
   </div>
   <div class="copyright">© 2026 KasiStay Inc. Built to make your, job easier.</div>
 </footer>
+
+<!-- AIRBNB-STYLE BOTTOM NAV -->
 <div class="bottom-nav">
   <div class="bottom-nav-item active" data-tab="0" onclick="navigateTab(0)">
-    <i class="fa-solid fa-house"></i><span>Home</span>
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span>Explore</span>
   </div>
   <div class="bottom-nav-item" data-tab="1" onclick="navigateTab(1)">
-    <i class="fa-solid fa-magnifying-glass"></i><span>Search</span>
+    <i class="fa-solid fa-sliders"></i>
+    <span>Filters</span>
   </div>
   <div class="bottom-nav-item" data-tab="2" onclick="navigateTab(2)">
-    <i class="fa-solid fa-plus"></i><span>List</span>
+    <i class="fa-solid fa-plus-circle"></i>
+    <span>List</span>
   </div>
 </div>
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -1417,13 +1595,15 @@ let currentListingId = null;
 let selectedRating = 0;
 const pageSize = 10;
 
-// --- NEW SLIDER LOGIC ---
+// Like state tracking
+const likedItems = new Set();
+
+// --- SLIDER LOGIC ---
 const sliderGroups = [
     { min: 'desktop-priceMin', max: 'desktop-priceMax', track: 'desktop-rangeTrack', minDisp: 'desktop-minPriceDisplay', maxDisp: 'desktop-maxPriceDisplay' },
     { min: 'mobile-priceMin', max: 'mobile-priceMax', track: 'mobile-rangeTrack', minDisp: 'mobile-minPriceDisplay', maxDisp: 'mobile-maxPriceDisplay' },
     { min: 'homePriceMin', max: 'homePriceMax', track: 'homeRangeTrack', minDisp: 'homeMinPriceDisplay', maxDisp: 'homeMaxPriceDisplay' }
 ];
-
 function updateSlider(groupKey) {
     const group = sliderGroups[groupKey];
     const rangeMin = document.getElementById(group.min);
@@ -1431,11 +1611,8 @@ function updateSlider(groupKey) {
     const rangeTrack = document.getElementById(group.track);
     const minDisplay = document.getElementById(group.minDisp);
     const maxDisplay = document.getElementById(group.maxDisp);
-
     let minVal = parseInt(rangeMin.value);
     let maxVal = parseInt(rangeMax.value);
-
-    // Prevent crossover
     if (maxVal - minVal < 500) {
         if (event.target.className === "range-min") {
             rangeMin.value = maxVal - 500;
@@ -1445,30 +1622,20 @@ function updateSlider(groupKey) {
     } else {
         minPrice = minVal;
         maxPrice = maxVal;
-        
-        // Update display
         minDisplay.textContent = minVal.toLocaleString();
         maxDisplay.textContent = maxVal.toLocaleString();
-
-        // Update track visual
         const percent1 = (minVal / rangeMin.max) * 100;
         const percent2 = (maxVal / rangeMax.max) * 100;
         rangeTrack.style.left = percent1 + "%";
         rangeTrack.style.width = (percent2 - percent1) + "%";
-        
-        // Sync other sliders
         syncSliders(groupKey);
-        
-        // Trigger Filter
         applyFilters();
     }
 }
-
 function syncSliders(sourceIndex) {
     const sourceGroup = sliderGroups[sourceIndex];
     const sourceMin = document.getElementById(sourceGroup.min).value;
     const sourceMax = document.getElementById(sourceGroup.max).value;
-
     sliderGroups.forEach((group, index) => {
         if (index !== sourceIndex) {
             const minInput = document.getElementById(group.min);
@@ -1476,36 +1643,27 @@ function syncSliders(sourceIndex) {
             const track = document.getElementById(group.track);
             const minDisp = document.getElementById(group.minDisp);
             const maxDisp = document.getElementById(group.maxDisp);
-
             minInput.value = sourceMin;
             maxInput.value = sourceMax;
-
             const percent1 = (sourceMin / minInput.max) * 100;
             const percent2 = (sourceMax / maxInput.max) * 100;
             track.style.left = percent1 + "%";
             track.style.width = (percent2 - percent1) + "%";
-            
             minDisp.textContent = parseInt(sourceMin).toLocaleString();
             maxDisp.textContent = parseInt(sourceMax).toLocaleString();
         }
     });
 }
-
-// Initialize Sliders
 sliderGroups.forEach((group, index) => {
     const minInput = document.getElementById(group.min);
     const maxInput = document.getElementById(group.max);
-    
     minInput.addEventListener('input', () => updateSlider(index));
     maxInput.addEventListener('input', () => updateSlider(index));
-    
-    // Initial set
     const percent1 = (minInput.value / minInput.max) * 100;
     const percent2 = (maxInput.value / maxInput.max) * 100;
     document.getElementById(group.track).style.left = percent1 + "%";
     document.getElementById(group.track).style.width = (percent2 - percent1) + "%";
 });
-// --- END NEW SLIDER LOGIC ---
 
 window.toggleDarkMode = function() {
     document.body.classList.toggle('dark-mode');
@@ -1563,36 +1721,85 @@ window.navigateTab = function(index) {
     if (index === 2) openAddModal();
     if (window.innerWidth < 768) window.scrollTo({top:0, behavior:'smooth'});
 };
+
 function renderBatch(data){
     data.forEach((item, index)=>{
         const card = document.createElement('div');
         card.className='card';
         card.dataset.id=item.id;
-        card.style.animationDelay = `${index * 0.1}s`;
+        const isMobile = window.innerWidth <= 767;
+
         const amenitiesHtml = item.amenities?.map(a=>`<span class="amenity">${a}</span>`).slice(0,3).join('')||'';
-        const verifiedHtml = item.verified ? `<span class="badge badge-verified"><i class="fa-solid fa-check-double"></i> Verified</span>` : `<span class="badge">New Listing</span>`;
+        const verifiedHtml = item.verified
+            ? `<span class="badge badge-verified"><i class="fa-solid fa-check-double"></i> Verified</span>`
+            : `<span class="badge">New</span>`;
         const avgRating = calculateAverageRating(item.reviews || []);
-        const ratingHtml = avgRating > 0 ? `<div class="rating-stars">${generateStars(avgRating)}</div>` : '';
-        card.innerHTML=`
-            <div class="card-image" style="cursor:pointer;">
+        const isLiked = likedItems.has(item.id);
+
+        if (isMobile) {
+            // AIRBNB MOBILE LAYOUT
+            const ratingHtml = avgRating > 0
+                ? `<div class="card-rating"><i class="fa-solid fa-star"></i> ${avgRating.toFixed(1)}</div>`
+                : '';
+            card.innerHTML = `
+              <div class="card-image">
                 ${verifiedHtml}
+                <button class="like-btn${isLiked ? ' liked' : ''}" data-id="${item.id}" onclick="toggleLike(event,'${item.id}')">
+                  <i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart"></i>
+                </button>
                 <img src="${item.image}" alt="${item.title}" loading="lazy">
-            </div>
-            <div class="card-content">
-                <div class="price">R${item.price.toLocaleString()}<span>/month</span></div>
-                <h3 class="card-title">${item.title}</h3>
-                <div class="card-location"><i class="fa-solid fa-location-dot"></i> ${item.location}</div>
-                <div class="amenities">${amenitiesHtml}</div>
-                ${ratingHtml}
-                <button class="card-btn">View Property</button>
-            </div>
-        `;
-        card.querySelector('.card-image').addEventListener('click',()=>openModal(item.id));
-        card.querySelector('.card-btn').addEventListener('click',()=>openModal(item.id));
-        card.querySelector('.card-location').addEventListener('click',()=>openMapModal(item.location));
+              </div>
+              <div class="card-content">
+                <div class="card-top-row">
+                  <h3 class="card-title">${item.location || ''}</h3>
+                  ${ratingHtml}
+                </div>
+                <div class="card-location">${item.title}</div>
+                <div class="price"><strong>R${item.price.toLocaleString()}</strong><span> / month</span></div>
+              </div>
+            `;
+            card.addEventListener('click', (e) => {
+                if (!e.target.closest('.like-btn')) openModal(item.id);
+            });
+        } else {
+            // DESKTOP LAYOUT (unchanged)
+            const ratingHtml = avgRating > 0 ? `<div class="rating-stars">${generateStars(avgRating)}</div>` : '';
+            card.innerHTML=`
+                <div class="card-image" style="cursor:pointer;">
+                    ${verifiedHtml}
+                    <img src="${item.image}" alt="${item.title}" loading="lazy">
+                </div>
+                <div class="card-content">
+                    <div class="price">R${item.price.toLocaleString()}<span>/month</span></div>
+                    <h3 class="card-title">${item.title}</h3>
+                    <div class="card-location"><i class="fa-solid fa-location-dot"></i> ${item.location}</div>
+                    <div class="amenities">${amenitiesHtml}</div>
+                    ${ratingHtml}
+                    <button class="card-btn">View Property</button>
+                </div>
+            `;
+            card.querySelector('.card-image').addEventListener('click',()=>openModal(item.id));
+            card.querySelector('.card-btn').addEventListener('click',()=>openModal(item.id));
+            card.querySelector('.card-location').addEventListener('click',()=>openMapModal(item.location));
+        }
         grid.appendChild(card);
     });
 }
+
+window.toggleLike = function(e, id) {
+    e.stopPropagation();
+    const btn = e.currentTarget;
+    if (likedItems.has(id)) {
+        likedItems.delete(id);
+        btn.classList.remove('liked');
+        btn.innerHTML = '<i class="fa-regular fa-heart"></i>';
+    } else {
+        likedItems.add(id);
+        btn.classList.add('liked');
+        btn.innerHTML = '<i class="fa-solid fa-heart"></i>';
+    }
+};
+
 window.renderListings = function(data){
     currentFiltered = data; displayedData=[];
     grid.innerHTML='';
@@ -1628,23 +1835,19 @@ window.applyFilters=function(){
 window.resetFilters=function(){
     searchInput.value=''; if(mobileSearchInput) mobileSearchInput.value='';
     minPrice=0; maxPrice=30000;
-    
-    // Reset sliders
-    sliderGroups.forEach((group, index) => {
+    sliderGroups.forEach((group) => {
         const minInput = document.getElementById(group.min);
         const maxInput = document.getElementById(group.max);
         const track = document.getElementById(group.track);
         const minDisp = document.getElementById(group.minDisp);
         const maxDisp = document.getElementById(group.maxDisp);
-        
         minInput.value = 0;
         maxInput.value = 30000;
         track.style.left = "0%";
         track.style.width = "100%";
         minDisp.textContent = "0";
-        maxDisp.textContent = "30000";
+        maxDisp.textContent = "30,000";
     });
-
     document.querySelectorAll('.filter-tag').forEach(b=>b.classList.remove('active'));
     document.querySelectorAll('[data-filter="all"]').forEach(b=>b.classList.add('active'));
     currentFilter='all';
@@ -1774,7 +1977,6 @@ window.submitReview = function() {
         reviews.push(newReview);
         update(listingRef, { reviews }).then(() => {
             closeReviewModal(); closeModal();
-            // Re-fetch and filter only approved listings
             onValue(ref(db, 'listings'), s => {
                 listingsData = [];
                 s.forEach(c => {
@@ -1823,7 +2025,7 @@ window.addToDb = async function(){
             image: imageUrls[0],
             additionalImages: imageUrls.slice(1),
             verified: false,
-            adminStatus: 'pending',  // ← Always pending until admin approves
+            adminStatus: 'pending',
             timestamp: Date.now(),
             reviews: []
         };
@@ -1838,7 +2040,6 @@ window.addToDb = async function(){
             document.getElementById('addForm').reset();
             imagesPreviewContainer.innerHTML = '';
             closeAddModal();
-            // No re-render here — the new listing is pending and won't show until approved
         }, 800);
     } catch (err) {
         console.error(err);
@@ -1857,15 +2058,11 @@ document.querySelectorAll('.filter-tag').forEach(btn=>{
 searchInput&&searchInput.addEventListener('input',applyFilters);
 mobileSearchInput&&mobileSearchInput.addEventListener('input',applyFilters);
 
-// ── APPROVAL GATE ──
-// Only listings where adminStatus === 'approved' are shown to users.
-// The admin dashboard sets this field when approving a listing.
 onValue(ref(db,'listings'), snapshot => {
     listingsData = [];
     if (snapshot.exists()) {
         snapshot.forEach(child => {
             const item = { id: child.key, ...child.val() };
-            // ONLY show listings explicitly approved by the admin
             if (item.adminStatus === 'approved') {
                 listingsData.push(item);
             }

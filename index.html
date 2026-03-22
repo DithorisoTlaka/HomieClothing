@@ -506,6 +506,232 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
     transition: transform 0.15s ease, background 0.15s ease;
   }
   .sheet-add-review:active { transform: scale(0.96); background: #059669; }
+
+  /* ── PROFILE SHEET ── */
+  #profileSheetBackdrop {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0);
+    z-index: 2999; display: none;
+    transition: background 0.35s ease;
+    -webkit-backdrop-filter: blur(0px);
+    backdrop-filter: blur(0px);
+  }
+  #profileSheetBackdrop.open { display: block; background: rgba(0,0,0,0.5); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); }
+
+  #profileSheet {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    z-index: 3000; display: none; padding: 0 10px 10px;
+    pointer-events: none;
+  }
+  #profileSheet.open { display: block; pointer-events: auto; }
+
+  #profileSheetPanel {
+    background: var(--bg-white);
+    border-radius: 22px;
+    max-height: 88vh;
+    display: flex; flex-direction: column;
+    overflow: hidden;
+    transform: translateY(calc(100% + 20px));
+    transition: transform 0.42s cubic-bezier(0.34, 1.56, 0.64, 1);
+    will-change: transform;
+    box-shadow: 0 -4px 40px rgba(0,0,0,0.18), 0 0 0 0.5px rgba(0,0,0,0.06);
+  }
+  .dark-mode #profileSheetPanel { background: #1c1c1e; box-shadow: 0 -4px 40px rgba(0,0,0,0.55), 0 0 0 0.5px rgba(255,255,255,0.06); }
+  #profileSheet.open #profileSheetPanel { transform: translateY(0); }
+
+  /* Stagger */
+  #profileSheet.open .ps-hero    { animation: sheetFadeIn 0.32s cubic-bezier(0.22,1,0.36,1) 0.1s both; }
+  #profileSheet.open .ps-stats   { animation: sheetFadeIn 0.32s cubic-bezier(0.22,1,0.36,1) 0.16s both; }
+  #profileSheet.open .ps-section { animation: sheetFadeIn 0.32s cubic-bezier(0.22,1,0.36,1) 0.22s both; }
+  #profileSheet.open .ps-section:nth-child(3) { animation-delay: 0.27s; }
+  #profileSheet.open .ps-section:nth-child(4) { animation-delay: 0.31s; }
+
+  .ps-handle {
+    width: 38px; height: 4px; background: #c7c7cc;
+    border-radius: 2px; margin: 10px auto 0;
+    flex-shrink: 0; touch-action: none; cursor: grab;
+  }
+  .dark-mode .ps-handle { background: #48484a; }
+
+  .ps-body { overflow-y: auto; flex: 1; -webkit-overflow-scrolling: touch; padding-bottom: 20px; }
+
+  /* Hero / avatar */
+  .ps-hero {
+    display: flex; align-items: center; gap: 14px;
+    padding: 18px 18px 16px;
+    border-bottom: 1px solid var(--border-color);
+  }
+  .ps-avatar-wrap { position: relative; flex-shrink: 0; }
+  .ps-avatar {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent-green) 0%, #059669 100%);
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 1.5rem; font-weight: 800;
+    overflow: hidden; position: relative;
+  }
+  .ps-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+  .ps-avatar-edit {
+    position: absolute; bottom: 0; right: 0;
+    width: 22px; height: 22px; background: var(--primary-black);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    cursor: pointer; border: 2px solid var(--bg-white);
+  }
+  .dark-mode .ps-avatar-edit { background: white; }
+  .ps-avatar-edit i { font-size: 0.6rem; color: white; }
+  .dark-mode .ps-avatar-edit i { color: #111; }
+  .ps-hero-info { flex: 1; min-width: 0; }
+  .ps-name { font-size: 1.05rem; font-weight: 800; color: var(--text-main); line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ps-email { font-size: 0.75rem; color: var(--text-muted); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ps-badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    margin-top: 6px; background: #dcfce7; color: #166534;
+    padding: 3px 9px; border-radius: 20px; font-size: 0.65rem; font-weight: 700;
+  }
+  .dark-mode .ps-badge { background: #14532d; color: #86efac; }
+  .ps-hero-actions { display: flex; flex-direction: column; gap: 6px; flex-shrink: 0; }
+  .ps-edit-btn {
+    padding: 7px 14px; border-radius: 20px; font-size: 0.72rem; font-weight: 600;
+    border: 1.5px solid var(--border-color); background: transparent; color: var(--text-main);
+    cursor: pointer; transition: background 0.15s, border-color 0.15s;
+  }
+  .ps-edit-btn:active { background: var(--bg-off-white); }
+
+  /* Stat row */
+  .ps-stats {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 1px; background: var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+  }
+  .ps-stat {
+    background: var(--bg-white); padding: 14px 10px; text-align: center;
+    display: flex; flex-direction: column; gap: 2px;
+  }
+  .dark-mode .ps-stat { background: #1c1c1e; }
+  .ps-stat-num { font-size: 1.1rem; font-weight: 800; color: var(--text-main); line-height: 1; }
+  .ps-stat-label { font-size: 0.65rem; color: var(--text-muted); font-weight: 500; }
+
+  /* Section */
+  .ps-section { padding: 16px 18px 0; }
+  .ps-section-title { font-size: 0.7rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
+
+  /* Menu rows */
+  .ps-menu { display: flex; flex-direction: column; gap: 0; background: var(--bg-off-white); border-radius: 14px; overflow: hidden; border: 1px solid var(--border-color); }
+  .dark-mode .ps-menu { background: #2c2c2e; border-color: #3a3a3c; }
+  .ps-menu-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 13px 14px; cursor: pointer;
+    border-bottom: 1px solid var(--border-color);
+    transition: background 0.15s ease;
+    position: relative;
+  }
+  .dark-mode .ps-menu-item { border-bottom-color: #3a3a3c; }
+  .ps-menu-item:last-child { border-bottom: none; }
+  .ps-menu-item:active { background: var(--border-color); }
+  .ps-menu-icon {
+    width: 32px; height: 32px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.85rem; flex-shrink: 0;
+  }
+  .ps-menu-icon.green { background: #dcfce7; color: #16a34a; }
+  .ps-menu-icon.blue  { background: #dbeafe; color: #2563eb; }
+  .ps-menu-icon.amber { background: #fef3c7; color: #d97706; }
+  .ps-menu-icon.red   { background: #fee2e2; color: #dc2626; }
+  .ps-menu-icon.gray  { background: var(--border-color); color: var(--text-muted); }
+  .ps-menu-icon.purple{ background: #ede9fe; color: #7c3aed; }
+  .dark-mode .ps-menu-icon.green  { background: #14532d; color: #86efac; }
+  .dark-mode .ps-menu-icon.blue   { background: #1e3a5f; color: #93c5fd; }
+  .dark-mode .ps-menu-icon.amber  { background: #451a03; color: #fcd34d; }
+  .dark-mode .ps-menu-icon.red    { background: #450a0a; color: #fca5a5; }
+  .dark-mode .ps-menu-icon.gray   { background: #3a3a3c; color: var(--text-muted); }
+  .dark-mode .ps-menu-icon.purple { background: #2e1065; color: #c4b5fd; }
+  .ps-menu-text { flex: 1; min-width: 0; }
+  .ps-menu-label { font-size: 0.88rem; font-weight: 600; color: var(--text-main); }
+  .ps-menu-sub { font-size: 0.7rem; color: var(--text-muted); margin-top: 1px; }
+  .ps-menu-arrow { font-size: 0.7rem; color: var(--text-muted); }
+  .ps-menu-badge {
+    background: var(--accent-green); color: white;
+    font-size: 0.6rem; font-weight: 700;
+    padding: 2px 7px; border-radius: 10px; margin-right: 4px;
+  }
+
+  /* Toggle switch */
+  .ps-toggle { position: relative; width: 40px; height: 22px; flex-shrink: 0; }
+  .ps-toggle input { opacity: 0; width: 0; height: 0; }
+  .ps-toggle-slider {
+    position: absolute; inset: 0; background: #d1d5db; border-radius: 11px;
+    transition: background 0.25s ease; cursor: pointer;
+  }
+  .ps-toggle-slider::before {
+    content: ''; position: absolute; width: 16px; height: 16px;
+    border-radius: 50%; background: white; top: 3px; left: 3px;
+    transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  }
+  .ps-toggle input:checked + .ps-toggle-slider { background: var(--accent-green); }
+  .ps-toggle input:checked + .ps-toggle-slider::before { transform: translateX(18px); }
+
+  /* Sign out button */
+  .ps-signout {
+    margin: 16px 18px 18px;
+    padding: 13px; border-radius: 14px;
+    border: 1.5px solid #fee2e2; background: transparent;
+    color: #dc2626; font-size: 0.88rem; font-weight: 600;
+    cursor: pointer; width: calc(100% - 36px);
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .dark-mode .ps-signout { border-color: #450a0a; color: #fca5a5; }
+  .ps-signout:active { background: #fee2e2; }
+  .dark-mode .ps-signout:active { background: #450a0a; }
+
+  /* Not signed in state */
+  .ps-signin-prompt {
+    padding: 28px 18px 8px; text-align: center;
+  }
+  .ps-signin-prompt i { font-size: 2.8rem; color: var(--border-color); margin-bottom: 12px; display: block; }
+  .ps-signin-prompt h3 { font-size: 1rem; font-weight: 700; margin-bottom: 6px; }
+  .ps-signin-prompt p { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 18px; line-height: 1.5; }
+  .ps-signin-cta {
+    width: 100%; padding: 13px; border-radius: 50px;
+    background: var(--primary-black); color: white;
+    border: none; font-weight: 700; font-size: 0.95rem; cursor: pointer;
+    transition: opacity 0.15s;
+  }
+  .dark-mode .ps-signin-cta { background: white; color: #111; }
+  .ps-signin-cta:active { opacity: 0.85; }
+  .ps-google-cta {
+    width: 100%; padding: 12px; border-radius: 50px; margin-top: 10px;
+    background: transparent; color: var(--text-main);
+    border: 1.5px solid var(--border-color); font-weight: 600; font-size: 0.88rem;
+    cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+    transition: background 0.15s;
+  }
+  .ps-google-cta:active { background: var(--bg-off-white); }
+
+  /* Edit profile modal inside sheet */
+  .ps-edit-overlay {
+    position: absolute; inset: 0;
+    background: var(--bg-white);
+    z-index: 10; overflow-y: auto; padding: 16px 18px 30px;
+    transform: translateX(100%);
+    transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+  }
+  .dark-mode .ps-edit-overlay { background: #1c1c1e; }
+  .ps-edit-overlay.visible { transform: translateX(0); }
+  .ps-edit-header { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+  .ps-edit-back { background: transparent; border: none; cursor: pointer; padding: 6px; color: var(--text-main); font-size: 1rem; display: flex; align-items: center; }
+  .ps-edit-header h3 { font-size: 1rem; font-weight: 700; flex: 1; }
+  .ps-edit-save { background: var(--accent-green); color: white; border: none; padding: 7px 16px; border-radius: 20px; font-weight: 600; font-size: 0.78rem; cursor: pointer; }
+  .ps-field-group { display: flex; flex-direction: column; gap: 4px; margin-bottom: 14px; }
+  .ps-field-label { font-size: 0.75rem; font-weight: 600; color: var(--text-muted); }
+  .ps-field-input {
+    padding: 11px 14px; border: 1.5px solid var(--border-color);
+    border-radius: 12px; font-size: 0.9rem; font-family: 'Inter',sans-serif;
+    background: var(--bg-white); color: var(--text-main); outline: none;
+    transition: border-color 0.2s;
+  }
+  .dark-mode .ps-field-input { background: #2c2c2e; border-color: #3a3a3c; }
+  .ps-field-input:focus { border-color: var(--accent-green); box-shadow: 0 0 0 3px rgba(16,185,129,0.1); }
 }
 
 @media (min-width: 768px) {
@@ -516,6 +742,8 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
   .mobile-inline-search { display: none; }
   #mobileSheet { display: none !important; }
   #mobileSheetBackdrop { display: none !important; }
+  #profileSheet { display: none !important; }
+  #profileSheetBackdrop { display: none !important; }
 }
 </style>
 </head>
@@ -818,6 +1046,159 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
   </div>
 </div>
 
+<!-- PROFILE BOTTOM SHEET -->
+<div id="profileSheetBackdrop" onclick="closeProfileSheet()"></div>
+<div id="profileSheet">
+  <div id="profileSheetPanel">
+    <div class="ps-handle" id="psHandle"></div>
+    <div class="ps-body" id="psBody">
+
+      <!-- SIGNED IN VIEW -->
+      <div id="psSignedIn" style="display:none;">
+        <div class="ps-hero">
+          <div class="ps-avatar-wrap">
+            <div class="ps-avatar" id="psAvatar">K</div>
+            <div class="ps-avatar-edit" onclick="openEditProfile()"><i class="fa-solid fa-pen"></i></div>
+          </div>
+          <div class="ps-hero-info">
+            <div class="ps-name" id="psName">KasiStay User</div>
+            <div class="ps-email" id="psEmail">user@example.com</div>
+            <div class="ps-badge"><i class="fa-solid fa-shield-halved"></i> Verified Member</div>
+          </div>
+          <div class="ps-hero-actions">
+            <button class="ps-edit-btn" onclick="openEditProfile()"><i class="fa-solid fa-pen"></i> Edit</button>
+          </div>
+        </div>
+
+        <div class="ps-stats">
+          <div class="ps-stat"><div class="ps-stat-num" id="psFavCount">0</div><div class="ps-stat-label">Saved</div></div>
+          <div class="ps-stat"><div class="ps-stat-num" id="psListingCount">0</div><div class="ps-stat-label">Listings</div></div>
+          <div class="ps-stat"><div class="ps-stat-num" id="psReviewCount">0</div><div class="ps-stat-label">Reviews</div></div>
+        </div>
+
+        <div class="ps-section">
+          <div class="ps-section-title">My Activity</div>
+          <div class="ps-menu">
+            <div class="ps-menu-item" onclick="alert('Saved listings coming soon!')">
+              <div class="ps-menu-icon green"><i class="fa-solid fa-heart"></i></div>
+              <div class="ps-menu-text"><div class="ps-menu-label">Saved Properties</div><div class="ps-menu-sub">View your favourites</div></div>
+              <i class="fa-solid fa-chevron-right ps-menu-arrow"></i>
+            </div>
+            <div class="ps-menu-item" onclick="alert('My listings coming soon!')">
+              <div class="ps-menu-icon blue"><i class="fa-solid fa-house"></i></div>
+              <div class="ps-menu-text"><div class="ps-menu-label">My Listings</div><div class="ps-menu-sub">Manage your properties</div></div>
+              <i class="fa-solid fa-chevron-right ps-menu-arrow"></i>
+            </div>
+            <div class="ps-menu-item" onclick="alert('Reviews coming soon!')">
+              <div class="ps-menu-icon amber"><i class="fa-solid fa-star"></i></div>
+              <div class="ps-menu-text"><div class="ps-menu-label">My Reviews</div><div class="ps-menu-sub">Reviews you've written</div></div>
+              <i class="fa-solid fa-chevron-right ps-menu-arrow"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="ps-section">
+          <div class="ps-section-title">Preferences</div>
+          <div class="ps-menu">
+            <div class="ps-menu-item">
+              <div class="ps-menu-icon gray"><i class="fa-solid fa-moon"></i></div>
+              <div class="ps-menu-text"><div class="ps-menu-label">Dark Mode</div><div class="ps-menu-sub">Switch appearance</div></div>
+              <label class="ps-toggle">
+                <input type="checkbox" id="psDarkToggle" onchange="toggleDarkMode()">
+                <span class="ps-toggle-slider"></span>
+              </label>
+            </div>
+            <div class="ps-menu-item" onclick="alert('Notifications coming soon!')">
+              <div class="ps-menu-icon purple"><i class="fa-solid fa-bell"></i></div>
+              <div class="ps-menu-text"><div class="ps-menu-label">Notifications</div><div class="ps-menu-sub">Manage alerts</div></div>
+              <span class="ps-menu-badge">3</span>
+              <i class="fa-solid fa-chevron-right ps-menu-arrow"></i>
+            </div>
+            <div class="ps-menu-item" onclick="alert('Language coming soon!')">
+              <div class="ps-menu-icon blue"><i class="fa-solid fa-globe"></i></div>
+              <div class="ps-menu-text"><div class="ps-menu-label">Language</div><div class="ps-menu-sub">English (South Africa)</div></div>
+              <i class="fa-solid fa-chevron-right ps-menu-arrow"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="ps-section">
+          <div class="ps-section-title">Support</div>
+          <div class="ps-menu">
+            <div class="ps-menu-item" onclick="alert('Help coming soon!')">
+              <div class="ps-menu-icon green"><i class="fa-solid fa-circle-question"></i></div>
+              <div class="ps-menu-text"><div class="ps-menu-label">Help & Support</div><div class="ps-menu-sub">FAQs and contact us</div></div>
+              <i class="fa-solid fa-chevron-right ps-menu-arrow"></i>
+            </div>
+            <div class="ps-menu-item" onclick="alert('Privacy policy coming soon!')">
+              <div class="ps-menu-icon gray"><i class="fa-solid fa-shield"></i></div>
+              <div class="ps-menu-text"><div class="ps-menu-label">Privacy Policy</div><div class="ps-menu-sub">How we use your data</div></div>
+              <i class="fa-solid fa-chevron-right ps-menu-arrow"></i>
+            </div>
+            <div class="ps-menu-item" onclick="alert('About coming soon!')">
+              <div class="ps-menu-icon gray"><i class="fa-solid fa-circle-info"></i></div>
+              <div class="ps-menu-text"><div class="ps-menu-label">About KasiStay</div><div class="ps-menu-sub">Version 1.0.0</div></div>
+              <i class="fa-solid fa-chevron-right ps-menu-arrow"></i>
+            </div>
+          </div>
+        </div>
+
+        <button class="ps-signout" onclick="psSignOut()"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</button>
+
+        <!-- Edit Profile Overlay (slides in from right) -->
+        <div class="ps-edit-overlay" id="psEditOverlay">
+          <div class="ps-edit-header">
+            <button class="ps-edit-back" onclick="closeEditProfile()"><i class="fa-solid fa-arrow-left"></i></button>
+            <h3>Edit Profile</h3>
+            <button class="ps-edit-save" onclick="saveProfile()">Save</button>
+          </div>
+          <div style="text-align:center;margin-bottom:20px;">
+            <div class="ps-avatar" id="psEditAvatar" style="width:72px;height:72px;font-size:1.6rem;margin:0 auto;cursor:pointer;" onclick="document.getElementById('psAvatarInput').click()">K</div>
+            <input type="file" id="psAvatarInput" accept="image/*" style="display:none;" onchange="handleAvatarChange(event)">
+            <div style="font-size:0.72rem;color:var(--text-muted);margin-top:6px;">Tap to change photo</div>
+          </div>
+          <div class="ps-field-group"><div class="ps-field-label">Display Name</div><input class="ps-field-input" id="psEditName" type="text" placeholder="Your name"></div>
+          <div class="ps-field-group"><div class="ps-field-label">Email</div><input class="ps-field-input" id="psEditEmail" type="email" placeholder="Email address" readonly style="opacity:0.6;"></div>
+          <div class="ps-field-group"><div class="ps-field-label">Phone Number</div><input class="ps-field-input" id="psEditPhone" type="tel" placeholder="+27 ..."></div>
+          <div class="ps-field-group"><div class="ps-field-label">Location</div><input class="ps-field-input" id="psEditLocation" type="text" placeholder="e.g. Johannesburg, Gauteng"></div>
+          <div class="ps-field-group"><div class="ps-field-label">Bio</div><textarea class="ps-field-input" id="psEditBio" rows="3" placeholder="Tell others a bit about yourself..." style="resize:none;line-height:1.5;"></textarea></div>
+        </div>
+      </div>
+
+      <!-- NOT SIGNED IN VIEW -->
+      <div id="psGuest" style="display:none;">
+        <div class="ps-signin-prompt">
+          <i class="fa-solid fa-circle-user"></i>
+          <h3>Join KasiStay</h3>
+          <p>Sign in to save properties, manage your listings and track your activity.</p>
+          <button class="ps-signin-cta" onclick="closeProfileSheet();openSignInModal()">Sign In</button>
+          <button class="ps-google-cta" onclick="closeProfileSheet();signInWithGoogle()"><i class="fa-brands fa-google"></i> Continue with Google</button>
+        </div>
+        <div class="ps-section" style="padding-top:8px;">
+          <div class="ps-section-title">Preferences</div>
+          <div class="ps-menu">
+            <div class="ps-menu-item">
+              <div class="ps-menu-icon gray"><i class="fa-solid fa-moon"></i></div>
+              <div class="ps-menu-text"><div class="ps-menu-label">Dark Mode</div><div class="ps-menu-sub">Switch appearance</div></div>
+              <label class="ps-toggle">
+                <input type="checkbox" id="psDarkToggleGuest" onchange="toggleDarkMode()">
+                <span class="ps-toggle-slider"></span>
+              </label>
+            </div>
+            <div class="ps-menu-item" onclick="alert('Help coming soon!')">
+              <div class="ps-menu-icon green"><i class="fa-solid fa-circle-question"></i></div>
+              <div class="ps-menu-text"><div class="ps-menu-label">Help & Support</div></div>
+              <i class="fa-solid fa-chevron-right ps-menu-arrow"></i>
+            </div>
+          </div>
+        </div>
+        <div style="height:20px;"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 <footer>
   <div class="logo" style="color:white;font-size:2rem;">KasiStay<span style="color:var(--accent-green)">.</span></div>
   <p style="color:#6b7280;margin-top:10px;">South Africa's #1 Accommodation Finder</p>
@@ -829,6 +1210,7 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
   <div class="bottom-nav-item active" data-tab="0" onclick="navigateTab(0)"><i class="fa-solid fa-magnifying-glass"></i><span>Explore</span></div>
   <div class="bottom-nav-item" data-tab="1" onclick="navigateTab(1)"><i class="fa-solid fa-sliders"></i><span>Filters</span></div>
   <div class="bottom-nav-item" data-tab="2" onclick="navigateTab(2)"><i class="fa-solid fa-plus-circle"></i><span>List</span></div>
+  <div class="bottom-nav-item" data-tab="3" onclick="navigateTab(3)" id="profileNavBtn"><i class="fa-solid fa-circle-user"></i><span>Profile</span></div>
 </div>
 
 <script type="module">
@@ -907,6 +1289,12 @@ onAuthStateChanged(auth,user=>{
   const btn=document.getElementById('authButton');
   if(user){btn.textContent='Sign Out';btn.onclick=signOutUser;}
   else{btn.textContent='Sign In';btn.onclick=openSignInModal;}
+  // update profile nav avatar dot indicator
+  const pNav=document.getElementById('profileNavBtn');
+  if(pNav){
+    const icon=pNav.querySelector('i');
+    if(icon){icon.className=user?'fa-solid fa-circle-user':'fa-regular fa-circle-user';}
+  }
 });
 window.openSignInModal=()=>{document.getElementById('signInModal').classList.add('active');document.body.style.overflow='hidden';};
 window.closeSignInModal=()=>{document.getElementById('signInModal').classList.remove('active');document.body.style.overflow='auto';};
@@ -924,7 +1312,8 @@ window.navigateTab=index=>{
   document.querySelectorAll('.bottom-nav-item').forEach((it,i)=>it.classList.toggle('active',i===index));
   document.getElementById('homeView').style.display=index===0?'block':'none';
   document.getElementById('mobileSearchView').style.display=index===1?'block':'none';
-  if(index===2)openAddModal();
+  if(index===2){openAddModal();return;}
+  if(index===3){openProfileSheet();return;}
   if(window.innerWidth<768)window.scrollTo({top:0,behavior:'smooth'});
 };
 
@@ -1241,6 +1630,174 @@ onValue(ref(db,'listings'),snapshot=>{
 window.addEventListener('scroll',()=>{
   if(window.innerHeight+window.scrollY>=document.body.offsetHeight-100&&displayedData.length<currentFiltered.length)loadMore();
 });
+
+/* =============================================
+   PROFILE SHEET
+   ============================================= */
+let profileSheetDragCleanup=null;
+
+window.openProfileSheet=()=>{
+  // sync dark mode toggle state
+  const isDark=document.body.classList.contains('dark-mode');
+  const dt=document.getElementById('psDarkToggle');
+  const dtg=document.getElementById('psDarkToggleGuest');
+  if(dt)dt.checked=isDark;
+  if(dtg)dtg.checked=isDark;
+
+  const user=auth.currentUser;
+  document.getElementById('psSignedIn').style.display=user?'block':'none';
+  document.getElementById('psGuest').style.display=user?'none':'block';
+
+  if(user){
+    // populate user data
+    const name=user.displayName||user.email?.split('@')[0]||'KasiStay User';
+    const email=user.email||'';
+    document.getElementById('psName').textContent=name;
+    document.getElementById('psEmail').textContent=email;
+    document.getElementById('psEditName').value=name;
+    document.getElementById('psEditEmail').value=email;
+    document.getElementById('psEditPhone').value=localStorage.getItem('ks_phone')||'';
+    document.getElementById('psEditLocation').value=localStorage.getItem('ks_location')||'';
+    document.getElementById('psEditBio').value=localStorage.getItem('ks_bio')||'';
+
+    // avatar
+    const photo=user.photoURL||localStorage.getItem('ks_avatar');
+    ['psAvatar','psEditAvatar'].forEach(id=>{
+      const el=document.getElementById(id);
+      if(photo){el.innerHTML=`<img src="${photo}" alt="avatar">`;}
+      else{el.textContent=name.charAt(0).toUpperCase();}
+    });
+
+    // stats
+    document.getElementById('psFavCount').textContent=likedItems.size;
+    const myListings=listingsData.filter(l=>l.ownerEmail===email||l.ownerUid===user.uid);
+    document.getElementById('psListingCount').textContent=myListings.length;
+    const myReviews=listingsData.reduce((acc,l)=>acc+(l.reviews||[]).length,0);
+    document.getElementById('psReviewCount').textContent=myReviews;
+  }
+
+  document.getElementById('psBody').scrollTop=0;
+  // close edit overlay if open
+  const eo=document.getElementById('psEditOverlay');
+  if(eo)eo.classList.remove('visible');
+
+  document.getElementById('profileSheetBackdrop').classList.add('open');
+  document.getElementById('profileSheet').classList.add('open');
+  document.body.style.overflow='hidden';
+  initProfileDrag();
+};
+
+window.closeProfileSheet=()=>{
+  const panel=document.getElementById('profileSheetPanel');
+  const backdrop=document.getElementById('profileSheetBackdrop');
+  panel.style.transition='transform 0.35s cubic-bezier(0.4,0,1,1)';
+  panel.style.transform='translateY(calc(100% + 20px))';
+  backdrop.style.background='rgba(0,0,0,0)';
+  backdrop.style.backdropFilter='blur(0px)';
+  backdrop.style.webkitBackdropFilter='blur(0px)';
+  setTimeout(()=>{
+    document.getElementById('profileSheet').classList.remove('open');
+    backdrop.classList.remove('open');
+    panel.style.transform='';panel.style.transition='';
+    backdrop.style.background='';backdrop.style.backdropFilter='';backdrop.style.webkitBackdropFilter='';
+    document.body.style.overflow='auto';
+    // restore explore tab highlight
+    document.querySelectorAll('.bottom-nav-item').forEach((it,i)=>it.classList.toggle('active',i===0));
+  },350);
+};
+
+window.openEditProfile=()=>{
+  const eo=document.getElementById('psEditOverlay');
+  eo.classList.add('visible');
+};
+window.closeEditProfile=()=>{
+  document.getElementById('psEditOverlay').classList.remove('visible');
+};
+
+window.saveProfile=()=>{
+  const name=document.getElementById('psEditName').value.trim();
+  const phone=document.getElementById('psEditPhone').value.trim();
+  const location=document.getElementById('psEditLocation').value.trim();
+  const bio=document.getElementById('psEditBio').value.trim();
+  if(phone)localStorage.setItem('ks_phone',phone);
+  if(location)localStorage.setItem('ks_location',location);
+  if(bio)localStorage.setItem('ks_bio',bio);
+  if(name){
+    document.getElementById('psName').textContent=name;
+    const user=auth.currentUser;
+    if(user){
+      const photo=user.photoURL||localStorage.getItem('ks_avatar');
+      ['psAvatar','psEditAvatar'].forEach(id=>{
+        const el=document.getElementById(id);
+        if(!photo)el.textContent=name.charAt(0).toUpperCase();
+      });
+    }
+  }
+  closeEditProfile();
+  // brief success flash
+  const btn=document.querySelector('.ps-edit-save');
+  if(btn){btn.textContent='Saved ✓';btn.style.background='#059669';setTimeout(()=>{btn.textContent='Save';btn.style.background='';},1500);}
+};
+
+window.handleAvatarChange=e=>{
+  const file=e.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    const src=ev.target.result;
+    localStorage.setItem('ks_avatar',src);
+    ['psAvatar','psEditAvatar'].forEach(id=>{
+      document.getElementById(id).innerHTML=`<img src="${src}" alt="avatar">`;
+    });
+  };
+  reader.readAsDataURL(file);
+};
+
+window.psSignOut=async()=>{
+  await signOut(auth);
+  closeProfileSheet();
+};
+
+function initProfileDrag(){
+  const panel=document.getElementById('profileSheetPanel');
+  const handle=document.getElementById('psHandle');
+  const backdrop=document.getElementById('profileSheetBackdrop');
+  let startY=0,curY=0,dragging=false;
+  const getY=e=>e.touches?e.touches[0].clientY:e.clientY;
+  const onStart=e=>{
+    // Don't drag if inside the edit overlay
+    if(e.target.closest('.ps-edit-overlay'))return;
+    dragging=true;startY=getY(e);curY=0;panel.style.transition='none';
+  };
+  const onMove=e=>{
+    if(!dragging)return;
+    const y=getY(e)-startY;
+    if(y<0){panel.style.transform=`translateY(${y*0.12}px)`;return;}
+    curY=y;panel.style.transform=`translateY(${y}px)`;
+    const pct=Math.min(y/280,1);
+    const alpha=0.5*(1-pct*0.94);
+    backdrop.style.background=`rgba(0,0,0,${alpha.toFixed(3)})`;
+    backdrop.style.backdropFilter=`blur(${(3*(1-pct)).toFixed(1)}px)`;
+    backdrop.style.webkitBackdropFilter=`blur(${(3*(1-pct)).toFixed(1)}px)`;
+  };
+  const onEnd=()=>{
+    if(!dragging)return;dragging=false;
+    panel.style.transition='transform 0.42s cubic-bezier(0.34,1.56,0.64,1)';
+    if(curY>110){
+      closeProfileSheet();
+    }else{
+      panel.style.transform='translateY(0)';
+      backdrop.style.background='rgba(0,0,0,0.5)';
+      backdrop.style.backdropFilter='blur(3px)';
+      backdrop.style.webkitBackdropFilter='blur(3px)';
+    }
+  };
+  handle.addEventListener('touchstart',onStart,{passive:true});
+  handle.addEventListener('touchmove',onMove,{passive:true});
+  handle.addEventListener('touchend',onEnd);
+  handle.addEventListener('mousedown',onStart);
+  document.addEventListener('mousemove',onMove);
+  document.addEventListener('mouseup',onEnd);
+}
 </script>
 </body>
 </html>

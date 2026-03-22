@@ -522,7 +522,14 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
   #profileSheetBackdrop.open { display: block; background: rgba(0,0,0,0.5); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); }
   #profileSheet { position: fixed; bottom: 0; left: 0; right: 0; z-index: 3000; display: none; padding: 0 10px 10px; pointer-events: none; }
   #profileSheet.open { display: block; pointer-events: auto; }
-  #profileSheetPanel { background: var(--bg-white); border-radius: 22px; max-height: 88vh; display: flex; flex-direction: column; overflow: hidden; transform: translateY(calc(100% + 20px)); transition: transform 0.42s cubic-bezier(0.34, 1.56, 0.64, 1); will-change: transform; box-shadow: 0 -4px 40px rgba(0,0,0,0.18), 0 0 0 0.5px rgba(0,0,0,0.06); }
+  #profileSheetPanel {
+    background: var(--bg-white); border-radius: 22px; max-height: 88vh;
+    display: flex; flex-direction: column; overflow: hidden;
+    transform: translateY(calc(100% + 20px));
+    transition: transform 0.42s cubic-bezier(0.34, 1.56, 0.64, 1);
+    will-change: transform;
+    box-shadow: 0 -4px 40px rgba(0,0,0,0.18), 0 0 0 0.5px rgba(0,0,0,0.06);
+  }
   .dark-mode #profileSheetPanel { background: #1c1c1e; box-shadow: 0 -4px 40px rgba(0,0,0,0.55), 0 0 0 0.5px rgba(255,255,255,0.06); }
   #profileSheet.open #profileSheetPanel { transform: translateY(0); }
   #profileSheet.open .ps-hero { animation: sheetFadeIn 0.32s cubic-bezier(0.22,1,0.36,1) 0.1s both; }
@@ -911,6 +918,12 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
     </div>
   </div>
 </div>
+<!-- LOGIN FEEDBACK MODAL -->
+<div class="modal-overlay" id="loginFeedbackModal" onclick="if(event.target===this)closeLoginFeedbackModal()">
+  <div class="modal-content modal-success" id="loginFeedbackInner">
+    <!-- JS injected -->
+  </div>
+</div>
 <!-- UPLOAD + SUCCESS -->
 <div class="modal-overlay" id="uploadModal">
   <div class="progress-modal-content">
@@ -1094,7 +1107,7 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-import { getDatabase, ref, push, set, onValue, update } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+import { getDatabase, ref, push, set, onValue, update, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 const firebaseConfig = { apiKey:"AIzaSyD_MtScfT0J5b8LbMm5oAATmw84plKWl-0", authDomain:"kasistay-3b79c.firebaseapp.com", projectId:"kasistay-3b79c", storageBucket:"kasistay-3b79c.appspot.com", messagingSenderId:"19156366595", appId:"1:19156366595:web:c64b9bd6dfde5790e02536" };
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -1169,29 +1182,35 @@ onAuthStateChanged(auth,user=>{
 });
 window.openSignInModal=()=>{document.getElementById('signInModal').classList.add('active');document.body.style.overflow='hidden';};
 window.closeSignInModal=()=>{document.getElementById('signInModal').classList.remove('active');document.body.style.overflow='auto';};
+/* LOGIN FEEDBACK */
+window.closeLoginFeedbackModal=()=>{document.getElementById('loginFeedbackModal').classList.remove('active');};
+window.showLoginMessage=(success,msg)=>{
+  const inner=document.getElementById('loginFeedbackInner');
+  if(success){
+    inner.innerHTML=`<i class="fa-solid fa-circle-check"></i><h2>Login Successful!</h2><p>${msg||'Welcome back to KasiStay.'}</p><button class="btn btn-primary" onclick="closeLoginFeedbackModal()" style="margin-top:1rem;padding:0.9rem 2rem;">Continue</button>`;
+  }else{
+    inner.innerHTML=`<i class="fa-solid fa-circle-xmark" style="color:#ef4444;font-size:4rem;margin-bottom:1.5rem;"></i><h2>Login Failed</h2><p>${msg}</p><button class="btn btn-primary" onclick="closeLoginFeedbackModal()" style="margin-top:1rem;padding:0.9rem 2rem;">Try Again</button>`;
+  }
+  document.getElementById('loginFeedbackModal').classList.add('active');
+};
 window.signInWithCredentials=async()=>{
   const e=document.getElementById('signInEmail').value.trim(),p=document.getElementById('signInPassword').value;
   if(!e||!p)return alert("Enter both email and password");
-  try{await signInWithEmailAndPassword(auth,e,p);closeSignInModal();}catch(err){alert("Sign in failed: "+err.message);}
+  try{await signInWithEmailAndPassword(auth,e,p);closeSignInModal();showLoginMessage(true,"You are now signed in.");}catch(err){showLoginMessage(false,err.message);}
 };
-/* FULLY FUNCTIONAL SIGN UP (uses same fields as sign-in modal) */
 window.signUpWithCredentials=async()=>{
   const e=document.getElementById('signInEmail').value.trim(),p=document.getElementById('signInPassword').value;
   if(!e||!p)return alert("Enter both email and password");
-  try{
-    await createUserWithEmailAndPassword(auth,e,p);
-    closeSignInModal();
-  }catch(err){alert("Sign up failed: "+err.message);}
+  try{await createUserWithEmailAndPassword(auth,e,p);closeSignInModal();showLoginMessage(true,"Account created & signed in!");}catch(err){showLoginMessage(false,err.message);}
 };
-window.signInWithGoogle=async()=>{try{await signInWithPopup(auth,provider);closeSignInModal();}catch(e){console.error(e);}};
+window.signInWithGoogle=async()=>{try{await signInWithPopup(auth,provider);closeSignInModal();showLoginMessage(true,"Signed in with Google!");}catch(e){showLoginMessage(false,e.message||'Google sign-in failed');}};
 window.signOutUser=async()=>{await signOut(auth);};
-/* NAV — updated for 3 tabs (0=Explore, 1=List, 2=Profile) */
+/* NAV */
 window.navigateTab=index=>{
   currentTab=index;
   document.querySelectorAll('.bottom-nav-item').forEach((it,i)=>it.classList.toggle('active',i===index));
-  // tab 0 = Explore (home), tab 1 = List modal, tab 2 = Profile sheet
   document.getElementById('homeView').style.display=index===0?'block':'none';
-  document.getElementById('mobileSearchView').style.display='none'; // no filters tab anymore
+  document.getElementById('mobileSearchView').style.display='none';
   if(index===1){openAddModal();return;}
   if(index===2){openProfileSheet();return;}
   if(window.innerWidth<768)window.scrollTo({top:0,behavior:'smooth'});
@@ -1337,7 +1356,6 @@ window.closeMobileSheet=()=>{
     panel.style.transform='';panel.style.transition='';
     backdrop.style.background='';backdrop.style.backdropFilter='';backdrop.style.webkitBackdropFilter='';
     document.body.style.overflow='auto';
-    // Auto-navigate to home (Explore tab)
     if(window.innerWidth<768) navigateTab(0);
   },350);
 };
@@ -1413,12 +1431,11 @@ window.openMapModal=location=>{
 };
 window.closeMapModal=()=>{document.getElementById('mapModal').style.display='none';document.getElementById('mapFrame').src='';document.body.style.overflow='auto';};
 window.closeModal=()=>{document.getElementById('detailModal').classList.remove('active');document.body.style.overflow='auto';};
-/* Add modal — navigate home on mobile close */
+/* Add modal */
 window.openAddModal=()=>{document.getElementById('addModal').classList.add('active');document.body.style.overflow='hidden';};
 window.closeAddModal=()=>{
   document.getElementById('addModal').classList.remove('active');
   document.body.style.overflow='auto';
-  // Auto-navigate to home on mobile
   if(window.innerWidth<768) navigateTab(0);
 };
 function calcAvg(reviews){if(!reviews.length)return 0;return Math.round(reviews.reduce((a,r)=>a+r.rating,0)/reviews.length*10)/10;}
@@ -1496,9 +1513,7 @@ onValue(ref(db,'listings'),snapshot=>{
 window.addEventListener('scroll',()=>{
   if(window.innerHeight+window.scrollY>=document.body.offsetHeight-100&&displayedData.length<currentFiltered.length)loadMore();
 });
-/* =============================================
-   PROFILE SHEET
-   ============================================= */
+/* PROFILE SHEET - FULLY FUNCTIONAL WITH FIREBASE */
 window.openProfileSheet=()=>{
   const isDark=document.body.classList.contains('dark-mode');
   const dt=document.getElementById('psDarkToggle');
@@ -1529,6 +1544,24 @@ window.openProfileSheet=()=>{
     document.getElementById('psListingCount').textContent=myListings.length;
     const myReviews=listingsData.reduce((acc,l)=>acc+(l.reviews||[]).length,0);
     document.getElementById('psReviewCount').textContent=myReviews;
+    // LOAD FULL PROFILE FROM FIREBASE
+    const userRef=ref(db,`users/${user.uid}`);
+    get(userRef).then(snapshot=>{
+      if(snapshot.exists()){
+        const d=snapshot.val();
+        if(d.displayName) document.getElementById('psName').textContent=d.displayName;
+        if(d.displayName) document.getElementById('psEditName').value=d.displayName;
+        if(d.phone) document.getElementById('psEditPhone').value=d.phone;
+        if(d.location) document.getElementById('psEditLocation').value=d.location;
+        if(d.bio) document.getElementById('psEditBio').value=d.bio;
+        if(d.avatar){
+          ['psAvatar','psEditAvatar'].forEach(id=>{
+            document.getElementById(id).innerHTML=`<img src="${d.avatar}" alt="avatar">`;
+          });
+          localStorage.setItem('ks_avatar',d.avatar);
+        }
+      }
+    });
   }
   document.getElementById('psBody').scrollTop=0;
   const eo=document.getElementById('psEditOverlay');
@@ -1552,46 +1585,45 @@ window.closeProfileSheet=()=>{
     panel.style.transform='';panel.style.transition='';
     backdrop.style.background='';backdrop.style.backdropFilter='';backdrop.style.webkitBackdropFilter='';
     document.body.style.overflow='auto';
-    // Auto-navigate to home (Explore tab) on mobile
     if(window.innerWidth<768) navigateTab(0);
   },350);
 };
 window.openEditProfile=()=>{document.getElementById('psEditOverlay').classList.add('visible');};
 window.closeEditProfile=()=>{document.getElementById('psEditOverlay').classList.remove('visible');};
-window.saveProfile=()=>{
+window.saveProfile=async()=>{
   const name=document.getElementById('psEditName').value.trim();
   const phone=document.getElementById('psEditPhone').value.trim();
   const location=document.getElementById('psEditLocation').value.trim();
   const bio=document.getElementById('psEditBio').value.trim();
-  if(phone)localStorage.setItem('ks_phone',phone);
-  if(location)localStorage.setItem('ks_location',location);
-  if(bio)localStorage.setItem('ks_bio',bio);
-  if(name){
-    document.getElementById('psName').textContent=name;
-    const user=auth.currentUser;
-    if(user){
-      const photo=user.photoURL||localStorage.getItem('ks_avatar');
-      ['psAvatar','psEditAvatar'].forEach(id=>{
-        const el=document.getElementById(id);
-        if(!photo)el.textContent=name.charAt(0).toUpperCase();
-      });
-    }
+  const user=auth.currentUser;
+  if(user){
+    const userRef=ref(db,`users/${user.uid}`);
+    await update(userRef,{
+      displayName:name||user.displayName,
+      phone:phone||'',
+      location:location||'',
+      bio:bio||''
+    });
   }
+  if(name) document.getElementById('psName').textContent=name;
   closeEditProfile();
   const btn=document.querySelector('.ps-edit-save');
   if(btn){btn.textContent='Saved ✓';btn.style.background='#059669';setTimeout(()=>{btn.textContent='Save';btn.style.background='';},1500);}
 };
-window.handleAvatarChange=e=>{
+window.handleAvatarChange=async(e)=>{
   const file=e.target.files[0];if(!file)return;
-  const reader=new FileReader();
-  reader.onload=ev=>{
-    const src=ev.target.result;
-    localStorage.setItem('ks_avatar',src);
-    ['psAvatar','psEditAvatar'].forEach(id=>{
-      document.getElementById(id).innerHTML=`<img src="${src}" alt="avatar">`;
-    });
-  };
-  reader.readAsDataURL(file);
+  try{
+    const url=await uploadToCloudinary(file);
+    const user=auth.currentUser;
+    if(user){
+      const userRef=ref(db,`users/${user.uid}`);
+      await update(userRef,{avatar:url});
+      ['psAvatar','psEditAvatar'].forEach(id=>{
+        document.getElementById(id).innerHTML=`<img src="${url}" alt="avatar">`;
+      });
+      localStorage.setItem('ks_avatar',url);
+    }
+  }catch(err){alert('Avatar upload failed');}
 };
 window.psSignOut=async()=>{
   await signOut(auth);

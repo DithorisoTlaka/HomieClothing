@@ -259,6 +259,9 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
 #addForm .file-upload-text { font-size: 0.85rem; color: var(--text-muted); font-weight: 500; }
 #addForm .file-upload-text span { color: var(--accent-green); font-weight: 600; }
 #addForm .submit-btn { margin-top: 0.5rem; padding: 1rem; font-size: 1rem; }
+/* SIGN OUT CONFIRM & SIGNED OUT MODALS */
+#signOutConfirmModal .modal-content { max-width:360px; }
+#signedOutModal .modal-content { max-width:380px; }
 /* =============================================
    MOBILE STYLES
    ============================================= */
@@ -921,7 +924,26 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
 <!-- LOGIN FEEDBACK MODAL -->
 <div class="modal-overlay" id="loginFeedbackModal" onclick="if(event.target===this)closeLoginFeedbackModal()">
   <div class="modal-content modal-success" id="loginFeedbackInner">
-    <!-- JS injected -->
+  </div>
+</div>
+<!-- SIGN OUT CONFIRM MODAL -->
+<div class="modal-overlay" id="signOutConfirmModal" onclick="if(event.target===this)closeSignOutConfirm()">
+  <div class="modal-content" style="max-width:360px;">
+    <div class="modal-header" style="border-bottom:none;text-align:center;padding:2rem 1.5rem 1rem;">Sign Out?</div>
+    <div class="modal-body" style="padding:0 2rem 2rem;text-align:center;color:var(--text-muted);">Are you sure you want to sign out of KasiStay?</div>
+    <div style="display:flex;padding:0 1.5rem 1.5rem;gap:1rem;">
+      <button onclick="closeSignOutConfirm()" style="flex:1;padding:14px;border:1.5px solid var(--border-color);border-radius:50px;font-weight:600;background:transparent;">Cancel</button>
+      <button onclick="confirmSignOut()" class="btn btn-primary" style="flex:1;">Yes, Sign Out</button>
+    </div>
+  </div>
+</div>
+<!-- SIGNED OUT SUCCESS MODAL -->
+<div class="modal-overlay" id="signedOutModal" onclick="if(event.target===this)closeSignedOutModal()">
+  <div class="modal-content modal-success">
+    <i class="fa-solid fa-circle-check"></i>
+    <h2>Signed Out</h2>
+    <p>You have been successfully signed out.</p>
+    <button class="btn btn-primary" onclick="closeSignedOutModal()" style="margin-top:1rem;padding:0.9rem 2rem;">OK</button>
   </div>
 </div>
 <!-- UPLOAD + SUCCESS -->
@@ -970,7 +992,7 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
         <div class="ps-section">
           <div class="ps-section-title">My Activity</div>
           <div class="ps-menu">
-            <div class="ps-menu-item" onclick="alert('Saved listings coming soon!')">
+            <div class="ps-menu-item" onclick="showSavedProperties()">
               <div class="ps-menu-icon green"><i class="fa-solid fa-heart"></i></div>
               <div class="ps-menu-text"><div class="ps-menu-label">Saved Properties</div><div class="ps-menu-sub">View your favourites</div></div>
               <i class="fa-solid fa-chevron-right ps-menu-arrow"></i>
@@ -980,7 +1002,7 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
               <div class="ps-menu-text"><div class="ps-menu-label">My Listings</div><div class="ps-menu-sub">Manage your properties</div></div>
               <i class="fa-solid fa-chevron-right ps-menu-arrow"></i>
             </div>
-            <div class="ps-menu-item" onclick="alert('Reviews coming soon!')">
+            <div class="ps-menu-item" onclick="showMyReviews()">
               <div class="ps-menu-icon amber"><i class="fa-solid fa-star"></i></div>
               <div class="ps-menu-text"><div class="ps-menu-label">My Reviews</div><div class="ps-menu-sub">Reviews you've written</div></div>
               <i class="fa-solid fa-chevron-right ps-menu-arrow"></i>
@@ -998,13 +1020,13 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
                 <span class="ps-toggle-slider"></span>
               </label>
             </div>
-            <div class="ps-menu-item" onclick="alert('Notifications coming soon!')">
+            <div class="ps-menu-item" onclick="showNotifications()">
               <div class="ps-menu-icon purple"><i class="fa-solid fa-bell"></i></div>
               <div class="ps-menu-text"><div class="ps-menu-label">Notifications</div><div class="ps-menu-sub">Manage alerts</div></div>
               <span class="ps-menu-badge">3</span>
               <i class="fa-solid fa-chevron-right ps-menu-arrow"></i>
             </div>
-            <div class="ps-menu-item" onclick="alert('Language coming soon!')">
+            <div class="ps-menu-item" onclick="showLanguageSelector()">
               <div class="ps-menu-icon blue"><i class="fa-solid fa-globe"></i></div>
               <div class="ps-menu-text"><div class="ps-menu-label">Language</div><div class="ps-menu-sub">English (South Africa)</div></div>
               <i class="fa-solid fa-chevron-right ps-menu-arrow"></i>
@@ -1031,7 +1053,13 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
             </div>
           </div>
         </div>
-        <button class="ps-signout" onclick="psSignOut()"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</button>
+        <!-- DYNAMIC CONTENT FOR SAVED / REVIEWS / NOTIFICATIONS / LANGUAGE -->
+        <div id="profileDynamicContent" style="display:none;padding:16px 18px 0;">
+          <div id="dynamicTitle" style="font-size:0.7rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;"></div>
+          <div id="dynamicList" style="background:var(--bg-off-white);border-radius:14px;overflow:hidden;border:1px solid var(--border-color);"></div>
+          <button onclick="closeDynamicContent()" style="margin:1rem 0 0;width:100%;padding:13px;border:1.5px solid var(--border-color);border-radius:12px;background:transparent;color:var(--text-muted);font-weight:600;">Back to Profile</button>
+        </div>
+        <button class="ps-signout" onclick="openSignOutConfirm()"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</button>
         <!-- Edit Profile Overlay -->
         <div class="ps-edit-overlay" id="psEditOverlay">
           <div class="ps-edit-header">
@@ -1130,6 +1158,8 @@ let listingsData=[],currentFiltered=[],displayedData=[],currentFilter='all',minP
 let currentTab=0,currentItemLocation='',currentImages=[],currentImageIndex=0;
 let sheetImages=[],sheetImageIndex=0,currentListingId=null,selectedRating=0;
 const pageSize=10,likedItems=new Set();
+let userProfile = {};
+let myReviewsData = [];
 /* SLIDERS */
 const sliderGroups=[
   {min:'desktop-priceMin',max:'desktop-priceMax',track:'desktop-rangeTrack',minDisp:'desktop-minPriceDisplay',maxDisp:'desktop-maxPriceDisplay'},
@@ -1172,7 +1202,7 @@ if(localStorage.getItem('darkMode')==='true')document.body.classList.add('dark-m
 /* AUTH */
 onAuthStateChanged(auth,user=>{
   const btn=document.getElementById('authButton');
-  if(user){btn.textContent='Sign Out';btn.onclick=signOutUser;}
+  if(user){btn.textContent='Sign Out';btn.onclick=openSignOutConfirm;}
   else{btn.textContent='Sign In';btn.onclick=openSignInModal;}
   const pNav=document.getElementById('profileNavBtn');
   if(pNav){
@@ -1204,7 +1234,17 @@ window.signUpWithCredentials=async()=>{
   try{await createUserWithEmailAndPassword(auth,e,p);closeSignInModal();showLoginMessage(true,"Account created & signed in!");}catch(err){showLoginMessage(false,err.message);}
 };
 window.signInWithGoogle=async()=>{try{await signInWithPopup(auth,provider);closeSignInModal();showLoginMessage(true,"Signed in with Google!");}catch(e){showLoginMessage(false,e.message||'Google sign-in failed');}};
-window.signOutUser=async()=>{await signOut(auth);};
+/* SIGN OUT CONFIRM */
+window.openSignOutConfirm=()=>{document.getElementById('signOutConfirmModal').classList.add('active');document.body.style.overflow='hidden';};
+window.closeSignOutConfirm=()=>{document.getElementById('signOutConfirmModal').classList.remove('active');document.body.style.overflow='auto';};
+window.confirmSignOut=async()=>{
+  closeSignOutConfirm();
+  await signOut(auth);
+  closeProfileSheet();
+  document.getElementById('signedOutModal').classList.add('active');
+  document.body.style.overflow='hidden';
+};
+window.closeSignedOutModal=()=>{document.getElementById('signedOutModal').classList.remove('active');document.body.style.overflow='auto';};
 /* NAV */
 window.navigateTab=index=>{
   currentTab=index;
@@ -1260,9 +1300,23 @@ function renderBatch(data){
   });
 }
 window.toggleLike=(e,id)=>{
-  e.stopPropagation();const btn=e.currentTarget;
-  if(likedItems.has(id)){likedItems.delete(id);btn.classList.remove('liked');btn.innerHTML='<i class="fa-regular fa-heart"></i>';}
-  else{likedItems.add(id);btn.classList.add('liked');btn.innerHTML='<i class="fa-solid fa-heart"></i>';}
+  e.stopPropagation();
+  const btn=e.currentTarget;
+  const wasLiked=likedItems.has(id);
+  if(wasLiked){
+    likedItems.delete(id);
+    btn.classList.remove('liked');
+    btn.innerHTML='<i class="fa-regular fa-heart"></i>';
+  }else{
+    likedItems.add(id);
+    btn.classList.add('liked');
+    btn.innerHTML='<i class="fa-solid fa-heart"></i>';
+  }
+  const user=auth.currentUser;
+  if(user){
+    const savedRef=ref(db,`users/${user.uid}/saved`);
+    set(savedRef,Array.from(likedItems));
+  }
 };
 window.renderListings=data=>{
   currentFiltered=data;displayedData=[];grid.innerHTML='';
@@ -1456,6 +1510,17 @@ window.submitReview=()=>{
   onValue(lRef,snapshot=>{
     const data=snapshot.val();const reviews=[...(data.reviews||[]),newR];
     update(lRef,{reviews}).then(()=>{
+      // also save to user's myReviews
+      const user=auth.currentUser;
+      if(user){
+        const myReviewsRef=ref(db,`users/${user.uid}/myReviews`);
+        get(myReviewsRef).then(snap=>{
+          let myR=snap.exists()?snap.val():[];
+          myR.push({listingId:currentListingId,rating:selectedRating,comment,timestamp:Date.now()});
+          set(myReviewsRef,myR);
+          myReviewsData=myR;
+        });
+      }
       closeReviewModal();
       if(window.innerWidth<=767)closeMobileSheet();else closeModal();
       onValue(ref(db,'listings'),s=>{listingsData=[];s.forEach(c=>{const it={id:c.key,...c.val()};if(it.adminStatus==='approved')listingsData.push(it);});renderListings(listingsData);});
@@ -1539,28 +1604,33 @@ window.openProfileSheet=()=>{
       if(photo){el.innerHTML=`<img src="${photo}" alt="avatar">`;}
       else{el.textContent=name.charAt(0).toUpperCase();}
     });
-    document.getElementById('psFavCount').textContent=likedItems.size;
-    const myListings=listingsData.filter(l=>l.ownerEmail===email||l.ownerUid===user.uid);
-    document.getElementById('psListingCount').textContent=myListings.length;
-    const myReviews=listingsData.reduce((acc,l)=>acc+(l.reviews||[]).length,0);
-    document.getElementById('psReviewCount').textContent=myReviews;
     // LOAD FULL PROFILE FROM FIREBASE
     const userRef=ref(db,`users/${user.uid}`);
     get(userRef).then(snapshot=>{
       if(snapshot.exists()){
-        const d=snapshot.val();
-        if(d.displayName) document.getElementById('psName').textContent=d.displayName;
-        if(d.displayName) document.getElementById('psEditName').value=d.displayName;
-        if(d.phone) document.getElementById('psEditPhone').value=d.phone;
-        if(d.location) document.getElementById('psEditLocation').value=d.location;
-        if(d.bio) document.getElementById('psEditBio').value=d.bio;
-        if(d.avatar){
-          ['psAvatar','psEditAvatar'].forEach(id=>{
-            document.getElementById(id).innerHTML=`<img src="${d.avatar}" alt="avatar">`;
-          });
-          localStorage.setItem('ks_avatar',d.avatar);
+        userProfile=snapshot.val();
+        if(userProfile.saved)likedItems=new Set(userProfile.saved);
+        if(userProfile.myReviews)myReviewsData=userProfile.myReviews;
+        document.getElementById('psFavCount').textContent=likedItems.size;
+        if(!userProfile.notifications||userProfile.notifications.length===0){
+          const welcomeNotif=[{title:"Welcome to KasiStay!",message:"Your account is set up. Start exploring rooms!",timestamp:Date.now()}];
+          update(userRef,{notifications:welcomeNotif});
+          userProfile.notifications=welcomeNotif;
         }
+        if(!userProfile.language)update(userRef,{language:"English (South Africa)"});
+      }else{
+        const initialData={
+          saved:[],
+          myReviews:[],
+          notifications:[{title:"Welcome to KasiStay!",message:"Your account is set up. Start exploring rooms!",timestamp:Date.now()}],
+          language:"English (South Africa)"
+        };
+        set(userRef,initialData);
+        userProfile=initialData;
+        likedItems=new Set();
+        myReviewsData=[];
       }
+      document.getElementById('psFavCount').textContent=likedItems.size;
     });
   }
   document.getElementById('psBody').scrollTop=0;
@@ -1604,6 +1674,7 @@ window.saveProfile=async()=>{
       location:location||'',
       bio:bio||''
     });
+    userProfile.displayName=name||userProfile.displayName;
   }
   if(name) document.getElementById('psName').textContent=name;
   closeEditProfile();
@@ -1618,6 +1689,7 @@ window.handleAvatarChange=async(e)=>{
     if(user){
       const userRef=ref(db,`users/${user.uid}`);
       await update(userRef,{avatar:url});
+      userProfile.avatar=url;
       ['psAvatar','psEditAvatar'].forEach(id=>{
         document.getElementById(id).innerHTML=`<img src="${url}" alt="avatar">`;
       });
@@ -1625,10 +1697,121 @@ window.handleAvatarChange=async(e)=>{
     }
   }catch(err){alert('Avatar upload failed');}
 };
-window.psSignOut=async()=>{
-  await signOut(auth);
-  closeProfileSheet();
+/* DYNAMIC PROFILE CONTENT FUNCTIONS */
+function hideMainProfileSections(){
+  const signedIn=document.getElementById('psSignedIn');
+  signedIn.querySelectorAll('.ps-hero, .ps-stats, .ps-section').forEach(el=>el.style.display='none');
+}
+function showMainProfileSections(){
+  const signedIn=document.getElementById('psSignedIn');
+  signedIn.querySelectorAll('.ps-hero, .ps-stats, .ps-section').forEach(el=>el.style.display='');
+}
+window.closeDynamicContent=()=>{
+  document.getElementById('profileDynamicContent').style.display='none';
+  showMainProfileSections();
 };
+window.showSavedProperties=()=>{
+  document.getElementById('dynamicTitle').textContent='SAVED PROPERTIES';
+  const listEl=document.getElementById('dynamicList');
+  listEl.innerHTML='';
+  const savedIds=Array.from(likedItems);
+  if(savedIds.length===0){
+    listEl.innerHTML=`<p style="padding:2rem 1rem;text-align:center;color:var(--text-muted);">No saved properties yet.<br>Tap the heart icon on any listing to save.</p>`;
+  }else{
+    savedIds.forEach(id=>{
+      const item=listingsData.find(l=>l.id===id);
+      if(item){
+        const cardHTML=`
+          <div onclick="closeProfileSheet();openMobileSheet('${id}');" style="padding:14px 18px;border-bottom:1px solid var(--border-color);display:flex;gap:12px;cursor:pointer;">
+            <img src="${item.image}" style="width:64px;height:64px;border-radius:10px;object-fit:cover;">
+            <div style="flex:1">
+              <div style="font-weight:700;font-size:0.95rem;line-height:1.3;">${item.title}</div>
+              <div style="font-size:0.82rem;color:var(--text-muted);">${item.location}</div>
+              <div style="color:var(--accent-green);font-weight:600;margin-top:4px;">R${item.price.toLocaleString()}/mo</div>
+            </div>
+          </div>`;
+        listEl.innerHTML+=cardHTML;
+      }
+    });
+  }
+  hideMainProfileSections();
+  document.getElementById('profileDynamicContent').style.display='block';
+};
+window.showMyReviews=()=>{
+  document.getElementById('dynamicTitle').textContent='MY REVIEWS';
+  const listEl=document.getElementById('dynamicList');
+  listEl.innerHTML='';
+  if(myReviewsData.length===0){
+    listEl.innerHTML=`<p style="padding:2rem 1rem;text-align:center;color:var(--text-muted);">No reviews written yet.<br>Review a property to see it here.</p>`;
+  }else{
+    myReviewsData.forEach(rev=>{
+      const item=listingsData.find(l=>l.id===rev.listingId);
+      if(item){
+        listEl.innerHTML+=`
+          <div onclick="closeProfileSheet();openMobileSheet('${rev.listingId}');" style="padding:14px 18px;border-bottom:1px solid var(--border-color);cursor:pointer;">
+            <div style="font-weight:700;">${item.title}</div>
+            <div style="color:#eab308;margin:4px 0;">${genStars(rev.rating)}</div>
+            <div style="font-size:0.82rem;color:var(--text-muted);">${rev.comment}</div>
+            <div style="font-size:0.7rem;color:var(--text-muted);margin-top:6px;">${new Date(rev.timestamp).toLocaleDateString()}</div>
+          </div>`;
+      }
+    });
+  }
+  hideMainProfileSections();
+  document.getElementById('profileDynamicContent').style.display='block';
+};
+window.showNotifications=()=>{
+  document.getElementById('dynamicTitle').textContent='NOTIFICATIONS';
+  const listEl=document.getElementById('dynamicList');
+  listEl.innerHTML='';
+  const notifs=userProfile.notifications||[];
+  if(notifs.length===0){
+    listEl.innerHTML=`<p style="padding:2rem 1rem;text-align:center;color:var(--text-muted);">No notifications yet.</p>`;
+  }else{
+    notifs.forEach(n=>{
+      listEl.innerHTML+=`
+        <div style="padding:14px 18px;border-bottom:1px solid var(--border-color);">
+          <div style="font-weight:700;font-size:0.95rem;">${n.title}</div>
+          <div style="font-size:0.82rem;color:var(--text-muted);margin-top:4px;">${n.message}</div>
+          <div style="font-size:0.7rem;color:var(--text-muted);margin-top:8px;">${new Date(n.timestamp).toLocaleDateString()}</div>
+        </div>`;
+    });
+  }
+  hideMainProfileSections();
+  document.getElementById('profileDynamicContent').style.display='block';
+};
+window.showLanguageSelector=()=>{
+  document.getElementById('dynamicTitle').textContent='LANGUAGE';
+  const listEl=document.getElementById('dynamicList');
+  listEl.innerHTML=`
+    <div style="padding:18px;">
+      <label style="font-size:0.85rem;font-weight:600;display:block;margin-bottom:8px;">Preferred Language</label>
+      <select id="langSelect" style="width:100%;padding:14px;border:1.5px solid var(--border-color);border-radius:12px;background:white;font-size:0.95rem;">
+        <option value="English (South Africa)">English (South Africa)</option>
+        <option value="Afrikaans">Afrikaans</option>
+        <option value="isiZulu">isiZulu</option>
+        <option value="isiXhosa">isiXhosa</option>
+      </select>
+    </div>`;
+  const saveBtn=document.createElement('button');
+  saveBtn.innerHTML='Save Preference';
+  saveBtn.className='btn btn-primary';
+  saveBtn.style='width:100%;margin-top:1rem;';
+  saveBtn.onclick=()=>{
+    const newLang=document.getElementById('langSelect').value;
+    const user=auth.currentUser;
+    if(user){
+      const userRef=ref(db,`users/${user.uid}`);
+      update(userRef,{language:newLang});
+      userProfile.language=newLang;
+    }
+    closeDynamicContent();
+  };
+  listEl.appendChild(saveBtn);
+  hideMainProfileSections();
+  document.getElementById('profileDynamicContent').style.display='block';
+};
+/* PROFILE DRAG */
 function initProfileDrag(){
   const panel=document.getElementById('profileSheetPanel');
   const handle=document.getElementById('psHandle');

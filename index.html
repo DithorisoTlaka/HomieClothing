@@ -279,6 +279,10 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
   .dark-mode .mobile-search-wrapper .search-input-group { border-bottom: 1px solid #444; }
   .mobile-search-wrapper .search-input-group:last-child { border-bottom: none; margin-bottom: 0; }
   .show-results-btn { border-radius: 50px !important; }
+  /* ALL MOBILE BUTTONS ARE PILL SHAPED */
+  .sheet-contact-btn, .ps-signin-cta, .ps-google-cta, .mobile-home-search-btn, .show-results-btn, .ps-edit-btn, .ps-signout, .ps-edit-save, .sheet-add-review, .add-review-btn {
+    border-radius: 50px !important;
+  }
   /* ── MOBILE HOME SEARCH BAR (full style matching filters tab) ── */
   .mobile-home-search {
     margin: 10px 12px 0;
@@ -314,7 +318,7 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
     background: var(--primary-black);
     color: white;
     border: none;
-    border-radius: 12px;
+    border-radius: 50px;
     font-weight: 700;
     font-size: 0.9rem;
     cursor: pointer;
@@ -501,7 +505,7 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
   .sheet-ll-name { font-weight: 700; font-size: 0.88rem; color: var(--text-main); }
   .sheet-ll-status { font-size: 0.7rem; color: var(--accent-green); font-weight: 600; display: flex; align-items: center; gap: 3px; }
   .sheet-contact-btns { display: flex; gap: 8px; }
-  .sheet-contact-btn { flex: 1; padding: 11px; border-radius: 12px; font-weight: 600; font-size: 0.82rem; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 6px; transition: transform 0.15s ease, opacity 0.15s ease; }
+  .sheet-contact-btn { flex: 1; padding: 11px; border-radius: 50px; font-weight: 600; font-size: 0.82rem; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 6px; transition: transform 0.15s ease, opacity 0.15s ease; }
   .sheet-contact-btn:active { transform: scale(0.96); opacity: 0.85; }
   .sheet-contact-btn.wa { background: #25D366; color: white; }
   .sheet-contact-btn.call { background: var(--primary-black); color: white; }
@@ -520,6 +524,44 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
   .dark-mode .sheet-ri-text { color: #a0a0a0; }
   .sheet-add-review { background: var(--accent-green); color: white; padding: 10px 18px; border-radius: 50px; font-weight: 600; font-size: 0.82rem; cursor: pointer; border: none; transition: transform 0.15s ease, background 0.15s ease; }
   .sheet-add-review:active { transform: scale(0.96); background: #059669; }
+  /* MOBILE MAP BOTTOM SHEET */
+  #mobileMapBackdrop {
+    position: fixed; inset: 0; background: rgba(0,0,0,0); z-index: 3100; display: none;
+    transition: background 0.35s ease; -webkit-backdrop-filter: blur(0px); backdrop-filter: blur(0px);
+  }
+  #mobileMapBackdrop.open { display: block; background: rgba(0,0,0,0.5); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); }
+  #mobileMapSheet { position: fixed; bottom: 0; left: 0; right: 0; z-index: 3200; display: none; padding: 0 10px 10px; pointer-events: none; }
+  #mobileMapSheet.open { display: block; pointer-events: auto; }
+  #mobileMapPanel {
+    background: var(--bg-white); border-radius: 22px; height: 65vh;
+    display: flex; flex-direction: column; overflow: hidden;
+    transform: translateY(calc(100% + 20px));
+    transition: transform 0.42s cubic-bezier(0.34, 1.56, 0.64, 1);
+    will-change: transform;
+    box-shadow: 0 -4px 40px rgba(0,0,0,0.18), 0 0 0 0.5px rgba(0,0,0,0.06);
+  }
+  .dark-mode #mobileMapPanel { background: #1c1c1e; }
+  #mobileMapSheet.open #mobileMapPanel { transform: translateY(0); }
+  #mobileMapPanel .map-container { flex: 1; border-radius: 0 0 22px 22px; overflow: hidden; }
+  /* MOBILE REVIEW BOTTOM SHEET */
+  #mobileReviewBackdrop {
+    position: fixed; inset: 0; background: rgba(0,0,0,0); z-index: 3100; display: none;
+    transition: background 0.35s ease; -webkit-backdrop-filter: blur(0px); backdrop-filter: blur(0px);
+  }
+  #mobileReviewBackdrop.open { display: block; background: rgba(0,0,0,0.5); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); }
+  #mobileReviewSheet { position: fixed; bottom: 0; left: 0; right: 0; z-index: 3200; display: none; padding: 0 10px 10px; pointer-events: none; }
+  #mobileReviewSheet.open { display: block; pointer-events: auto; }
+  #mobileReviewPanel {
+    background: var(--bg-white); border-radius: 22px; max-height: 70vh;
+    display: flex; flex-direction: column; overflow: hidden;
+    transform: translateY(calc(100% + 20px));
+    transition: transform 0.42s cubic-bezier(0.34, 1.56, 0.64, 1);
+    will-change: transform;
+    box-shadow: 0 -4px 40px rgba(0,0,0,0.18), 0 0 0 0.5px rgba(0,0,0,0.06);
+  }
+  .dark-mode #mobileReviewPanel { background: #1c1c1e; }
+  #mobileReviewSheet.open #mobileReviewPanel { transform: translateY(0); }
+  .mobile-review-body { padding: 20px; flex: 1; overflow-y: auto; }
   /* ── PROFILE SHEET ── */
   #profileSheetBackdrop { position: fixed; inset: 0; background: rgba(0,0,0,0); z-index: 2999; display: none; transition: background 0.35s ease; -webkit-backdrop-filter: blur(0px); backdrop-filter: blur(0px); }
   #profileSheetBackdrop.open { display: block; background: rgba(0,0,0,0.5); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); }
@@ -596,7 +638,7 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
   .ps-toggle-slider::before { content: ''; position: absolute; width: 16px; height: 16px; border-radius: 50%; background: white; top: 3px; left: 3px; transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1); box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
   .ps-toggle input:checked + .ps-toggle-slider { background: var(--accent-green); }
   .ps-toggle input:checked + .ps-toggle-slider::before { transform: translateX(18px); }
-  .ps-signout { margin: 16px 18px 18px; padding: 13px; border-radius: 14px; border: 1.5px solid #fee2e2; background: transparent; color: #dc2626; font-size: 0.88rem; font-weight: 600; cursor: pointer; width: calc(100% - 36px); display: flex; align-items: center; justify-content: center; gap: 8px; transition: background 0.15s, border-color 0.15s; }
+  .ps-signout { margin: 16px 18px 18px; padding: 13px; border-radius: 50px; border: 1.5px solid #fee2e2; background: transparent; color: #dc2626; font-size: 0.88rem; font-weight: 600; cursor: pointer; width: calc(100% - 36px); display: flex; align-items: center; justify-content: center; gap: 8px; transition: background 0.15s, border-color 0.15s; }
   .dark-mode .ps-signout { border-color: #450a0a; color: #fca5a5; }
   .ps-signout:active { background: #fee2e2; }
   .dark-mode .ps-signout:active { background: #450a0a; }
@@ -632,6 +674,10 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
   #mobileSheetBackdrop { display: none !important; }
   #profileSheet { display: none !important; }
   #profileSheetBackdrop { display: none !important; }
+  #mobileMapSheet { display: none !important; }
+  #mobileMapBackdrop { display: none !important; }
+  #mobileReviewSheet { display: none !important; }
+  #mobileReviewBackdrop { display: none !important; }
 }
 </style>
 </head>
@@ -838,7 +884,34 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
     </div>
   </div>
 </div>
-<!-- MAP MODAL -->
+<!-- MOBILE MAP BOTTOM SHEET -->
+<div id="mobileMapBackdrop" onclick="closeMobileMap()"></div>
+<div id="mobileMapSheet">
+  <div id="mobileMapPanel">
+    <div class="sheet-handle-bar" id="mapHandle"></div>
+    <div class="map-container" style="flex:1;border-radius:0 0 22px 22px;overflow:hidden;">
+      <iframe id="mobileMapFrame" style="width:100%;height:100%;border:none;" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+  </div>
+</div>
+<!-- MOBILE REVIEW BOTTOM SHEET -->
+<div id="mobileReviewBackdrop" onclick="closeMobileReview()"></div>
+<div id="mobileReviewSheet">
+  <div id="mobileReviewPanel">
+    <div class="sheet-handle-bar"></div>
+    <div class="mobile-review-body">
+      <div style="text-align:center;margin-bottom:1.5rem;">
+        <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:8px;">Add Your Review</h3>
+        <div class="star-rating" id="mobileReviewStars" style="display:flex;gap:10px;justify-content:center;margin-bottom:1.5rem;">
+          <i class="fa-solid fa-star" data-rating="1"></i><i class="fa-solid fa-star" data-rating="2"></i><i class="fa-solid fa-star" data-rating="3"></i><i class="fa-solid fa-star" data-rating="4"></i><i class="fa-solid fa-star" data-rating="5"></i>
+        </div>
+      </div>
+      <textarea id="mobileReviewComment" placeholder="Share your experience..." style="width:100%;height:140px;padding:14px;border:1.5px solid var(--border-color);border-radius:12px;font-size:0.95rem;resize:vertical;outline:none;margin-bottom:1.5rem;"></textarea>
+      <button onclick="submitMobileReview()" class="btn btn-primary" style="width:100%;padding:14px;">Submit Review</button>
+    </div>
+  </div>
+</div>
+<!-- MAP MODAL (desktop only) -->
 <div class="modal-overlay" id="mapModal" onclick="if(event.target===this)closeMapModal()">
   <div class="modal-content">
     <div class="modal-header" style="display:flex;justify-content:space-between;align-items:center;padding:1rem 1.5rem;">
@@ -883,7 +956,7 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
     </div>
   </div>
 </div>
-<!-- REVIEW MODAL -->
+<!-- REVIEW MODAL (desktop only) -->
 <div class="modal-overlay" id="reviewModal" onclick="if(event.target===this)closeReviewModal()">
   <div class="modal-content">
     <div class="modal-header">Add Your Review<button class="close-modal" onclick="closeReviewModal()" style="position:absolute;top:12px;right:12px;background:transparent;border:none;width:32px;height:32px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text-muted);"><i class="fa-solid fa-xmark"></i></button></div>
@@ -1388,7 +1461,7 @@ window.openMobileSheet=id=>{
   document.getElementById('sheetAvgStars').innerHTML=genStars(avgR);
   document.getElementById('sheetReviewCount').textContent=`(${reviews.length})`;
   document.getElementById('sheetReviewList').innerHTML=reviews.length
-    ?reviews.map(r=>`<div class="sheet-review-item"><div class="sheet-ri-top"><span class="sheet-ri-user">Anonymous</span><span class="sheet-ri-date">${new Date(r.timestamp).toLocaleDateString()}</span></div><div class="sheet-ri-stars">${genStars(r.rating)}</div><p class="sheet-ri-text">${r.comment}</p></div>`).join('')
+    ?reviews.map(r=>`<div class="sheet-review-item"><div class="sheet-ri-top"><span class="sheet-ri-user">${r.reviewerName || 'Anonymous'}</span><span class="sheet-ri-date">${new Date(r.timestamp).toLocaleDateString()}</span></div><div class="sheet-ri-stars">${genStars(r.rating)}</div><p class="sheet-ri-text">${r.comment}</p></div>`).join('')
     :'<p style="font-size:0.78rem;color:var(--text-muted);">No reviews yet.</p>';
   document.getElementById('sheetBody').scrollTop=0;
   document.getElementById('mobileSheetBackdrop').classList.add('open');
@@ -1480,11 +1553,140 @@ window.openModal=id=>{
 };
 window.openMapModal=location=>{
   const loc=location||currentItemLocation;if(!loc)return;
-  document.getElementById('mapFrame').src=`https://www.google.com/maps?q=${encodeURIComponent(loc+', South Africa')}&output=embed`;
-  document.getElementById('mapModal').style.display='block';document.body.style.overflow='hidden';
+  const isMobile = window.innerWidth <= 767;
+  if(isMobile){
+    document.getElementById('mobileMapFrame').src=`https://www.google.com/maps?q=${encodeURIComponent(loc+', South Africa')}&output=embed`;
+    document.getElementById('mobileMapBackdrop').classList.add('open');
+    document.getElementById('mobileMapSheet').classList.add('open');
+    document.body.style.overflow='hidden';
+    initMapDrag();
+  } else {
+    document.getElementById('mapFrame').src=`https://www.google.com/maps?q=${encodeURIComponent(loc+', South Africa')}&output=embed`;
+    document.getElementById('mapModal').style.display='block';document.body.style.overflow='hidden';
+  }
 };
 window.closeMapModal=()=>{document.getElementById('mapModal').style.display='none';document.getElementById('mapFrame').src='';document.body.style.overflow='auto';};
-window.closeModal=()=>{document.getElementById('detailModal').classList.remove('active');document.body.style.overflow='auto';};
+/* MOBILE MAP FUNCTIONS */
+window.closeMobileMap=()=>{
+  const panel=document.getElementById('mobileMapPanel');
+  const backdrop=document.getElementById('mobileMapBackdrop');
+  panel.style.transition='transform 0.35s cubic-bezier(0.4,0,1,1)';
+  panel.style.transform='translateY(calc(100% + 20px))';
+  backdrop.style.background='rgba(0,0,0,0)';
+  backdrop.style.backdropFilter='blur(0px)';
+  backdrop.style.webkitBackdropFilter='blur(0px)';
+  setTimeout(()=>{
+    document.getElementById('mobileMapSheet').classList.remove('open');
+    document.getElementById('mobileMapBackdrop').classList.remove('open');
+    panel.style.transform='';panel.style.transition='';
+    backdrop.style.background='';backdrop.style.backdropFilter='';backdrop.style.webkitBackdropFilter='';
+    document.body.style.overflow='auto';
+  },350);
+};
+function initMapDrag(){
+  const panel=document.getElementById('mobileMapPanel');
+  const handle=document.getElementById('mapHandle');
+  const backdrop=document.getElementById('mobileMapBackdrop');
+  let startY=0,curY=0,dragging=false;
+  const getY=e=>e.touches?e.touches[0].clientY:e.clientY;
+  const onStart=e=>{dragging=true;startY=getY(e);curY=0;panel.style.transition='none';};
+  const onMove=e=>{
+    if(!dragging)return;
+    const y=getY(e)-startY;
+    if(y<0){panel.style.transform=`translateY(${y*0.12}px)`;return;}
+    curY=y;panel.style.transform=`translateY(${y}px)`;
+    const pct=Math.min(y/280,1);
+    const alpha=0.5*(1-pct*0.94);
+    backdrop.style.background=`rgba(0,0,0,${alpha.toFixed(3)})`;
+    backdrop.style.backdropFilter=`blur(${(3*(1-pct)).toFixed(1)}px)`;
+    backdrop.style.webkitBackdropFilter=`blur(${(3*(1-pct)).toFixed(1)}px)`;
+  };
+  const onEnd=()=>{
+    if(!dragging)return;dragging=false;
+    panel.style.transition='transform 0.42s cubic-bezier(0.34,1.56,0.64,1)';
+    if(curY>110){closeMobileMap();}
+    else{
+      panel.style.transform='translateY(0)';
+      backdrop.style.background='rgba(0,0,0,0.5)';
+      backdrop.style.backdropFilter='blur(3px)';
+      backdrop.style.webkitBackdropFilter='blur(3px)';
+    }
+  };
+  handle.addEventListener('touchstart',onStart,{passive:true});
+  handle.addEventListener('touchmove',onMove,{passive:true});
+  handle.addEventListener('touchend',onEnd);
+  handle.addEventListener('mousedown',onStart);
+  document.addEventListener('mousemove',onMove);
+  document.addEventListener('mouseup',onEnd);
+}
+/* MOBILE REVIEW BOTTOM SHEET */
+window.openReviewModal=()=>{
+  if(!auth.currentUser)return alert('Please sign in to leave a review.');
+  selectedRating=0;
+  const isMobile = window.innerWidth <= 767;
+  if(isMobile){
+    document.getElementById('mobileReviewComment').value = '';
+    const stars = document.querySelectorAll('#mobileReviewStars i');
+    stars.forEach(s=>s.classList.remove('selected'));
+    stars.forEach(star=>{
+      star.onclick = ()=>{
+        selectedRating = parseInt(star.dataset.rating);
+        stars.forEach(s=>s.classList.toggle('selected', parseInt(s.dataset.rating) <= selectedRating));
+      };
+    });
+    document.getElementById('mobileReviewBackdrop').classList.add('open');
+    document.getElementById('mobileReviewSheet').classList.add('open');
+    document.body.style.overflow='hidden';
+  } else {
+    selectedRating=0;document.getElementById('reviewComment').value='';
+    const stars=document.querySelectorAll('#reviewStars i');
+    stars.forEach(star=>{star.classList.remove('selected');star.onclick=()=>{selectedRating=parseInt(star.dataset.rating);stars.forEach(s=>s.classList.toggle('selected',parseInt(s.dataset.rating)<=selectedRating));};});
+    document.getElementById('reviewModal').classList.add('active');
+  }
+};
+window.closeMobileReview=()=>{
+  const panel=document.getElementById('mobileReviewPanel');
+  const backdrop=document.getElementById('mobileReviewBackdrop');
+  panel.style.transition='transform 0.35s cubic-bezier(0.4,0,1,1)';
+  panel.style.transform='translateY(calc(100% + 20px))';
+  backdrop.style.background='rgba(0,0,0,0)';
+  backdrop.style.backdropFilter='blur(0px)';
+  backdrop.style.webkitBackdropFilter='blur(0px)';
+  setTimeout(()=>{
+    document.getElementById('mobileReviewSheet').classList.remove('open');
+    document.getElementById('mobileReviewBackdrop').classList.remove('open');
+    panel.style.transform='';panel.style.transition='';
+    backdrop.style.background='';backdrop.style.backdropFilter='';backdrop.style.webkitBackdropFilter='';
+    document.body.style.overflow='auto';
+  },350);
+};
+window.submitMobileReview=()=>{
+  const comment = document.getElementById('mobileReviewComment').value.trim();
+  if(!selectedRating || !comment) return alert('Please select a rating and add a comment.');
+  const newR = {
+    rating: selectedRating,
+    comment: comment,
+    timestamp: Date.now(),
+    reviewerName: auth.currentUser ? (auth.currentUser.displayName || auth.currentUser.email.split('@')[0]) : 'Anonymous'
+  };
+  const lRef = ref(db, `listings/${currentListingId}`);
+  onValue(lRef, snapshot => {
+    const data = snapshot.val();
+    const reviews = [...(data.reviews || []), newR];
+    update(lRef, { reviews }).then(() => {
+      closeMobileReview();
+      if(window.innerWidth <= 767) closeMobileSheet(); else closeModal();
+      onValue(ref(db,'listings'), s => {
+        listingsData = [];
+        s.forEach(c => {
+          const it = {id: c.key, ...c.val()};
+          if(it.adminStatus === 'approved') listingsData.push(it);
+        });
+        renderListings(listingsData);
+      });
+    });
+  }, {onlyOnce:true});
+};
 /* Add modal */
 window.openAddModal=()=>{document.getElementById('addModal').classList.add('active');document.body.style.overflow='hidden';};
 window.closeAddModal=()=>{
@@ -1494,39 +1696,6 @@ window.closeAddModal=()=>{
 };
 function calcAvg(reviews){if(!reviews.length)return 0;return Math.round(reviews.reduce((a,r)=>a+r.rating,0)/reviews.length*10)/10;}
 function genStars(r){let s='';for(let i=1;i<=5;i++)s+=i<=r?'<i class="fa-solid fa-star"></i>':(i-0.5<=r?'<i class="fa-solid fa-star-half-alt"></i>':'<i class="fa-regular fa-star"></i>');return s;}
-window.openReviewModal=()=>{
-  if(!auth.currentUser)return alert('Please sign in to leave a review.');
-  selectedRating=0;document.getElementById('reviewComment').value='';
-  const stars=document.querySelectorAll('#reviewStars i');
-  stars.forEach(star=>{star.classList.remove('selected');star.onclick=()=>{selectedRating=parseInt(star.dataset.rating);stars.forEach(s=>s.classList.toggle('selected',parseInt(s.dataset.rating)<=selectedRating));};});
-  document.getElementById('reviewModal').classList.add('active');
-};
-window.closeReviewModal=()=>document.getElementById('reviewModal').classList.remove('active');
-window.submitReview=()=>{
-  const comment=document.getElementById('reviewComment').value.trim();
-  if(!selectedRating||!comment)return alert('Please select a rating and add a comment.');
-  const newR={rating:selectedRating,comment,timestamp:Date.now()};
-  const lRef=ref(db,`listings/${currentListingId}`);
-  onValue(lRef,snapshot=>{
-    const data=snapshot.val();const reviews=[...(data.reviews||[]),newR];
-    update(lRef,{reviews}).then(()=>{
-      // also save to user's myReviews
-      const user=auth.currentUser;
-      if(user){
-        const myReviewsRef=ref(db,`users/${user.uid}/myReviews`);
-        get(myReviewsRef).then(snap=>{
-          let myR=snap.exists()?snap.val():[];
-          myR.push({listingId:currentListingId,rating:selectedRating,comment,timestamp:Date.now()});
-          set(myReviewsRef,myR);
-          myReviewsData=myR;
-        });
-      }
-      closeReviewModal();
-      if(window.innerWidth<=767)closeMobileSheet();else closeModal();
-      onValue(ref(db,'listings'),s=>{listingsData=[];s.forEach(c=>{const it={id:c.key,...c.val()};if(it.adminStatus==='approved')listingsData.push(it);});renderListings(listingsData);});
-    });
-  },{onlyOnce:true});
-};
 const imagesPreviewContainer=document.getElementById("imagesPreviewContainer");
 document.getElementById("addImage").addEventListener('change',()=>{
   imagesPreviewContainer.innerHTML='';
@@ -1604,7 +1773,6 @@ window.openProfileSheet=()=>{
       if(photo){el.innerHTML=`<img src="${photo}" alt="avatar">`;}
       else{el.textContent=name.charAt(0).toUpperCase();}
     });
-    // LOAD FULL PROFILE FROM FIREBASE
     const userRef=ref(db,`users/${user.uid}`);
     get(userRef).then(snapshot=>{
       if(snapshot.exists()){

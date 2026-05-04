@@ -51,15 +51,13 @@
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:var(--font-body);background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden;transition:background 0.3s,color 0.3s;}
-/* ─── ANIMATIONS ─── */
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
 @keyframes shimmer{0%{background-position:-468px 0}100%{background-position:468px 0}}
-@keyframes slideUp{from{transform:translateY(50px);opacity:0}to{transform:translateY(0);opacity:1}}
 @keyframes scaleIn{from{transform:scale(0.92);opacity:0}to{transform:scale(1);opacity:1}}
-@keyframes spin{to{transform:rotate(360deg)}}
-/* ─── NAV ─── */
+@keyframes heartPop{0%{transform:scale(1)}50%{transform:scale(1.4)}100%{transform:scale(1)}}
+/* NAV */
 nav{display:flex;justify-content:space-between;align-items:center;padding:0 5%;height:68px;position:sticky;top:0;background:var(--primary);z-index:1000;border-bottom:1px solid rgba(255,255,255,0.06);}
 .logo{font-family:var(--font);font-size:1.6rem;font-weight:800;color:#fff;letter-spacing:-1.5px;cursor:pointer;display:flex;align-items:center;gap:4px;user-select:none;}
 .logo-dot{color:var(--green);}
@@ -71,14 +69,14 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:0 5%;h
 .btn-ghost:hover{background:rgba(255,255,255,0.2);}
 .btn-green{background:var(--green);color:#fff;}
 .btn-green:hover{background:var(--green-2);transform:translateY(-1px);}
-/* ─── HERO ─── */
+/* HERO */
 .hero{padding:5rem 5% 3.5rem;background:radial-gradient(ellipse 80% 60% at 60% -10%,rgba(0,196,106,0.08),transparent),var(--bg);text-align:center;}
 .dark .hero{background:radial-gradient(ellipse 80% 60% at 60% -10%,rgba(0,212,113,0.07),transparent),var(--bg);}
 .hero-tag{display:inline-flex;align-items:center;gap:6px;background:var(--green-soft);color:var(--green-2);padding:5px 14px;border-radius:50px;font-size:0.78rem;font-weight:700;letter-spacing:0.04em;margin-bottom:1.5rem;border:1px solid rgba(0,196,106,0.2);}
 .hero h1{font-family:var(--font);font-size:clamp(2.4rem,5.5vw,4.2rem);font-weight:800;line-height:1.08;letter-spacing:-2.5px;color:var(--text);margin-bottom:1.2rem;}
 .hero h1 em{font-style:normal;color:var(--green);}
 .hero p{color:var(--text-2);font-size:1.1rem;max-width:520px;margin:0 auto 2.5rem;line-height:1.65;}
-/* ─── SEARCH BAR ─── */
+/* SEARCH */
 .search-wrap{background:var(--bg);border:1.5px solid var(--border-2);border-radius:100px;box-shadow:var(--shadow-lg);padding:6px 6px 6px 24px;display:flex;align-items:center;gap:12px;max-width:820px;margin:0 auto;transition:border-color 0.2s,box-shadow 0.2s;}
 .search-wrap:focus-within{border-color:var(--green);box-shadow:0 0 0 4px rgba(0,196,106,0.12),var(--shadow-lg);}
 .search-input-group{flex:1;display:flex;align-items:center;gap:10px;}
@@ -88,20 +86,20 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:0 5%;h
 .search-btn{background:var(--primary);color:var(--bg);padding:0.9rem 2rem;border-radius:50px;font-weight:700;cursor:pointer;border:none;font-family:var(--font-body);font-size:0.9rem;transition:var(--transition);white-space:nowrap;}
 .dark .search-btn{background:#fff;color:#111;}
 .search-btn:hover{background:var(--green);color:#fff;transform:scale(1.02);}
-/* ─── VIEW TOGGLE ─── */
+/* VIEW TOGGLE */
 .view-controls{display:flex;align-items:center;gap:10px;padding:1.5rem 5% 0.5rem;justify-content:space-between;}
 .view-toggle{display:flex;background:var(--bg-2);border:1.5px solid var(--border);border-radius:12px;padding:3px;gap:2px;}
 .vt-btn{padding:7px 16px;border-radius:9px;border:none;background:transparent;cursor:pointer;font-family:var(--font-body);font-size:0.82rem;font-weight:600;color:var(--text-3);display:flex;align-items:center;gap:6px;transition:var(--transition);}
 .vt-btn.active{background:var(--bg);color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,0.1);}
 .dark .vt-btn.active{background:var(--bg-3);}
-/* ─── FILTERS ─── */
+/* FILTERS */
 .filters-bar{padding:0 5% 1.2rem;display:flex;flex-direction:column;gap:1rem;border-bottom:1px solid var(--border);}
 .filter-chips{display:flex;gap:8px;flex-wrap:wrap;}
 .chip{padding:7px 18px;border:1.5px solid var(--border-2);border-radius:50px;font-size:0.82rem;font-weight:600;cursor:pointer;transition:var(--transition);background:var(--bg);color:var(--text-2);font-family:var(--font-body);}
 .chip:hover{border-color:var(--text-3);color:var(--text);}
 .chip.active{background:var(--primary);color:var(--bg);border-color:var(--primary);}
 .dark .chip.active{background:#fff;color:#111;border-color:#fff;}
-/* Price slider */
+/* PRICE SLIDER */
 .price-slider-wrap{background:var(--bg-2);border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:1rem 1.4rem;max-width:480px;}
 .price-hdr{display:flex;justify-content:space-between;margin-bottom:1rem;align-items:center;}
 .price-hdr span{font-size:0.8rem;font-weight:600;color:var(--text-2);}
@@ -112,7 +110,7 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:0 5%;h
 .range-input-wrap input[type=range]{position:absolute;width:100%;height:5px;top:-7px;background:none;pointer-events:none;-webkit-appearance:none;appearance:none;}
 .range-input-wrap input[type=range]::-webkit-slider-thumb{height:19px;width:19px;border-radius:50%;background:#fff;border:2.5px solid var(--green);pointer-events:auto;-webkit-appearance:none;box-shadow:0 2px 8px rgba(0,196,106,0.25);cursor:pointer;}
 .range-input-wrap input[type=range]::-moz-range-thumb{height:19px;width:19px;border-radius:50%;background:#fff;border:2.5px solid var(--green);pointer-events:auto;cursor:pointer;}
-/* ─── SKELETON LOADERS ─── */
+/* SKELETON */
 .skeleton{background:linear-gradient(90deg,var(--bg-2) 25%,var(--bg-3) 37%,var(--bg-2) 63%);background-size:936px 100%;animation:shimmer 1.4s infinite linear;}
 .skeleton-card{border-radius:var(--radius);overflow:hidden;border:1.5px solid var(--border);}
 .skeleton-img{height:220px;width:100%;}
@@ -120,10 +118,10 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:0 5%;h
 .skeleton-line{height:14px;border-radius:7px;margin-bottom:10px;}
 .skeleton-line.short{width:60%;}
 .skeleton-line.med{width:80%;}
-/* ─── GRID ─── */
+/* GRID */
 .listing-count{padding:0.5rem 5%;font-size:0.85rem;font-weight:600;color:var(--text-3);font-family:var(--font-body);}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:24px;padding:1.2rem 5% 5rem;}
-/* ─── CARD ─── */
+/* CARD */
 .card{background:var(--bg);border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden;cursor:pointer;transition:var(--transition);position:relative;animation:fadeUp 0.5s ease both;}
 .card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg);border-color:var(--border-2);}
 .card-img{position:relative;height:220px;overflow:hidden;background:var(--bg-2);}
@@ -136,7 +134,6 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:0 5%;h
 .card-like.liked i{color:#ff3b5c;}
 .card-like i{font-size:0.9rem;color:var(--text-2);transition:color 0.2s,transform 0.2s;}
 .card-like.liked i{animation:heartPop 0.3s ease;}
-@keyframes heartPop{0%{transform:scale(1)}50%{transform:scale(1.4)}100%{transform:scale(1)}}
 .card-img-count{position:absolute;bottom:10px;right:10px;background:rgba(0,0,0,0.7);color:#fff;padding:3px 9px;border-radius:8px;font-size:0.65rem;font-weight:600;backdrop-filter:blur(4px);}
 .card-body{padding:1.1rem 1.2rem 1.3rem;}
 .card-price{font-family:var(--font);font-size:1.3rem;font-weight:800;color:var(--text);margin-bottom:4px;letter-spacing:-0.5px;}
@@ -154,7 +151,7 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:0 5%;h
 .card-avail.available{color:var(--green);}
 .card-avail.unavailable{color:#ef4444;}
 .card-avail::before{content:'';width:6px;height:6px;border-radius:50%;background:currentColor;display:inline-block;}
-/* ─── MAP VIEW ─── */
+/* MAP VIEW */
 #mapView{display:none;height:calc(100vh - 68px - 200px);min-height:500px;border-radius:var(--radius);margin:0 5% 5rem;overflow:hidden;border:1.5px solid var(--border);position:relative;}
 #leafletMap{width:100%;height:100%;}
 .map-popup{font-family:var(--font-body);min-width:200px;}
@@ -163,11 +160,11 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:0 5%;h
 .map-popup-title{font-size:0.82rem;font-weight:600;color:#333;margin-bottom:4px;}
 .map-popup-btn{width:100%;padding:7px;background:#111;color:#fff;border:none;border-radius:8px;font-weight:600;font-size:0.78rem;cursor:pointer;margin-top:8px;transition:background 0.2s;}
 .map-popup-btn:hover{background:var(--green);}
-/* ─── SHARE BUTTON ─── */
+/* SHARE BTN */
 .share-btn{position:absolute;bottom:10px;left:10px;background:rgba(255,255,255,0.92);border:none;border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;backdrop-filter:blur(4px);box-shadow:0 2px 8px rgba(0,0,0,0.15);transition:var(--transition);}
 .share-btn:hover{transform:scale(1.1);}
 .share-btn i{font-size:0.88rem;color:#333;}
-/* ─── AVAILABILITY CALENDAR ─── */
+/* AVAILABILITY CALENDAR */
 .avail-cal{margin:1rem 0;}
 .avail-cal h4{font-size:0.82rem;font-weight:700;margin-bottom:8px;color:var(--text-2);}
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;}
@@ -182,7 +179,7 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:0 5%;h
 .cal-legend span::before{content:'';width:10px;height:10px;border-radius:3px;}
 .cal-legend .leg-free::before{background:var(--green-soft);border:1px solid var(--green);}
 .cal-legend .leg-taken::before{background:#fee2e2;border:1px solid #ef4444;}
-/* ─── SIMILAR LISTINGS ─── */
+/* SIMILAR */
 .similar-section{margin-top:1.5rem;border-top:1px solid var(--border);padding-top:1.2rem;}
 .similar-section h4{font-size:0.88rem;font-weight:700;margin-bottom:10px;}
 .similar-carousel{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
@@ -193,7 +190,7 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:0 5%;h
 .similar-card-body{padding:8px;}
 .similar-card-price{font-family:var(--font);font-size:0.88rem;font-weight:800;color:var(--text);}
 .similar-card-title{font-size:0.7rem;color:var(--text-2);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-/* ─── IMAGE GALLERY ENHANCED ─── */
+/* GALLERY */
 .gallery-wrap{position:relative;background:#000;flex-shrink:0;}
 .gallery-main{width:100%;height:300px;object-fit:cover;display:block;user-select:none;transition:opacity 0.22s ease;}
 .gallery-main.fade{opacity:0;}
@@ -216,11 +213,11 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:0 5%;h
 .g-thumb{width:60px;height:45px;border-radius:8px;object-fit:cover;cursor:pointer;border:2.5px solid transparent;transition:var(--transition);flex-shrink:0;opacity:0.7;}
 .g-thumb.active{border-color:var(--green);opacity:1;}
 .g-thumb:hover{opacity:1;}
-/* ─── TOAST ─── */
+/* TOAST */
 .toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--primary);color:var(--bg);padding:10px 20px;border-radius:50px;font-size:0.82rem;font-weight:600;opacity:0;transition:all 0.3s ease;z-index:9000;pointer-events:none;white-space:nowrap;display:flex;align-items:center;gap:8px;}
 .dark .toast{background:#fff;color:#111;}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
-/* ─── MODALS ─── */
+/* MODALS */
 .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);backdrop-filter:blur(8px);z-index:2000;align-items:center;justify-content:center;padding:16px;}
 .overlay.active{display:flex;}
 .modal{background:var(--bg);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-lg);position:relative;animation:scaleIn 0.35s cubic-bezier(0.16,1,0.3,1);width:100%;max-width:480px;}
@@ -230,7 +227,6 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:0 5%;h
 .modal-close{background:transparent;border:none;width:32px;height:32px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text-3);transition:var(--transition);font-size:0.9rem;}
 .modal-close:hover{background:var(--bg-2);color:var(--text);}
 .modal-body{padding:1.5rem;overflow-y:auto;max-height:70vh;}
-/* Detail modal body */
 #detailOverlay .modal-body{max-height:none;padding:0;}
 .detail-body{padding:1.2rem 1.5rem 2rem;overflow-y:auto;flex:1;}
 #detailOverlay .modal{display:flex;flex-direction:column;max-height:90vh;}
@@ -257,7 +253,7 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:0 5%;h
 .contact-btn.wa:hover{background:#1ebe5d;}
 .contact-btn.call{background:var(--primary);color:var(--bg);}
 .contact-btn.call:hover{background:var(--green);}
-/* ─── REVIEWS ─── */
+/* REVIEWS */
 .review-section{border-top:1px solid var(--border);padding-top:1.2rem;margin-top:1.2rem;}
 .review-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
 .review-hdr h4{font-size:0.9rem;font-weight:700;}
@@ -271,12 +267,12 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:0 5%;h
 .review-text{font-size:0.8rem;color:var(--text-2);line-height:1.55;}
 .add-review-btn{background:var(--green);color:#fff;border:none;padding:9px 18px;border-radius:50px;font-weight:600;font-size:0.82rem;cursor:pointer;transition:var(--transition);}
 .add-review-btn:hover{background:var(--green-2);}
-/* ─── STAR RATING ─── */
+/* STAR RATING */
 .star-rating{display:flex;gap:6px;justify-content:center;margin:1rem 0;}
 .star-rating i{font-size:1.5rem;color:var(--border-2);cursor:pointer;transition:color 0.18s,transform 0.18s;}
 .star-rating i.lit{color:#f59e0b;}
 .star-rating i:hover{transform:scale(1.2);}
-/* ─── FORM FIELDS ─── */
+/* FORM */
 .form-group{margin-bottom:1rem;}
 .form-group label{display:block;font-size:0.8rem;font-weight:700;margin-bottom:5px;color:var(--text-2);}
 .form-group input,.form-group select,.form-group textarea{width:100%;padding:11px 14px;border:1.5px solid var(--border-2);border-radius:var(--radius-sm);font-family:var(--font-body);font-size:0.92rem;background:var(--bg);color:var(--text);outline:none;transition:border-color 0.2s,box-shadow 0.2s;}
@@ -285,27 +281,27 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:0 5%;h
 .form-group select{cursor:pointer;appearance:none;}
 .form-group textarea{resize:vertical;min-height:90px;}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-/* ─── FILE UPLOAD ─── */
+/* FILE UPLOAD */
 .file-upload{position:relative;border:2px dashed var(--border-2);border-radius:var(--radius-sm);padding:1.5rem;text-align:center;cursor:pointer;background:var(--bg-2);transition:var(--transition);}
 .file-upload:hover{border-color:var(--green);background:var(--green-soft);}
 .file-upload input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
 .file-upload-icon{font-size:1.8rem;color:var(--green);margin-bottom:8px;}
 .file-upload-text{font-size:0.82rem;color:var(--text-3);}
 .file-upload-text span{color:var(--green);font-weight:700;}
-/* ─── AUTH MODALS ─── */
+/* AUTH */
 .auth-modal .modal{max-width:380px;}
 .google-btn{width:100%;padding:12px 16px;background:var(--bg);color:var(--text);border:1.5px solid var(--border-2);border-radius:50px;font-family:var(--font-body);font-weight:700;font-size:0.9rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:var(--transition);box-shadow:0 2px 6px rgba(0,0,0,0.06);}
 .google-btn:hover{box-shadow:0 4px 12px rgba(0,0,0,0.1);}
 .or-divider{text-align:center;margin:14px 0;color:var(--text-3);font-size:0.82rem;position:relative;}
 .or-divider::before{content:'';position:absolute;top:50%;left:0;right:0;height:1px;background:var(--border);}
 .or-divider span{background:var(--bg);padding:0 12px;position:relative;}
-/* ─── SUCCESS MODAL ─── */
+/* SUCCESS MODAL */
 .success-modal{text-align:center;padding:3rem 2rem;}
 .success-modal i.success{font-size:3.5rem;color:var(--green);margin-bottom:1.2rem;}
 .success-modal i.error{font-size:3.5rem;color:#ef4444;margin-bottom:1.2rem;}
 .success-modal h2{font-family:var(--font);font-size:1.5rem;font-weight:800;margin-bottom:0.8rem;}
 .success-modal p{color:var(--text-2);margin-bottom:1.5rem;font-size:0.9rem;}
-/* ─── BOTTOM NAV (MOBILE) ─── */
+/* BOTTOM NAV */
 .bottom-nav{display:none;justify-content:space-around;align-items:center;position:fixed;bottom:0;left:0;right:0;background:var(--bg);border-top:1px solid var(--border);padding:8px 0 20px;z-index:1000;backdrop-filter:blur(12px);}
 .dark .bottom-nav{background:rgba(14,15,20,0.95);}
 .bnav-item{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:4px 16px;color:var(--text-3);transition:color 0.2s;flex:1;background:transparent;border:none;}
@@ -313,7 +309,7 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:0 5%;h
 .bnav-item span{font-size:0.68rem;font-weight:600;}
 .bnav-item.active{color:var(--text);}
 .dark .bnav-item.active{color:#fff;}
-/* ─── MOBILE BOTTOM SHEET ─── */
+/* MOBILE SHEET */
 .sheet-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0);z-index:2900;display:none;transition:background 0.35s ease,backdrop-filter 0.35s ease;-webkit-backdrop-filter:blur(0);backdrop-filter:blur(0);}
 .sheet-backdrop.open{display:block;background:rgba(0,0,0,0.52);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);}
 .sheet{position:fixed;bottom:0;left:0;right:0;z-index:3000;display:none;padding:0 8px 8px;pointer-events:none;}
@@ -323,12 +319,12 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:0 5%;h
 .sheet.open .sheet-panel{transform:translateY(0);}
 .sheet-handle{width:36px;height:4px;background:var(--border-2);border-radius:2px;margin:10px auto 0;flex-shrink:0;cursor:grab;touch-action:none;}
 .sheet-body{overflow-y:auto;flex:1;-webkit-overflow-scrolling:touch;padding:14px 16px 100px;}
-/* ─── SIGN IN SHEET ─── */
+/* SIGN IN SHEET */
 .signin-prompt{padding:28px 18px;text-align:center;}
 .signin-prompt i{font-size:3rem;color:var(--border-2);margin-bottom:12px;display:block;}
 .signin-prompt h3{font-family:var(--font);font-size:1.05rem;font-weight:800;margin-bottom:8px;}
 .signin-prompt p{font-size:0.82rem;color:var(--text-3);margin-bottom:18px;line-height:1.6;}
-/* ─── PROFILE SHEET ─── */
+/* PROFILE SHEET */
 .ps-hero{display:flex;align-items:center;gap:14px;padding:18px;border-bottom:1px solid var(--border);}
 .ps-avatar{width:62px;height:62px;border-radius:50%;background:linear-gradient(135deg,var(--green),var(--green-2));display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.4rem;font-weight:800;overflow:hidden;position:relative;flex-shrink:0;}
 .ps-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%;}
@@ -376,7 +372,6 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:0 5%;h
 .ps-signout{margin:14px 16px 16px;padding:12px;border-radius:50px;border:1.5px solid #fee2e2;background:transparent;color:#dc2626;font-size:0.86rem;font-weight:600;cursor:pointer;width:calc(100% - 32px);display:flex;align-items:center;justify-content:center;gap:8px;transition:background 0.15s;}
 .dark .ps-signout{border-color:#450a0a;color:#fca5a5;}
 .ps-signout:active{background:#fee2e2;}
-/* Edit overlay */
 .ps-edit-overlay{position:absolute;inset:0;background:var(--bg);z-index:10;overflow-y:auto;padding:16px 18px 30px;transform:translateX(100%);transition:transform 0.3s cubic-bezier(0.4,0,0.2,1);}
 .dark .ps-edit-overlay{background:#131419;}
 .ps-edit-overlay.visible{transform:translateX(0);}
@@ -388,18 +383,24 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:0 5%;h
 .ps-field-label{font-size:0.75rem;font-weight:700;color:var(--text-3);margin-bottom:4px;}
 .ps-field-input{width:100%;padding:11px 14px;border:1.5px solid var(--border-2);border-radius:12px;font-size:0.9rem;font-family:var(--font-body);background:var(--bg-2);color:var(--text);outline:none;transition:border-color 0.2s;}
 .ps-field-input:focus{border-color:var(--green);}
-/* ─── PROGRESS ─── */
+/* PROGRESS */
 .progress-wrap{background:var(--bg);border-radius:var(--radius);padding:2rem;text-align:center;max-width:380px;width:90%;}
 .progress-bar-track{height:8px;background:var(--bg-2);border-radius:4px;margin:1.2rem 0;overflow:hidden;}
 .progress-bar-fill{height:100%;background:linear-gradient(90deg,var(--green-2),var(--green));transition:width 0.4s ease;border-radius:4px;}
-/* ─── MAP BOTTOM SHEET ─── */
+/* MAP SHEET */
 .map-sheet-panel{height:62vh;}
 .map-frame{width:100%;height:100%;border:none;border-radius:0 0 22px 22px;}
-/* ─── DYNAMIC PROFILE CONTENT ─── */
+/* DYN CONTENT */
 #dynContent{display:none;padding:14px 16px 0;}
 #dynTitle{font-size:0.68rem;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;}
 #dynList{background:var(--bg-2);border-radius:14px;border:1px solid var(--border);overflow:hidden;}
-/* ─── MOBILE SPECIFIC ─── */
+/* SHARE MODAL */
+#shareOverlay .modal{max-width:360px;}
+.share-option{display:flex;align-items:center;gap:14px;padding:13px 16px;cursor:pointer;border-radius:12px;transition:background 0.15s;border:none;background:transparent;width:100%;text-align:left;}
+.share-option:hover{background:var(--bg-2);}
+.share-option-icon{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+.share-option-label{font-weight:600;font-size:0.9rem;color:var(--text);}
+/* MOBILE */
 @media(max-width:767px){
   nav{justify-content:center;height:58px;}
   .nav-actions{display:none;}
@@ -437,9 +438,7 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:0 5%;h
   .section-lbl{padding:6px 12px 2px;font-size:0.76rem;font-weight:500;color:var(--text-3);}
   .bottom-nav{display:flex;}
   #mapView{display:none!important;}
-  .detailOverlay{display:none!important;}
 }
-/* ─── DESKTOP SPECIFIC ─── */
 @media(min-width:768px){
   .bottom-nav{display:none!important;}
   #mobileSheetBackdrop{display:none!important;}
@@ -452,22 +451,14 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:0 5%;h
   .mobile-chips{display:none;}
   .section-lbl{display:none;}
 }
-/* ─── FOOTER ─── */
 footer{background:var(--primary);color:#fff;padding:4rem 5% 2rem;text-align:center;}
 .footer-links{display:flex;gap:2rem;justify-content:center;margin:1.5rem 0;}
 .footer-links a{color:rgba(255,255,255,0.5);text-decoration:none;font-size:0.88rem;transition:color 0.2s;}
 .footer-links a:hover{color:#fff;}
 .footer-copy{border-top:1px solid rgba(255,255,255,0.1);padding-top:1.5rem;color:rgba(255,255,255,0.3);font-size:0.8rem;}
-/* ─── SHARE TOAST MODAL ─── */
-#shareOverlay .modal{max-width:360px;}
-.share-option{display:flex;align-items:center;gap:14px;padding:13px 16px;cursor:pointer;border-radius:12px;transition:background 0.15s;border:none;background:transparent;width:100%;text-align:left;}
-.share-option:hover{background:var(--bg-2);}
-.share-option-icon{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
-.share-option-label{font-weight:600;font-size:0.9rem;color:var(--text);}
 </style>
 </head>
 <body>
-<!-- ─── NAV ─── -->
 <nav>
   <div class="logo" onclick="resetFilters()">KasiStay<span class="logo-dot">.</span></div>
   <div class="nav-actions">
@@ -475,7 +466,6 @@ footer{background:var(--primary);color:#fff;padding:4rem 5% 2rem;text-align:cent
     <button class="btn btn-white" id="authButton" onclick="openSignInModal()">Sign In</button>
   </div>
 </nav>
-<!-- ─── HERO ─── -->
 <section class="hero">
   <div class="hero-tag"><i class="fa-solid fa-shield-halved"></i> 100% Verified Listings in South Africa</div>
   <h1>Your freedom<br>starts with a <em>home.</em></h1>
@@ -488,7 +478,6 @@ footer{background:var(--primary);color:#fff;padding:4rem 5% 2rem;text-align:cent
     <button class="search-btn" onclick="applyFilters()"><i class="fa-solid fa-magnifying-glass"></i> Find Rooms</button>
   </div>
 </section>
-<!-- ─── VIEW CONTROLS + FILTERS ─── -->
 <div class="view-controls" id="viewControls">
   <div class="view-toggle">
     <button class="vt-btn active" id="gridToggle" onclick="setView('grid')"><i class="fa-solid fa-grid-2"></i> Grid</button>
@@ -516,7 +505,6 @@ footer{background:var(--primary);color:#fff;padding:4rem 5% 2rem;text-align:cent
     </div>
   </div>
 </div>
-<!-- ─── MOBILE SEARCH & CHIPS ─── -->
 <div class="mobile-search">
   <div class="mobile-search-inner">
     <i class="fa-solid fa-magnifying-glass"></i>
@@ -533,12 +521,10 @@ footer{background:var(--primary);color:#fff;padding:4rem 5% 2rem;text-align:cent
     <button class="chip" data-filter="Flat Apartments">Apartment</button>
   </div>
 </div>
-<!-- ─── MAIN CONTENT ─── -->
 <div class="listing-count" id="listingCount"></div>
 <div class="section-lbl" id="sectionLbl"></div>
 <section class="grid" id="grid"></section>
 <div id="mapView"><div id="leafletMap"></div></div>
-<!-- ─── FOOTER ─── -->
 <footer>
   <div class="logo" style="font-size:1.8rem;color:#fff;">KasiStay<span class="logo-dot">.</span></div>
   <p style="color:rgba(255,255,255,0.4);margin-top:8px;font-size:0.88rem;">South Africa's #1 Accommodation Finder</p>
@@ -547,18 +533,16 @@ footer{background:var(--primary);color:#fff;padding:4rem 5% 2rem;text-align:cent
   </div>
   <div class="footer-copy">© 2026 KasiStay Inc. Built to make your search easier.</div>
 </footer>
-<!-- ─── BOTTOM NAV ─── -->
 <div class="bottom-nav">
   <button class="bnav-item active" id="bnav0" onclick="navigateTab(0)"><i class="fa-solid fa-magnifying-glass"></i><span>Explore</span></button>
   <button class="bnav-item" id="bnav1" onclick="navigateTab(1)"><i class="fa-solid fa-plus-circle"></i><span>List</span></button>
   <button class="bnav-item" id="bnav2" onclick="navigateTab(2)"><i class="fa-regular fa-circle-user"></i><span>Profile</span></button>
 </div>
-<!-- ─── TOAST ─── -->
 <div class="toast" id="toast"></div>
-<!-- ===== DESKTOP DETAIL MODAL ===== -->
+
+<!-- DESKTOP DETAIL MODAL -->
 <div class="overlay" id="detailOverlay" onclick="if(event.target===this)closeDetail()">
   <div class="modal" style="max-width:880px;max-height:90vh;display:flex;flex-direction:column;overflow:hidden;">
-    <!-- Gallery -->
     <div class="gallery-wrap" id="detailGalleryWrap">
       <img class="gallery-main" id="detailMainImg" src="" alt="Room">
       <button class="gallery-nav-btn prev" onclick="detailChangeImg(-1)"><i class="fa-solid fa-chevron-left"></i></button>
@@ -568,7 +552,6 @@ footer{background:var(--primary);color:#fff;padding:4rem 5% 2rem;text-align:cent
       <button class="gallery-share" onclick="openShareModal()"><i class="fa-solid fa-share-nodes"></i></button>
     </div>
     <div class="gallery-thumbs" id="detailThumbs"></div>
-    <!-- Body -->
     <div class="detail-body" id="detailBody">
       <div class="detail-meta-row">
         <div class="detail-title" id="detailTitle"></div>
@@ -581,9 +564,7 @@ footer{background:var(--primary);color:#fff;padding:4rem 5% 2rem;text-align:cent
       </div>
       <p class="detail-desc" id="detailDesc"></p>
       <div class="detail-tags" id="detailTags"></div>
-      <!-- Availability Calendar -->
       <div class="avail-cal" id="detailCal"></div>
-      <!-- Landlord -->
       <div class="landlord-box">
         <div class="landlord-row">
           <div class="landlord-avatar">K</div>
@@ -597,7 +578,6 @@ footer{background:var(--primary);color:#fff;padding:4rem 5% 2rem;text-align:cent
           <a href="#" class="contact-btn call" id="detailCall"><i class="fa-solid fa-phone"></i> Call</a>
         </div>
       </div>
-      <!-- Reviews -->
       <div class="review-section">
         <div class="review-hdr">
           <h4>Reviews</h4>
@@ -606,7 +586,6 @@ footer{background:var(--primary);color:#fff;padding:4rem 5% 2rem;text-align:cent
         <div class="review-list" id="detailReviewList"></div>
         <button class="add-review-btn" onclick="openReviewModal()">Write a Review</button>
       </div>
-      <!-- Similar Listings -->
       <div class="similar-section">
         <h4>Similar Properties</h4>
         <div class="similar-carousel" id="detailSimilar"></div>
@@ -614,12 +593,12 @@ footer{background:var(--primary);color:#fff;padding:4rem 5% 2rem;text-align:cent
     </div>
   </div>
 </div>
-<!-- ─── MOBILE BOTTOM SHEET (DETAIL) ─── -->
+
+<!-- MOBILE BOTTOM SHEET (DETAIL) -->
 <div class="sheet-backdrop" id="sheetBackdrop" onclick="closeSheet()"></div>
 <div class="sheet" id="mobileSheet">
   <div class="sheet-panel" id="sheetPanel">
     <div class="sheet-handle" id="sheetHandle"></div>
-    <!-- Gallery -->
     <div class="gallery-wrap" id="sheetGalleryWrap" style="flex-shrink:0;">
       <img class="gallery-main" id="sheetMainImg" src="" alt="" style="height:220px;">
       <button class="gallery-nav-btn prev" onclick="sheetChangeImg(-1)"><i class="fa-solid fa-chevron-left"></i></button>
@@ -627,7 +606,6 @@ footer{background:var(--primary);color:#fff;padding:4rem 5% 2rem;text-align:cent
       <div class="gallery-dots" id="sheetDots"></div>
       <button class="gallery-share" onclick="openShareModal()"><i class="fa-solid fa-share-nodes"></i></button>
     </div>
-    <!-- Body -->
     <div class="sheet-body" id="sheetBody">
       <div class="detail-meta-row" style="margin-bottom:6px;">
         <div class="detail-title" id="sheetTitle" style="font-size:1.05rem;"></div>
@@ -640,9 +618,7 @@ footer{background:var(--primary);color:#fff;padding:4rem 5% 2rem;text-align:cent
       </div>
       <p class="detail-desc" id="sheetDesc" style="font-size:0.82rem;"></p>
       <div class="detail-tags" id="sheetTags" style="margin-bottom:14px;"></div>
-      <!-- Calendar -->
       <div class="avail-cal" id="sheetCal"></div>
-      <!-- Landlord -->
       <div class="landlord-box" style="margin-bottom:14px;">
         <div class="landlord-row">
           <div class="landlord-avatar">K</div>
@@ -656,7 +632,6 @@ footer{background:var(--primary);color:#fff;padding:4rem 5% 2rem;text-align:cent
           <a href="#" class="contact-btn call" id="sheetCall" style="font-size:0.8rem;"><i class="fa-solid fa-phone"></i> Call</a>
         </div>
       </div>
-      <!-- Reviews -->
       <div class="review-section">
         <div class="review-hdr">
           <h4 style="font-size:0.88rem;">Reviews</h4>
@@ -665,7 +640,6 @@ footer{background:var(--primary);color:#fff;padding:4rem 5% 2rem;text-align:cent
         <div class="review-list" id="sheetReviewList" style="max-height:180px;"></div>
         <button class="add-review-btn" onclick="openReviewModal()">Write a Review</button>
       </div>
-      <!-- Similar -->
       <div class="similar-section">
         <h4 style="font-size:0.85rem;">Similar Properties</h4>
         <div class="similar-carousel" id="sheetSimilar"></div>
@@ -673,7 +647,8 @@ footer{background:var(--primary);color:#fff;padding:4rem 5% 2rem;text-align:cent
     </div>
   </div>
 </div>
-<!-- ─── MAP BOTTOM SHEET (MOBILE) ─── -->
+
+<!-- MAP BOTTOM SHEET (MOBILE) -->
 <div class="sheet-backdrop" id="mapBackdrop" onclick="closeMapSheet()"></div>
 <div class="sheet" id="mapSheet">
   <div class="sheet-panel map-sheet-panel" id="mapPanel">
@@ -681,7 +656,8 @@ footer{background:var(--primary);color:#fff;padding:4rem 5% 2rem;text-align:cent
     <iframe class="map-frame" id="mapFrame" src="" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
   </div>
 </div>
-<!-- ─── REVIEW BOTTOM SHEET (MOBILE) ─── -->
+
+<!-- REVIEW SHEET (MOBILE) -->
 <div class="sheet-backdrop" id="reviewBackdrop" onclick="closeReviewSheet()"></div>
 <div class="sheet" id="reviewSheet">
   <div class="sheet-panel" id="reviewPanel" style="height:auto;max-height:70vh;">
@@ -696,13 +672,13 @@ footer{background:var(--primary);color:#fff;padding:4rem 5% 2rem;text-align:cent
     </div>
   </div>
 </div>
-<!-- ─── PROFILE SHEET (MOBILE) ─── -->
+
+<!-- PROFILE SHEET (MOBILE) -->
 <div class="sheet-backdrop" id="profileBackdrop" onclick="closeProfileSheet()"></div>
 <div class="sheet" id="profileSheet">
   <div class="sheet-panel" id="profilePanel" style="height:88vh;position:relative;overflow:hidden;">
     <div class="sheet-handle" id="psHandle"></div>
     <div style="overflow-y:auto;flex:1;-webkit-overflow-scrolling:touch;padding-bottom:20px;" id="psBody">
-      <!-- Signed In -->
       <div id="psSignedIn" style="display:none;">
         <div class="ps-hero">
           <div style="position:relative;">
@@ -757,13 +733,12 @@ footer{background:var(--primary);color:#fff;padding:4rem 5% 2rem;text-align:cent
             </div>
           </div>
         </div>
-        <div id="dynContent" style="padding:14px 16px 0;">
+        <div id="dynContent" style="display:none;padding:14px 16px 0;">
           <div id="dynTitle" style="font-size:0.68rem;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;"></div>
           <div id="dynList" style="background:var(--bg-2);border-radius:14px;border:1px solid var(--border);overflow:hidden;"></div>
           <button onclick="closeDyn()" style="margin:10px 0 0;width:100%;padding:12px;border:1.5px solid var(--border);border-radius:12px;background:transparent;color:var(--text-3);font-weight:600;cursor:pointer;">← Back to Profile</button>
         </div>
         <button class="ps-signout" onclick="openSignOutConfirm()"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</button>
-        <!-- Edit overlay -->
         <div class="ps-edit-overlay" id="psEditOverlay">
           <div class="ps-edit-hdr">
             <button class="ps-edit-back" onclick="closeEditProfile()"><i class="fa-solid fa-arrow-left"></i></button>
@@ -782,7 +757,6 @@ footer{background:var(--primary);color:#fff;padding:4rem 5% 2rem;text-align:cent
           <div class="ps-field-group"><div class="ps-field-label">Bio</div><textarea class="ps-field-input" id="psEditBio" rows="3" placeholder="Tell others about yourself..." style="resize:none;"></textarea></div>
         </div>
       </div>
-      <!-- Guest -->
       <div id="psGuest" style="display:none;">
         <div class="signin-prompt">
           <i class="fa-solid fa-circle-user"></i>
@@ -809,7 +783,8 @@ footer{background:var(--primary);color:#fff;padding:4rem 5% 2rem;text-align:cent
     </div>
   </div>
 </div>
-<!-- ─── MAP DESKTOP MODAL ─── -->
+
+<!-- MAP DESKTOP MODAL -->
 <div class="overlay" id="mapOverlay" onclick="if(event.target===this)closeMapOverlay()">
   <div class="modal" style="max-width:900px;height:80vh;display:flex;flex-direction:column;">
     <div class="modal-hdr">
@@ -821,7 +796,8 @@ footer{background:var(--primary);color:#fff;padding:4rem 5% 2rem;text-align:cent
     </div>
   </div>
 </div>
-<!-- ─── REVIEW DESKTOP MODAL ─── -->
+
+<!-- REVIEW DESKTOP MODAL -->
 <div class="overlay" id="reviewOverlay" onclick="if(event.target===this)closeReviewOverlay()">
   <div class="modal" style="max-width:440px;">
     <div class="modal-hdr"><h2>Write a Review</h2><button class="modal-close" onclick="closeReviewOverlay()"><i class="fa-solid fa-xmark"></i></button></div>
@@ -837,7 +813,8 @@ footer{background:var(--primary);color:#fff;padding:4rem 5% 2rem;text-align:cent
     </div>
   </div>
 </div>
-<!-- ─── ADD MODAL ─── -->
+
+<!-- ADD MODAL -->
 <div class="overlay" id="addOverlay" onclick="if(event.target===this)closeAddModal()">
   <div class="modal" style="max-width:520px;max-height:92vh;display:flex;flex-direction:column;overflow:hidden;">
     <div class="modal-hdr">
@@ -856,6 +833,7 @@ footer{background:var(--primary);color:#fff;padding:4rem 5% 2rem;text-align:cent
         </div>
       </div>
       <div class="form-group"><label>Area / Location</label><input type="text" id="addLocation" placeholder="e.g. Braamfontein, Johannesburg" required></div>
+      <div class="form-group"><label>WhatsApp Number</label><input type="tel" id="addPhone" placeholder="+27 81 234 5678" required></div>
       <div class="form-group"><label>Is the room currently available?</label>
         <select id="addAvail"><option value="available">Yes – Available Now</option><option value="unavailable">No – Currently Occupied</option></select>
       </div>
@@ -873,7 +851,8 @@ footer{background:var(--primary);color:#fff;padding:4rem 5% 2rem;text-align:cent
     </div>
   </div>
 </div>
-<!-- ─── SIGN IN MODAL ─── -->
+
+<!-- SIGN IN MODAL -->
 <div class="overlay auth-modal" id="signInOverlay" onclick="if(event.target===this)closeSignInModal()">
   <div class="modal">
     <div class="modal-hdr"><h2>Sign in to KasiStay</h2><button class="modal-close" onclick="closeSignInModal()"><i class="fa-solid fa-xmark"></i></button></div>
@@ -890,11 +869,13 @@ footer{background:var(--primary);color:#fff;padding:4rem 5% 2rem;text-align:cent
     </div>
   </div>
 </div>
-<!-- ─── FEEDBACK MODAL ─── -->
+
+<!-- FEEDBACK MODAL -->
 <div class="overlay" id="feedbackOverlay" onclick="if(event.target===this)closeFeedback()">
   <div class="modal" style="max-width:380px;"><div class="success-modal" id="feedbackBody"></div></div>
 </div>
-<!-- ─── SIGN OUT CONFIRM ─── -->
+
+<!-- SIGN OUT CONFIRM -->
 <div class="overlay" id="signOutOverlay" onclick="if(event.target===this)closeSignOutConfirm()">
   <div class="modal" style="max-width:340px;">
     <div class="modal-hdr" style="border-bottom:none;justify-content:center;padding-top:2rem;"><h2>Sign Out?</h2></div>
@@ -905,7 +886,8 @@ footer{background:var(--primary);color:#fff;padding:4rem 5% 2rem;text-align:cent
     </div>
   </div>
 </div>
-<!-- ─── UPLOAD PROGRESS ─── -->
+
+<!-- UPLOAD PROGRESS -->
 <div class="overlay" id="uploadOverlay">
   <div class="progress-wrap">
     <h3 style="font-family:var(--font);font-weight:800;margin-bottom:6px;">Uploading listing...</h3>
@@ -913,7 +895,8 @@ footer{background:var(--primary);color:#fff;padding:4rem 5% 2rem;text-align:cent
     <div class="progress-bar-track"><div class="progress-bar-fill" id="progressBar" style="width:0%;"></div></div>
   </div>
 </div>
-<!-- ─── SHARE MODAL ─── -->
+
+<!-- SHARE MODAL -->
 <div class="overlay" id="shareOverlay" onclick="if(event.target===this)closeShareModal()">
   <div class="modal" style="max-width:360px;">
     <div class="modal-hdr"><h2>Share Listing</h2><button class="modal-close" onclick="closeShareModal()"><i class="fa-solid fa-xmark"></i></button></div>
@@ -933,19 +916,52 @@ footer{background:var(--primary);color:#fff;padding:4rem 5% 2rem;text-align:cent
     </div>
   </div>
 </div>
+
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 import { getDatabase, ref, push, set, onValue, update, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-const firebaseConfig = { apiKey:"AIzaSyD_MtScfT0J5b8LbMm5oAATmw84plKWl-0", authDomain:"kasistay-3b79c.firebaseapp.com", projectId:"kasistay-3b79c", storageBucket:"kasistay-3b79c.appspot.com", messagingSenderId:"19156366595", appId:"1:19156366595:web:c64b9bd6dfde5790e02536" };
+const firebaseConfig = {
+  apiKey:"AIzaSyD_MtScfT0J5b8LbMm5oAATmw84plKWl-0",
+  authDomain:"kasistay-3b79c.firebaseapp.com",
+  projectId:"kasistay-3b79c",
+  storageBucket:"kasistay-3b79c.appspot.com",
+  messagingSenderId:"19156366595",
+  appId:"1:19156366595:web:c64b9bd6dfde5790e02536",
+  databaseURL:"https://kasistay-3b79c-default-rtdb.firebaseio.com"
+};
+
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getDatabase(app);
 const provider = new GoogleAuthProvider();
 const CLOUD_NAME = "dv5bsbydu";
 const UPLOAD_PRESET = "admin_tlaka";
+
+/* ─── DEMO LISTINGS (shown when Firebase is empty) ─── */
+const DEMO_LISTINGS = [
+  { id:'demo1', title:'Modern Studio near Wits University', price:5500, type:'Bachelor Room', location:'Braamfontein, Johannesburg', desc:'Bright, modern studio apartment minutes from Wits University. Includes all utilities, high-speed WiFi, and 24-hour security. Perfect for students and young professionals.', amenities:['WiFi','Water Included','24hr Security','Laundry Room','Study Desk'], image:'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800&q=80', additionalImages:['https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=80','https://images.unsplash.com/photo-1484154218962-a197022b5858?w=800&q=80'], availability:'available', verified:true, reviews:[{rating:5,comment:'Amazing place, very clean and secure!',reviewerName:'Thabo M',timestamp:1715000000000},{rating:4,comment:'Great location, close to everything.',reviewerName:'Naledi K',timestamp:1714500000000}] },
+  { id:'demo2', title:'Cosy Single Room – Soweto', price:3200, type:'Single room', location:'Soweto, Johannesburg', desc:'Affordable single room in a safe, family-friendly home. Includes electricity, water, and shared kitchen. Great transport links to the CBD and nearby colleges.', amenities:['Water Included','Electricity Included','Shared Kitchen','Street Parking'], image:'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=800&q=80', additionalImages:['https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=800&q=80'], availability:'available', verified:true, reviews:[{rating:4,comment:'Very affordable and the landlord is friendly.',reviewerName:'Sipho D',timestamp:1714000000000}] },
+  { id:'demo3', title:'Spacious 2-Room Flat – Sandton', price:9800, type:'2 Room', location:'Sandton, Johannesburg', desc:'Elegant 2-room apartment in the heart of Sandton. Walking distance to Sandton City and the Gautrain station. Premium finishes, secure parking, and gym access included.', amenities:['WiFi','Gym Access','Parking','DStv','Swimming Pool','Concierge'], image:'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&q=80', additionalImages:['https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=800&q=80','https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&q=80'], availability:'available', verified:true, reviews:[] },
+  { id:'demo4', title:'Student Room near UJ Doornfontein', price:4200, type:'Single room', location:'Doornfontein, Johannesburg', desc:'Student-friendly room a 5-minute walk from UJ Doornfontein campus. Comes with a study desk, fast internet, and access to a fully equipped communal kitchen.', amenities:['WiFi','Study Desk','Communal Kitchen','CCTV Security'], image:'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80', additionalImages:['https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&q=80'], availability:'available', verified:false, reviews:[{rating:3,comment:'Decent room but internet can be slow during peak hours.',reviewerName:'Aisha P',timestamp:1713500000000}] },
+  { id:'demo5', title:'Bachelor Apartment – Pretoria CBD', price:6000, type:'Bachelor Room', location:'Pretoria, Tshwane', desc:'Well-located bachelor apartment in Pretoria CBD. Modern kitchen, en-suite bathroom, and plenty of natural light. Walking distance to government offices and UNISA.', amenities:['WiFi','En-suite Bathroom','Modern Kitchen','DSTV Ready','Parking'], image:'https://images.unsplash.com/photo-1560185127-6ed189bf02f4?w=800&q=80', additionalImages:['https://images.unsplash.com/photo-1598928506311-c55ded91a20c?w=800&q=80'], availability:'unavailable', verified:true, reviews:[] },
+  { id:'demo6', title:'Luxury Flat – Cape Town Waterfront', price:14500, type:'Flat Apartments', location:'Cape Town, Western Cape', desc:'Stunning luxury apartment with partial ocean views near the V&A Waterfront. Open-plan living, designer kitchen, rooftop terrace access. Ideal for professionals.', amenities:['WiFi','Parking','Rooftop Terrace','Ocean View','Gym','Concierge','DStv'], image:'https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=800&q=80', additionalImages:['https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80','https://images.unsplash.com/photo-1484154218962-a197022b5858?w=800&q=80'], availability:'available', verified:true, reviews:[{rating:5,comment:'Absolutely stunning apartment, worth every rand!',reviewerName:'Marco V',timestamp:1715200000000}] },
+  { id:'demo7', title:'Affordable Room – Durban North', price:3800, type:'Single room', location:'Durban, KwaZulu-Natal', desc:'Clean and affordable room in a quiet residential area of Durban North. Close to bus routes, shopping centres, and just 15 minutes from UKZN.', amenities:['WiFi','Laundry','Garden Access','Street Parking'], image:'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80', additionalImages:[], availability:'available', verified:false, reviews:[] },
+  { id:'demo8', title:'2-Bedroom Unit – Midrand', price:8500, type:'2 Room', location:'Midrand, Johannesburg', desc:'Spacious 2-bedroom unit perfect for sharing. Centrally located between Joburg and Pretoria, near Gallagher Estate and Mall of Africa. Ideal for professionals.', amenities:['WiFi','Parking','Sectional Title','Electric Fence','CCTV'], image:'https://images.unsplash.com/photo-1567767292278-a4f21aa2d36e?w=800&q=80', additionalImages:['https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=800&q=80'], availability:'available', verified:true, reviews:[{rating:4,comment:'Great location, peaceful and safe.',reviewerName:'Lungile T',timestamp:1714800000000}] },
+  { id:'demo9', title:'Campus-Linked Apartment – Polokwane', price:4500, type:'Bachelor Room', location:'Polokwane, Limpopo', desc:'Modern bachelor apartment close to the University of Limpopo. Includes high-speed internet, study area, and 24-hour access control. Perfect for dedicated students.', amenities:['WiFi','Study Area','24hr Access Control','Generator Backup'], image:'https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?w=800&q=80', additionalImages:[], availability:'available', verified:true, reviews:[] }
+];
+
+async function uploadCloudinary(file) {
+  const fd = new FormData();
+  fd.append("file", file);
+  fd.append("upload_preset", UPLOAD_PRESET);
+  const r = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, { method:"POST", body:fd });
+  const d = await r.json();
+  if (d.secure_url) return d.secure_url;
+  throw new Error(d.error?.message || "Upload failed");
+}
 
 /* ─── STATE ─── */
 let listings = [], filtered = [], displayed = [], currentFilter = 'all', minPrice = 0, maxPrice = 30000;
@@ -957,24 +973,17 @@ let leafletMap = null, markers = [];
 let liked = new Set();
 let userProfile = {};
 const PAGE = 12;
-let isMobile = () => window.innerWidth <= 767;
+const isMobile = () => window.innerWidth <= 767;
 let currentView = 'grid';
-
-async function uploadCloudinary(file) {
-  const fd = new FormData(); fd.append("file",file); fd.append("upload_preset",UPLOAD_PRESET);
-  const r = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,{method:"POST",body:fd});
-  const d = await r.json(); if(d.secure_url) return d.secure_url;
-  throw new Error(d.error?.message||"Upload failed");
-}
 
 /* ─── TOAST ─── */
 let toastTimer;
 window.showToast = (msg, icon='') => {
   const t = document.getElementById('toast');
-  t.innerHTML = (icon?`<i class="${icon}"></i> `:'') + msg;
+  t.innerHTML = (icon ? `<i class="${icon}"></i> ` : '') + msg;
   t.classList.add('show');
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(()=>t.classList.remove('show'), 2800);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
 };
 
 /* ─── DARK MODE ─── */
@@ -982,24 +991,27 @@ window.toggleDark = () => {
   document.body.classList.toggle('dark');
   const on = document.body.classList.contains('dark');
   localStorage.setItem('ks-dark', on);
-  ['darkToggle1','darkToggle2'].forEach(id => { const el = document.getElementById(id); if(el) el.checked = on; });
+  ['darkToggle1','darkToggle2'].forEach(id => { const el = document.getElementById(id); if (el) el.checked = on; });
 };
-if(localStorage.getItem('ks-dark')==='true') {
+if (localStorage.getItem('ks-dark') === 'true') {
   document.body.classList.add('dark');
-  ['darkToggle1','darkToggle2'].forEach(id => { const el = document.getElementById(id); if(el) el.checked = true; });
+  ['darkToggle1','darkToggle2'].forEach(id => { const el = document.getElementById(id); if (el) el.checked = true; });
 }
 
 /* ─── STAR HELPERS ─── */
 function genStars(r) {
-  let s=''; for(let i=1;i<=5;i++) s+=`<i class="fa-${i<=r?'solid':(i-0.5<=r?'solid fa-star-half-alt':'regular')} fa-star" style="color:${i<=r||i-0.5<=r?'#f59e0b':'var(--border-2)'}"></i>`;
+  let s = '';
+  for (let i = 1; i <= 5; i++) {
+    s += `<i class="fa-${i <= r ? 'solid' : 'regular'} fa-star" style="color:${i <= r ? '#f59e0b' : 'var(--border-2)'}"></i>`;
+  }
   return s;
 }
-function calcAvg(reviews=[]) {
-  if(!reviews.length) return 0;
-  return Math.round(reviews.reduce((a,r)=>a+r.rating,0)/reviews.length*10)/10;
+function calcAvg(reviews = []) {
+  if (!reviews.length) return 0;
+  return Math.round(reviews.reduce((a, r) => a + r.rating, 0) / reviews.length * 10) / 10;
 }
 
-/* ─── AVAILABILITY CALENDAR ─── */
+/* ─── CALENDAR ─── */
 function buildCalendar(available) {
   const now = new Date();
   const year = now.getFullYear(), month = now.getMonth();
@@ -1010,9 +1022,9 @@ function buildCalendar(available) {
   let html = `<h4 style="font-size:0.8rem;font-weight:700;margin-bottom:8px;">${monthNames[month]} ${year} – Availability</h4>`;
   html += `<div class="cal-grid">`;
   dayNames.forEach(d => html += `<div class="cal-day-hdr">${d}</div>`);
-  for(let i=0;i<firstDay;i++) html += `<div class="cal-day empty"></div>`;
-  for(let d=1;d<=daysInMonth;d++) {
-    const isToday = d===now.getDate();
+  for (let i = 0; i < firstDay; i++) html += `<div class="cal-day empty"></div>`;
+  for (let d = 1; d <= daysInMonth; d++) {
+    const isToday = d === now.getDate();
     const isTaken = !available && d <= 15;
     const cls = isToday ? 'today' : (isTaken ? 'taken' : 'free');
     html += `<div class="cal-day ${cls}">${d}</div>`;
@@ -1024,13 +1036,13 @@ function buildCalendar(available) {
 
 /* ─── SIMILAR LISTINGS ─── */
 function buildSimilarHTML(currentItem) {
-  const sims = listings.filter(l => l.id !== currentItem.id && (l.type === currentItem.type || Math.abs(l.price - currentItem.price) < 2000)).slice(0, 8);
-  if(!sims.length) return '<p style="font-size:0.78rem;color:var(--text-3);">No similar listings found.</p>';
+  const sims = listings.filter(l => l.id !== currentItem.id && (l.type === currentItem.type || Math.abs((l.price||0) - (currentItem.price||0)) < 2000)).slice(0, 8);
+  if (!sims.length) return '<p style="font-size:0.78rem;color:var(--text-3);">No similar listings found.</p>';
   return sims.map(l => `
     <div class="similar-card" onclick="openListing('${l.id}')">
       <img src="${l.image}" alt="${l.title}" loading="lazy">
       <div class="similar-card-body">
-        <div class="similar-card-price">R${l.price?.toLocaleString()}<small style="font-size:0.6rem;color:var(--text-3);">/mo</small></div>
+        <div class="similar-card-price">R${(l.price||0).toLocaleString()}<small style="font-size:0.6rem;color:var(--text-3);">/mo</small></div>
         <div class="similar-card-title">${l.title}</div>
       </div>
     </div>`).join('');
@@ -1040,27 +1052,24 @@ function buildSimilarHTML(currentItem) {
 const dMin = document.getElementById('dMin'), dMax = document.getElementById('dMax'), dTrack = document.getElementById('dTrack');
 function updateSlider() {
   let lo = parseInt(dMin.value), hi = parseInt(dMax.value);
-  if(hi - lo < 500) { if(event && event.target===dMin) dMin.value=hi-500; else dMax.value=lo+500; return; }
-  minPrice=lo; maxPrice=hi;
-  document.getElementById('dMinD').textContent=lo.toLocaleString();
-  document.getElementById('dMaxD').textContent=hi.toLocaleString();
-  const p1=(lo/30000)*100, p2=(hi/30000)*100;
-  dTrack.style.left=p1+'%'; dTrack.style.width=(p2-p1)+'%';
+  if (hi - lo < 500) { if (event && event.target === dMin) dMin.value = hi - 500; else dMax.value = lo + 500; return; }
+  minPrice = lo; maxPrice = hi;
+  document.getElementById('dMinD').textContent = lo.toLocaleString();
+  document.getElementById('dMaxD').textContent = hi.toLocaleString();
+  const p1 = (lo/30000)*100, p2 = (hi/30000)*100;
+  dTrack.style.left = p1+'%'; dTrack.style.width = (p2-p1)+'%';
   applyFilters();
 }
 dMin.addEventListener('input', updateSlider);
 dMax.addEventListener('input', updateSlider);
-// init slider
-dTrack.style.left='0%'; dTrack.style.width='100%';
+dTrack.style.left = '0%'; dTrack.style.width = '100%';
 
 /* ─── FILTER CHIPS ─── */
 document.querySelectorAll('.chip').forEach(btn => {
   btn.addEventListener('click', () => {
-    document.querySelectorAll('.chip').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-    // sync all chips with same data-filter
     const f = btn.getAttribute('data-filter');
-    document.querySelectorAll(`.chip[data-filter="${f}"]`).forEach(b=>b.classList.add('active'));
+    document.querySelectorAll('.chip').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll(`.chip[data-filter="${f}"]`).forEach(b => b.classList.add('active'));
     currentFilter = f;
     applyFilters();
   });
@@ -1068,12 +1077,12 @@ document.querySelectorAll('.chip').forEach(btn => {
 document.getElementById('searchInput')?.addEventListener('input', applyFilters);
 document.getElementById('mobileSearch')?.addEventListener('input', applyFilters);
 
-/* ─── SKELETON LOADERS ─── */
+/* ─── SKELETON ─── */
 function renderSkeletons() {
   const grid = document.getElementById('grid');
   grid.innerHTML = '';
   const count = isMobile() ? 6 : 9;
-  for(let i=0;i<count;i++) {
+  for (let i = 0; i < count; i++) {
     grid.innerHTML += `<div class="skeleton-card"><div class="skeleton skeleton-img"></div><div class="skeleton-body"><div class="skeleton skeleton-line med"></div><div class="skeleton skeleton-line short"></div><div class="skeleton skeleton-line"></div></div></div>`;
   }
 }
@@ -1081,19 +1090,20 @@ function renderSkeletons() {
 /* ─── RENDER CARDS ─── */
 function renderCard(item) {
   const isLiked = liked.has(item.id);
-  const avg = calcAvg(item.reviews||[]);
-  const imgCount = [item.image,...(item.additionalImages||[])].filter(Boolean).length;
+  const avg = calcAvg(item.reviews || []);
+  const imgCount = [item.image, ...(item.additionalImages||[])].filter(Boolean).length;
   const avail = item.availability !== 'unavailable';
-  if(isMobile()) {
-    const card = document.createElement('div');
-    card.className='card'; card.dataset.id=item.id;
-    const ratingHtml = avg>0 ? `<div class="card-rating" style="font-size:0.7rem;"><i class="fa-solid fa-star" style="font-size:0.6rem;color:#f59e0b;"></i> ${avg.toFixed(1)}</div>` : '';
-    card.innerHTML=`
+  const card = document.createElement('div');
+  card.className = 'card'; card.dataset.id = item.id;
+
+  if (isMobile()) {
+    const ratingHtml = avg > 0 ? `<div class="card-rating" style="font-size:0.7rem;"><i class="fa-solid fa-star" style="font-size:0.6rem;color:#f59e0b;"></i> ${avg.toFixed(1)}</div>` : '';
+    card.innerHTML = `
       <div class="card-img">
-        ${item.verified?'<span class="card-badge verified">✓ Verified</span>':'<span class="card-badge">New</span>'}
-        <button class="card-like ${isLiked?'liked':''}" data-id="${item.id}" onclick="toggleLike(event,'${item.id}')"><i class="fa-${isLiked?'solid':'regular'} fa-heart"></i></button>
-        ${imgCount>1?`<div class="card-img-count"><i class="fa-solid fa-images" style="font-size:0.55rem;"></i> ${imgCount}</div>`:''}
-        <img src="${item.image}" alt="${item.title}" loading="lazy">
+        ${item.verified ? '<span class="card-badge verified">✓ Verified</span>' : '<span class="card-badge">New</span>'}
+        <button class="card-like ${isLiked ? 'liked' : ''}" data-id="${item.id}" onclick="toggleLike(event,'${item.id}')"><i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart"></i></button>
+        ${imgCount > 1 ? `<div class="card-img-count"><i class="fa-solid fa-images" style="font-size:0.55rem;"></i> ${imgCount}</div>` : ''}
+        <img src="${item.image}" alt="${item.title}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=400&q=60'">
       </div>
       <div class="card-body">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:4px;">
@@ -1101,43 +1111,40 @@ function renderCard(item) {
           ${ratingHtml}
         </div>
         <div class="card-location"><i class="fa-solid fa-location-dot"></i>${item.location||''}</div>
-        <div class="card-price"><strong>R${item.price?.toLocaleString()}</strong><small>/mo</small></div>
+        <div class="card-price"><strong>R${(item.price||0).toLocaleString()}</strong><small>/mo</small></div>
       </div>`;
-    card.addEventListener('click', e=>{ if(!e.target.closest('.card-like')) openListing(item.id); });
-    return card;
+    card.addEventListener('click', e => { if (!e.target.closest('.card-like')) openListing(item.id); });
   } else {
-    const card = document.createElement('div');
-    card.className='card'; card.dataset.id=item.id;
-    const ratingHtml = avg>0 ? `<div class="card-rating" style="font-size:0.78rem;">${genStars(avg)} <span>(${(item.reviews||[]).length})</span></div>` : '';
-    card.innerHTML=`
+    const ratingHtml = avg > 0 ? `<div class="card-rating">${genStars(avg)} <span>(${(item.reviews||[]).length})</span></div>` : '';
+    card.innerHTML = `
       <div class="card-img" style="cursor:pointer;">
-        ${item.verified?'<span class="card-badge verified">✓ Verified</span>':'<span class="card-badge">New</span>'}
-        <button class="card-like ${isLiked?'liked':''}" data-id="${item.id}" onclick="toggleLike(event,'${item.id}')"><i class="fa-${isLiked?'solid':'regular'} fa-heart"></i></button>
-        ${imgCount>1?`<div class="card-img-count"><i class="fa-solid fa-images" style="font-size:0.6rem;"></i> ${imgCount}</div>`:''}
+        ${item.verified ? '<span class="card-badge verified">✓ Verified</span>' : '<span class="card-badge">New</span>'}
+        <button class="card-like ${isLiked ? 'liked' : ''}" data-id="${item.id}" onclick="toggleLike(event,'${item.id}')"><i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart"></i></button>
+        ${imgCount > 1 ? `<div class="card-img-count"><i class="fa-solid fa-images" style="font-size:0.6rem;"></i> ${imgCount}</div>` : ''}
         <button class="share-btn" onclick="event.stopPropagation();currentId='${item.id}';currentLocation='${(item.location||'').replace(/'/g,"\\'")}';openShareModal();"><i class="fa-solid fa-share-nodes"></i></button>
-        <img src="${item.image}" alt="${item.title}" loading="lazy">
+        <img src="${item.image}" alt="${item.title}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=400&q=60'">
       </div>
       <div class="card-body">
-        <div class="card-price">R${item.price?.toLocaleString()}<small>/month</small></div>
+        <div class="card-price">R${(item.price||0).toLocaleString()}<small>/month</small></div>
         <div class="card-title">${item.title}</div>
         <div class="card-location"><i class="fa-solid fa-location-dot"></i>${item.location||''}</div>
         <div class="card-tags">${(item.amenities||[]).slice(0,3).map(a=>`<span class="card-tag">${a}</span>`).join('')}</div>
         <div class="card-footer">
           ${ratingHtml}
-          <div class="card-avail ${avail?'available':'unavailable'}">${avail?'Available':'Occupied'}</div>
+          <div class="card-avail ${avail ? 'available' : 'unavailable'}">${avail ? 'Available' : 'Occupied'}</div>
         </div>
       </div>`;
-    card.querySelector('.card-img').addEventListener('click', ()=>openListing(item.id));
-    card.querySelector('.card-body').addEventListener('click', ()=>openListing(item.id));
-    return card;
+    card.querySelector('.card-img').addEventListener('click', () => openListing(item.id));
+    card.querySelector('.card-body').addEventListener('click', () => openListing(item.id));
   }
+  return card;
 }
 
 function renderBatch(batch) {
   const grid = document.getElementById('grid');
-  batch.forEach((item,i) => {
+  batch.forEach((item, i) => {
     const card = renderCard(item);
-    card.style.animationDelay = (i*0.05)+'s';
+    card.style.animationDelay = (i * 0.05) + 's';
     grid.appendChild(card);
   });
 }
@@ -1145,12 +1152,12 @@ function renderBatch(batch) {
 window.renderListings = (data) => {
   filtered = data; displayed = [];
   const grid = document.getElementById('grid');
-  grid.innerHTML='';
-  document.getElementById('listingCount').textContent = `${data.length} place${data.length!==1?'s':''} found`;
-  document.getElementById('viewCountLabel').textContent = `${data.length} listing${data.length!==1?'s':''}`;
+  grid.innerHTML = '';
+  document.getElementById('listingCount').textContent = `${data.length} place${data.length !== 1 ? 's' : ''} found`;
+  document.getElementById('viewCountLabel').textContent = `${data.length} listing${data.length !== 1 ? 's' : ''}`;
   document.getElementById('sectionLbl').textContent = `${data.length} Amazing Places`;
-  if(!data.length) {
-    grid.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:4rem 2rem;">
+  if (!data.length) {
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:4rem 2rem;">
       <i class="fa-solid fa-house-crack" style="font-size:3rem;color:var(--border-2);margin-bottom:1rem;display:block;"></i>
       <div style="font-family:var(--font);font-size:1.1rem;font-weight:700;margin-bottom:8px;">No listings found</div>
       <p style="color:var(--text-3);margin-bottom:1.5rem;font-size:0.88rem;">Try adjusting your filters or search term.</p>
@@ -1158,39 +1165,39 @@ window.renderListings = (data) => {
     return;
   }
   loadMore();
-  if(currentView==='map') updateMap(data);
+  if (currentView === 'map') updateMap(data);
 };
 
 function loadMore() {
-  const s=displayed.length, e=Math.min(s+PAGE,filtered.length);
-  renderBatch(filtered.slice(s,e));
-  displayed=displayed.concat(filtered.slice(s,e));
+  const s = displayed.length, e = Math.min(s + PAGE, filtered.length);
+  renderBatch(filtered.slice(s, e));
+  displayed = displayed.concat(filtered.slice(s, e));
 }
 
 window.applyFilters = () => {
   const term = (document.getElementById('mobileSearch').value || document.getElementById('searchInput').value).toLowerCase().trim();
   const result = listings.filter(item => {
-    const ms = !term || (item.title||'').toLowerCase().includes(term) || (item.location||'').toLowerCase().includes(term);
-    const mt = currentFilter==='all' || item.type===currentFilter;
-    const mp = item.price>=minPrice && item.price<=maxPrice;
+    const ms = !term || (item.title||'').toLowerCase().includes(term) || (item.location||'').toLowerCase().includes(term) || (item.desc||'').toLowerCase().includes(term);
+    const mt = currentFilter === 'all' || item.type === currentFilter;
+    const mp = (item.price||0) >= minPrice && (item.price||0) <= maxPrice;
     return ms && mt && mp;
   });
   renderListings(result);
 };
 
 window.resetFilters = () => {
-  document.getElementById('searchInput').value='';
-  document.getElementById('mobileSearch').value='';
-  dMin.value=0; dMax.value=30000;
-  dTrack.style.left='0%'; dTrack.style.width='100%';
-  document.getElementById('dMinD').textContent='0';
-  document.getElementById('dMaxD').textContent='30,000';
-  minPrice=0; maxPrice=30000;
-  document.querySelectorAll('.chip').forEach(b=>b.classList.remove('active'));
-  document.querySelectorAll('[data-filter="all"]').forEach(b=>b.classList.add('active'));
-  currentFilter='all';
+  document.getElementById('searchInput').value = '';
+  document.getElementById('mobileSearch').value = '';
+  dMin.value = 0; dMax.value = 30000;
+  dTrack.style.left = '0%'; dTrack.style.width = '100%';
+  document.getElementById('dMinD').textContent = '0';
+  document.getElementById('dMaxD').textContent = '30,000';
+  minPrice = 0; maxPrice = 30000;
+  document.querySelectorAll('.chip').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('[data-filter="all"]').forEach(b => b.classList.add('active'));
+  currentFilter = 'all';
   renderListings(listings);
-  if(isMobile()) navigateTab(0);
+  if (isMobile()) navigateTab(0);
 };
 
 /* ─── LIKE ─── */
@@ -1198,476 +1205,573 @@ window.toggleLike = (e, id) => {
   e.stopPropagation();
   const btn = e.currentTarget;
   const wasLiked = liked.has(id);
-  if(wasLiked) { liked.delete(id); btn.classList.remove('liked'); btn.querySelector('i').className='fa-regular fa-heart'; showToast('Removed from saved','fa-solid fa-heart-crack'); }
-  else { liked.add(id); btn.classList.add('liked'); btn.querySelector('i').className='fa-solid fa-heart'; showToast('Saved to favourites','fa-solid fa-heart'); }
-  const user=auth.currentUser;
-  if(user) { const savedRef=ref(db,`users/${user.uid}/saved`); set(savedRef,Array.from(liked)); }
+  if (wasLiked) {
+    liked.delete(id);
+    btn.classList.remove('liked');
+    btn.querySelector('i').className = 'fa-regular fa-heart';
+    showToast('Removed from saved', 'fa-solid fa-heart-crack');
+  } else {
+    liked.add(id);
+    btn.classList.add('liked');
+    btn.querySelector('i').className = 'fa-solid fa-heart';
+    showToast('Saved to favourites', 'fa-solid fa-heart');
+  }
+  const user = auth.currentUser;
+  if (user) { set(ref(db, `users/${user.uid}/saved`), Array.from(liked)); }
 };
 
 /* ─── MAP VIEW ─── */
 window.setView = (v) => {
   currentView = v;
-  document.getElementById('gridToggle').classList.toggle('active', v==='grid');
-  document.getElementById('mapToggle').classList.toggle('active', v==='map');
-  document.getElementById('grid').style.display = v==='grid' ? '' : 'none';
-  document.getElementById('mapView').style.display = v==='map' ? 'block' : 'none';
-  if(v==='map') { initLeaflet(); updateMap(filtered); }
+  document.getElementById('gridToggle').classList.toggle('active', v === 'grid');
+  document.getElementById('mapToggle').classList.toggle('active', v === 'map');
+  document.getElementById('grid').style.display = v === 'grid' ? '' : 'none';
+  document.getElementById('mapView').style.display = v === 'map' ? 'block' : 'none';
+  if (v === 'map') { initLeaflet(); updateMap(filtered); }
 };
 
 function initLeaflet() {
-  if(leafletMap) return;
+  if (leafletMap) return;
   leafletMap = L.map('leafletMap').setView([-26.2041, 28.0473], 10);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution:'© OpenStreetMap contributors', maxZoom:19
+    attribution: '© OpenStreetMap contributors', maxZoom: 19
   }).addTo(leafletMap);
 }
 
 function updateMap(data) {
-  if(!leafletMap) return;
-  markers.forEach(m=>m.remove()); markers=[];
+  if (!leafletMap) return;
+  markers.forEach(m => m.remove()); markers = [];
   const bounds = [];
   data.forEach(item => {
-    // Use rough geocoding from location name (SA cities)
-    const coords = getApproxCoords(item.location||'');
-    const offset = [(Math.random()-0.5)*0.04,(Math.random()-0.5)*0.04];
-    const lat=coords[0]+offset[0], lng=coords[1]+offset[1];
-    bounds.push([lat,lng]);
-    const popupHTML=`
+    const coords = getApproxCoords(item.location || '');
+    const offset = [(Math.random()-0.5)*0.04, (Math.random()-0.5)*0.04];
+    const lat = coords[0]+offset[0], lng = coords[1]+offset[1];
+    bounds.push([lat, lng]);
+    const popupHTML = `
       <div class="map-popup">
-        <img src="${item.image}" alt="${item.title}" class="map-popup-img">
-        <div class="map-popup-price">R${item.price?.toLocaleString()}<small>/mo</small></div>
+        <img src="${item.image}" alt="${item.title}" class="map-popup-img" onerror="this.style.display='none'">
+        <div class="map-popup-price">R${(item.price||0).toLocaleString()}<small>/mo</small></div>
         <div class="map-popup-title">${item.title}</div>
-        <div style="font-size:0.72rem;color:#666;">${item.location}</div>
+        <div style="font-size:0.72rem;color:#666;">${item.location||''}</div>
         <button class="map-popup-btn" onclick="openListing('${item.id}')">View Property</button>
       </div>`;
     const icon = L.divIcon({
-      html:`<div style="background:${item.verified?'var(--green)':'#111'};color:#fff;padding:5px 10px;border-radius:20px;font-family:Sora,sans-serif;font-size:0.75rem;font-weight:700;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,0.2);">R${item.price?.toLocaleString()}</div>`,
-      className:'',iconAnchor:[30,20]
+      html: `<div style="background:${item.verified ? 'var(--green)' : '#111'};color:#fff;padding:5px 10px;border-radius:20px;font-family:Sora,sans-serif;font-size:0.75rem;font-weight:700;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,0.2);">R${(item.price||0).toLocaleString()}</div>`,
+      className: '', iconAnchor: [30, 20]
     });
-    const marker = L.marker([lat,lng],{icon}).addTo(leafletMap);
-    marker.bindPopup(popupHTML,{maxWidth:220,className:'ks-popup'});
+    const marker = L.marker([lat, lng], { icon }).addTo(leafletMap);
+    marker.bindPopup(popupHTML, { maxWidth: 220 });
     markers.push(marker);
   });
-  if(bounds.length>1) leafletMap.fitBounds(bounds,{padding:[40,40]});
+  if (bounds.length > 1) leafletMap.fitBounds(bounds, { padding: [40, 40] });
 }
 
-function getApproxCoords(location='') {
-  const l=location.toLowerCase();
-  if(l.includes('johannesburg')||l.includes('joburg')||l.includes('braam')||l.includes('jozi')) return [-26.2041,28.0473];
-  if(l.includes('soweto')) return [-26.2675,27.8589];
-  if(l.includes('pretoria')||l.includes('tshwane')) return [-25.7479,28.2293];
-  if(l.includes('cape town')||l.includes('capetown')) return [-33.9249,18.4241];
-  if(l.includes('durban')||l.includes('ethekwini')) return [-29.8587,31.0218];
-  if(l.includes('polokwane')||l.includes('pietersburg')) return [-23.8962,29.4486];
-  if(l.includes('nelspruit')||l.includes('mbombela')) return [-25.4753,30.9694];
-  if(l.includes('bloemfontein')) return [-29.0852,26.1596];
-  if(l.includes('east london')) return [-32.9832,27.8661];
-  if(l.includes('port elizabeth')||l.includes('gqeberha')) return [-33.9608,25.6022];
-  if(l.includes('mafikeng')||l.includes('mahikeng')) return [-25.8553,25.6427];
-  if(l.includes('kimberley')) return [-28.7323,24.7621];
-  if(l.includes('rustenburg')) return [-25.6719,27.2423];
-  if(l.includes('sandton')) return [-26.1068,28.0562];
-  if(l.includes('midrand')) return [-25.9972,28.1280];
-  if(l.includes('soweto')) return [-26.2675,27.8589];
-  if(l.includes('alexandra')||l.includes('alex')) return [-26.1000,28.0906];
-  return [-26.2041+Math.random()*0.5-0.25, 28.0473+Math.random()*0.5-0.25];
+function getApproxCoords(location = '') {
+  const l = location.toLowerCase();
+  if (l.includes('johannesburg')||l.includes('joburg')||l.includes('braam')||l.includes('jozi')) return [-26.2041,28.0473];
+  if (l.includes('soweto')) return [-26.2675,27.8589];
+  if (l.includes('sandton')) return [-26.1068,28.0562];
+  if (l.includes('midrand')) return [-25.9972,28.1280];
+  if (l.includes('doornfontein')) return [-26.2010,28.0520];
+  if (l.includes('pretoria')||l.includes('tshwane')) return [-25.7479,28.2293];
+  if (l.includes('cape town')||l.includes('capetown')) return [-33.9249,18.4241];
+  if (l.includes('durban')||l.includes('ethekwini')) return [-29.8587,31.0218];
+  if (l.includes('polokwane')||l.includes('pietersburg')) return [-23.8962,29.4486];
+  if (l.includes('nelspruit')||l.includes('mbombela')) return [-25.4753,30.9694];
+  if (l.includes('bloemfontein')) return [-29.0852,26.1596];
+  if (l.includes('east london')) return [-32.9832,27.8661];
+  if (l.includes('port elizabeth')||l.includes('gqeberha')) return [-33.9608,25.6022];
+  if (l.includes('rustenburg')) return [-25.6719,27.2423];
+  return [-26.2041+(Math.random()*0.5-0.25), 28.0473+(Math.random()*0.5-0.25)];
 }
 
 /* ─── OPEN LISTING ─── */
 window.openListing = (id) => {
-  const item = listings.find(x=>x.id===id);
-  if(!item) return;
+  const item = listings.find(x => x.id === id);
+  if (!item) return;
   currentId = id;
   currentLocation = item.location || '';
-  if(isMobile()) openMobileSheet(item);
+  if (isMobile()) openMobileSheet(item);
   else openDesktopDetail(item);
 };
 
 /* ─── DESKTOP DETAIL ─── */
 function openDesktopDetail(item) {
-  detailImgs = [item.image,...(item.additionalImages||[])].filter(Boolean);
+  detailImgs = [item.image, ...(item.additionalImages||[])].filter(Boolean);
   detailImgIdx = 0;
   renderDetailGallery();
-  document.getElementById('detailTitle').textContent = item.title||'';
-  document.getElementById('detailPrice').innerHTML = `R${item.price?.toLocaleString()}<small>/month</small>`;
-  document.getElementById('detailLocTxt').textContent = item.location||'';
-  document.getElementById('detailType').textContent = item.type||'';
+  document.getElementById('detailTitle').textContent = item.title || '';
+  document.getElementById('detailPrice').innerHTML = `R${(item.price||0).toLocaleString()}<small>/month</small>`;
+  document.getElementById('detailLocTxt').textContent = item.location || '';
+  document.getElementById('detailType').textContent = item.type || '';
   const avail = item.availability !== 'unavailable';
-  document.getElementById('detailAvailBadge').innerHTML = `<i class="fa-solid fa-circle" style="font-size:0.5rem;color:${avail?'var(--green)':'#ef4444'};"></i> ${avail?'Available Now':'Currently Occupied'}`;
-  document.getElementById('detailDesc').textContent = item.desc||'No description provided.';
-  document.getElementById('detailTags').innerHTML = (item.amenities||[]).map(a=>`<span class="detail-tag">${a}</span>`).join('');
+  document.getElementById('detailAvailBadge').innerHTML = `<i class="fa-solid fa-circle" style="font-size:0.5rem;color:${avail ? 'var(--green)' : '#ef4444'};"></i> ${avail ? 'Available Now' : 'Currently Occupied'}`;
+  document.getElementById('detailDesc').textContent = item.desc || 'No description provided.';
+  document.getElementById('detailTags').innerHTML = (item.amenities||[]).map(a => `<span class="detail-tag">${a}</span>`).join('');
   document.getElementById('detailCal').innerHTML = buildCalendar(avail);
-  document.getElementById('detailWA').href = `https://wa.me/27123456789?text=Hi, I'm interested in: ${encodeURIComponent(item.title)}`;
-  document.getElementById('detailCall').href = `tel:+27123456789`;
-  const reviews = item.reviews||[], avg = calcAvg(reviews);
-  document.getElementById('detailRatingAvg').innerHTML = avg>0 ? `<span style="display:flex;gap:3px;">${genStars(avg)}</span> ${avg} (${reviews.length})` : '(No reviews yet)';
+  const phone = item.phone || '27123456789';
+  const cleanPhone = phone.replace(/[^0-9]/g,'');
+  document.getElementById('detailWA').href = `https://wa.me/${cleanPhone}?text=${encodeURIComponent('Hi, I\'m interested in your listing: ' + item.title)}`;
+  document.getElementById('detailCall').href = `tel:+${cleanPhone}`;
+  const reviews = item.reviews || [], avg = calcAvg(reviews);
+  document.getElementById('detailRatingAvg').innerHTML = avg > 0 ? `<span style="display:flex;gap:3px;">${genStars(avg)}</span> ${avg} (${reviews.length})` : '(No reviews yet)';
   document.getElementById('detailReviewList').innerHTML = reviews.length
-    ? reviews.map(r=>`<div class="review-item"><div class="review-top"><span class="review-user">${r.reviewerName||'Anonymous'}</span><span class="review-date">${new Date(r.timestamp).toLocaleDateString('en-ZA')}</span></div><div class="review-stars">${genStars(r.rating)}</div><p class="review-text">${r.comment}</p></div>`).join('')
+    ? reviews.map(r => `<div class="review-item"><div class="review-top"><span class="review-user">${r.reviewerName||'Anonymous'}</span><span class="review-date">${new Date(r.timestamp).toLocaleDateString('en-ZA')}</span></div><div class="review-stars">${genStars(r.rating)}</div><p class="review-text">${r.comment}</p></div>`).join('')
     : '<p style="font-size:0.82rem;color:var(--text-3);">No reviews yet. Be the first!</p>';
   document.getElementById('detailSimilar').innerHTML = buildSimilarHTML(item);
   document.getElementById('detailOverlay').classList.add('active');
-  document.body.style.overflow='hidden';
+  document.body.style.overflow = 'hidden';
 }
+
 function renderDetailGallery() {
-  const img=document.getElementById('detailMainImg'), dots=document.getElementById('detailDots'), thumbs=document.getElementById('detailThumbs');
+  const img = document.getElementById('detailMainImg');
+  const dots = document.getElementById('detailDots');
+  const thumbs = document.getElementById('detailThumbs');
   img.classList.add('fade');
-  setTimeout(()=>{ img.src=detailImgs[detailImgIdx]; img.onload=()=>img.classList.remove('fade'); },150);
-  dots.innerHTML = detailImgs.map((_,i)=>`<div class="g-dot ${i===detailImgIdx?'active':''}"></div>`).join('');
-  thumbs.innerHTML = detailImgs.map((src,i)=>`<img src="${src}" class="g-thumb ${i===detailImgIdx?'active':''}" onclick="detailSelectImg(${i})">`).join('');
+  setTimeout(() => { img.src = detailImgs[detailImgIdx]; img.onload = () => img.classList.remove('fade'); }, 150);
+  dots.innerHTML = detailImgs.map((_, i) => `<div class="g-dot ${i === detailImgIdx ? 'active' : ''}"></div>`).join('');
+  thumbs.innerHTML = detailImgs.map((src, i) => `<img src="${src}" class="g-thumb ${i === detailImgIdx ? 'active' : ''}" onclick="detailSelectImg(${i})" onerror="this.style.display='none'">`).join('');
 }
-window.detailChangeImg = (dir) => { detailImgIdx=(detailImgIdx+dir+detailImgs.length)%detailImgs.length; renderDetailGallery(); };
-window.detailSelectImg = (idx) => { detailImgIdx=idx; renderDetailGallery(); };
-window.closeDetail = () => { document.getElementById('detailOverlay').classList.remove('active'); document.body.style.overflow='auto'; };
+window.detailChangeImg = (dir) => { detailImgIdx = (detailImgIdx + dir + detailImgs.length) % detailImgs.length; renderDetailGallery(); };
+window.detailSelectImg = (idx) => { detailImgIdx = idx; renderDetailGallery(); };
+window.closeDetail = () => { document.getElementById('detailOverlay').classList.remove('active'); document.body.style.overflow = 'auto'; };
 
 /* ─── MOBILE SHEET ─── */
 function openMobileSheet(item) {
-  sheetImgs = [item.image,...(item.additionalImages||[])].filter(Boolean);
+  sheetImgs = [item.image, ...(item.additionalImages||[])].filter(Boolean);
   sheetImgIdx = 0;
   renderSheetGallery();
-  document.getElementById('sheetTitle').textContent = item.title||'';
-  document.getElementById('sheetPrice').innerHTML = `R${item.price?.toLocaleString()}<small>/mo</small>`;
-  document.getElementById('sheetLocTxt').textContent = item.location||'';
-  document.getElementById('sheetType').textContent = item.type||'';
+  document.getElementById('sheetTitle').textContent = item.title || '';
+  document.getElementById('sheetPrice').innerHTML = `R${(item.price||0).toLocaleString()}<small>/mo</small>`;
+  document.getElementById('sheetLocTxt').textContent = item.location || '';
+  document.getElementById('sheetType').textContent = item.type || '';
   const avail = item.availability !== 'unavailable';
-  document.getElementById('sheetAvailBadge').innerHTML = `<i class="fa-solid fa-circle" style="font-size:0.5rem;color:${avail?'var(--green)':'#ef4444'};"></i> ${avail?'Available Now':'Currently Occupied'}`;
-  document.getElementById('sheetDesc').textContent = item.desc||'No description provided.';
-  document.getElementById('sheetTags').innerHTML = (item.amenities||[]).map(a=>`<span class="detail-tag">${a}</span>`).join('');
+  document.getElementById('sheetAvailBadge').innerHTML = `<i class="fa-solid fa-circle" style="font-size:0.5rem;color:${avail ? 'var(--green)' : '#ef4444'};"></i> ${avail ? 'Available Now' : 'Currently Occupied'}`;
+  document.getElementById('sheetDesc').textContent = item.desc || 'No description provided.';
+  document.getElementById('sheetTags').innerHTML = (item.amenities||[]).map(a => `<span class="detail-tag">${a}</span>`).join('');
   document.getElementById('sheetCal').innerHTML = buildCalendar(avail);
-  document.getElementById('sheetWA').href = `https://wa.me/27123456789?text=Hi, I'm interested in: ${encodeURIComponent(item.title)}`;
-  document.getElementById('sheetCall').href = `tel:+27123456789`;
-  const reviews = item.reviews||[], avg = calcAvg(reviews);
-  document.getElementById('sheetRatingAvg').innerHTML = avg>0 ? `<span style="display:flex;gap:2px;">${genStars(avg)}</span> ${avg} (${reviews.length})` : '(No reviews yet)';
+  const phone = item.phone || '27123456789';
+  const cleanPhone = phone.replace(/[^0-9]/g,'');
+  document.getElementById('sheetWA').href = `https://wa.me/${cleanPhone}?text=${encodeURIComponent('Hi, I\'m interested in your listing: ' + item.title)}`;
+  document.getElementById('sheetCall').href = `tel:+${cleanPhone}`;
+  const reviews = item.reviews || [], avg = calcAvg(reviews);
+  document.getElementById('sheetRatingAvg').innerHTML = avg > 0 ? `<span style="display:flex;gap:2px;">${genStars(avg)}</span> ${avg} (${reviews.length})` : '(No reviews yet)';
   document.getElementById('sheetReviewList').innerHTML = reviews.length
-    ? reviews.map(r=>`<div class="review-item"><div class="review-top"><span class="review-user">${r.reviewerName||'Anonymous'}</span><span class="review-date">${new Date(r.timestamp).toLocaleDateString('en-ZA')}</span></div><div class="review-stars">${genStars(r.rating)}</div><p class="review-text">${r.comment}</p></div>`).join('')
+    ? reviews.map(r => `<div class="review-item"><div class="review-top"><span class="review-user">${r.reviewerName||'Anonymous'}</span><span class="review-date">${new Date(r.timestamp).toLocaleDateString('en-ZA')}</span></div><div class="review-stars">${genStars(r.rating)}</div><p class="review-text">${r.comment}</p></div>`).join('')
     : '<p style="font-size:0.78rem;color:var(--text-3);">No reviews yet. Be the first!</p>';
   document.getElementById('sheetSimilar').innerHTML = buildSimilarHTML(item);
-  document.getElementById('sheetBody').scrollTop=0;
+  document.getElementById('sheetBody').scrollTop = 0;
   document.getElementById('sheetBackdrop').classList.add('open');
   document.getElementById('mobileSheet').classList.add('open');
-  document.body.style.overflow='hidden';
-  initDrag('sheetPanel','sheetHandle','sheetBackdrop',closeSheet);
+  document.body.style.overflow = 'hidden';
+  initDrag('sheetPanel', 'sheetHandle', 'sheetBackdrop', closeSheet);
 }
-function renderSheetGallery() {
-  const img=document.getElementById('sheetMainImg'), dots=document.getElementById('sheetDots');
-  img.classList.add('fade');
-  setTimeout(()=>{ img.src=sheetImgs[sheetImgIdx]; img.onload=()=>img.classList.remove('fade'); },150);
-  dots.innerHTML = sheetImgs.map((_,i)=>`<div class="g-dot ${i===sheetImgIdx?'active':''}"></div>`).join('');
-}
-window.sheetChangeImg = (dir) => { sheetImgIdx=(sheetImgIdx+dir+sheetImgs.length)%sheetImgs.length; renderSheetGallery(); };
-window.closeSheet = () => { closeSheetPanel('sheetPanel','sheetBackdrop','mobileSheet', ()=>{ if(isMobile())navigateTab(0); }); };
 
-/* ─── PINCH TO ZOOM (touch) ─── */
+function renderSheetGallery() {
+  const img = document.getElementById('sheetMainImg'), dots = document.getElementById('sheetDots');
+  img.classList.add('fade');
+  setTimeout(() => { img.src = sheetImgs[sheetImgIdx]; img.onload = () => img.classList.remove('fade'); }, 150);
+  dots.innerHTML = sheetImgs.map((_, i) => `<div class="g-dot ${i === sheetImgIdx ? 'active' : ''}"></div>`).join('');
+}
+window.sheetChangeImg = (dir) => { sheetImgIdx = (sheetImgIdx + dir + sheetImgs.length) % sheetImgs.length; renderSheetGallery(); };
+window.closeSheet = () => { closeSheetPanel('sheetPanel', 'sheetBackdrop', 'mobileSheet', () => { if (isMobile()) navigateTab(0); }); };
+
+/* ─── PINCH / SWIPE ─── */
 function initPinchZoom(imgEl) {
-  let startDist=0, scale=1;
-  imgEl.addEventListener('touchstart', e=>{if(e.touches.length===2){startDist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);}},{passive:true});
-  imgEl.addEventListener('touchmove', e=>{
-    if(e.touches.length===2){
+  let startDist = 0;
+  imgEl.addEventListener('touchstart', e => { if (e.touches.length === 2) startDist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY); }, { passive:true });
+  imgEl.addEventListener('touchmove', e => {
+    if (e.touches.length === 2) {
       e.preventDefault();
-      const dist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);
-      scale=Math.min(Math.max(dist/startDist,1),3);
-      imgEl.style.transform=`scale(${scale})`;
+      const dist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+      const scale = Math.min(Math.max(dist/startDist, 1), 3);
+      imgEl.style.transform = `scale(${scale})`;
     }
-  },{passive:false});
-  imgEl.addEventListener('touchend', e=>{if(e.touches.length<2){imgEl.style.transition='transform 0.3s ease';imgEl.style.transform='scale(1)';setTimeout(()=>imgEl.style.transition='',300);}},{passive:true});
+  }, { passive:false });
+  imgEl.addEventListener('touchend', e => { if (e.touches.length < 2) { imgEl.style.transition = 'transform 0.3s ease'; imgEl.style.transform = 'scale(1)'; setTimeout(() => imgEl.style.transition = '', 300); } }, { passive:true });
 }
 initPinchZoom(document.getElementById('sheetMainImg'));
 initPinchZoom(document.getElementById('detailMainImg'));
 
-/* ─── SWIPE ON GALLERY (mobile) ─── */
 function initSwipe(el, onLeft, onRight) {
-  let sx=0,sy=0;
-  el.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;sy=e.touches[0].clientY;},{passive:true});
-  el.addEventListener('touchend',e=>{
-    const dx=e.changedTouches[0].clientX-sx, dy=e.changedTouches[0].clientY-sy;
-    if(Math.abs(dx)>Math.abs(dy)*1.5&&Math.abs(dx)>40){dx<0?onLeft():onRight();}
-  },{passive:true});
+  let sx = 0, sy = 0;
+  el.addEventListener('touchstart', e => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive:true });
+  el.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
+    if (Math.abs(dx) > Math.abs(dy)*1.5 && Math.abs(dx) > 40) { dx < 0 ? onLeft() : onRight(); }
+  }, { passive:true });
 }
-initSwipe(document.getElementById('sheetMainImg'),()=>sheetChangeImg(1),()=>sheetChangeImg(-1));
+initSwipe(document.getElementById('sheetMainImg'), () => sheetChangeImg(1), () => sheetChangeImg(-1));
 
-/* ─── GENERIC SHEET CLOSE ─── */
+/* ─── SHEET CLOSE ─── */
 function closeSheetPanel(panelId, backdropId, sheetId, after) {
-  const panel=document.getElementById(panelId), backdrop=document.getElementById(backdropId), sheet=document.getElementById(sheetId);
-  panel.style.transition='transform 0.35s cubic-bezier(0.4,0,1,1)';
-  panel.style.transform='translateY(calc(100% + 20px))';
-  backdrop.style.background='rgba(0,0,0,0)';
-  backdrop.style.backdropFilter='blur(0px)';
-  setTimeout(()=>{
+  const panel = document.getElementById(panelId), backdrop = document.getElementById(backdropId), sheet = document.getElementById(sheetId);
+  panel.style.transition = 'transform 0.35s cubic-bezier(0.4,0,1,1)';
+  panel.style.transform = 'translateY(calc(100% + 20px))';
+  backdrop.style.background = 'rgba(0,0,0,0)';
+  backdrop.style.backdropFilter = 'blur(0px)';
+  setTimeout(() => {
     sheet.classList.remove('open'); backdrop.classList.remove('open');
-    panel.style.transform=''; panel.style.transition='';
-    backdrop.style.background=''; backdrop.style.backdropFilter='';
-    document.body.style.overflow='auto';
-    if(after) after();
-  },350);
+    panel.style.transform = ''; panel.style.transition = '';
+    backdrop.style.background = ''; backdrop.style.backdropFilter = '';
+    document.body.style.overflow = 'auto';
+    if (after) after();
+  }, 350);
 }
 
 /* ─── DRAG TO DISMISS ─── */
 function initDrag(panelId, handleId, backdropId, onDismiss) {
-  const panel=document.getElementById(panelId), handle=document.getElementById(handleId), backdrop=document.getElementById(backdropId);
-  let startY=0,curY=0,dragging=false;
-  const getY=e=>e.touches?e.touches[0].clientY:e.clientY;
-  const onStart=e=>{dragging=true;startY=getY(e);curY=0;panel.style.transition='none';};
-  const onMove=e=>{
-    if(!dragging)return;
-    const y=getY(e)-startY;
-    if(y<0){panel.style.transform=`translateY(${y*0.1}px)`;return;}
-    curY=y; panel.style.transform=`translateY(${y}px)`;
-    const pct=Math.min(y/260,1), alpha=0.52*(1-pct*0.95);
-    backdrop.style.background=`rgba(0,0,0,${alpha.toFixed(3)})`;
-    backdrop.style.backdropFilter=`blur(${(4*(1-pct)).toFixed(1)}px)`;
+  const panel = document.getElementById(panelId), handle = document.getElementById(handleId), backdrop = document.getElementById(backdropId);
+  let startY = 0, curY = 0, dragging = false;
+  const getY = e => e.touches ? e.touches[0].clientY : e.clientY;
+  const onStart = e => { dragging = true; startY = getY(e); curY = 0; panel.style.transition = 'none'; };
+  const onMove = e => {
+    if (!dragging) return;
+    const y = getY(e) - startY;
+    if (y < 0) { panel.style.transform = `translateY(${y*0.1}px)`; return; }
+    curY = y; panel.style.transform = `translateY(${y}px)`;
+    const pct = Math.min(y/260, 1);
+    backdrop.style.background = `rgba(0,0,0,${(0.52*(1-pct*0.95)).toFixed(3)})`;
   };
-  const onEnd=()=>{
-    if(!dragging)return; dragging=false;
-    panel.style.transition='transform 0.42s cubic-bezier(0.34,1.56,0.64,1)';
-    if(curY>100){onDismiss();}
-    else{panel.style.transform='translateY(0)';backdrop.style.background='rgba(0,0,0,0.52)';backdrop.style.backdropFilter='blur(4px)';}
+  const onEnd = () => {
+    if (!dragging) return; dragging = false;
+    panel.style.transition = 'transform 0.42s cubic-bezier(0.34,1.56,0.64,1)';
+    if (curY > 100) { onDismiss(); }
+    else { panel.style.transform = 'translateY(0)'; backdrop.style.background = 'rgba(0,0,0,0.52)'; }
   };
-  handle.addEventListener('touchstart',onStart,{passive:true});
-  handle.addEventListener('touchmove',onMove,{passive:true});
-  handle.addEventListener('touchend',onEnd);
-  handle.addEventListener('mousedown',onStart);
-  window.addEventListener('mousemove',onMove);
-  window.addEventListener('mouseup',onEnd);
+  handle.addEventListener('touchstart', onStart, { passive:true });
+  handle.addEventListener('touchmove', onMove, { passive:true });
+  handle.addEventListener('touchend', onEnd);
+  handle.addEventListener('mousedown', onStart);
+  window.addEventListener('mousemove', onMove);
+  window.addEventListener('mouseup', onEnd);
 }
 
-/* ─── MAP ─── */
+/* ─── MAP MODAL ─── */
 window.openMapForCurrent = () => {
-  if(!currentLocation) return;
-  const url = `https://www.google.com/maps?q=${encodeURIComponent(currentLocation+', South Africa')}&output=embed`;
-  if(isMobile()) {
-    document.getElementById('mapFrame').src=url;
+  if (!currentLocation) return;
+  const url = `https://www.google.com/maps?q=${encodeURIComponent(currentLocation + ', South Africa')}&output=embed`;
+  if (isMobile()) {
+    document.getElementById('mapFrame').src = url;
     document.getElementById('mapBackdrop').classList.add('open');
     document.getElementById('mapSheet').classList.add('open');
-    document.body.style.overflow='hidden';
-    initDrag('mapPanel','mapHandle','mapBackdrop',closeMapSheet);
+    document.body.style.overflow = 'hidden';
+    initDrag('mapPanel', 'mapHandle', 'mapBackdrop', closeMapSheet);
   } else {
-    document.getElementById('mapTitle').textContent=currentLocation;
-    document.getElementById('mapDesktopFrame').src=url;
+    document.getElementById('mapTitle').textContent = currentLocation;
+    document.getElementById('mapDesktopFrame').src = url;
     document.getElementById('mapOverlay').classList.add('active');
-    document.body.style.overflow='hidden';
+    document.body.style.overflow = 'hidden';
   }
 };
-window.closeMapSheet = () => { closeSheetPanel('mapPanel','mapBackdrop','mapSheet'); };
-window.closeMapOverlay = () => { document.getElementById('mapOverlay').classList.remove('active'); document.getElementById('mapDesktopFrame').src=''; document.body.style.overflow='auto'; };
+window.closeMapSheet = () => { closeSheetPanel('mapPanel', 'mapBackdrop', 'mapSheet'); };
+window.closeMapOverlay = () => { document.getElementById('mapOverlay').classList.remove('active'); document.getElementById('mapDesktopFrame').src = ''; document.body.style.overflow = 'auto'; };
 
 /* ─── REVIEWS ─── */
 window.openReviewModal = () => {
-  if(!auth.currentUser) { showToast('Please sign in to review','fa-solid fa-lock'); openSignInModal(); return; }
-  selectedRating=0;
-  if(isMobile()) {
-    document.getElementById('mobileReviewText').value='';
-    document.querySelectorAll('#mobileStars i').forEach(s=>s.classList.remove('lit'));
-    document.querySelectorAll('#mobileStars i').forEach(s=>{ s.onclick=()=>{ selectedRating=parseInt(s.dataset.r); document.querySelectorAll('#mobileStars i').forEach(st=>st.classList.toggle('lit',parseInt(st.dataset.r)<=selectedRating)); }; });
+  if (!auth.currentUser) { showToast('Please sign in to review', 'fa-solid fa-lock'); openSignInModal(); return; }
+  selectedRating = 0;
+  if (isMobile()) {
+    document.getElementById('mobileReviewText').value = '';
+    document.querySelectorAll('#mobileStars i').forEach(s => { s.classList.remove('lit'); s.onclick = () => { selectedRating = parseInt(s.dataset.r); document.querySelectorAll('#mobileStars i').forEach(st => st.classList.toggle('lit', parseInt(st.dataset.r) <= selectedRating)); }; });
     document.getElementById('reviewBackdrop').classList.add('open');
     document.getElementById('reviewSheet').classList.add('open');
-    document.body.style.overflow='hidden';
+    document.body.style.overflow = 'hidden';
   } else {
-    document.getElementById('desktopReviewText').value='';
-    document.querySelectorAll('#desktopStars i').forEach(s=>{ s.classList.remove('lit'); s.onclick=()=>{ selectedRating=parseInt(s.dataset.r); document.querySelectorAll('#desktopStars i').forEach(st=>st.classList.toggle('lit',parseInt(st.dataset.r)<=selectedRating)); }; });
+    document.getElementById('desktopReviewText').value = '';
+    document.querySelectorAll('#desktopStars i').forEach(s => { s.classList.remove('lit'); s.onclick = () => { selectedRating = parseInt(s.dataset.r); document.querySelectorAll('#desktopStars i').forEach(st => st.classList.toggle('lit', parseInt(st.dataset.r) <= selectedRating)); }; });
     document.getElementById('reviewOverlay').classList.add('active');
-    document.body.style.overflow='hidden';
+    document.body.style.overflow = 'hidden';
   }
 };
-window.closeReviewSheet = () => { closeSheetPanel('reviewPanel','reviewBackdrop','reviewSheet'); };
-window.closeReviewOverlay = () => { document.getElementById('reviewOverlay').classList.remove('active'); document.body.style.overflow='auto'; };
+window.closeReviewSheet = () => { closeSheetPanel('reviewPanel', 'reviewBackdrop', 'reviewSheet'); };
+window.closeReviewOverlay = () => { document.getElementById('reviewOverlay').classList.remove('active'); document.body.style.overflow = 'auto'; };
 
 window.submitReview = async () => {
   const textEl = isMobile() ? document.getElementById('mobileReviewText') : document.getElementById('desktopReviewText');
-  const comment=textEl.value.trim();
-  if(!selectedRating||!comment) { showToast('Add a rating and comment','fa-solid fa-triangle-exclamation'); return; }
-  const newR = { rating:selectedRating, comment, timestamp:Date.now(), reviewerName:auth.currentUser.displayName||auth.currentUser.email.split('@')[0]||'Anonymous' };
-  const lRef=ref(db,`listings/${currentId}`);
-  const snap=await get(lRef);
-  const data=snap.val();
-  const reviews=[...(data.reviews||[]),newR];
-  await update(lRef,{reviews});
-  if(isMobile()) closeReviewSheet(); else closeReviewOverlay();
-  showToast('Review submitted!','fa-solid fa-check-circle');
-  // Update local listing
-  const idx=listings.findIndex(l=>l.id===currentId);
-  if(idx>-1) { listings[idx].reviews=reviews; if(isMobile()){ openMobileSheet(listings[idx]); } else { openDesktopDetail(listings[idx]); } }
+  const comment = textEl.value.trim();
+  if (!selectedRating || !comment) { showToast('Add a rating and comment', 'fa-solid fa-triangle-exclamation'); return; }
+  const newR = { rating: selectedRating, comment, timestamp: Date.now(), reviewerName: auth.currentUser.displayName || auth.currentUser.email.split('@')[0] || 'Anonymous' };
+
+  // For demo listings, update locally only
+  const idx = listings.findIndex(l => l.id === currentId);
+  if (idx > -1) {
+    if (!listings[idx].reviews) listings[idx].reviews = [];
+    listings[idx].reviews.push(newR);
+  }
+
+  // For Firebase listings, also persist
+  if (currentId && !currentId.startsWith('demo')) {
+    try {
+      const lRef = ref(db, `listings/${currentId}`);
+      const snap = await get(lRef);
+      if (snap.exists()) {
+        const data = snap.val();
+        const reviews = [...(data.reviews||[]), newR];
+        await update(lRef, { reviews });
+      }
+    } catch(e) { console.warn('Could not save review to Firebase:', e); }
+  }
+
+  if (isMobile()) closeReviewSheet(); else closeReviewOverlay();
+  showToast('Review submitted!', 'fa-solid fa-check-circle');
+  if (idx > -1) {
+    if (isMobile()) openMobileSheet(listings[idx]);
+    else openDesktopDetail(listings[idx]);
+  }
 };
 
 /* ─── ADD LISTING ─── */
 window.previewImages = (e) => {
-  const grid=document.getElementById('previewGrid'); grid.innerHTML='';
-  Array.from(e.target.files).forEach(file=>{
-    const reader=new FileReader(); reader.onload=()=>{ const img=document.createElement('img'); img.src=reader.result; Object.assign(img.style,{width:'80px',height:'64px',objectFit:'cover',borderRadius:'8px',border:'1.5px solid var(--border)'}); grid.appendChild(img); }; reader.readAsDataURL(file);
+  const grid = document.getElementById('previewGrid'); grid.innerHTML = '';
+  Array.from(e.target.files).forEach(file => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const img = document.createElement('img'); img.src = reader.result;
+      Object.assign(img.style, { width:'80px', height:'64px', objectFit:'cover', borderRadius:'8px', border:'1.5px solid var(--border)' });
+      grid.appendChild(img);
+    };
+    reader.readAsDataURL(file);
   });
 };
-window.openAddModal = () => { document.getElementById('addOverlay').classList.add('active'); document.body.style.overflow='hidden'; };
-window.closeAddModal = () => { document.getElementById('addOverlay').classList.remove('active'); document.body.style.overflow='auto'; if(isMobile())navigateTab(0); };
+window.openAddModal = () => { document.getElementById('addOverlay').classList.add('active'); document.body.style.overflow = 'hidden'; };
+window.closeAddModal = () => { document.getElementById('addOverlay').classList.remove('active'); document.body.style.overflow = 'auto'; if (isMobile()) navigateTab(0); };
 
 window.submitListing = async () => {
-  const title=document.getElementById('addTitle').value.trim();
-  const price=Number(document.getElementById('addPrice').value);
-  const type=document.getElementById('addType').value;
-  const location=document.getElementById('addLocation').value.trim();
-  const desc=document.getElementById('addDesc').value.trim();
-  const availability=document.getElementById('addAvail').value;
-  const amenitiesRaw=document.getElementById('addAmenities').value;
-  const amenities=amenitiesRaw?amenitiesRaw.split(',').map(a=>a.trim()).filter(a=>a):[];
-  const files=Array.from(document.getElementById('addImages').files);
-  if(!title||!price||!type||!location||!files.length){showToast('Please fill all required fields','fa-solid fa-triangle-exclamation');return;}
-  const uploadOverlay=document.getElementById('uploadOverlay'), pBar=document.getElementById('progressBar'), pStatus=document.getElementById('uploadStatus');
-  uploadOverlay.classList.add('active'); pBar.style.width='15%'; pStatus.textContent='Preparing...';
-  const nRef=push(ref(db,'listings')); let urls=[];
+  const title = document.getElementById('addTitle').value.trim();
+  const price = Number(document.getElementById('addPrice').value);
+  const type = document.getElementById('addType').value;
+  const location = document.getElementById('addLocation').value.trim();
+  const phone = document.getElementById('addPhone').value.trim();
+  const desc = document.getElementById('addDesc').value.trim();
+  const availability = document.getElementById('addAvail').value;
+  const amenitiesRaw = document.getElementById('addAmenities').value;
+  const amenities = amenitiesRaw ? amenitiesRaw.split(',').map(a => a.trim()).filter(a => a) : [];
+  const files = Array.from(document.getElementById('addImages').files);
+  if (!title || !price || !type || !location || !files.length) { showToast('Please fill all required fields', 'fa-solid fa-triangle-exclamation'); return; }
+
+  const uploadOverlay = document.getElementById('uploadOverlay'), pBar = document.getElementById('progressBar'), pStatus = document.getElementById('uploadStatus');
+  uploadOverlay.classList.add('active'); pBar.style.width = '15%'; pStatus.textContent = 'Preparing...';
+  const nRef = push(ref(db, 'listings')); let urls = [];
   try {
-    for(let i=0;i<files.length;i++){pStatus.textContent=`Uploading image ${i+1}/${files.length}...`;pBar.style.width=`${15+(80*(i+1)/files.length)}%`;urls.push(await uploadCloudinary(files[i]));}
-    pBar.style.width='100%'; pStatus.textContent='Saving...';
-    await set(nRef,{title,price,type,location,desc:desc||'No description provided',amenities,image:urls[0],additionalImages:urls.slice(1),availability,verified:false,adminStatus:'pending',timestamp:Date.now(),reviews:[]});
-    setTimeout(()=>{
+    for (let i = 0; i < files.length; i++) {
+      pStatus.textContent = `Uploading image ${i+1}/${files.length}...`;
+      pBar.style.width = `${15 + (80*(i+1)/files.length)}%`;
+      urls.push(await uploadCloudinary(files[i]));
+    }
+    pBar.style.width = '100%'; pStatus.textContent = 'Saving...';
+    await set(nRef, {
+      title, price, type, location, phone, desc: desc || 'No description provided.',
+      amenities, image: urls[0], additionalImages: urls.slice(1),
+      availability, verified: false, timestamp: Date.now(), reviews: []
+    });
+    setTimeout(() => {
       uploadOverlay.classList.remove('active');
-      showFeedback(true,'Listing Submitted!','Your listing is under review and will appear once approved.');
-      document.getElementById('addOverlay').classList.remove('active');
-      document.body.style.overflow='auto';
-      document.getElementById('addOwner').value='';document.getElementById('addTitle').value='';document.getElementById('addPrice').value='';document.getElementById('addLocation').value='';document.getElementById('addDesc').value='';document.getElementById('addAmenities').value='';document.getElementById('previewGrid').innerHTML='';
-    },800);
-  } catch(err) { uploadOverlay.classList.remove('active'); showFeedback(false,'Upload Failed',err.message||'Please try again.'); }
+      showFeedback(true, 'Listing Posted!', 'Your property is now live on KasiStay.');
+      closeAddModal();
+      ['addOwner','addTitle','addPrice','addLocation','addPhone','addDesc','addAmenities'].forEach(id => { const el = document.getElementById(id); if(el) el.value=''; });
+      document.getElementById('previewGrid').innerHTML = '';
+    }, 800);
+  } catch(err) {
+    uploadOverlay.classList.remove('active');
+    showFeedback(false, 'Upload Failed', err.message || 'Please try again.');
+  }
 };
 
 /* ─── AUTH ─── */
-window.openSignInModal = () => { document.getElementById('signInOverlay').classList.add('active'); document.body.style.overflow='hidden'; };
-window.closeSignInModal = () => { document.getElementById('signInOverlay').classList.remove('active'); document.body.style.overflow='auto'; };
+window.openSignInModal = () => { document.getElementById('signInOverlay').classList.add('active'); document.body.style.overflow = 'hidden'; };
+window.closeSignInModal = () => { document.getElementById('signInOverlay').classList.remove('active'); document.body.style.overflow = 'auto'; };
+
 window.signInEmail = async () => {
-  const e=document.getElementById('siEmail').value.trim(), p=document.getElementById('siPass').value;
-  if(!e||!p){showToast('Enter email and password','fa-solid fa-triangle-exclamation');return;}
-  try{ await signInWithEmailAndPassword(auth,e,p); closeSignInModal(); showFeedback(true,'Welcome back!','You are now signed in to KasiStay.'); }
-  catch(err){ showFeedback(false,'Sign In Failed',err.message); }
+  const e = document.getElementById('siEmail').value.trim(), p = document.getElementById('siPass').value;
+  if (!e || !p) { showToast('Enter email and password', 'fa-solid fa-triangle-exclamation'); return; }
+  try { await signInWithEmailAndPassword(auth, e, p); closeSignInModal(); showFeedback(true, 'Welcome back!', 'You are now signed in to KasiStay.'); }
+  catch(err) { showFeedback(false, 'Sign In Failed', err.message); }
 };
 window.signUpEmail = async () => {
-  const e=document.getElementById('siEmail').value.trim(), p=document.getElementById('siPass').value;
-  if(!e||!p){showToast('Enter email and password','fa-solid fa-triangle-exclamation');return;}
-  try{ await createUserWithEmailAndPassword(auth,e,p); closeSignInModal(); showFeedback(true,'Account Created!','Welcome to KasiStay!'); }
-  catch(err){ showFeedback(false,'Sign Up Failed',err.message); }
+  const e = document.getElementById('siEmail').value.trim(), p = document.getElementById('siPass').value;
+  if (!e || !p) { showToast('Enter email and password', 'fa-solid fa-triangle-exclamation'); return; }
+  try { await createUserWithEmailAndPassword(auth, e, p); closeSignInModal(); showFeedback(true, 'Account Created!', 'Welcome to KasiStay!'); }
+  catch(err) { showFeedback(false, 'Sign Up Failed', err.message); }
 };
 window.signInWithGoogle = async () => {
-  try{ await signInWithPopup(auth,provider); closeSignInModal(); showFeedback(true,'Signed in!','Welcome to KasiStay.'); }
-  catch(e){ showFeedback(false,'Google Sign-in Failed',e.message||'Try again.'); }
+  try { await signInWithPopup(auth, provider); closeSignInModal(); showFeedback(true, 'Signed in!', 'Welcome to KasiStay.'); }
+  catch(e) { showFeedback(false, 'Google Sign-in Failed', e.message || 'Try again.'); }
 };
 
 window.showFeedback = (ok, title, msg) => {
-  const el=document.getElementById('feedbackBody');
-  el.innerHTML=`<i class="${ok?'success':'error'} fa-solid fa-${ok?'circle-check':'circle-xmark'}"></i><h2>${title}</h2><p>${msg}</p><button class="btn btn-green" onclick="closeFeedback()" style="padding:10px 2rem;border-radius:50px;">OK</button>`;
+  const el = document.getElementById('feedbackBody');
+  el.innerHTML = `<i class="${ok ? 'success' : 'error'} fa-solid fa-${ok ? 'circle-check' : 'circle-xmark'}"></i><h2>${title}</h2><p>${msg}</p><button class="btn btn-green" onclick="closeFeedback()" style="padding:10px 2rem;border-radius:50px;">OK</button>`;
   document.getElementById('feedbackOverlay').classList.add('active');
 };
 window.closeFeedback = () => { document.getElementById('feedbackOverlay').classList.remove('active'); };
 
-window.openSignOutConfirm = () => { document.getElementById('signOutOverlay').classList.add('active'); document.body.style.overflow='hidden'; };
-window.closeSignOutConfirm = () => { document.getElementById('signOutOverlay').classList.remove('active'); document.body.style.overflow='auto'; };
+window.openSignOutConfirm = () => { document.getElementById('signOutOverlay').classList.add('active'); document.body.style.overflow = 'hidden'; };
+window.closeSignOutConfirm = () => { document.getElementById('signOutOverlay').classList.remove('active'); document.body.style.overflow = 'auto'; };
 window.confirmSignOut = async () => {
   closeSignOutConfirm(); closeProfileSheet();
   await signOut(auth);
-  showToast('Signed out successfully','fa-solid fa-check');
-  if(isMobile()) navigateTab(0);
+  showToast('Signed out successfully', 'fa-solid fa-check');
+  if (isMobile()) navigateTab(0);
 };
 
 onAuthStateChanged(auth, user => {
-  const btn=document.getElementById('authButton');
-  if(user){ btn.textContent='Sign Out'; btn.onclick=openSignOutConfirm; }
-  else{ btn.textContent='Sign In'; btn.onclick=openSignInModal; }
-  const bnav2=document.getElementById('bnav2');
-  if(bnav2){ bnav2.querySelector('i').className=user?'fa-solid fa-circle-user':'fa-regular fa-circle-user'; }
+  const btn = document.getElementById('authButton');
+  if (user) { btn.textContent = 'Sign Out'; btn.onclick = openSignOutConfirm; }
+  else { btn.textContent = 'Sign In'; btn.onclick = openSignInModal; }
+  const bnav2 = document.getElementById('bnav2');
+  if (bnav2) bnav2.querySelector('i').className = user ? 'fa-solid fa-circle-user' : 'fa-regular fa-circle-user';
 });
 
 /* ─── SHARE ─── */
 window.openShareModal = () => { document.getElementById('shareOverlay').classList.add('active'); };
 window.closeShareModal = () => { document.getElementById('shareOverlay').classList.remove('active'); };
-const getShareText = () => { const item=listings.find(l=>l.id===currentId); return item?`Check out this listing on KasiStay: ${item.title} – R${item.price?.toLocaleString()}/mo in ${item.location||'South Africa'} ${window.location.href}`:'Check out KasiStay – South Africa\'s #1 Room Finder!'; };
+const getShareText = () => {
+  const item = listings.find(l => l.id === currentId);
+  return item ? `Check out this listing on KasiStay: ${item.title} – R${(item.price||0).toLocaleString()}/mo in ${item.location||'South Africa'} ${window.location.href}` : 'Check out KasiStay – South Africa\'s #1 Room Finder!';
+};
 window.shareViaWhatsApp = () => { window.open(`https://wa.me/?text=${encodeURIComponent(getShareText())}`, '_blank'); closeShareModal(); };
-window.copyShareLink = () => { navigator.clipboard.writeText(window.location.href).then(()=>{ closeShareModal(); showToast('Link copied!','fa-solid fa-check'); }); };
-window.shareNative = () => { const item=listings.find(l=>l.id===currentId); if(navigator.share){ navigator.share({title:'KasiStay Listing',text:item?.title||'KasiStay',url:window.location.href}).then(()=>closeShareModal()); } else { copyShareLink(); } };
+window.copyShareLink = () => { navigator.clipboard.writeText(window.location.href).then(() => { closeShareModal(); showToast('Link copied!', 'fa-solid fa-check'); }); };
+window.shareNative = () => { const item = listings.find(l => l.id === currentId); if (navigator.share) { navigator.share({ title:'KasiStay Listing', text: item?.title||'KasiStay', url: window.location.href }).then(() => closeShareModal()); } else { copyShareLink(); } };
 
 /* ─── PROFILE SHEET ─── */
 window.openProfileSheet = () => {
-  const user=auth.currentUser;
-  document.getElementById('psSignedIn').style.display=user?'block':'none';
-  document.getElementById('psGuest').style.display=user?'none':'block';
-  ['darkToggle1','darkToggle2'].forEach(id=>{const el=document.getElementById(id);if(el)el.checked=document.body.classList.contains('dark');});
-  if(user){
-    const name=user.displayName||user.email?.split('@')[0]||'KasiStay User';
-    document.getElementById('psName').textContent=name;
-    document.getElementById('psEmail').textContent=user.email||'';
-    document.getElementById('psEditName').value=name;
-    document.getElementById('psEditEmail').value=user.email||'';
-    const photo=user.photoURL;
-    ['psAvatar','psEditAvatar'].forEach(id=>{ const el=document.getElementById(id); if(photo)el.innerHTML=`<img src="${photo}" alt="avatar"><div class="ps-avatar-edit" onclick="openEditProfile()"><i class="fa-solid fa-pen"></i></div>`; else el.textContent=name.charAt(0).toUpperCase(); });
-    document.getElementById('psFav').textContent=liked.size;
-    const userRef=ref(db,`users/${user.uid}`);
-    get(userRef).then(snap=>{ if(snap.exists()){ userProfile=snap.val(); if(userProfile.saved) liked=new Set(userProfile.saved); document.getElementById('psFav').textContent=liked.size; } });
+  const user = auth.currentUser;
+  document.getElementById('psSignedIn').style.display = user ? 'block' : 'none';
+  document.getElementById('psGuest').style.display = user ? 'none' : 'block';
+  ['darkToggle1','darkToggle2'].forEach(id => { const el = document.getElementById(id); if (el) el.checked = document.body.classList.contains('dark'); });
+  if (user) {
+    const name = user.displayName || user.email?.split('@')[0] || 'KasiStay User';
+    document.getElementById('psName').textContent = name;
+    document.getElementById('psEmail').textContent = user.email || '';
+    document.getElementById('psEditName').value = name;
+    document.getElementById('psEditEmail').value = user.email || '';
+    const photo = user.photoURL;
+    ['psAvatar','psEditAvatar'].forEach(id => {
+      const el = document.getElementById(id);
+      if (photo) el.innerHTML = `<img src="${photo}" alt="avatar"><div class="ps-avatar-edit" onclick="openEditProfile()"><i class="fa-solid fa-pen"></i></div>`;
+      else el.textContent = name.charAt(0).toUpperCase();
+    });
+    document.getElementById('psFav').textContent = liked.size;
+    get(ref(db, `users/${user.uid}`)).then(snap => {
+      if (snap.exists()) { userProfile = snap.val(); if (userProfile.saved) { liked = new Set(userProfile.saved); document.getElementById('psFav').textContent = liked.size; } }
+    }).catch(() => {});
   }
-  document.getElementById('psBody').scrollTop=0;
-  const eo=document.getElementById('psEditOverlay'); if(eo)eo.classList.remove('visible');
+  document.getElementById('psBody').scrollTop = 0;
+  const eo = document.getElementById('psEditOverlay'); if (eo) eo.classList.remove('visible');
   document.getElementById('profileBackdrop').classList.add('open');
   document.getElementById('profileSheet').classList.add('open');
-  document.body.style.overflow='hidden';
-  initDrag('profilePanel','psHandle','profileBackdrop',closeProfileSheet);
+  document.body.style.overflow = 'hidden';
+  initDrag('profilePanel', 'psHandle', 'profileBackdrop', closeProfileSheet);
 };
-window.closeProfileSheet = () => { closeSheetPanel('profilePanel','profileBackdrop','profileSheet',()=>{ if(isMobile())navigateTab(0); }); };
+window.closeProfileSheet = () => { closeSheetPanel('profilePanel', 'profileBackdrop', 'profileSheet', () => { if (isMobile()) navigateTab(0); }); };
 window.openEditProfile = () => { document.getElementById('psEditOverlay').classList.add('visible'); };
 window.closeEditProfile = () => { document.getElementById('psEditOverlay').classList.remove('visible'); };
 window.saveProfile = async () => {
-  const name=document.getElementById('psEditName').value.trim();
-  const user=auth.currentUser;
-  if(user) { const userRef=ref(db,`users/${user.uid}`); await update(userRef,{displayName:name,phone:document.getElementById('psEditPhone').value,location:document.getElementById('psEditLoc').value,bio:document.getElementById('psEditBio').value}); }
-  if(name) document.getElementById('psName').textContent=name;
+  const name = document.getElementById('psEditName').value.trim();
+  const user = auth.currentUser;
+  if (user) {
+    try {
+      await update(ref(db, `users/${user.uid}`), { displayName: name, phone: document.getElementById('psEditPhone').value, location: document.getElementById('psEditLoc').value, bio: document.getElementById('psEditBio').value });
+    } catch(e) { console.warn('Could not save profile:', e); }
+  }
+  if (name) document.getElementById('psName').textContent = name;
   closeEditProfile();
-  showToast('Profile saved!','fa-solid fa-check');
+  showToast('Profile saved!', 'fa-solid fa-check');
 };
 window.handleAvatarChange = async (e) => {
-  const file=e.target.files[0]; if(!file)return;
-  try{ const url=await uploadCloudinary(file); const user=auth.currentUser; if(user){const userRef=ref(db,`users/${user.uid}`);await update(userRef,{avatar:url});['psAvatar','psEditAvatar'].forEach(id=>{const el=document.getElementById(id);el.innerHTML=`<img src="${url}" alt="avatar">`;});showToast('Avatar updated!','fa-solid fa-check');} }
-  catch(err){ showToast('Avatar upload failed','fa-solid fa-triangle-exclamation'); }
+  const file = e.target.files[0]; if (!file) return;
+  try {
+    const url = await uploadCloudinary(file);
+    const user = auth.currentUser;
+    if (user) {
+      await update(ref(db, `users/${user.uid}`), { avatar: url });
+      ['psAvatar','psEditAvatar'].forEach(id => { const el = document.getElementById(id); el.innerHTML = `<img src="${url}" alt="avatar">`; });
+      showToast('Avatar updated!', 'fa-solid fa-check');
+    }
+  } catch(err) { showToast('Avatar upload failed', 'fa-solid fa-triangle-exclamation'); }
 };
 
-function hidePsSections() { document.querySelectorAll('#psSignedIn .ps-hero, #psSignedIn .ps-stats, #psSignedIn .ps-section, #psSignedIn .ps-signout').forEach(el=>el.style.display='none'); }
-function showPsSections() { document.querySelectorAll('#psSignedIn .ps-hero, #psSignedIn .ps-stats, #psSignedIn .ps-section, #psSignedIn .ps-signout').forEach(el=>el.style.display=''); }
-window.closeDyn = () => { document.getElementById('dynContent').style.display='none'; showPsSections(); };
+function hidePsSections() { document.querySelectorAll('#psSignedIn .ps-hero, #psSignedIn .ps-stats, #psSignedIn .ps-section, #psSignedIn .ps-signout').forEach(el => el.style.display = 'none'); }
+function showPsSections() { document.querySelectorAll('#psSignedIn .ps-hero, #psSignedIn .ps-stats, #psSignedIn .ps-section, #psSignedIn .ps-signout').forEach(el => el.style.display = ''); }
+window.closeDyn = () => { document.getElementById('dynContent').style.display = 'none'; showPsSections(); };
 
 window.showSaved = () => {
-  document.getElementById('dynTitle').textContent='SAVED PROPERTIES';
-  const listEl=document.getElementById('dynList'); listEl.innerHTML='';
-  const ids=Array.from(liked);
-  if(!ids.length){ listEl.innerHTML=`<p style="padding:2rem;text-align:center;font-size:0.82rem;color:var(--text-3);">No saved properties yet.<br>Tap ♥ on any listing to save it.</p>`; }
-  else { ids.forEach(id=>{ const item=listings.find(l=>l.id===id); if(item){ listEl.innerHTML+=`<div onclick="closeProfileSheet();setTimeout(()=>openListing('${id}'),100);" style="padding:12px 14px;border-bottom:1px solid var(--border);display:flex;gap:12px;cursor:pointer;align-items:center;"><img src="${item.image}" style="width:60px;height:48px;border-radius:10px;object-fit:cover;"><div style="flex:1;"><div style="font-weight:700;font-size:0.9rem;">${item.title}</div><div style="font-size:0.75rem;color:var(--text-3);">${item.location}</div><div style="color:var(--green);font-weight:600;font-size:0.82rem;margin-top:2px;">R${item.price?.toLocaleString()}/mo</div></div></div>`; } }); }
-  hidePsSections(); document.getElementById('dynContent').style.display='block';
+  document.getElementById('dynTitle').textContent = 'SAVED PROPERTIES';
+  const listEl = document.getElementById('dynList'); listEl.innerHTML = '';
+  const ids = Array.from(liked);
+  if (!ids.length) {
+    listEl.innerHTML = `<p style="padding:2rem;text-align:center;font-size:0.82rem;color:var(--text-3);">No saved properties yet.<br>Tap ♥ on any listing to save it.</p>`;
+  } else {
+    ids.forEach(id => {
+      const item = listings.find(l => l.id === id);
+      if (item) listEl.innerHTML += `<div onclick="closeProfileSheet();setTimeout(()=>openListing('${id}'),100);" style="padding:12px 14px;border-bottom:1px solid var(--border);display:flex;gap:12px;cursor:pointer;align-items:center;"><img src="${item.image}" style="width:60px;height:48px;border-radius:10px;object-fit:cover;"><div style="flex:1;"><div style="font-weight:700;font-size:0.9rem;">${item.title}</div><div style="font-size:0.75rem;color:var(--text-3);">${item.location}</div><div style="color:var(--green);font-weight:600;font-size:0.82rem;margin-top:2px;">R${(item.price||0).toLocaleString()}/mo</div></div></div>`;
+    });
+  }
+  hidePsSections(); document.getElementById('dynContent').style.display = 'block';
 };
 window.showMyReviews = () => {
-  document.getElementById('dynTitle').textContent='MY REVIEWS';
-  const listEl=document.getElementById('dynList'); listEl.innerHTML='';
-  const myRevs=[];
-  listings.forEach(l=>(l.reviews||[]).forEach(r=>{ if(r.reviewerName===auth.currentUser?.displayName||r.reviewerName===auth.currentUser?.email?.split('@')[0]) myRevs.push({...r,listingId:l.id,listingTitle:l.title}); }));
-  if(!myRevs.length){ listEl.innerHTML=`<p style="padding:2rem;text-align:center;font-size:0.82rem;color:var(--text-3);">No reviews written yet.</p>`; }
-  else { myRevs.forEach(rev=>{ listEl.innerHTML+=`<div style="padding:12px 14px;border-bottom:1px solid var(--border);"><div style="font-weight:700;font-size:0.88rem;">${rev.listingTitle}</div><div style="display:flex;gap:2px;margin:3px 0;">${genStars(rev.rating)}</div><div style="font-size:0.78rem;color:var(--text-2);">${rev.comment}</div><div style="font-size:0.68rem;color:var(--text-3);margin-top:4px;">${new Date(rev.timestamp).toLocaleDateString('en-ZA')}</div></div>`; }); }
-  hidePsSections(); document.getElementById('dynContent').style.display='block';
+  document.getElementById('dynTitle').textContent = 'MY REVIEWS';
+  const listEl = document.getElementById('dynList'); listEl.innerHTML = '';
+  const myRevs = [];
+  const currentName = auth.currentUser?.displayName || auth.currentUser?.email?.split('@')[0];
+  listings.forEach(l => (l.reviews||[]).forEach(r => { if (r.reviewerName === currentName) myRevs.push({ ...r, listingTitle: l.title }); }));
+  if (!myRevs.length) {
+    listEl.innerHTML = `<p style="padding:2rem;text-align:center;font-size:0.82rem;color:var(--text-3);">No reviews written yet.</p>`;
+  } else {
+    myRevs.forEach(rev => { listEl.innerHTML += `<div style="padding:12px 14px;border-bottom:1px solid var(--border);"><div style="font-weight:700;font-size:0.88rem;">${rev.listingTitle}</div><div style="display:flex;gap:2px;margin:3px 0;">${genStars(rev.rating)}</div><div style="font-size:0.78rem;color:var(--text-2);">${rev.comment}</div><div style="font-size:0.68rem;color:var(--text-3);margin-top:4px;">${new Date(rev.timestamp).toLocaleDateString('en-ZA')}</div></div>`; });
+  }
+  hidePsSections(); document.getElementById('dynContent').style.display = 'block';
 };
 window.showNotifications = () => {
-  document.getElementById('dynTitle').textContent='NOTIFICATIONS';
-  const listEl=document.getElementById('dynList'); listEl.innerHTML='';
-  const notifs=userProfile.notifications||[{title:'Welcome to KasiStay!',message:'Your account is set up. Start exploring rooms!',timestamp:Date.now()}];
-  if(!notifs.length){ listEl.innerHTML=`<p style="padding:2rem;text-align:center;font-size:0.82rem;color:var(--text-3);">No notifications.</p>`; }
-  else { notifs.forEach(n=>{ listEl.innerHTML+=`<div style="padding:12px 14px;border-bottom:1px solid var(--border);"><div style="font-weight:700;font-size:0.88rem;">${n.title}</div><div style="font-size:0.78rem;color:var(--text-2);margin-top:2px;">${n.message}</div><div style="font-size:0.68rem;color:var(--text-3);margin-top:4px;">${new Date(n.timestamp).toLocaleDateString('en-ZA')}</div></div>`; }); }
-  hidePsSections(); document.getElementById('dynContent').style.display='block';
+  document.getElementById('dynTitle').textContent = 'NOTIFICATIONS';
+  const listEl = document.getElementById('dynList'); listEl.innerHTML = '';
+  const notifs = [{ title:'Welcome to KasiStay!', message:'Your account is set up. Start exploring rooms!', timestamp: Date.now() }];
+  notifs.forEach(n => { listEl.innerHTML += `<div style="padding:12px 14px;border-bottom:1px solid var(--border);"><div style="font-weight:700;font-size:0.88rem;">${n.title}</div><div style="font-size:0.78rem;color:var(--text-2);margin-top:2px;">${n.message}</div><div style="font-size:0.68rem;color:var(--text-3);margin-top:4px;">${new Date(n.timestamp).toLocaleDateString('en-ZA')}</div></div>`; });
+  hidePsSections(); document.getElementById('dynContent').style.display = 'block';
 };
 
 /* ─── MOBILE NAV ─── */
 window.navigateTab = (idx) => {
-  currentTab=idx;
-  document.querySelectorAll('.bnav-item').forEach((it,i)=>it.classList.toggle('active',i===idx));
-  if(idx===0){ document.getElementById('grid').style.display=''; document.getElementById('mapView').style.display='none'; return; }
-  if(idx===1){ openAddModal(); return; }
-  if(idx===2){ openProfileSheet(); return; }
+  currentTab = idx;
+  document.querySelectorAll('.bnav-item').forEach((it, i) => it.classList.toggle('active', i === idx));
+  if (idx === 0) { document.getElementById('grid').style.display = ''; document.getElementById('mapView').style.display = 'none'; return; }
+  if (idx === 1) { openAddModal(); return; }
+  if (idx === 2) { openProfileSheet(); return; }
 };
 
 /* ─── SCROLL LOAD MORE ─── */
 window.addEventListener('scroll', () => {
-  if(window.innerHeight+window.scrollY>=document.body.offsetHeight-150&&displayed.length<filtered.length) loadMore();
+  if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 150 && displayed.length < filtered.length) loadMore();
 });
 
-/* ─── FIREBASE DATA ─── */
+/* ─── FIREBASE DATA LOAD ─── */
 renderSkeletons();
-onValue(ref(db,'listings'), snapshot => {
-  listings=[];
-  if(snapshot.exists()) snapshot.forEach(c=>{ const it={id:c.key,...c.val()}; if(it.adminStatus==='approved') listings.push(it); });
+
+onValue(ref(db, 'listings'), snapshot => {
+  const firebaseListings = [];
+  if (snapshot.exists()) {
+    snapshot.forEach(c => {
+      const it = { id: c.key, ...c.val() };
+      // Show ALL listings regardless of adminStatus
+      firebaseListings.push(it);
+    });
+  }
+
+  if (firebaseListings.length > 0) {
+    // Use real Firebase listings
+    listings = firebaseListings;
+  } else {
+    // Fallback to demo listings if Firebase is empty
+    listings = DEMO_LISTINGS;
+    console.info('KasiStay: No Firebase listings found — showing demo listings.');
+  }
+
+  renderListings(listings);
+}, (error) => {
+  // Firebase read failed — use demo listings
+  console.warn('KasiStay: Firebase read failed — showing demo listings.', error);
+  listings = DEMO_LISTINGS;
   renderListings(listings);
 });
 </script>

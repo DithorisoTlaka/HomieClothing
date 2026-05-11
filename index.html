@@ -4,6 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>KasiStay | Accommodation Finder</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#111111">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="KasiStay">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
@@ -40,8 +46,12 @@
 }
 * { margin:0; padding:0; box-sizing:border-box; font-family:'Inter',sans-serif; }
 body { background: var(--bg-white); color: var(--text-main); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; transition: var(--transition); }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes slideUp { from { transform: translateY(40px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes slideUp { from { transform: translateY(44px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+@keyframes scaleIn { from { opacity:0; transform: scale(0.93) translateY(10px); } to { opacity:1; transform: scale(1) translateY(0); } }
+@keyframes shimmer { 0% { background-position: -800px 0; } 100% { background-position: 800px 0; } }
+@keyframes ripple { 0% { transform: scale(0); opacity:0.5; } 100% { transform: scale(4); opacity:0; } }
+@keyframes bounceIn { 0% { transform: scale(0.7); opacity:0; } 60% { transform: scale(1.06); opacity:1; } 80% { transform: scale(0.97); } 100% { transform: scale(1); } }
 
 nav { display: flex; justify-content: space-between; align-items: center; padding: 1rem 5%; position: sticky; top: 0; background: var(--primary-black); backdrop-filter: blur(12px); z-index: 1000; border-bottom: 1px solid var(--border-color); transition: var(--transition); }
 .logo { font-family: 'Inter', sans-serif; font-size: 1.5rem; font-weight: 800; color: white; letter-spacing: -1px; cursor: pointer; transition: var(--transition); }
@@ -56,7 +66,7 @@ nav { display: flex; justify-content: space-between; align-items: center; paddin
 .hero p { color: var(--text-muted); font-size: 1.2rem; max-width: 600px; margin: 0 auto 3rem; }
 .search-container { background: white; padding: 0.6rem; border-radius: 100px; box-shadow: var(--shadow-md); border: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 0.5rem; max-width: 850px; margin: 0 auto; transition: var(--transition); }
 .dark-mode .search-container { background: #333; }
-.search-container:focus-within { transform: scale(1.02); border-color: var(--accent-green); }
+.search-container:focus-within { transform: scale(1.025); border-color: var(--accent-green); box-shadow: 0 0 0 4px rgba(16,185,129,0.12), var(--shadow-md); }
 @media(min-width: 768px) { .search-container { flex-direction: row; align-items: center; padding: 0.6rem 0.6rem 0.6rem 2.5rem; } }
 .search-input-group { flex: 1; display: flex; align-items: center; gap: 12px; padding: 10px; }
 .search-input-group i { color: var(--accent-green); font-size: 1.1rem; }
@@ -65,11 +75,25 @@ nav { display: flex; justify-content: space-between; align-items: center; paddin
 .search-btn:hover { background: var(--accent-green); }
 
 .filters { padding: 2rem 5%; background: var(--bg-off-white); border-top: 1px solid var(--border-color); transition: var(--transition); }
-.filter-tags-row { display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center; margin-bottom: 2rem; }
-.filter-tag { padding: 0.6rem 1.4rem; border: 1px solid var(--border-color); border-radius: 50px; font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: var(--transition); background: white; }
+.filter-tags-row { display: flex; gap: 0.75rem; flex-wrap: nowrap; overflow-x: auto; justify-content: flex-start; margin-bottom: 2rem; padding-bottom: 6px; -webkit-overflow-scrolling: touch; scrollbar-width: none; touch-action: pan-x; }
+.filter-tags-row::-webkit-scrollbar { display: none; }
+@media (min-width: 768px) { .filter-tags-row { flex-wrap: wrap; justify-content: center; } }
+
+/* PWA Install Banner */
+#pwaInstallBanner { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%) translateY(120px); background: #111; color: white; border-radius: 20px; padding: 14px 18px; display: flex; align-items: center; gap: 12px; z-index: 9000; box-shadow: 0 8px 32px rgba(0,0,0,0.35); max-width: calc(100vw - 32px); width: 380px; transition: transform 0.5s cubic-bezier(0.34,1.56,0.64,1), opacity 0.4s ease; opacity: 0; pointer-events: none; border: 1px solid rgba(255,255,255,0.1); }
+#pwaInstallBanner.show { transform: translateX(-50%) translateY(0); opacity: 1; pointer-events: auto; }
+.pwa-banner-icon { width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0; object-fit: cover; }
+.pwa-banner-text { flex: 1; min-width: 0; }
+.pwa-banner-title { font-weight: 700; font-size: 0.88rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pwa-banner-sub { font-size: 0.72rem; color: rgba(255,255,255,0.55); margin-top: 2px; }
+.pwa-banner-install { background: #10b981; color: white; border: none; border-radius: 50px; padding: 8px 16px; font-weight: 700; font-size: 0.8rem; cursor: pointer; white-space: nowrap; flex-shrink: 0; transition: transform 0.2s ease, background 0.2s ease; }
+.pwa-banner-install:active { transform: scale(0.95); background: #059669; }
+.pwa-banner-close { background: transparent; border: none; color: rgba(255,255,255,0.45); font-size: 1rem; cursor: pointer; padding: 4px; flex-shrink: 0; line-height: 1; }
+@media (min-width: 768px) { #pwaInstallBanner { bottom: 24px; } }
+.filter-tag { padding: 0.6rem 1.4rem; border: 1px solid var(--border-color); border-radius: 50px; font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1), background 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease; background: white; }
 .dark-mode .filter-tag { background: #333; }
-.filter-tag:hover { border-color: var(--primary-black); transform: translateY(-1px); }
-.filter-tag.active { background: var(--primary-black); color: white; border-color: var(--primary-black); }
+.filter-tag:hover { border-color: var(--primary-black); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+.filter-tag.active { background: var(--primary-black); color: white; border-color: var(--primary-black); transform: scale(1.04); box-shadow: 0 4px 14px rgba(0,0,0,0.18); }
 .price-range-wrapper { background: white; padding: 1.5rem; border-radius: 16px; border: 1px solid var(--border-color); max-width: 500px; margin: 0 auto; box-shadow: var(--shadow-sm); }
 .dark-mode .price-range-wrapper { background: #1e1e1e; }
 .price-range-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
@@ -79,17 +103,24 @@ nav { display: flex; justify-content: space-between; align-items: center; paddin
 .range-slider-container { position: relative; height: 6px; background: #e5e7eb; border-radius: 5px; margin: 0 10px; }
 .dark-mode .range-slider-container { background: #444; }
 .range-selected { height: 100%; position: absolute; border-radius: 5px; background-color: var(--accent-green); }
-.range-input { position: relative; }
-.range-input input { position: absolute; width: 100%; height: 5px; top: -7px; background: none; pointer-events: none; -webkit-appearance: none; }
+.range-input { position: relative; touch-action: none; }
+.range-input input { position: absolute; width: 100%; height: 5px; top: -7px; background: none; pointer-events: none; -webkit-appearance: none; touch-action: none; }
 .range-input input::-webkit-slider-thumb { height: 20px; width: 20px; border-radius: 50%; background: #fff; border: 2px solid var(--accent-green); pointer-events: auto; -webkit-appearance: none; box-shadow: 0 2px 6px rgba(0,0,0,0.15); cursor: pointer; }
 .range-input input::-moz-range-thumb { height: 20px; width: 20px; border-radius: 50%; background: #fff; border: 2px solid var(--accent-green); pointer-events: auto; -moz-appearance: none; cursor: pointer; }
 
 .section-header { padding: 3rem 5% 1rem; }
 .section-header h2 { font-size: 1.75rem; font-weight: 800; letter-spacing: -0.5px; }
-.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 2.5rem; padding: 0 5% 5rem; animation: fadeIn 0.6s ease; }
-.card { background: white; border-radius: 24px; overflow: hidden; border: 1px solid var(--border-color); transition: var(--transition); position: relative; animation: slideUp 0.5s ease forwards; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 2.5rem; padding: 0 5% 5rem; }
+.grid .card:nth-child(1) { animation-delay: 0.05s; }
+.grid .card:nth-child(2) { animation-delay: 0.1s; }
+.grid .card:nth-child(3) { animation-delay: 0.15s; }
+.grid .card:nth-child(4) { animation-delay: 0.2s; }
+.grid .card:nth-child(5) { animation-delay: 0.25s; }
+.grid .card:nth-child(6) { animation-delay: 0.3s; }
+.grid .card:nth-child(n+7) { animation-delay: 0.35s; }
+.card { background: white; border-radius: 24px; overflow: hidden; border: 1px solid var(--border-color); transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.35s ease, border-color 0.25s ease; position: relative; animation: scaleIn 0.5s cubic-bezier(0.22,1,0.36,1) forwards; opacity: 0; }
 .dark-mode .card { background: #1e1e1e; }
-.card:hover { transform: translateY(-10px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+.card:hover { transform: translateY(-12px) scale(1.01); box-shadow: 0 24px 48px -8px rgba(0,0,0,0.14); border-color: var(--accent-green); }
 .card-image { height: 240px; width: 100%; position: relative; overflow: hidden; background: #f3f4f6; }
 .dark-mode .card-image { background: #333; }
 .card-image img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s ease; }
@@ -119,9 +150,9 @@ nav { display: flex; justify-content: space-between; align-items: center; paddin
 .like-counter-badge i { font-size: 0.65rem; color: #ff385c; }
 
 /* MODALS */
-.modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: 2000; align-items: center; justify-content: center; }
-.modal-overlay.active { display: flex; }
-.modal-content { background: white; width: 90%; max-width: 480px; border-radius: 24px; overflow: hidden; box-shadow: var(--shadow-md); position: relative; animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1); transition: var(--transition); }
+.modal-content { background: white; width: 90%; max-width: 480px; border-radius: 24px; overflow: hidden; box-shadow: var(--shadow-md); position: relative; animation: bounceIn 0.45s cubic-bezier(0.22,1,0.36,1); transition: var(--transition); }
+.modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0); backdrop-filter: blur(0px); z-index: 2000; align-items: center; justify-content: center; transition: background 0.3s ease, backdrop-filter 0.3s ease; }
+.modal-overlay.active { display: flex; background: rgba(0,0,0,0.55); backdrop-filter: blur(10px); }
 .dark-mode .modal-content { background: #1e1e1e; }
 .modal-header { padding: 1.5rem 2rem; border-bottom: 1px solid var(--border-color); font-size: 1.25rem; font-weight: 700; text-align: center; }
 .modal-body { padding: 2rem; }
@@ -1202,6 +1233,17 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
   <div class="bottom-nav-item" data-tab="2" onclick="navigateTab(2)" id="profileNavBtn"><i class="fa-solid fa-circle-user"></i><span>Profile</span></div>
 </div>
 
+<!-- PWA INSTALL BANNER -->
+<div id="pwaInstallBanner" role="dialog" aria-label="Install KasiStay app">
+  <img class="pwa-banner-icon" src="icons/icon-192.png" alt="KasiStay">
+  <div class="pwa-banner-text">
+    <div class="pwa-banner-title">Install KasiStay</div>
+    <div class="pwa-banner-sub">Add to home screen for the best experience</div>
+  </div>
+  <button class="pwa-banner-install" id="pwaInstallBtn">Install</button>
+  <button class="pwa-banner-close" id="pwaInstallClose" aria-label="Dismiss">&#x2715;</button>
+</div>
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -1420,13 +1462,25 @@ window.closeSignedOutModal=()=>{document.getElementById('signedOutModal').classL
 /* ══════════════════════════════════════
    NAVIGATION — smart swipe gesture
    ══════════════════════════════════════ */
-let touchStartX=0, touchStartY=0, touchStartTime=0;
+let touchStartX=0, touchStartY=0, touchStartTime=0, swipeBlocked=false;
 document.addEventListener('touchstart', e=>{
   touchStartX=e.touches[0].clientX;
   touchStartY=e.touches[0].clientY;
   touchStartTime=Date.now();
+  // Block swipe if touch begins on a scrollable filter row, slider, or price wrapper
+  const t = e.target;
+  swipeBlocked = !!(
+    t.closest('.filter-tags-row') ||
+    t.closest('.mobile-filter-row') ||
+    t.closest('.range-input') ||
+    t.closest('.range-slider-container') ||
+    t.closest('.price-range-wrapper') ||
+    t.closest('.home-price-range') ||
+    t.type === 'range'
+  );
 }, {passive:true});
 document.addEventListener('touchend', e=>{
+  if(swipeBlocked) return;
   // Only process if no sheet/modal is open
   const sheetOpen = document.getElementById('mobileSheet').classList.contains('open') ||
                     document.getElementById('mobileMapSheet').classList.contains('open') ||
@@ -2150,6 +2204,65 @@ window.closePPDynamic=()=>{
   document.getElementById('ppDynamicPanel').classList.remove('visible');
   document.getElementById('ppMainContent').classList.remove('hidden');
 };
+
+/* ══════════════════════════════════════
+   SERVICE WORKER + PWA INSTALL BANNER
+   ══════════════════════════════════════ */
+let deferredPrompt = null;
+const installBanner = document.getElementById('pwaInstallBanner');
+const installBtn = document.getElementById('pwaInstallBtn');
+const installClose = document.getElementById('pwaInstallClose');
+
+// Register SW
+if('serviceWorker' in navigator){
+  window.addEventListener('load', ()=>{
+    navigator.serviceWorker.register('sw.js')
+      .then(reg=>console.log('[KasiStay] SW registered:', reg.scope))
+      .catch(err=>console.warn('[KasiStay] SW failed:', err));
+  });
+}
+
+// Listen for beforeinstallprompt — only fires on Android/Chrome
+window.addEventListener('beforeinstallprompt', e=>{
+  e.preventDefault();
+  deferredPrompt = e;
+  // Show banner after a short delay so splash is gone
+  setTimeout(()=>{
+    if(!localStorage.getItem('ks_pwa_dismissed')){
+      installBanner.classList.add('show');
+    }
+  }, 3500);
+});
+
+installBtn && installBtn.addEventListener('click', async ()=>{
+  if(!deferredPrompt) return;
+  installBanner.classList.remove('show');
+  deferredPrompt.prompt();
+  const { outcome } = await deferredPrompt.userChoice;
+  console.log('[KasiStay] PWA install:', outcome);
+  deferredPrompt = null;
+  if(outcome === 'accepted') localStorage.setItem('ks_pwa_installed','1');
+});
+
+installClose && installClose.addEventListener('click', ()=>{
+  installBanner.classList.remove('show');
+  localStorage.setItem('ks_pwa_dismissed','1');
+});
+
+// iOS Safari fallback — show after a delay if not already installed & not dismissed
+const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent);
+const isInStandaloneMode = window.navigator.standalone === true;
+if(isIos && !isInStandaloneMode && !localStorage.getItem('ks_pwa_dismissed')){
+  setTimeout(()=>{
+    installBtn && (installBtn.textContent = 'How to Install');
+    installBtn && (installBtn.onclick = ()=>{
+      alert('To install KasiStay:\n\n1. Tap the Share button (square with arrow)\n2. Scroll down and tap "Add to Home Screen"\n3. Tap "Add"');
+      installBanner.classList.remove('show');
+      localStorage.setItem('ks_pwa_dismissed','1');
+    });
+    installBanner.classList.add('show');
+  }, 4500);
+}
 </script>
 </body>
 </html>

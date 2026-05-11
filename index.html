@@ -1288,12 +1288,9 @@ let likedItems=new Set();   // set of listing IDs liked by current user
 let userProfile = {};
 
 /* ══════════════════════════════════════
-   LIKE COUNTER — per-listing global counter
-   Stored at: likeCounts/<listingId>/count  (shared by all users)
-   User's own liked list: users/<uid>/saved  (array of ids)
+   LIKE COUNTER
    ══════════════════════════════════════ */
 
-/** Increment/decrement shared like count and update user's saved list */
 async function toggleLikeInDb(id, nowLiked) {
   const countRef = ref(db, `likeCounts/${id}/count`);
   // Get current count
@@ -1460,7 +1457,7 @@ window.confirmSignOut=async()=>{
 window.closeSignedOutModal=()=>{document.getElementById('signedOutModal').classList.remove('active');document.body.style.overflow='auto';};
 
 /* ══════════════════════════════════════
-   NAVIGATION — smart swipe gesture
+   NAVIGATION — swipe gesture
    ══════════════════════════════════════ */
 let touchStartX=0, touchStartY=0, touchStartTime=0, swipeBlocked=false;
 document.addEventListener('touchstart', e=>{
@@ -1491,7 +1488,7 @@ document.addEventListener('touchend', e=>{
   const dx = e.changedTouches[0].clientX - touchStartX;
   const dy = e.changedTouches[0].clientY - touchStartY;
   const dt = Date.now() - touchStartTime;
-  // Must be a quick horizontal swipe (fast, wide, not too vertical)
+  
   if(dt > 350) return;
   if(Math.abs(dx) < 60) return;
   if(Math.abs(dy) > Math.abs(dx) * 0.6) return;

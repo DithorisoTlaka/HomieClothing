@@ -6,9 +6,85 @@
 <title>KasiStay | Accommodation Finder</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
+/* ── SPLASH SCREEN ── */
+#splashScreen {
+  position: fixed;
+  inset: 0;
+  background: #111111;
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  transition: opacity 0.55s cubic-bezier(0.4,0,0.2,1), transform 0.55s cubic-bezier(0.4,0,0.2,1);
+}
+#splashScreen.fade-out {
+  opacity: 0;
+  transform: scale(1.04);
+  pointer-events: none;
+}
+.splash-logo {
+  font-family: 'Syne', 'Inter', sans-serif;
+  font-size: clamp(2.6rem, 10vw, 4rem);
+  font-weight: 800;
+  color: white;
+  letter-spacing: -2px;
+  animation: splashLogoIn 0.7s cubic-bezier(0.22,1,0.36,1) 0.15s both;
+}
+.splash-logo span { color: #10b981; }
+.splash-tagline {
+  font-size: 0.95rem;
+  color: rgba(255,255,255,0.45);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-top: 10px;
+  animation: splashTagIn 0.6s cubic-bezier(0.22,1,0.36,1) 0.4s both;
+}
+.splash-loader {
+  margin-top: 48px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 3px solid rgba(255,255,255,0.12);
+  border-top-color: #10b981;
+  animation: splashTagIn 0.5s ease 0.6s both, splashSpin 0.8s linear 0.6s infinite;
+}
+.splash-dots {
+  display: flex;
+  gap: 8px;
+  margin-top: 40px;
+  animation: splashTagIn 0.5s ease 0.5s both;
+}
+.splash-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  animation: splashPulse 1.2s ease-in-out infinite;
+}
+.splash-dot:nth-child(2) { animation-delay: 0.2s; }
+.splash-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes splashLogoIn {
+  from { opacity:0; transform: translateY(22px) scale(0.96); }
+  to { opacity:1; transform: translateY(0) scale(1); }
+}
+@keyframes splashTagIn {
+  from { opacity:0; transform: translateY(10px); }
+  to { opacity:1; transform: translateY(0); }
+}
+@keyframes splashSpin {
+  to { transform: rotate(360deg); }
+}
+@keyframes splashPulse {
+  0%,100% { background: rgba(255,255,255,0.15); transform: scale(1); }
+  50% { background: #10b981; transform: scale(1.3); }
+}
+
 :root {
   --primary-black: #111111;
   --secondary-black: #222222;
@@ -40,14 +116,14 @@ body { background: var(--bg-white); color: var(--text-main); line-height: 1.6; m
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes slideUp { from { transform: translateY(40px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 nav { display: flex; justify-content: space-between; align-items: center; padding: 1rem 5%; position: sticky; top: 0; background: var(--primary-black); backdrop-filter: blur(12px); z-index: 1000; border-bottom: 1px solid var(--border-color); transition: var(--transition); }
-.logo { font-size: 1.5rem; font-weight: 800; color: white; letter-spacing: -1px; cursor: pointer; transition: var(--transition); }
+.logo { font-family: 'Syne', 'Inter', sans-serif; font-size: 1.5rem; font-weight: 800; color: white; letter-spacing: -1px; cursor: pointer; transition: var(--transition); }
 .logo:hover { transform: scale(1.05); }
 .btn { padding: 0.75rem 1.5rem; border-radius: 50px; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: var(--transition); border: none; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
 .btn-primary { background: white; color: var(--primary-black); box-shadow: 0 4px 14px rgba(0,0,0,0.15); }
 .btn-primary:hover { background: var(--bg-off-white); transform: translateY(-2px); }
 .hero { padding: 6rem 5% 4rem; text-align: center; background: radial-gradient(circle at top right, #f0fdf4, #ffffff); transition: var(--transition); }
 .dark-mode .hero { background: radial-gradient(circle at top right, #1e1e1e, #121212); }
-.hero h1 { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 800; margin-bottom: 1.5rem; color: var(--primary-black); line-height: 1.1; letter-spacing: -2px; }
+.hero h1 { font-family: 'Syne', 'Inter', sans-serif; font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 800; margin-bottom: 1.5rem; color: var(--primary-black); line-height: 1.1; letter-spacing: -2px; }
 .hero p { color: var(--text-muted); font-size: 1.2rem; max-width: 600px; margin: 0 auto 3rem; }
 .search-container { background: white; padding: 0.6rem; border-radius: 100px; box-shadow: var(--shadow-md); border: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 0.5rem; max-width: 850px; margin: 0 auto; transition: var(--transition); }
 .dark-mode .search-container { background: #333; }
@@ -123,37 +199,22 @@ nav { display: flex; justify-content: space-between; align-items: center; paddin
 #signInModal .modal-content { max-width: 380px; padding: 0; }
 #signInModal .modal-header { padding: 1.75rem 1.5rem 1rem; border-bottom: none; text-align: center; }
 #signInModal .modal-body { padding: 1.5rem 1.5rem 2rem; }
-#signInModal input { width: 100%; padding: 14px 16px; border: 1.5px solid var(--border-color); border-radius: 12px; font-size: 1rem; margin-bottom: 1rem; transition: var(--transition); }
+#signInModal input { width: 100%; padding: 14px 16px; border: 1.5px solid var(--border-color); border-radius: 12px; font-size: 1rem; margin-bottom: 1rem; transition: var(--transition); background: var(--bg-white); color: var(--text-main); }
 #signInModal input:focus { border-color: var(--accent-green); outline: none; box-shadow: 0 0 0 3px rgba(16,185,129,0.1); }
 #signInModal .sign-in-btn { width: 100%; padding: 14px; background: var(--primary-black); color: white; border: none; border-radius: 50px; font-weight: 700; font-size: 1.05rem; margin: 1rem 0 1.25rem; cursor: pointer; transition: var(--transition); }
+.dark-mode #signInModal .sign-in-btn { background: white; color: #111; }
 #signInModal .sign-in-btn:hover { background: var(--accent-green); }
-/* ENHANCED GOOGLE BUTTON - DESKTOP SIGN IN MODAL NOW MATCHES MOBILE EXACTLY */
 #signInModal .google-btn {
-  width: 100%;
-  padding: 14px 16px;
-  border-radius: 50px;
-  margin-top: 12px;
-  background: white;
-  color: #1f2937;
-  border: 1.5px solid #e2e4e7;
-  font-weight: 700;
-  font-size: 0.92rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  position: relative;
-  overflow: hidden;
+  width: 100%; padding: 14px 16px; border-radius: 50px; margin-top: 12px;
+  background: white; color: #1f2937; border: 1.5px solid #e2e4e7;
+  font-weight: 700; font-size: 0.92rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  transition: all 0.2s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  position: relative; overflow: hidden;
 }
+#signInModal .google-btn:hover { box-shadow: 0 4px 14px rgba(0,0,0,0.12); transform: translateY(-1px); }
 #signInModal .google-btn:active { transform: scale(0.97); }
-#signInModal .google-btn .google-logo {
-  width: 20px; height: 20px;
-  flex-shrink: 0;
-  display: block;
-}
+#signInModal .google-btn .google-logo { width: 20px; height: 20px; flex-shrink: 0; display: block; }
 .dark-mode #signInModal .google-btn { background: #2c2c2e; color: white; border-color: #3a3a3c; }
 #signInModal .or-divider { text-align: center; margin: 1.25rem 0; color: var(--text-muted); font-size: 0.9rem; position: relative; }
 #signInModal .or-divider::before { content: ''; position: absolute; top: 50%; left: 0; right: 0; height: 1px; background: var(--border-color); }
@@ -174,8 +235,9 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
 .dark-mode #detailModal .modal-thumbnails { background: #1e1e1e; }
 #detailModal .modal-thumbnail { width: 80px; height: 60px; border-radius: 8px; object-fit: cover; cursor: pointer; border: 2px solid transparent; transition: var(--transition); flex-shrink: 0; }
 #detailModal .modal-thumbnail:hover, #detailModal .modal-thumbnail.active { border-color: var(--accent-green); }
-#detailModal .gallery-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.9); border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 10; }
-.dark-mode #detailModal .gallery-nav { background: rgba(0,0,0,0.9); }
+#detailModal .gallery-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.9); border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 10; transition: var(--transition); }
+#detailModal .gallery-nav:hover { background: white; transform: translateY(-50%) scale(1.05); }
+.dark-mode #detailModal .gallery-nav { background: rgba(0,0,0,0.9); color: white; }
 #detailModal .gallery-nav.prev { left: 12px; }
 #detailModal .gallery-nav.next { right: 12px; }
 #detailModal .modal-body { padding: 1.25rem; overflow-y: auto; flex: 1; }
@@ -205,7 +267,7 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
 #detailModal .contact-btn.call { background: var(--primary-black); color: white; }
 #detailModal .contact-btn.call:hover { background: #333; }
 #detailModal .close-modal { position: absolute; top: 12px; right: 12px; background: rgba(255,255,255,0.95); border: none; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; box-shadow: var(--shadow-sm); display: flex; align-items: center; justify-content: center; z-index: 10; transition: var(--transition); }
-.dark-mode #detailModal .close-modal { background: rgba(0,0,0,0.95); }
+.dark-mode #detailModal .close-modal { background: rgba(0,0,0,0.95); color: white; }
 #detailModal .close-modal:hover { transform: scale(1.1); }
 .review-section { margin-top: 1.5rem; border-top: 1px solid var(--border-color); padding-top: 1rem; }
 .review-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
@@ -229,7 +291,7 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
 #reviewModal .star-rating { display: flex; gap: 8px; justify-content: center; margin-bottom: 1rem; }
 #reviewModal .star-rating i { font-size: 1.5rem; color: #d1d5db; cursor: pointer; transition: color 0.2s; }
 #reviewModal .star-rating i.selected { color: #eab308; }
-#reviewModal textarea { width: 100%; height: 100px; padding: 0.75rem 1rem; border: 1.5px solid var(--border-color); border-radius: 12px; font-size: 0.95rem; font-family: 'Inter',sans-serif; resize: vertical; outline: none; }
+#reviewModal textarea { width: 100%; height: 100px; padding: 0.75rem 1rem; border: 1.5px solid var(--border-color); border-radius: 12px; font-size: 0.95rem; font-family: 'Inter',sans-serif; resize: vertical; outline: none; background: var(--bg-white); color: var(--text-main); }
 #reviewModal textarea:focus { border-color: var(--accent-green); box-shadow: 0 0 0 3px rgba(16,185,129,0.1); }
 #mapModal .modal-content { width: 95%; max-width: 900px; height: 80vh; display: flex; flex-direction: column; }
 .dark-mode #mapModal .modal-content { background: #1e1e1e; }
@@ -247,7 +309,7 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
 #addForm .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
 #addForm .form-group.full-width { grid-column: span 2; }
 #addForm label { font-weight: 600; font-size: 0.85rem; color: var(--text-main); }
-#addForm input[type="text"], #addForm input[type="number"], #addForm select, #addForm textarea { padding: 0.75rem 1rem; border: 1.5px solid var(--border-color); border-radius: 12px; font-size: 0.95rem; font-family: 'Inter',sans-serif; background: white; transition: var(--transition); outline: none; }
+#addForm input[type="text"], #addForm input[type="number"], #addForm select, #addForm textarea { padding: 0.75rem 1rem; border: 1.5px solid var(--border-color); border-radius: 12px; font-size: 0.95rem; font-family: 'Inter',sans-serif; background: white; transition: var(--transition); outline: none; color: var(--text-main); }
 .dark-mode #addForm input[type="text"], .dark-mode #addForm input[type="number"], .dark-mode #addForm select, .dark-mode #addForm textarea { background: #333; color: white; }
 #addForm input:focus, #addForm select:focus, #addForm textarea:focus { border-color: var(--accent-green); box-shadow: 0 0 0 3px rgba(16,185,129,0.1); }
 #addForm select { cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b7280' d='M6 8L1 3h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 1rem center; padding-right: 2.5rem; }
@@ -259,7 +321,6 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
 #addForm .file-upload-text { font-size: 0.85rem; color: var(--text-muted); font-weight: 500; }
 #addForm .file-upload-text span { color: var(--accent-green); font-weight: 600; }
 #addForm .submit-btn { margin-top: 0.5rem; padding: 1rem; font-size: 1rem; }
-/* SIGN OUT CONFIRM & SIGNED OUT MODALS */
 #signOutConfirmModal .modal-content { max-width:360px; }
 #signedOutModal .modal-content { max-width:380px; }
 /* =============================================
@@ -279,46 +340,24 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
   .dark-mode .mobile-search-wrapper .search-input-group { border-bottom: 1px solid #444; }
   .mobile-search-wrapper .search-input-group:last-child { border-bottom: none; margin-bottom: 0; }
   .show-results-btn { border-radius: 50px !important; }
-  /* ALL MOBILE BUTTONS ARE PILL SHAPED */
   .sheet-contact-btn, .ps-signin-cta, .ps-google-cta, .mobile-home-search-btn, .show-results-btn, .ps-edit-btn, .ps-signout, .ps-edit-save, .sheet-add-review, .add-review-btn {
     border-radius: 50px !important;
   }
-  /* MOBILE DARK MODE HEADER BLACK */
-  .dark-mode nav {
-    background: #111111 !important;
-  }
-  /* FILTER TABS: ACTIVE = GREEN BACKGROUND + WHITE TEXT */
+  .dark-mode nav { background: #111111 !important; }
   .mobile-filter-row .filter-tag.active {
     background: var(--accent-green) !important;
     color: white !important;
     border-color: var(--accent-green) !important;
   }
-  /* PRICE RANGE SLIDER MODERN + FLOATING ON MOBILE */
   .home-price-range .price-range-wrapper {
     box-shadow: 0 15px 35px -10px rgba(0,0,0,0.18) !important;
     border: none !important;
   }
-  .range-selected {
-    box-shadow: 0 0 12px var(--accent-green) !important;
-  }
-  .range-input input::-webkit-slider-thumb {
-    box-shadow: 0 4px 12px rgba(16,185,129,0.3) !important;
-  }
-  /* CALL BUTTON BLACK IN DARK MODE */
-  .dark-mode .sheet-contact-btn.call {
-    background: #111111 !important;
-    color: white !important;
-  }
-  /* SUBMIT REVIEW BUTTON BLACK IN DARK MODE */
-  .dark-mode .sheet-add-review {
-    background: #111111 !important;
-    color: white !important;
-  }
-  /* SIGN OUT CONFIRM MODAL IN FRONT OF BOTTOM SHEET */
-  #signOutConfirmModal {
-    z-index: 3500 !important;
-  }
-  /* ── MOBILE HOME SEARCH BAR (full style matching filters tab) ── */
+  .range-selected { box-shadow: 0 0 12px var(--accent-green) !important; }
+  .range-input input::-webkit-slider-thumb { box-shadow: 0 4px 12px rgba(16,185,129,0.3) !important; }
+  .dark-mode .sheet-contact-btn.call { background: #111111 !important; color: white !important; }
+  .dark-mode .sheet-add-review { background: #111111 !important; color: white !important; }
+  #signOutConfirmModal { z-index: 3500 !important; }
   .mobile-home-search {
     margin: 10px 12px 0;
     background: white;
@@ -329,16 +368,8 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
     transition: border-color 0.2s, box-shadow 0.2s;
   }
   .dark-mode .mobile-home-search { background: #1e1e1e; border-color: #333; }
-  .mobile-home-search:focus-within {
-    border-color: var(--accent-green);
-    box-shadow: 0 2px 20px rgba(16,185,129,0.13);
-  }
-  .mobile-home-search-inner {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 13px 16px;
-  }
+  .mobile-home-search:focus-within { border-color: var(--accent-green); box-shadow: 0 2px 20px rgba(16,185,129,0.13); }
+  .mobile-home-search-inner { display: flex; align-items: center; gap: 10px; padding: 13px 16px; }
   .mobile-home-search-inner i.search-icon { color: var(--accent-green); font-size: 1rem; flex-shrink: 0; }
   .mobile-home-search-inner input {
     border: none; outline: none; background: transparent;
@@ -347,25 +378,14 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
   }
   .mobile-home-search-inner input::placeholder { color: var(--text-muted); font-weight: 400; }
   .mobile-home-search-btn {
-    margin: 0 10px 10px;
-    width: calc(100% - 20px);
-    padding: 12px;
-    background: var(--primary-black);
-    color: white;
-    border: none;
-    border-radius: 50px;
-    font-weight: 700;
-    font-size: 0.9rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    transition: background 0.2s;
+    width: calc(100% - 20px); padding: 12px;
+    background: var(--primary-black); color: white;
+    border: none; border-radius: 50px; font-weight: 700; font-size: 0.9rem;
+    cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+    margin: 0 10px 10px; transition: background 0.2s;
   }
   .mobile-home-search-btn:active { background: var(--accent-green); }
   .dark-mode .mobile-home-search-btn { background: white; color: #111; }
-  /* ── BOTTOM NAV (3 tabs — Filters removed) ── */
   .bottom-nav { display: flex; justify-content: space-around; align-items: center; position: fixed; bottom: 0; left: 0; right: 0; width: 100%; background: var(--bg-white); border-top: 1px solid var(--border-color); padding: 8px 0 20px; z-index: 1000; transition: var(--transition); }
   .dark-mode .bottom-nav { background: #1a1a1a; border-top: 1px solid #333; }
   .bottom-nav-item { display: flex; flex-direction: column; align-items: center; justify-content: center; color: #b0b0b0; cursor: pointer; padding: 4px 16px; transition: color 0.2s ease; gap: 4px; background: transparent; flex: 1; }
@@ -374,40 +394,21 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
   .bottom-nav-item span { font-size: 0.7rem; font-weight: 500; display: block; white-space: nowrap; }
   .bottom-nav-item.active { color: var(--primary-black); background: transparent; }
   .dark-mode .bottom-nav-item.active { color: white; }
-  /* ── 2-COLUMN CARD GRID ── */
   .grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    padding: 8px 10px 1rem;
-    animation: fadeIn 0.6s ease;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 8px; padding: 8px 10px 1rem; animation: fadeIn 0.6s ease;
   }
   .card {
-    background: transparent;
-    border-radius: 0;
-    overflow: visible;
-    border: none;
-    transition: none;
-    position: relative;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    animation: none;
-    cursor: pointer;
+    background: transparent; border-radius: 0; overflow: visible; border: none;
+    transition: none; position: relative; padding: 0; display: flex; flex-direction: column;
+    gap: 6px; animation: none; cursor: pointer;
   }
   .dark-mode .card { background: transparent; }
   .card:hover { transform: none; box-shadow: none; }
   .card:active { opacity: 0.82; }
   .card-image {
-    height: 0;
-    padding-bottom: 100%;
-    width: 100%;
-    position: relative;
-    overflow: hidden;
-    background: #f0f0f0;
-    border-radius: 14px;
-    flex-shrink: 0;
+    height: 0; padding-bottom: 100%; width: 100%; position: relative;
+    overflow: hidden; background: #f0f0f0; border-radius: 14px; flex-shrink: 0;
   }
   .dark-mode .card-image { background: #2a2a2a; }
   .card-image img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; border-radius: 14px; }
@@ -443,39 +444,19 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
   .mobile-filter-row .filter-tag { padding: 5px 12px; font-size: 0.75rem; border-color: #ddd; background: white; border-radius: 50px; flex-shrink: 0; }
   .dark-mode .mobile-filter-row .filter-tag { background: #2a2a2a; border-color: #444; }
   .home-price-range { padding: 0 12px; margin-bottom: 6px; }
-  /* ── ENHANCED GOOGLE BUTTON (mobile sign-in sheet) ── */
   .ps-google-cta {
-    width: 100%;
-    padding: 14px 16px;
-    border-radius: 50px;
-    margin-top: 12px;
-    background: white;
-    color: #1f2937;
-    border: 1.5px solid #e2e4e7;
-    font-weight: 700;
-    font-size: 0.92rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    transition: all 0.2s ease;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    position: relative;
-    overflow: hidden;
+    width: 100%; padding: 14px 16px; border-radius: 50px; margin-top: 12px;
+    background: white; color: #1f2937; border: 1.5px solid #e2e4e7;
+    font-weight: 700; font-size: 0.92rem; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    transition: all 0.2s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    position: relative; overflow: hidden;
   }
   .dark-mode .ps-google-cta { background: #2c2c2e; color: white; border-color: #3a3a3c; }
-  .ps-google-cta:active {
-    transform: scale(0.97);
-  }
-  .ps-google-cta .google-logo {
-    width: 20px; height: 20px;
-    flex-shrink: 0;
-    display: block;
-  }
+  .ps-google-cta:active { transform: scale(0.97); }
+  .ps-google-cta .google-logo { width: 20px; height: 20px; flex-shrink: 0; display: block; }
   /* Hide desktop detail modal on mobile */
   #detailModal { display: none !important; }
-  /* ── MOBILE BOTTOM SHEET ── */
   @keyframes sheetFadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
   @keyframes sheetScaleIn { from { opacity:0; transform:scale(0.94); } to { opacity:1; transform:scale(1); } }
   #mobileSheetBackdrop {
@@ -558,10 +539,7 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
   .sheet-add-review { background: var(--accent-green); color: white; padding: 10px 18px; border-radius: 50px; font-weight: 600; font-size: 0.82rem; cursor: pointer; border: none; transition: transform 0.15s ease, background 0.15s ease; }
   .sheet-add-review:active { transform: scale(0.96); background: #059669; }
   /* MOBILE MAP BOTTOM SHEET */
-  #mobileMapBackdrop {
-    position: fixed; inset: 0; background: rgba(0,0,0,0); z-index: 3100; display: none;
-    transition: background 0.35s ease; -webkit-backdrop-filter: blur(0px); backdrop-filter: blur(0px);
-  }
+  #mobileMapBackdrop { position: fixed; inset: 0; background: rgba(0,0,0,0); z-index: 3100; display: none; transition: background 0.35s ease; -webkit-backdrop-filter: blur(0px); backdrop-filter: blur(0px); }
   #mobileMapBackdrop.open { display: block; background: rgba(0,0,0,0.5); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); }
   #mobileMapSheet { position: fixed; bottom: 0; left: 0; right: 0; z-index: 3200; display: none; padding: 0 10px 10px; pointer-events: none; }
   #mobileMapSheet.open { display: block; pointer-events: auto; }
@@ -577,10 +555,7 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
   #mobileMapSheet.open #mobileMapPanel { transform: translateY(0); }
   #mobileMapPanel .map-container { flex: 1; border-radius: 0 0 22px 22px; overflow: hidden; }
   /* MOBILE REVIEW BOTTOM SHEET */
-  #mobileReviewBackdrop {
-    position: fixed; inset: 0; background: rgba(0,0,0,0); z-index: 3100; display: none;
-    transition: background 0.35s ease; -webkit-backdrop-filter: blur(0px); backdrop-filter: blur(0px);
-  }
+  #mobileReviewBackdrop { position: fixed; inset: 0; background: rgba(0,0,0,0); z-index: 3100; display: none; transition: background 0.35s ease; -webkit-backdrop-filter: blur(0px); backdrop-filter: blur(0px); }
   #mobileReviewBackdrop.open { display: block; background: rgba(0,0,0,0.5); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); }
   #mobileReviewSheet { position: fixed; bottom: 0; left: 0; right: 0; z-index: 3200; display: none; padding: 0 10px 10px; pointer-events: none; }
   #mobileReviewSheet.open { display: block; pointer-events: auto; }
@@ -653,7 +628,7 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
   .ps-menu-icon.amber { background: #fef3c7; color: #d97706; }
   .ps-menu-icon.red { background: #fee2e2; color: #dc2626; }
   .ps-menu-icon.gray { background: var(--border-color); color: var(--text-muted); }
-  .ps-menu-icon.purple{ background: #ede9fe; color: #7c3aed; }
+  .ps-menu-icon.purple { background: #ede9fe; color: #7c3aed; }
   .dark-mode .ps-menu-icon.green { background: #14532d; color: #86efac; }
   .dark-mode .ps-menu-icon.blue { background: #1e3a5f; color: #93c5fd; }
   .dark-mode .ps-menu-icon.amber { background: #451a03; color: #fcd34d; }
@@ -675,7 +650,6 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
   .dark-mode .ps-signout { border-color: #450a0a; color: #fca5a5; }
   .ps-signout:active { background: #fee2e2; }
   .dark-mode .ps-signout:active { background: #450a0a; }
-  /* Not signed in state */
   .ps-signin-prompt { padding: 28px 18px 8px; text-align: center; }
   .ps-signin-prompt i { font-size: 2.8rem; color: var(--border-color); margin-bottom: 12px; display: block; }
   .ps-signin-prompt h3 { font-size: 1rem; font-weight: 700; margin-bottom: 6px; }
@@ -683,7 +657,6 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
   .ps-signin-cta { width: 100%; padding: 13px; border-radius: 50px; background: var(--primary-black); color: white; border: none; font-weight: 700; font-size: 0.95rem; cursor: pointer; transition: opacity 0.15s; }
   .dark-mode .ps-signin-cta { background: white; color: #111; }
   .ps-signin-cta:active { opacity: 0.85; }
-  /* Edit profile overlay */
   .ps-edit-overlay { position: absolute; inset: 0; background: var(--bg-white); z-index: 10; overflow-y: auto; padding: 16px 18px 30px; transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.4,0,0.2,1); }
   .dark-mode .ps-edit-overlay { background: #1c1c1e; }
   .ps-edit-overlay.visible { transform: translateX(0); }
@@ -712,9 +685,27 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
   #mobileReviewSheet { display: none !important; }
   #mobileReviewBackdrop { display: none !important; }
 }
+/* ── ENHANCED REFINEMENTS ── */
+.dark-mode #signInModal input { background: #2c2c2e; border-color: #3a3a3c; color: white; }
+.dark-mode #addForm select { background: #333; color: white; }
+.dark-mode #reviewModal textarea { background: #2c2c2e; border-color: #3a3a3c; color: white; }
+.dark-mode .mobile-search-wrapper input { background: transparent; color: var(--text-main); }
+#detailModal .modal-rating { display:flex; align-items:center; gap:6px; margin-bottom:0.5rem; color:#eab308; font-size:0.85rem; }
 </style>
 </head>
 <body>
+
+<!-- SPLASH SCREEN -->
+<div id="splashScreen">
+  <div class="splash-logo">KasiStay<span>.</span></div>
+  <div class="splash-tagline">South Africa's Accommodation Finder</div>
+  <div class="splash-dots">
+    <div class="splash-dot"></div>
+    <div class="splash-dot"></div>
+    <div class="splash-dot"></div>
+  </div>
+</div>
+
 <nav>
   <div class="logo" onclick="resetFilters()">KasiStay<span style="color:var(--accent-green)">.</span></div>
   <div class="nav-btn-container">
@@ -755,7 +746,6 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
 </div>
 <div id="mainContentWrapper">
   <div id="homeView">
-    <!-- Mobile home search bar (full, like filters tab) -->
     <div class="mobile-home-search">
       <div class="mobile-home-search-inner">
         <i class="fa-solid fa-magnifying-glass search-icon"></i>
@@ -765,7 +755,6 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
         <i class="fa-solid fa-magnifying-glass"></i> Search
       </button>
     </div>
-    <!-- Mobile filter chips -->
     <div class="mobile-filter-row">
       <div class="filter-tags-row">
         <button class="filter-tag active" data-filter="all">All</button>
@@ -775,7 +764,6 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
         <button class="filter-tag" data-filter="Flat Apartments">Apartment</button>
       </div>
     </div>
-    <!-- Mobile price slider -->
     <div class="home-price-range price-range-wrapper">
       <div class="price-range-header">
         <span>Price Range</span>
@@ -823,6 +811,7 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
     </div>
   </div>
 </div>
+
 <!-- DESKTOP DETAIL MODAL -->
 <div class="modal-overlay" id="detailModal" onclick="if(event.target===this)closeModal()">
   <div class="modal-content">
@@ -868,6 +857,7 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
     </div>
   </div>
 </div>
+
 <!-- MOBILE BOTTOM SHEET -->
 <div id="mobileSheetBackdrop" onclick="closeMobileSheet()"></div>
 <div id="mobileSheet">
@@ -917,6 +907,7 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
     </div>
   </div>
 </div>
+
 <!-- MOBILE MAP BOTTOM SHEET -->
 <div id="mobileMapBackdrop" onclick="closeMobileMap()"></div>
 <div id="mobileMapSheet">
@@ -927,6 +918,7 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
     </div>
   </div>
 </div>
+
 <!-- MOBILE REVIEW BOTTOM SHEET -->
 <div id="mobileReviewBackdrop" onclick="closeMobileReview()"></div>
 <div id="mobileReviewSheet">
@@ -939,21 +931,23 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
           <i class="fa-solid fa-star" data-rating="1"></i><i class="fa-solid fa-star" data-rating="2"></i><i class="fa-solid fa-star" data-rating="3"></i><i class="fa-solid fa-star" data-rating="4"></i><i class="fa-solid fa-star" data-rating="5"></i>
         </div>
       </div>
-      <textarea id="mobileReviewComment" placeholder="Share your experience..." style="width:100%;height:140px;padding:14px;border:1.5px solid var(--border-color);border-radius:12px;font-size:0.95rem;resize:vertical;outline:none;margin-bottom:1.5rem;"></textarea>
+      <textarea id="mobileReviewComment" placeholder="Share your experience..." style="width:100%;height:140px;padding:14px;border:1.5px solid var(--border-color);border-radius:12px;font-size:0.95rem;resize:vertical;outline:none;margin-bottom:1.5rem;background:var(--bg-white);color:var(--text-main);"></textarea>
       <button onclick="submitMobileReview()" class="btn btn-primary" style="width:100%;padding:14px;">Submit Review</button>
     </div>
   </div>
 </div>
+
 <!-- MAP MODAL (desktop only) -->
 <div class="modal-overlay" id="mapModal" onclick="if(event.target===this)closeMapModal()">
   <div class="modal-content">
     <div class="modal-header" style="display:flex;justify-content:space-between;align-items:center;padding:1rem 1.5rem;">
       <h2 style="font-size:1.1rem;font-weight:700;">Location</h2>
-      <button class="close-modal" onclick="closeMapModal()" style="position:static;width:32px;height:32px;"><i class="fa-solid fa-xmark"></i></button>
+      <button class="close-modal" onclick="closeMapModal()" style="position:static;width:32px;height:32px;border:none;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text-muted);"><i class="fa-solid fa-xmark"></i></button>
     </div>
     <div class="map-container"><iframe id="mapFrame" src="" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
   </div>
 </div>
+
 <!-- ADD MODAL -->
 <div class="modal-overlay" id="addModal" onclick="if(event.target===this)closeAddModal()">
   <div class="modal-content">
@@ -962,7 +956,7 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
       <button class="close-modal" onclick="closeAddModal()"><i class="fa-solid fa-xmark"></i></button>
     </div>
     <div class="modal-body">
-      <form id="addForm">
+      <form id="addForm" onsubmit="return false;">
         <div class="form-group full-width"><label>Property Owner Name</label><input type="text" id="addOwnerName" placeholder="Enter your name" required></div>
         <div class="form-group full-width"><label>Listing Title</label><input type="text" id="addTitle" placeholder="e.g. Modern Student Studio near UJ" required></div>
         <div class="form-row">
@@ -989,6 +983,7 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
     </div>
   </div>
 </div>
+
 <!-- REVIEW MODAL (desktop only) -->
 <div class="modal-overlay" id="reviewModal" onclick="if(event.target===this)closeReviewModal()">
   <div class="modal-content">
@@ -1004,6 +999,7 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
     </div>
   </div>
 </div>
+
 <!-- SIGN IN MODAL -->
 <div class="modal-overlay" id="signInModal" onclick="if(event.target===this)closeSignInModal()">
   <div class="modal-content">
@@ -1013,7 +1009,6 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
       <input type="password" id="signInPassword" placeholder="Password" autocomplete="current-password">
       <button class="sign-in-btn" onclick="signInWithCredentials()">Sign In</button>
       <div class="or-divider"><span>or</span></div>
-      <!-- Enhanced Google button (now matches mobile exactly) -->
       <button class="google-btn" onclick="signInWithGoogle()">
         <svg class="google-logo" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
           <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
@@ -1027,22 +1022,24 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
     </div>
   </div>
 </div>
+
 <!-- LOGIN FEEDBACK MODAL -->
 <div class="modal-overlay" id="loginFeedbackModal" onclick="if(event.target===this)closeLoginFeedbackModal()">
-  <div class="modal-content modal-success" id="loginFeedbackInner">
-  </div>
+  <div class="modal-content modal-success" id="loginFeedbackInner"></div>
 </div>
+
 <!-- SIGN OUT CONFIRM MODAL -->
 <div class="modal-overlay" id="signOutConfirmModal" onclick="if(event.target===this)closeSignOutConfirm()">
   <div class="modal-content" style="max-width:360px;">
     <div class="modal-header" style="border-bottom:none;text-align:center;padding:2rem 1.5rem 1rem;">Sign Out?</div>
     <div class="modal-body" style="padding:0 2rem 2rem;text-align:center;color:var(--text-muted);">Are you sure you want to sign out of KasiStay?</div>
     <div style="display:flex;padding:0 1.5rem 1.5rem;gap:1rem;">
-      <button onclick="closeSignOutConfirm()" style="flex:1;padding:14px;border:1.5px solid var(--border-color);border-radius:50px;font-weight:600;background:transparent;">Cancel</button>
+      <button onclick="closeSignOutConfirm()" style="flex:1;padding:14px;border:1.5px solid var(--border-color);border-radius:50px;font-weight:600;background:transparent;color:var(--text-main);cursor:pointer;">Cancel</button>
       <button onclick="confirmSignOut()" class="btn btn-primary" style="flex:1;">Yes, Sign Out</button>
     </div>
   </div>
 </div>
+
 <!-- SIGNED OUT SUCCESS MODAL -->
 <div class="modal-overlay" id="signedOutModal" onclick="if(event.target===this)closeSignedOutModal()">
   <div class="modal-content modal-success">
@@ -1052,6 +1049,7 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
     <button class="btn btn-primary" onclick="closeSignedOutModal()" style="margin-top:1rem;padding:0.9rem 2rem;">OK</button>
   </div>
 </div>
+
 <!-- UPLOAD + SUCCESS -->
 <div class="modal-overlay" id="uploadModal">
   <div class="progress-modal-content">
@@ -1068,6 +1066,7 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
     <button class="btn btn-primary" onclick="document.getElementById('successModal').classList.remove('active')" style="margin-top:1rem;padding:0.9rem 2rem;">Done</button>
   </div>
 </div>
+
 <!-- PROFILE BOTTOM SHEET -->
 <div id="profileSheetBackdrop" onclick="closeProfileSheet()"></div>
 <div id="profileSheet">
@@ -1163,7 +1162,7 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
         <div id="profileDynamicContent" style="display:none;padding:16px 18px 0;">
           <div id="dynamicTitle" style="font-size:0.7rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;"></div>
           <div id="dynamicList" style="background:var(--bg-off-white);border-radius:14px;overflow:hidden;border:1px solid var(--border-color);"></div>
-          <button onclick="closeDynamicContent()" style="margin:1rem 0 0;width:100%;padding:13px;border:1.5px solid var(--border-color);border-radius:12px;background:transparent;color:var(--text-muted);font-weight:600;">Back to Profile</button>
+          <button onclick="closeDynamicContent()" style="margin:1rem 0 0;width:100%;padding:13px;border:1.5px solid var(--border-color);border-radius:12px;background:transparent;color:var(--text-muted);font-weight:600;cursor:pointer;">Back to Profile</button>
         </div>
         <button class="ps-signout" onclick="openSignOutConfirm()"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</button>
         <!-- Edit Profile Overlay -->
@@ -1192,7 +1191,6 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
           <h3>Join KasiStay</h3>
           <p>Sign in to save properties, manage your listings and track your activity.</p>
           <button class="ps-signin-cta" onclick="closeProfileSheet();openSignInModal()">Sign In</button>
-          <!-- Enhanced Google button with real logo SVG -->
           <button class="ps-google-cta" onclick="closeProfileSheet();signInWithGoogle()">
             <svg class="google-logo" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
@@ -1216,7 +1214,7 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
             </div>
             <div class="ps-menu-item" onclick="alert('Help coming soon!')">
               <div class="ps-menu-icon green"><i class="fa-solid fa-circle-question"></i></div>
-              <div class="ps-menu-text"><div class="ps-menu-label">Help & Support</div></div>
+              <div class="ps-menu-text"><div class="ps-menu-label">Help &amp; Support</div></div>
               <i class="fa-solid fa-chevron-right ps-menu-arrow"></i>
             </div>
           </div>
@@ -1226,22 +1224,26 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
     </div>
   </div>
 </div>
+
 <footer>
   <div class="logo" style="color:white;font-size:2rem;">KasiStay<span style="color:var(--accent-green)">.</span></div>
   <p style="color:#6b7280;margin-top:10px;">South Africa's #1 Accommodation Finder</p>
   <div class="footer-links"><a href="#">About Us</a><a href="#">Safety Guidelines</a><a href="#">Landlord Portal</a><a href="#">Support</a></div>
-  <div class="copyright">© 2026 KasiStay Inc. Built to make your, job easier.</div>
+  <div class="copyright">&copy; 2026 KasiStay Inc. Built to make your job easier.</div>
 </footer>
-<!-- BOTTOM NAV: 3 tabs — Filters removed, List + Profile remain -->
+
+<!-- BOTTOM NAV -->
 <div class="bottom-nav">
   <div class="bottom-nav-item active" data-tab="0" onclick="navigateTab(0)"><i class="fa-solid fa-magnifying-glass"></i><span>Explore</span></div>
   <div class="bottom-nav-item" data-tab="1" onclick="navigateTab(1)"><i class="fa-solid fa-plus-circle"></i><span>List</span></div>
   <div class="bottom-nav-item" data-tab="2" onclick="navigateTab(2)" id="profileNavBtn"><i class="fa-solid fa-circle-user"></i><span>Profile</span></div>
 </div>
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 import { getDatabase, ref, push, set, onValue, update, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
 const firebaseConfig = { apiKey:"AIzaSyD_MtScfT0J5b8LbMm5oAATmw84plKWl-0", authDomain:"kasistay-3b79c.firebaseapp.com", projectId:"kasistay-3b79c", storageBucket:"kasistay-3b79c.appspot.com", messagingSenderId:"19156366595", appId:"1:19156366595:web:c64b9bd6dfde5790e02536" };
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -1249,12 +1251,26 @@ const db = getDatabase(app);
 const provider = new GoogleAuthProvider();
 const CLOUD_NAME = "dv5bsbydu";
 const UPLOAD_PRESET = "admin_tlaka";
+
+/* ── SPLASH SCREEN ── */
+function hideSplash() {
+  const splash = document.getElementById('splashScreen');
+  if (!splash) return;
+  splash.classList.add('fade-out');
+  setTimeout(() => { splash.style.display = 'none'; }, 580);
+}
+// Show splash every page load / refresh — hide after listings load or 2.2s, whichever comes first
+let splashHidden = false;
+const hideSplashOnce = () => { if (!splashHidden) { splashHidden = true; hideSplash(); } };
+setTimeout(hideSplashOnce, 2200);
+
 async function uploadToCloudinary(file) {
   const fd = new FormData(); fd.append("file",file); fd.append("upload_preset",UPLOAD_PRESET);
   const r = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,{method:"POST",body:fd});
   const d = await r.json(); if(d.secure_url) return d.secure_url;
   throw new Error(d.error?.message||"Upload failed");
 }
+
 const grid = document.getElementById('listingsGrid');
 const countLabel = document.getElementById('listingCount');
 const searchInput = document.getElementById('searchInput');
@@ -1263,49 +1279,70 @@ const mobileInlineSearch = document.getElementById('mobileInlineSearch');
 let listingsData=[],currentFiltered=[],displayedData=[],currentFilter='all',minPrice=0,maxPrice=30000;
 let currentTab=0,currentItemLocation='',currentImages=[],currentImageIndex=0;
 let sheetImages=[],sheetImageIndex=0,currentListingId=null,selectedRating=0;
-const pageSize=10,likedItems=new Set();
+const pageSize=10;
+// FIX: likedItems must be let, not const, to allow reassignment
+let likedItems=new Set();
 let userProfile = {};
 let myReviewsData = [];
-/* SLIDERS */
+
+/* ── SLIDERS ── */
 const sliderGroups=[
   {min:'desktop-priceMin',max:'desktop-priceMax',track:'desktop-rangeTrack',minDisp:'desktop-minPriceDisplay',maxDisp:'desktop-maxPriceDisplay'},
   {min:'mobile-priceMin',max:'mobile-priceMax',track:'mobile-rangeTrack',minDisp:'mobile-minPriceDisplay',maxDisp:'mobile-maxPriceDisplay'},
   {min:'homePriceMin',max:'homePriceMax',track:'homeRangeTrack',minDisp:'homeMinPriceDisplay',maxDisp:'homeMaxPriceDisplay'}
 ];
-function updateSlider(gi){
+// FIX: pass the triggering slider group index explicitly instead of using window.event
+function updateSlider(gi, triggeredByMin) {
   const g=sliderGroups[gi],rMin=document.getElementById(g.min),rMax=document.getElementById(g.max);
   const rTrack=document.getElementById(g.track),mD=document.getElementById(g.minDisp),xD=document.getElementById(g.maxDisp);
   let lo=parseInt(rMin.value),hi=parseInt(rMax.value);
-  if(hi-lo<500){if(event.target.className==="range-min")rMin.value=hi-500;else rMax.value=lo+500;}
-  else{
-    minPrice=lo;maxPrice=hi;mD.textContent=lo.toLocaleString();xD.textContent=hi.toLocaleString();
-    const p1=(lo/rMin.max)*100,p2=(hi/rMax.max)*100;
-    rTrack.style.left=p1+"%";rTrack.style.width=(p2-p1)+"%";
-    syncSliders(gi);applyFilters();
+  if(hi-lo<500){
+    if(triggeredByMin) rMin.value=hi-500;
+    else rMax.value=lo+500;
+    lo=parseInt(rMin.value); hi=parseInt(rMax.value);
   }
+  minPrice=lo; maxPrice=hi;
+  mD.textContent=lo.toLocaleString(); xD.textContent=hi.toLocaleString();
+  const p1=(lo/rMin.max)*100, p2=(hi/rMax.max)*100;
+  rTrack.style.left=p1+"%"; rTrack.style.width=(p2-p1)+"%";
+  syncSliders(gi); applyFilters();
 }
 function syncSliders(si){
   const sg=sliderGroups[si],sMin=document.getElementById(sg.min).value,sMax=document.getElementById(sg.max).value;
   sliderGroups.forEach((g,i)=>{
     if(i===si)return;
     const mi=document.getElementById(g.min),mx=document.getElementById(g.max),tr=document.getElementById(g.track);
-    mi.value=sMin;mx.value=sMax;
+    mi.value=sMin; mx.value=sMax;
     const p1=(sMin/mi.max)*100,p2=(sMax/mx.max)*100;
-    tr.style.left=p1+"%";tr.style.width=(p2-p1)+"%";
+    tr.style.left=p1+"%"; tr.style.width=(p2-p1)+"%";
     document.getElementById(g.minDisp).textContent=parseInt(sMin).toLocaleString();
     document.getElementById(g.maxDisp).textContent=parseInt(sMax).toLocaleString();
   });
 }
 sliderGroups.forEach((g,i)=>{
   const mi=document.getElementById(g.min),mx=document.getElementById(g.max);
-  mi.addEventListener('input',()=>updateSlider(i));mx.addEventListener('input',()=>updateSlider(i));
+  mi.addEventListener('input',()=>updateSlider(i,true));
+  mx.addEventListener('input',()=>updateSlider(i,false));
   const p1=(mi.value/mi.max)*100,p2=(mx.value/mx.max)*100;
-  document.getElementById(g.track).style.left=p1+"%";document.getElementById(g.track).style.width=(p2-p1)+"%";
+  document.getElementById(g.track).style.left=p1+"%";
+  document.getElementById(g.track).style.width=(p2-p1)+"%";
 });
-/* DARK MODE */
-window.toggleDarkMode=()=>{document.body.classList.toggle('dark-mode');localStorage.setItem('darkMode',document.body.classList.contains('dark-mode'));};
-if(localStorage.getItem('darkMode')==='true')document.body.classList.add('dark-mode');
-/* AUTH */
+
+/* ── DARK MODE ── */
+// FIX: sync all toggles when toggling
+window.toggleDarkMode=()=>{
+  document.body.classList.toggle('dark-mode');
+  const isDark=document.body.classList.contains('dark-mode');
+  localStorage.setItem('darkMode', isDark);
+  // Sync all dark mode toggles
+  ['psDarkToggle','psDarkToggleGuest'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.checked=isDark;
+  });
+};
+if(localStorage.getItem('darkMode')==='true') document.body.classList.add('dark-mode');
+
+/* ── AUTH ── */
 onAuthStateChanged(auth,user=>{
   const btn=document.getElementById('authButton');
   if(user){btn.textContent='Sign Out';btn.onclick=openSignOutConfirm;}
@@ -1318,8 +1355,9 @@ onAuthStateChanged(auth,user=>{
 });
 window.openSignInModal=()=>{document.getElementById('signInModal').classList.add('active');document.body.style.overflow='hidden';};
 window.closeSignInModal=()=>{document.getElementById('signInModal').classList.remove('active');document.body.style.overflow='auto';};
-/* LOGIN FEEDBACK */
-window.closeLoginFeedbackModal=()=>{document.getElementById('loginFeedbackModal').classList.remove('active');};
+
+/* ── LOGIN FEEDBACK ── */
+window.closeLoginFeedbackModal=()=>{document.getElementById('loginFeedbackModal').classList.remove('active');document.body.style.overflow='auto';};
 window.showLoginMessage=(success,msg)=>{
   const inner=document.getElementById('loginFeedbackInner');
   if(success){
@@ -1327,7 +1365,9 @@ window.showLoginMessage=(success,msg)=>{
   }else{
     inner.innerHTML=`<i class="fa-solid fa-circle-xmark" style="color:#ef4444;font-size:4rem;margin-bottom:1.5rem;"></i><h2>Login Failed</h2><p>${msg}</p><button class="btn btn-primary" onclick="closeLoginFeedbackModal()" style="margin-top:1rem;padding:0.9rem 2rem;">Try Again</button>`;
   }
+  closeSignInModal();
   document.getElementById('loginFeedbackModal').classList.add('active');
+  document.body.style.overflow='hidden';
 };
 window.signInWithCredentials=async()=>{
   const e=document.getElementById('signInEmail').value.trim(),p=document.getElementById('signInPassword').value;
@@ -1339,8 +1379,12 @@ window.signUpWithCredentials=async()=>{
   if(!e||!p)return alert("Enter both email and password");
   try{await createUserWithEmailAndPassword(auth,e,p);closeSignInModal();showLoginMessage(true,"Account created & signed in!");}catch(err){showLoginMessage(false,err.message);}
 };
-window.signInWithGoogle=async()=>{try{await signInWithPopup(auth,provider);closeSignInModal();showLoginMessage(true,"Signed in with Google!");}catch(e){showLoginMessage(false,e.message||'Google sign-in failed');}};
-/* SIGN OUT CONFIRM */
+window.signInWithGoogle=async()=>{
+  try{await signInWithPopup(auth,provider);closeSignInModal();showLoginMessage(true,"Signed in with Google!");}
+  catch(e){showLoginMessage(false,e.message||'Google sign-in failed');}
+};
+
+/* ── SIGN OUT ── */
 window.openSignOutConfirm=()=>{document.getElementById('signOutConfirmModal').classList.add('active');document.body.style.overflow='hidden';};
 window.closeSignOutConfirm=()=>{document.getElementById('signOutConfirmModal').classList.remove('active');document.body.style.overflow='auto';};
 window.confirmSignOut=async()=>{
@@ -1351,7 +1395,8 @@ window.confirmSignOut=async()=>{
   document.body.style.overflow='hidden';
 };
 window.closeSignedOutModal=()=>{document.getElementById('signedOutModal').classList.remove('active');document.body.style.overflow='auto';};
-/* NAV */
+
+/* ── NAV ── */
 window.navigateTab=index=>{
   currentTab=index;
   document.querySelectorAll('.bottom-nav-item').forEach((it,i)=>it.classList.toggle('active',i===index));
@@ -1361,11 +1406,16 @@ window.navigateTab=index=>{
   if(index===2){openProfileSheet();return;}
   if(window.innerWidth<768)window.scrollTo({top:0,behavior:'smooth'});
 };
-/* RENDER */
+
+/* ── HELPERS ── */
+function calcAvg(reviews){if(!reviews||!reviews.length)return 0;return Math.round(reviews.reduce((a,r)=>a+r.rating,0)/reviews.length*10)/10;}
+function genStars(r){let s='';for(let i=1;i<=5;i++)s+=i<=r?'<i class="fa-solid fa-star"></i>':(i-0.5<=r?'<i class="fa-solid fa-star-half-alt"></i>':'<i class="fa-regular fa-star"></i>');return s;}
+
+/* ── RENDER ── */
 function renderBatch(data){
   data.forEach(item=>{
     const card=document.createElement('div');
-    card.className='card';card.dataset.id=item.id;
+    card.className='card'; card.dataset.id=item.id;
     const mob=window.innerWidth<=767;
     const avg=calcAvg(item.reviews||[]);
     const isLiked=likedItems.has(item.id);
@@ -1400,11 +1450,12 @@ function renderBatch(data){
         </div>`;
       card.querySelector('.card-image').addEventListener('click',()=>openModal(item.id));
       card.querySelector('.card-btn').addEventListener('click',()=>openModal(item.id));
-      card.querySelector('.card-location').addEventListener('click',()=>openMapModal(item.location));
+      card.querySelector('.card-location').addEventListener('click',(e)=>{e.stopPropagation();openMapModal(item.location);});
     }
     grid.appendChild(card);
   });
 }
+
 window.toggleLike=(e,id)=>{
   e.stopPropagation();
   const btn=e.currentTarget;
@@ -1424,26 +1475,29 @@ window.toggleLike=(e,id)=>{
     set(savedRef,Array.from(likedItems));
   }
 };
+
 window.renderListings=data=>{
-  currentFiltered=data;displayedData=[];grid.innerHTML='';
+  currentFiltered=data; displayedData=[]; grid.innerHTML='';
   countLabel.innerText=`${data.length} Amazing Places Found`;
   if(!data.length){
     grid.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:4rem 2rem;">
-      <i class="fa-solid fa-house-crack" style="font-size:3rem;color:#e5e7eb;margin-bottom:1rem;"></i>
-      <h3>No matching listings</h3><p>Try adjusting your filters.</p>
+      <i class="fa-solid fa-house-crack" style="font-size:3rem;color:#e5e7eb;margin-bottom:1rem;display:block;"></i>
+      <h3 style="margin-bottom:0.5rem;">No matching listings</h3><p style="color:var(--text-muted);margin-bottom:1.5rem;">Try adjusting your filters.</p>
       <button class="btn btn-primary" onclick="resetFilters()">Clear filters</button></div>`;
     return;
   }
   loadMore();
 };
+
 function loadMore(){
   const s=displayedData.length,e=Math.min(s+pageSize,currentFiltered.length);
   renderBatch(currentFiltered.slice(s,e));
   displayedData=displayedData.concat(currentFiltered.slice(s,e));
 }
+
 window.applyFilters=()=>{
   const mob=window.innerWidth<=767;
-  const term=(mob?(mobileInlineSearch.value||mobileSearchInput.value):searchInput.value).toLowerCase().trim();
+  const term=(mob?(mobileInlineSearch?.value||mobileSearchInput?.value||''):searchInput?.value||'').toLowerCase().trim();
   const f=listingsData.filter(item=>{
     const ms=!term||item.title?.toLowerCase().includes(term)||item.location?.toLowerCase().includes(term);
     const mt=currentFilter==='all'||item.type===currentFilter;
@@ -1452,23 +1506,29 @@ window.applyFilters=()=>{
   });
   renderListings(f);
 };
+
 window.resetFilters=()=>{
-  searchInput.value='';if(mobileSearchInput)mobileSearchInput.value='';if(mobileInlineSearch)mobileInlineSearch.value='';
-  minPrice=0;maxPrice=30000;
+  if(searchInput)searchInput.value='';
+  if(mobileSearchInput)mobileSearchInput.value='';
+  if(mobileInlineSearch)mobileInlineSearch.value='';
+  minPrice=0; maxPrice=30000;
   sliderGroups.forEach(g=>{
     const mi=document.getElementById(g.min),mx=document.getElementById(g.max),tr=document.getElementById(g.track);
-    mi.value=0;mx.value=30000;tr.style.left="0%";tr.style.width="100%";
-    document.getElementById(g.minDisp).textContent="0";document.getElementById(g.maxDisp).textContent="30,000";
+    if(!mi||!mx||!tr)return;
+    mi.value=0; mx.value=30000; tr.style.left="0%"; tr.style.width="100%";
+    document.getElementById(g.minDisp).textContent="0";
+    document.getElementById(g.maxDisp).textContent="30,000";
   });
   document.querySelectorAll('.filter-tag').forEach(b=>b.classList.remove('active'));
   document.querySelectorAll('[data-filter="all"]').forEach(b=>b.classList.add('active'));
-  currentFilter='all';renderListings(listingsData);
+  currentFilter='all'; renderListings(listingsData);
   if(window.innerWidth<768)navigateTab(0);
 };
-/* MOBILE BOTTOM SHEET */
+
+/* ── MOBILE BOTTOM SHEET ── */
 window.openMobileSheet=id=>{
-  const item=listingsData.find(x=>x.id===id);if(!item)return;
-  currentListingId=id;currentItemLocation=item.location;
+  const item=listingsData.find(x=>x.id===id); if(!item)return;
+  currentListingId=id; currentItemLocation=item.location;
   sheetImages=[item.image,...(item.additionalImages||[])];
   sheetImageIndex=0;
   const renderGallery=()=>{
@@ -1477,6 +1537,7 @@ window.openMobileSheet=id=>{
     setTimeout(()=>{
       img.src=sheetImages[sheetImageIndex];
       img.onload=()=>img.classList.remove('switching');
+      img.onerror=()=>img.classList.remove('switching');
     },120);
     document.getElementById('sheetDots').innerHTML=sheetImages.map((_,i)=>`<div class="sheet-img-dot${i===sheetImageIndex?' active':''}"></div>`).join('');
   };
@@ -1490,11 +1551,11 @@ window.openMobileSheet=id=>{
   document.getElementById('sheetAmenities').innerHTML=(item.amenities||[]).map(a=>`<span class="sheet-amenity">${a}</span>`).join('');
   document.getElementById('sheetWA').href=`https://wa.me/27123456789?text=Hi, I'm interested in ${encodeURIComponent(item.title)}`;
   document.getElementById('sheetCall').href=`tel:+27123456789`;
-  const reviews=item.reviews||[];const avgR=calcAvg(reviews);
+  const reviews=item.reviews||[]; const avgR=calcAvg(reviews);
   document.getElementById('sheetAvgStars').innerHTML=genStars(avgR);
   document.getElementById('sheetReviewCount').textContent=`(${reviews.length})`;
   document.getElementById('sheetReviewList').innerHTML=reviews.length
-    ?reviews.map(r=>`<div class="sheet-review-item"><div class="sheet-ri-top"><span class="sheet-ri-user">${r.reviewerName || 'Anonymous'}</span><span class="sheet-ri-date">${new Date(r.timestamp).toLocaleDateString()}</span></div><div class="sheet-ri-stars">${genStars(r.rating)}</div><p class="sheet-ri-text">${r.comment}</p></div>`).join('')
+    ?reviews.map(r=>`<div class="sheet-review-item"><div class="sheet-ri-top"><span class="sheet-ri-user">${r.reviewerName||'Anonymous'}</span><span class="sheet-ri-date">${new Date(r.timestamp).toLocaleDateString()}</span></div><div class="sheet-ri-stars">${genStars(r.rating)}</div><p class="sheet-ri-text">${r.comment}</p></div>`).join('')
     :'<p style="font-size:0.78rem;color:var(--text-muted);">No reviews yet.</p>';
   document.getElementById('sheetBody').scrollTop=0;
   document.getElementById('mobileSheetBackdrop').classList.add('open');
@@ -1502,6 +1563,7 @@ window.openMobileSheet=id=>{
   document.body.style.overflow='hidden';
   initSheetDrag();
 };
+
 window.closeMobileSheet=()=>{
   const panel=document.getElementById('mobileSheetPanel');
   const backdrop=document.getElementById('mobileSheetBackdrop');
@@ -1513,12 +1575,13 @@ window.closeMobileSheet=()=>{
   setTimeout(()=>{
     document.getElementById('mobileSheet').classList.remove('open');
     document.getElementById('mobileSheetBackdrop').classList.remove('open');
-    panel.style.transform='';panel.style.transition='';
-    backdrop.style.background='';backdrop.style.backdropFilter='';backdrop.style.webkitBackdropFilter='';
+    panel.style.transform=''; panel.style.transition='';
+    backdrop.style.background=''; backdrop.style.backdropFilter=''; backdrop.style.webkitBackdropFilter='';
     document.body.style.overflow='auto';
     if(window.innerWidth<768) navigateTab(0);
   },350);
 };
+
 function initSheetDrag(){
   const panel=document.getElementById('mobileSheetPanel');
   const handle=document.getElementById('sheetHandle');
@@ -1530,7 +1593,7 @@ function initSheetDrag(){
     if(!dragging)return;
     const y=getY(e)-startY;
     if(y<0){panel.style.transform=`translateY(${y*0.12}px)`;return;}
-    curY=y;panel.style.transform=`translateY(${y}px)`;
+    curY=y; panel.style.transform=`translateY(${y}px)`;
     const pct=Math.min(y/280,1);
     const alpha=0.5*(1-pct*0.94);
     backdrop.style.background=`rgba(0,0,0,${alpha.toFixed(3)})`;
@@ -1538,7 +1601,7 @@ function initSheetDrag(){
     backdrop.style.webkitBackdropFilter=`blur(${(3*(1-pct)).toFixed(1)}px)`;
   };
   const onEnd=()=>{
-    if(!dragging)return;dragging=false;
+    if(!dragging)return; dragging=false;
     panel.style.transition='transform 0.42s cubic-bezier(0.34,1.56,0.64,1)';
     if(curY>110){closeMobileSheet();}
     else{
@@ -1555,11 +1618,12 @@ function initSheetDrag(){
   document.addEventListener('mousemove',onMove);
   document.addEventListener('mouseup',onEnd);
 }
-/* DESKTOP MODAL */
+
+/* ── DESKTOP MODAL ── */
 window.openModal=id=>{
-  const item=listingsData.find(x=>x.id===id);if(!item)return;
-  currentListingId=id;currentItemLocation=item.location;
-  currentImages=[item.image,...(item.additionalImages||[])];currentImageIndex=0;
+  const item=listingsData.find(x=>x.id===id); if(!item)return;
+  currentListingId=id; currentItemLocation=item.location;
+  currentImages=[item.image,...(item.additionalImages||[])]; currentImageIndex=0;
   const rGallery=()=>{
     document.getElementById('modalMainImage').src=currentImages[currentImageIndex];
     document.getElementById('modalThumbnails').innerHTML=currentImages.map((img,idx)=>
@@ -1576,16 +1640,24 @@ window.openModal=id=>{
   document.getElementById('modalAmenities').innerHTML=(item.amenities||[]).map(a=>`<span class="amenity">${a}</span>`).join('');
   document.getElementById('whatsappLink').href=`https://wa.me/27123456789?text=Hi, I'm interested in ${encodeURIComponent(item.title)}`;
   document.getElementById('callLink').href=`tel:+27123456789`;
-  const reviews=item.reviews||[];const avg=calcAvg(reviews);
+  const reviews=item.reviews||[]; const avg=calcAvg(reviews);
   document.getElementById('modalAvgStars').innerHTML=genStars(avg);
   document.getElementById('modalReviewCount').textContent=`(${reviews.length} reviews)`;
   document.getElementById('modalReviewList').innerHTML=reviews.length
-    ?reviews.map(r=>`<div class="review-item"><div class="review-top"><span class="review-user">Anonymous</span><span class="review-date">${new Date(r.timestamp).toLocaleDateString()}</span></div><div class="review-rating">${genStars(r.rating)}</div><p>${r.comment}</p></div>`).join('')
-    :'<p>No reviews yet. Be the first!</p>';
-  document.getElementById('detailModal').classList.add('active');document.body.style.overflow='hidden';
+    ?reviews.map(r=>`<div class="review-item"><div class="review-top"><span class="review-user">${r.reviewerName||'Anonymous'}</span><span class="review-date">${new Date(r.timestamp).toLocaleDateString()}</span></div><div class="review-rating">${genStars(r.rating)}</div><p>${r.comment}</p></div>`).join('')
+    :'<p style="color:var(--text-muted);">No reviews yet. Be the first!</p>';
+  document.getElementById('detailModal').classList.add('active');
+  document.body.style.overflow='hidden';
 };
+window.closeModal=()=>{
+  document.getElementById('detailModal').classList.remove('active');
+  document.body.style.overflow='auto';
+};
+
+/* ── MAP MODAL ── */
+// FIX: openMapModal uses .active class consistently (not style.display)
 window.openMapModal=location=>{
-  const loc=location||currentItemLocation;if(!loc)return;
+  const loc=location||currentItemLocation; if(!loc)return;
   const isMobile = window.innerWidth <= 767;
   if(isMobile){
     document.getElementById('mobileMapFrame').src=`https://www.google.com/maps?q=${encodeURIComponent(loc+', South Africa')}&output=embed`;
@@ -1595,11 +1667,17 @@ window.openMapModal=location=>{
     initMapDrag();
   } else {
     document.getElementById('mapFrame').src=`https://www.google.com/maps?q=${encodeURIComponent(loc+', South Africa')}&output=embed`;
-    document.getElementById('mapModal').style.display='block';document.body.style.overflow='hidden';
+    document.getElementById('mapModal').classList.add('active');
+    document.body.style.overflow='hidden';
   }
 };
-window.closeMapModal=()=>{document.getElementById('mapModal').style.display='none';document.getElementById('mapFrame').src='';document.body.style.overflow='auto';};
-/* MOBILE MAP FUNCTIONS */
+window.closeMapModal=()=>{
+  document.getElementById('mapModal').classList.remove('active');
+  document.getElementById('mapFrame').src='';
+  document.body.style.overflow='auto';
+};
+
+/* ── MOBILE MAP ── */
 window.closeMobileMap=()=>{
   const panel=document.getElementById('mobileMapPanel');
   const backdrop=document.getElementById('mobileMapBackdrop');
@@ -1611,11 +1689,12 @@ window.closeMobileMap=()=>{
   setTimeout(()=>{
     document.getElementById('mobileMapSheet').classList.remove('open');
     document.getElementById('mobileMapBackdrop').classList.remove('open');
-    panel.style.transform='';panel.style.transition='';
-    backdrop.style.background='';backdrop.style.backdropFilter='';backdrop.style.webkitBackdropFilter='';
+    panel.style.transform=''; panel.style.transition='';
+    backdrop.style.background=''; backdrop.style.backdropFilter=''; backdrop.style.webkitBackdropFilter='';
     document.body.style.overflow='auto';
   },350);
 };
+
 function initMapDrag(){
   const panel=document.getElementById('mobileMapPanel');
   const handle=document.getElementById('mapHandle');
@@ -1627,7 +1706,7 @@ function initMapDrag(){
     if(!dragging)return;
     const y=getY(e)-startY;
     if(y<0){panel.style.transform=`translateY(${y*0.12}px)`;return;}
-    curY=y;panel.style.transform=`translateY(${y}px)`;
+    curY=y; panel.style.transform=`translateY(${y}px)`;
     const pct=Math.min(y/280,1);
     const alpha=0.5*(1-pct*0.94);
     backdrop.style.background=`rgba(0,0,0,${alpha.toFixed(3)})`;
@@ -1635,7 +1714,7 @@ function initMapDrag(){
     backdrop.style.webkitBackdropFilter=`blur(${(3*(1-pct)).toFixed(1)}px)`;
   };
   const onEnd=()=>{
-    if(!dragging)return;dragging=false;
+    if(!dragging)return; dragging=false;
     panel.style.transition='transform 0.42s cubic-bezier(0.34,1.56,0.64,1)';
     if(curY>110){closeMobileMap();}
     else{
@@ -1652,7 +1731,8 @@ function initMapDrag(){
   document.addEventListener('mousemove',onMove);
   document.addEventListener('mouseup',onEnd);
 }
-/* MOBILE REVIEW BOTTOM SHEET */
+
+/* ── REVIEW MODALS ── */
 window.openReviewModal=()=>{
   if(!auth.currentUser)return alert('Please sign in to leave a review.');
   selectedRating=0;
@@ -1660,22 +1740,31 @@ window.openReviewModal=()=>{
   if(isMobile){
     document.getElementById('mobileReviewComment').value = '';
     const stars = document.querySelectorAll('#mobileReviewStars i');
-    stars.forEach(s=>s.classList.remove('selected'));
+    stars.forEach(s=>s.style.color='#d1d5db');
     stars.forEach(star=>{
-      star.onclick = ()=>{
-        selectedRating = parseInt(star.dataset.rating);
-        stars.forEach(s=>s.classList.toggle('selected', parseInt(s.dataset.rating) <= selectedRating));
+      star.onclick=()=>{
+        selectedRating=parseInt(star.dataset.rating);
+        stars.forEach(s=>s.style.color=parseInt(s.dataset.rating)<=selectedRating?'#eab308':'#d1d5db');
       };
     });
     document.getElementById('mobileReviewBackdrop').classList.add('open');
     document.getElementById('mobileReviewSheet').classList.add('open');
     document.body.style.overflow='hidden';
   } else {
-    selectedRating=0;document.getElementById('reviewComment').value='';
+    selectedRating=0; document.getElementById('reviewComment').value='';
     const stars=document.querySelectorAll('#reviewStars i');
-    stars.forEach(star=>{star.classList.remove('selected');star.onclick=()=>{selectedRating=parseInt(star.dataset.rating);stars.forEach(s=>s.classList.toggle('selected',parseInt(s.dataset.rating)<=selectedRating));};});
+    stars.forEach(star=>{
+      star.classList.remove('selected');
+      star.onclick=()=>{
+        selectedRating=parseInt(star.dataset.rating);
+        stars.forEach(s=>s.classList.toggle('selected',parseInt(s.dataset.rating)<=selectedRating));
+      };
+    });
     document.getElementById('reviewModal').classList.add('active');
   }
+};
+window.closeReviewModal=()=>{
+  document.getElementById('reviewModal').classList.remove('active');
 };
 window.closeMobileReview=()=>{
   const panel=document.getElementById('mobileReviewPanel');
@@ -1688,70 +1777,107 @@ window.closeMobileReview=()=>{
   setTimeout(()=>{
     document.getElementById('mobileReviewSheet').classList.remove('open');
     document.getElementById('mobileReviewBackdrop').classList.remove('open');
-    panel.style.transform='';panel.style.transition='';
-    backdrop.style.background='';backdrop.style.backdropFilter='';backdrop.style.webkitBackdropFilter='';
+    panel.style.transform=''; panel.style.transition='';
+    backdrop.style.background=''; backdrop.style.backdropFilter=''; backdrop.style.webkitBackdropFilter='';
     document.body.style.overflow='auto';
   },350);
 };
-window.submitMobileReview=()=>{
-  const comment = document.getElementById('mobileReviewComment').value.trim();
-  if(!selectedRating || !comment) return alert('Please select a rating and add a comment.');
-  const newR = {
-    rating: selectedRating,
-    comment: comment,
-    timestamp: Date.now(),
-    reviewerName: auth.currentUser ? (auth.currentUser.displayName || auth.currentUser.email.split('@')[0]) : 'Anonymous'
+
+// FIX: submitReview (desktop) was missing — now implemented
+window.submitReview=()=>{
+  const comment=document.getElementById('reviewComment').value.trim();
+  if(!selectedRating||!comment)return alert('Please select a rating and add a comment.');
+  const newR={
+    rating:selectedRating, comment,
+    timestamp:Date.now(),
+    reviewerName:auth.currentUser?(auth.currentUser.displayName||auth.currentUser.email.split('@')[0]):'Anonymous'
   };
-  const lRef = ref(db, `listings/${currentListingId}`);
-  onValue(lRef, snapshot => {
-    const data = snapshot.val();
-    const reviews = [...(data.reviews || []), newR];
-    update(lRef, { reviews }).then(() => {
-      closeMobileReview();
-      if(window.innerWidth <= 767) closeMobileSheet(); else closeModal();
-      onValue(ref(db,'listings'), s => {
-        listingsData = [];
-        s.forEach(c => {
-          const it = {id: c.key, ...c.val()};
-          if(it.adminStatus === 'approved') listingsData.push(it);
-        });
-        renderListings(listingsData);
-      });
+  const lRef=ref(db,`listings/${currentListingId}`);
+  onValue(lRef,snapshot=>{
+    const data=snapshot.val();
+    const reviews=[...(data.reviews||[]),newR];
+    update(lRef,{reviews}).then(()=>{
+      closeReviewModal();
+      closeModal();
+      refreshListings();
     });
-  }, {onlyOnce:true});
+  },{onlyOnce:true});
 };
-/* Add modal */
+
+window.submitMobileReview=()=>{
+  const comment=document.getElementById('mobileReviewComment').value.trim();
+  if(!selectedRating||!comment)return alert('Please select a rating and add a comment.');
+  const newR={
+    rating:selectedRating, comment,
+    timestamp:Date.now(),
+    reviewerName:auth.currentUser?(auth.currentUser.displayName||auth.currentUser.email.split('@')[0]):'Anonymous'
+  };
+  const lRef=ref(db,`listings/${currentListingId}`);
+  onValue(lRef,snapshot=>{
+    const data=snapshot.val();
+    const reviews=[...(data.reviews||[]),newR];
+    update(lRef,{reviews}).then(()=>{
+      closeMobileReview();
+      closeMobileSheet();
+      refreshListings();
+    });
+  },{onlyOnce:true});
+};
+
+function refreshListings(){
+  onValue(ref(db,'listings'),s=>{
+    listingsData=[];
+    s.forEach(c=>{const it={id:c.key,...c.val()};if(it.adminStatus==='approved')listingsData.push(it);});
+    renderListings(listingsData);
+  },{onlyOnce:true});
+}
+
+/* ── ADD MODAL ── */
 window.openAddModal=()=>{document.getElementById('addModal').classList.add('active');document.body.style.overflow='hidden';};
 window.closeAddModal=()=>{
   document.getElementById('addModal').classList.remove('active');
   document.body.style.overflow='auto';
   if(window.innerWidth<768) navigateTab(0);
 };
-function calcAvg(reviews){if(!reviews.length)return 0;return Math.round(reviews.reduce((a,r)=>a+r.rating,0)/reviews.length*10)/10;}
-function genStars(r){let s='';for(let i=1;i<=5;i++)s+=i<=r?'<i class="fa-solid fa-star"></i>':(i-0.5<=r?'<i class="fa-solid fa-star-half-alt"></i>':'<i class="fa-regular fa-star"></i>');return s;}
+
 const imagesPreviewContainer=document.getElementById("imagesPreviewContainer");
 document.getElementById("addImage").addEventListener('change',()=>{
   imagesPreviewContainer.innerHTML='';
   Array.from(document.getElementById("addImage").files).forEach(file=>{
     const reader=new FileReader();
-    reader.onload=()=>{const img=document.createElement('img');img.src=reader.result;Object.assign(img.style,{width:'100px',height:'80px',objectFit:'cover',margin:'0 8px 8px 0',borderRadius:'8px'});imagesPreviewContainer.appendChild(img);};
+    reader.onload=()=>{
+      const img=document.createElement('img');
+      img.src=reader.result;
+      Object.assign(img.style,{width:'100px',height:'80px',objectFit:'cover',margin:'0 8px 8px 0',borderRadius:'8px'});
+      imagesPreviewContainer.appendChild(img);
+    };
     reader.readAsDataURL(file);
   });
 });
+
 window.addToDb=async()=>{
   const uM=document.getElementById('uploadModal'),pB=document.getElementById('progressBar'),pS=document.getElementById('progressStatus');
-  uM.classList.add('active');pB.style.width='20%';pS.textContent='Preparing...';
-  const title=document.getElementById('addTitle').value.trim(),price=Number(document.getElementById('addPrice').value);
-  const type=document.getElementById('addType').value,location=document.getElementById('addLocation').value.trim();
+  uM.classList.add('active'); pB.style.width='20%'; pS.textContent='Preparing...';
+  const title=document.getElementById('addTitle').value.trim();
+  const price=Number(document.getElementById('addPrice').value);
+  const type=document.getElementById('addType').value;
+  const location=document.getElementById('addLocation').value.trim();
   const desc=document.getElementById('addDesc').value.trim();
   const ams=document.getElementById('addAmenities').value;
   const amenities=ams?ams.split(',').map(a=>a.trim()).filter(a=>a):[];
   const files=Array.from(document.getElementById('addImage').files);
-  if(!title||!price||!type||!location||!files.length){alert('Please fill all required fields and upload at least one photo.');uM.classList.remove('active');return;}
-  const nRef=push(ref(db,'listings'));let urls=[];
+  if(!title||!price||!type||!location||!files.length){
+    alert('Please fill all required fields and upload at least one photo.');
+    uM.classList.remove('active'); return;
+  }
+  const nRef=push(ref(db,'listings')); let urls=[];
   try{
-    for(let i=0;i<files.length;i++){pS.textContent=`Uploading image ${i+1}/${files.length}...`;pB.style.width=`${20+(75*(i+1)/files.length)}%`;urls.push(await uploadToCloudinary(files[i]));}
-    pS.textContent='Saving...';pB.style.width='100%';
+    for(let i=0;i<files.length;i++){
+      pS.textContent=`Uploading image ${i+1}/${files.length}...`;
+      pB.style.width=`${20+(75*(i+1)/files.length)}%`;
+      urls.push(await uploadToCloudinary(files[i]));
+    }
+    pS.textContent='Saving...'; pB.style.width='100%';
     await set(nRef,{title,price,type,location,desc:desc||'No description provided',amenities,image:urls[0],additionalImages:urls.slice(1),verified:false,adminStatus:'pending',timestamp:Date.now(),reviews:[]});
     await set(ref(db,`subscriptions/${nRef.key}`),{subscribers:{}});
     setTimeout(()=>{
@@ -1763,24 +1889,33 @@ window.addToDb=async()=>{
     },800);
   }catch(err){console.error(err);uM.classList.remove('active');alert('Upload failed: '+(err.message||err));}
 };
+
+/* ── FILTER TAGS ── */
 document.querySelectorAll('.filter-tag').forEach(btn=>{
   btn.addEventListener('click',()=>{
     document.querySelectorAll('.filter-tag').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');currentFilter=btn.getAttribute('data-filter');applyFilters();
+    btn.classList.add('active');
+    currentFilter=btn.getAttribute('data-filter');
+    applyFilters();
   });
 });
 searchInput&&searchInput.addEventListener('input',applyFilters);
 mobileSearchInput&&mobileSearchInput.addEventListener('input',applyFilters);
 mobileInlineSearch&&mobileInlineSearch.addEventListener('input',applyFilters);
+
+/* ── FIREBASE DATA LOAD ── */
 onValue(ref(db,'listings'),snapshot=>{
   listingsData=[];
   if(snapshot.exists())snapshot.forEach(c=>{const it={id:c.key,...c.val()};if(it.adminStatus==='approved')listingsData.push(it);});
   renderListings(listingsData);
+  hideSplashOnce(); // Hide splash once data loads
 });
+
 window.addEventListener('scroll',()=>{
   if(window.innerHeight+window.scrollY>=document.body.offsetHeight-100&&displayedData.length<currentFiltered.length)loadMore();
 });
-/* PROFILE SHEET - FULLY FUNCTIONAL WITH FIREBASE */
+
+/* ── PROFILE SHEET ── */
 window.openProfileSheet=()=>{
   const isDark=document.body.classList.contains('dark-mode');
   const dt=document.getElementById('psDarkToggle');
@@ -1810,9 +1945,12 @@ window.openProfileSheet=()=>{
     get(userRef).then(snapshot=>{
       if(snapshot.exists()){
         userProfile=snapshot.val();
-        if(userProfile.saved)likedItems=new Set(userProfile.saved);
-        if(userProfile.myReviews)myReviewsData=userProfile.myReviews;
+        // FIX: reassign likedItems (let, not const)
+        if(userProfile.saved) likedItems=new Set(userProfile.saved);
+        if(userProfile.myReviews) myReviewsData=userProfile.myReviews;
+        // FIX: populate all three stats
         document.getElementById('psFavCount').textContent=likedItems.size;
+        document.getElementById('psReviewCount').textContent=(myReviewsData||[]).length;
         if(!userProfile.notifications||userProfile.notifications.length===0){
           const welcomeNotif=[{title:"Welcome to KasiStay!",message:"Your account is set up. Start exploring rooms!",timestamp:Date.now()}];
           update(userRef,{notifications:welcomeNotif});
@@ -1821,8 +1959,7 @@ window.openProfileSheet=()=>{
         if(!userProfile.language)update(userRef,{language:"English (South Africa)"});
       }else{
         const initialData={
-          saved:[],
-          myReviews:[],
+          saved:[],myReviews:[],
           notifications:[{title:"Welcome to KasiStay!",message:"Your account is set up. Start exploring rooms!",timestamp:Date.now()}],
           language:"English (South Africa)"
         };
@@ -1830,6 +1967,8 @@ window.openProfileSheet=()=>{
         userProfile=initialData;
         likedItems=new Set();
         myReviewsData=[];
+        document.getElementById('psFavCount').textContent='0';
+        document.getElementById('psReviewCount').textContent='0';
       }
       document.getElementById('psFavCount').textContent=likedItems.size;
     });
@@ -1842,6 +1981,7 @@ window.openProfileSheet=()=>{
   document.body.style.overflow='hidden';
   initProfileDrag();
 };
+
 window.closeProfileSheet=()=>{
   const panel=document.getElementById('profileSheetPanel');
   const backdrop=document.getElementById('profileSheetBackdrop');
@@ -1853,12 +1993,13 @@ window.closeProfileSheet=()=>{
   setTimeout(()=>{
     document.getElementById('profileSheet').classList.remove('open');
     backdrop.classList.remove('open');
-    panel.style.transform='';panel.style.transition='';
-    backdrop.style.background='';backdrop.style.backdropFilter='';backdrop.style.webkitBackdropFilter='';
+    panel.style.transform=''; panel.style.transition='';
+    backdrop.style.background=''; backdrop.style.backdropFilter=''; backdrop.style.webkitBackdropFilter='';
     document.body.style.overflow='auto';
     if(window.innerWidth<768) navigateTab(0);
   },350);
 };
+
 window.openEditProfile=()=>{document.getElementById('psEditOverlay').classList.add('visible');};
 window.closeEditProfile=()=>{document.getElementById('psEditOverlay').classList.remove('visible');};
 window.saveProfile=async()=>{
@@ -1866,15 +2007,14 @@ window.saveProfile=async()=>{
   const phone=document.getElementById('psEditPhone').value.trim();
   const location=document.getElementById('psEditLocation').value.trim();
   const bio=document.getElementById('psEditBio').value.trim();
+  // Save to localStorage for persistence
+  if(phone) localStorage.setItem('ks_phone',phone);
+  if(location) localStorage.setItem('ks_location',location);
+  if(bio) localStorage.setItem('ks_bio',bio);
   const user=auth.currentUser;
   if(user){
     const userRef=ref(db,`users/${user.uid}`);
-    await update(userRef,{
-      displayName:name||user.displayName,
-      phone:phone||'',
-      location:location||'',
-      bio:bio||''
-    });
+    await update(userRef,{displayName:name||user.displayName,phone:phone||'',location:location||'',bio:bio||''});
     userProfile.displayName=name||userProfile.displayName;
   }
   if(name) document.getElementById('psName').textContent=name;
@@ -1882,8 +2022,9 @@ window.saveProfile=async()=>{
   const btn=document.querySelector('.ps-edit-save');
   if(btn){btn.textContent='Saved ✓';btn.style.background='#059669';setTimeout(()=>{btn.textContent='Save';btn.style.background='';},1500);}
 };
+
 window.handleAvatarChange=async(e)=>{
-  const file=e.target.files[0];if(!file)return;
+  const file=e.target.files[0]; if(!file)return;
   try{
     const url=await uploadToCloudinary(file);
     const user=auth.currentUser;
@@ -1896,9 +2037,10 @@ window.handleAvatarChange=async(e)=>{
       });
       localStorage.setItem('ks_avatar',url);
     }
-  }catch(err){alert('Avatar upload failed');}
+  }catch(err){alert('Avatar upload failed: '+err.message);}
 };
-/* DYNAMIC PROFILE CONTENT FUNCTIONS */
+
+/* ── DYNAMIC PROFILE CONTENT ── */
 function hideMainProfileSections(){
   const signedIn=document.getElementById('psSignedIn');
   signedIn.querySelectorAll('.ps-hero, .ps-stats, .ps-section').forEach(el=>el.style.display='none');
@@ -1911,6 +2053,7 @@ window.closeDynamicContent=()=>{
   document.getElementById('profileDynamicContent').style.display='none';
   showMainProfileSections();
 };
+
 window.showSavedProperties=()=>{
   document.getElementById('dynamicTitle').textContent='SAVED PROPERTIES';
   const listEl=document.getElementById('dynamicList');
@@ -1922,27 +2065,27 @@ window.showSavedProperties=()=>{
     savedIds.forEach(id=>{
       const item=listingsData.find(l=>l.id===id);
       if(item){
-        const cardHTML=`
+        listEl.innerHTML+=`
           <div onclick="closeProfileSheet();openMobileSheet('${id}');" style="padding:14px 18px;border-bottom:1px solid var(--border-color);display:flex;gap:12px;cursor:pointer;">
-            <img src="${item.image}" style="width:64px;height:64px;border-radius:10px;object-fit:cover;">
-            <div style="flex:1">
+            <img src="${item.image}" style="width:64px;height:64px;border-radius:10px;object-fit:cover;flex-shrink:0;">
+            <div style="flex:1;min-width:0;">
               <div style="font-weight:700;font-size:0.95rem;line-height:1.3;">${item.title}</div>
               <div style="font-size:0.82rem;color:var(--text-muted);">${item.location}</div>
               <div style="color:var(--accent-green);font-weight:600;margin-top:4px;">R${item.price.toLocaleString()}/mo</div>
             </div>
           </div>`;
-        listEl.innerHTML+=cardHTML;
       }
     });
   }
   hideMainProfileSections();
   document.getElementById('profileDynamicContent').style.display='block';
 };
+
 window.showMyReviews=()=>{
   document.getElementById('dynamicTitle').textContent='MY REVIEWS';
   const listEl=document.getElementById('dynamicList');
   listEl.innerHTML='';
-  if(myReviewsData.length===0){
+  if(!myReviewsData||myReviewsData.length===0){
     listEl.innerHTML=`<p style="padding:2rem 1rem;text-align:center;color:var(--text-muted);">No reviews written yet.<br>Review a property to see it here.</p>`;
   }else{
     myReviewsData.forEach(rev=>{
@@ -1961,6 +2104,7 @@ window.showMyReviews=()=>{
   hideMainProfileSections();
   document.getElementById('profileDynamicContent').style.display='block';
 };
+
 window.showNotifications=()=>{
   document.getElementById('dynamicTitle').textContent='NOTIFICATIONS';
   const listEl=document.getElementById('dynamicList');
@@ -1981,13 +2125,14 @@ window.showNotifications=()=>{
   hideMainProfileSections();
   document.getElementById('profileDynamicContent').style.display='block';
 };
+
 window.showLanguageSelector=()=>{
   document.getElementById('dynamicTitle').textContent='LANGUAGE';
   const listEl=document.getElementById('dynamicList');
   listEl.innerHTML=`
     <div style="padding:18px;">
       <label style="font-size:0.85rem;font-weight:600;display:block;margin-bottom:8px;">Preferred Language</label>
-      <select id="langSelect" style="width:100%;padding:14px;border:1.5px solid var(--border-color);border-radius:12px;background:white;font-size:0.95rem;">
+      <select id="langSelect" style="width:100%;padding:14px;border:1.5px solid var(--border-color);border-radius:12px;background:var(--bg-white);color:var(--text-main);font-size:0.95rem;">
         <option value="English (South Africa)">English (South Africa)</option>
         <option value="Afrikaans">Afrikaans</option>
         <option value="isiZulu">isiZulu</option>
@@ -1997,7 +2142,7 @@ window.showLanguageSelector=()=>{
   const saveBtn=document.createElement('button');
   saveBtn.innerHTML='Save Preference';
   saveBtn.className='btn btn-primary';
-  saveBtn.style='width:100%;margin-top:1rem;';
+  saveBtn.style='width:calc(100% - 36px);margin:0 18px 16px;';
   saveBtn.onclick=()=>{
     const newLang=document.getElementById('langSelect').value;
     const user=auth.currentUser;
@@ -2012,7 +2157,8 @@ window.showLanguageSelector=()=>{
   hideMainProfileSections();
   document.getElementById('profileDynamicContent').style.display='block';
 };
-/* PROFILE DRAG */
+
+/* ── PROFILE DRAG ── */
 function initProfileDrag(){
   const panel=document.getElementById('profileSheetPanel');
   const handle=document.getElementById('psHandle');
@@ -2021,13 +2167,13 @@ function initProfileDrag(){
   const getY=e=>e.touches?e.touches[0].clientY:e.clientY;
   const onStart=e=>{
     if(e.target.closest('.ps-edit-overlay'))return;
-    dragging=true;startY=getY(e);curY=0;panel.style.transition='none';
+    dragging=true; startY=getY(e); curY=0; panel.style.transition='none';
   };
   const onMove=e=>{
     if(!dragging)return;
     const y=getY(e)-startY;
     if(y<0){panel.style.transform=`translateY(${y*0.12}px)`;return;}
-    curY=y;panel.style.transform=`translateY(${y}px)`;
+    curY=y; panel.style.transform=`translateY(${y}px)`;
     const pct=Math.min(y/280,1);
     const alpha=0.5*(1-pct*0.94);
     backdrop.style.background=`rgba(0,0,0,${alpha.toFixed(3)})`;
@@ -2035,7 +2181,7 @@ function initProfileDrag(){
     backdrop.style.webkitBackdropFilter=`blur(${(3*(1-pct)).toFixed(1)}px)`;
   };
   const onEnd=()=>{
-    if(!dragging)return;dragging=false;
+    if(!dragging)return; dragging=false;
     panel.style.transition='transform 0.42s cubic-bezier(0.34,1.56,0.64,1)';
     if(curY>110){closeProfileSheet();}
     else{
@@ -2055,3 +2201,5 @@ function initProfileDrag(){
 </script>
 </body>
 </html>
+Command argument is 136_383 bytes, exceeding the 100_000-byte per-argument limit. For large content, pipe via stdin or use a file-write API instead of embedding the content inline in the command. Argument preview: 'cat > /mnt/user-data/outputs/kasistay.html << \'HTMLEOF\'\n<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta charset="UTF-8">\n<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-sca'
+Done

@@ -45,15 +45,6 @@
   margin-top: 10px;
   animation: splashTagIn 0.6s cubic-bezier(0.22,1,0.36,1) 0.4s both;
 }
-.splash-loader {
-  margin-top: 48px;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  border: 3px solid rgba(255,255,255,0.12);
-  border-top-color: #10b981;
-  animation: splashTagIn 0.5s ease 0.6s both, splashSpin 0.8s linear 0.6s infinite;
-}
 .splash-dots {
   display: flex;
   gap: 8px;
@@ -323,6 +314,96 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
 #addForm .submit-btn { margin-top: 0.5rem; padding: 1rem; font-size: 1rem; }
 #signOutConfirmModal .modal-content { max-width:360px; }
 #signedOutModal .modal-content { max-width:380px; }
+
+/* ── SHARE BUTTON STYLES ── */
+.share-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 0.65rem 1.2rem; border-radius: 50px; font-weight: 600; font-size: 0.82rem;
+  border: 1.5px solid var(--border-color); background: transparent; color: var(--text-main);
+  cursor: pointer; transition: var(--transition); white-space: nowrap;
+}
+.share-btn:hover { border-color: var(--accent-green); color: var(--accent-green); transform: translateY(-1px); }
+.share-btn:active { transform: scale(0.96); }
+.dark-mode .share-btn { border-color: #444; color: var(--text-main); }
+
+/* Desktop share bar (sits alongside review btn) */
+.desktop-action-bar { display: flex; align-items: center; gap: 10px; margin-top: 1rem; flex-wrap: wrap; }
+
+/* ── SHARE MODAL ── */
+#shareModal .modal-content { max-width: 420px; }
+.dark-mode #shareModal .modal-content { background: #1e1e1e; }
+.share-preview-card {
+  border: 1px solid var(--border-color); border-radius: 16px; overflow: hidden; margin-bottom: 1.25rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+.dark-mode .share-preview-card { border-color: #333; }
+.share-preview-img { width: 100%; height: 180px; object-fit: cover; display: block; }
+.share-preview-body { padding: 14px 16px; background: var(--bg-white); }
+.share-preview-title { font-size: 1rem; font-weight: 700; margin-bottom: 4px; line-height: 1.3; }
+.share-preview-meta { display: flex; align-items: center; justify-content: space-between; }
+.share-preview-price { color: var(--accent-green); font-weight: 700; font-size: 1rem; }
+.share-preview-location { font-size: 0.78rem; color: var(--text-muted); display: flex; align-items: center; gap: 4px; }
+.share-link-row { display: flex; gap: 8px; margin-bottom: 1.25rem; }
+.share-link-input {
+  flex: 1; padding: 11px 14px; border: 1.5px solid var(--border-color); border-radius: 12px;
+  font-size: 0.82rem; background: var(--bg-off-white); color: var(--text-muted);
+  outline: none; cursor: text; font-family: 'Inter', sans-serif; overflow: hidden;
+  white-space: nowrap; text-overflow: ellipsis;
+}
+.dark-mode .share-link-input { background: #2c2c2e; border-color: #3a3a3c; color: #a0a0a0; }
+.copy-link-btn {
+  padding: 11px 18px; border-radius: 12px; background: var(--primary-black); color: white;
+  border: none; font-weight: 700; font-size: 0.82rem; cursor: pointer; transition: var(--transition);
+  white-space: nowrap; display: flex; align-items: center; gap: 6px;
+}
+.dark-mode .copy-link-btn { background: white; color: #111; }
+.copy-link-btn:hover { background: var(--accent-green); }
+.copy-link-btn:active { transform: scale(0.96); }
+.share-options-row { display: flex; gap: 10px; }
+.share-option-btn {
+  flex: 1; padding: 12px; border-radius: 14px; font-weight: 600; font-size: 0.82rem;
+  border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+  transition: var(--transition);
+}
+.share-option-btn:active { transform: scale(0.96); }
+.share-option-btn.whatsapp { background: #25D366; color: white; }
+.share-option-btn.whatsapp:hover { background: #128C7E; }
+.share-option-btn.native { background: var(--bg-off-white); color: var(--text-main); border: 1.5px solid var(--border-color); }
+.dark-mode .share-option-btn.native { background: #2c2c2e; border-color: #3a3a3c; }
+.share-option-btn.native:hover { border-color: var(--accent-green); color: var(--accent-green); }
+
+/* ── SIMILAR LISTINGS ── */
+.similar-section { border-top: 1px solid var(--border-color); padding-top: 1rem; margin-top: 1.5rem; }
+.similar-section-title { font-size: 0.88rem; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+.similar-section-title i { color: var(--accent-green); font-size: 0.82rem; }
+.similar-scroll { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 4px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.similar-scroll::-webkit-scrollbar { display: none; }
+.similar-card {
+  flex-shrink: 0; width: 150px; border-radius: 14px; overflow: hidden;
+  border: 1px solid var(--border-color); background: var(--bg-white); cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.dark-mode .similar-card { background: #2c2c2e; border-color: #3a3a3c; }
+.similar-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.12); }
+.similar-card:active { transform: scale(0.97); }
+.similar-card-img { width: 100%; height: 90px; object-fit: cover; display: block; }
+.similar-card-body { padding: 8px 10px; }
+.similar-card-title { font-size: 0.72rem; font-weight: 700; line-height: 1.25; margin-bottom: 3px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.similar-card-price { font-size: 0.7rem; color: var(--accent-green); font-weight: 700; }
+.similar-card-type { font-size: 0.62rem; color: var(--text-muted); margin-top: 1px; }
+.similar-empty { font-size: 0.78rem; color: var(--text-muted); padding: 8px 0; font-style: italic; }
+
+/* Mobile sheet share button row */
+.sheet-action-bar { display: flex; gap: 8px; margin-bottom: 14px; }
+.sheet-share-btn {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 10px 18px; border-radius: 50px; font-weight: 600; font-size: 0.82rem;
+  border: 1.5px solid var(--border-color); background: transparent; color: var(--text-main);
+  cursor: pointer; transition: transform 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  flex: 1;
+}
+.sheet-share-btn:active { transform: scale(0.96); border-color: var(--accent-green); color: var(--accent-green); }
+
 /* =============================================
    MOBILE STYLES
    ============================================= */
@@ -669,6 +750,9 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
   .ps-field-input { padding: 11px 14px; border: 1.5px solid var(--border-color); border-radius: 12px; font-size: 0.9rem; font-family: 'Inter',sans-serif; background: var(--bg-white); color: var(--text-main); outline: none; transition: border-color 0.2s; }
   .dark-mode .ps-field-input { background: #2c2c2e; border-color: #3a3a3c; }
   .ps-field-input:focus { border-color: var(--accent-green); box-shadow: 0 0 0 3px rgba(16,185,129,0.1); }
+
+  /* Share modal on mobile — higher z-index to sit above sheet */
+  #shareModal { z-index: 3100 !important; }
 }
 @media (min-width: 768px) {
   .bottom-nav { display: none; }
@@ -691,9 +775,22 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
 .dark-mode #reviewModal textarea { background: #2c2c2e; border-color: #3a3a3c; color: white; }
 .dark-mode .mobile-search-wrapper input { background: transparent; color: var(--text-main); }
 #detailModal .modal-rating { display:flex; align-items:center; gap:6px; margin-bottom:0.5rem; color:#eab308; font-size:0.85rem; }
+
+/* ── COPY TOAST ── */
+.copy-toast {
+  position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%) translateY(10px);
+  background: #111; color: white; padding: 10px 20px; border-radius: 50px;
+  font-size: 0.82rem; font-weight: 600; z-index: 9999; opacity: 0;
+  transition: opacity 0.25s ease, transform 0.25s ease; pointer-events: none;
+  display: flex; align-items: center; gap: 8px;
+}
+.copy-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 </style>
 </head>
 <body>
+
+<!-- COPY TOAST -->
+<div class="copy-toast" id="copyToast"><i class="fa-solid fa-check"></i> Link copied!</div>
 
 <!-- SPLASH SCREEN -->
 <div id="splashScreen">
@@ -846,13 +943,22 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
           <a href="#" class="contact-btn call" id="callLink"><i class="fa-solid fa-phone"></i> Call</a>
         </div>
       </div>
+      <!-- Desktop action bar: review + share -->
+      <div class="desktop-action-bar">
+        <button class="add-review-btn" onclick="openReviewModal()">Add Review</button>
+        <button class="share-btn" onclick="openShareModal()"><i class="fa-solid fa-share-nodes"></i> Share</button>
+      </div>
       <div class="review-section">
         <div class="review-header">
           <h3>Reviews</h3>
           <div class="review-average"><span class="rating-stars" id="modalAvgStars"></span><span id="modalReviewCount">(0)</span></div>
         </div>
         <div class="review-list" id="modalReviewList"></div>
-        <button class="add-review-btn" onclick="openReviewModal()">Add Review</button>
+      </div>
+      <!-- Desktop similar listings -->
+      <div class="similar-section" id="desktopSimilarSection">
+        <div class="similar-section-title"><i class="fa-solid fa-sparkles"></i> Similar Listings</div>
+        <div class="similar-scroll" id="desktopSimilarScroll"></div>
       </div>
     </div>
   </div>
@@ -893,6 +999,11 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
           <a href="#" class="sheet-contact-btn call" id="sheetCall"><i class="fa-solid fa-phone"></i> Call</a>
         </div>
       </div>
+      <!-- Mobile share + review action bar -->
+      <div class="sheet-action-bar">
+        <button class="sheet-share-btn" onclick="openShareModal()"><i class="fa-solid fa-share-nodes"></i> Share Listing</button>
+        <button class="sheet-add-review" onclick="openReviewModal()">Add Review</button>
+      </div>
       <div class="sheet-review-section">
         <div class="sheet-review-hdr">
           <h3>Reviews</h3>
@@ -902,7 +1013,11 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
           </div>
         </div>
         <div class="sheet-review-list" id="sheetReviewList"></div>
-        <button class="sheet-add-review" onclick="openReviewModal()">Add Review</button>
+      </div>
+      <!-- Mobile similar listings -->
+      <div class="similar-section" id="mobileSimilarSection">
+        <div class="similar-section-title"><i class="fa-solid fa-sparkles"></i> Similar Listings</div>
+        <div class="similar-scroll" id="mobileSimilarScroll"></div>
       </div>
     </div>
   </div>
@@ -1064,6 +1179,45 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
     <h2>Listing Submitted!</h2>
     <p>Your listing is under review. It will appear once an admin approves it.</p>
     <button class="btn btn-primary" onclick="document.getElementById('successModal').classList.remove('active')" style="margin-top:1rem;padding:0.9rem 2rem;">Done</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SHARE MODAL
+     ══════════════════════════════════════════ -->
+<div class="modal-overlay" id="shareModal" onclick="if(event.target===this)closeShareModal()">
+  <div class="modal-content" style="max-width:420px;">
+    <div class="modal-header" style="display:flex;justify-content:space-between;align-items:center;padding:1.25rem 1.5rem;">
+      <h2 style="font-size:1.1rem;font-weight:700;margin:0;">Share This Listing</h2>
+      <button onclick="closeShareModal()" style="background:transparent;border:none;width:32px;height:32px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:1rem;"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body" style="padding:1.25rem 1.5rem 1.5rem;">
+      <!-- Preview card — mimics a WhatsApp/OG link preview -->
+      <div class="share-preview-card">
+        <img id="sharePreviewImg" class="share-preview-img" src="" alt="">
+        <div class="share-preview-body">
+          <div class="share-preview-title" id="sharePreviewTitle"></div>
+          <div class="share-preview-meta">
+            <div class="share-preview-price" id="sharePreviewPrice"></div>
+            <div class="share-preview-location" id="sharePreviewLocation"><i class="fa-solid fa-location-dot"></i> <span id="sharePreviewLocationText"></span></div>
+          </div>
+        </div>
+      </div>
+      <!-- Copy link row -->
+      <div class="share-link-row">
+        <input class="share-link-input" id="shareLinkInput" type="text" readonly>
+        <button class="copy-link-btn" id="copyLinkBtn" onclick="copyShareLink()"><i class="fa-regular fa-copy"></i> Copy</button>
+      </div>
+      <!-- Share options -->
+      <div class="share-options-row">
+        <button class="share-option-btn whatsapp" onclick="shareToWhatsApp()">
+          <i class="fa-brands fa-whatsapp" style="font-size:1.1rem;"></i> Share on WhatsApp
+        </button>
+        <button class="share-option-btn native" id="nativeShareBtn" onclick="nativeShare()" style="display:none;">
+          <i class="fa-solid fa-share-nodes"></i> More
+        </button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1259,7 +1413,6 @@ function hideSplash() {
   splash.classList.add('fade-out');
   setTimeout(() => { splash.style.display = 'none'; }, 580);
 }
-// Show splash every page load / refresh — hide after listings load or 2.2s, whichever comes first
 let splashHidden = false;
 const hideSplashOnce = () => { if (!splashHidden) { splashHidden = true; hideSplash(); } };
 setTimeout(hideSplashOnce, 2200);
@@ -1280,10 +1433,150 @@ let listingsData=[],currentFiltered=[],displayedData=[],currentFilter='all',minP
 let currentTab=0,currentItemLocation='',currentImages=[],currentImageIndex=0;
 let sheetImages=[],sheetImageIndex=0,currentListingId=null,selectedRating=0;
 const pageSize=10;
-// FIX: likedItems must be let, not const, to allow reassignment
 let likedItems=new Set();
 let userProfile = {};
 let myReviewsData = [];
+
+/* ══════════════════════════════════════════
+   SIMILAR LISTINGS HELPERS
+   ══════════════════════════════════════════ */
+/**
+ * Returns up to 4 listings similar to the given item.
+ * Similarity scoring: +2 for same type, +1 for overlapping location word, +1 for price within 30%.
+ */
+function getSimilarListings(item, all, count=4) {
+  if (!item || !all || all.length === 0) return [];
+  const locWords = (item.location || '').toLowerCase().split(/[\s,]+/).filter(w => w.length > 2);
+  return all
+    .filter(x => x.id !== item.id)
+    .map(x => {
+      let score = 0;
+      if (x.type === item.type) score += 2;
+      const xLoc = (x.location || '').toLowerCase();
+      if (locWords.some(w => xLoc.includes(w))) score += 1;
+      if (item.price > 0) {
+        const ratio = Math.abs(x.price - item.price) / item.price;
+        if (ratio <= 0.3) score += 1;
+      }
+      return { ...x, _score: score };
+    })
+    .filter(x => x._score > 0)
+    .sort((a, b) => b._score - a._score)
+    .slice(0, count);
+}
+
+function renderSimilarCards(items, containerId, openFn) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  if (!items || items.length === 0) {
+    el.innerHTML = '<span class="similar-empty">No similar listings found nearby.</span>';
+    return;
+  }
+  el.innerHTML = items.map(item => `
+    <div class="similar-card" onclick="${openFn}('${item.id}')">
+      <img class="similar-card-img" src="${item.image||''}" alt="${item.title||''}" loading="lazy">
+      <div class="similar-card-body">
+        <div class="similar-card-title">${item.title||''}</div>
+        <div class="similar-card-price">R${(item.price||0).toLocaleString()}/mo</div>
+        <div class="similar-card-type">${item.type||''}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+/* ══════════════════════════════════════════
+   SHARE HELPERS
+   ══════════════════════════════════════════ */
+/**
+ * Generates a deep-link-style shareable URL.
+ * Since this app is single-page, we encode the listing ID as a hash param:
+ *   https://example.com/kasistay.html#listing=<id>
+ * On load, if the hash is present we auto-open that listing.
+ */
+function buildShareUrl(id) {
+  const base = window.location.href.split('#')[0];
+  return `${base}#listing=${id}`;
+}
+
+window.openShareModal = () => {
+  const item = listingsData.find(x => x.id === currentListingId);
+  if (!item) return;
+  const url = buildShareUrl(item.id);
+  document.getElementById('sharePreviewImg').src = item.image || '';
+  document.getElementById('sharePreviewTitle').textContent = item.title || '';
+  document.getElementById('sharePreviewPrice').textContent = `R${(item.price||0).toLocaleString()}/mo`;
+  document.getElementById('sharePreviewLocationText').textContent = item.location || '';
+  document.getElementById('shareLinkInput').value = url;
+  // Show native share button if available
+  const nativeBtn = document.getElementById('nativeShareBtn');
+  nativeBtn.style.display = navigator.share ? 'flex' : 'none';
+  document.getElementById('shareModal').classList.add('active');
+  document.body.style.overflow = 'hidden';
+};
+
+window.closeShareModal = () => {
+  document.getElementById('shareModal').classList.remove('active');
+  document.body.style.overflow = 'auto';
+};
+
+window.copyShareLink = () => {
+  const val = document.getElementById('shareLinkInput').value;
+  navigator.clipboard.writeText(val).catch(() => {
+    // Fallback for older browsers
+    const inp = document.getElementById('shareLinkInput');
+    inp.select(); document.execCommand('copy');
+  });
+  const btn = document.getElementById('copyLinkBtn');
+  btn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
+  btn.style.background = 'var(--accent-green)';
+  showCopyToast();
+  setTimeout(() => {
+    btn.innerHTML = '<i class="fa-regular fa-copy"></i> Copy';
+    btn.style.background = '';
+  }, 2000);
+};
+
+window.shareToWhatsApp = () => {
+  const item = listingsData.find(x => x.id === currentListingId);
+  if (!item) return;
+  const url = buildShareUrl(item.id);
+  const msg = `🏠 *${item.title}*\n📍 ${item.location}\n💰 R${(item.price||0).toLocaleString()}/month\n\nFound on KasiStay 👇\n${url}`;
+  window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+};
+
+window.nativeShare = async () => {
+  const item = listingsData.find(x => x.id === currentListingId);
+  if (!item || !navigator.share) return;
+  try {
+    await navigator.share({
+      title: item.title,
+      text: `${item.title} — R${(item.price||0).toLocaleString()}/mo in ${item.location}`,
+      url: buildShareUrl(item.id)
+    });
+  } catch(e) { /* user cancelled */ }
+};
+
+function showCopyToast() {
+  const t = document.getElementById('copyToast');
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+/* Auto-open listing from URL hash on page load */
+function checkHashListing() {
+  const hash = window.location.hash;
+  if (!hash.startsWith('#listing=')) return;
+  const id = hash.replace('#listing=', '');
+  if (!id) return;
+  // Wait until listings have loaded, then open
+  const tryOpen = () => {
+    if (listingsData.length === 0) { setTimeout(tryOpen, 300); return; }
+    const isMob = window.innerWidth <= 767;
+    if (isMob) openMobileSheet(id);
+    else openModal(id);
+  };
+  setTimeout(tryOpen, 500);
+}
 
 /* ── SLIDERS ── */
 const sliderGroups=[
@@ -1291,7 +1584,6 @@ const sliderGroups=[
   {min:'mobile-priceMin',max:'mobile-priceMax',track:'mobile-rangeTrack',minDisp:'mobile-minPriceDisplay',maxDisp:'mobile-maxPriceDisplay'},
   {min:'homePriceMin',max:'homePriceMax',track:'homeRangeTrack',minDisp:'homeMinPriceDisplay',maxDisp:'homeMaxPriceDisplay'}
 ];
-// FIX: pass the triggering slider group index explicitly instead of using window.event
 function updateSlider(gi, triggeredByMin) {
   const g=sliderGroups[gi],rMin=document.getElementById(g.min),rMax=document.getElementById(g.max);
   const rTrack=document.getElementById(g.track),mD=document.getElementById(g.minDisp),xD=document.getElementById(g.maxDisp);
@@ -1329,12 +1621,10 @@ sliderGroups.forEach((g,i)=>{
 });
 
 /* ── DARK MODE ── */
-// FIX: sync all toggles when toggling
 window.toggleDarkMode=()=>{
   document.body.classList.toggle('dark-mode');
   const isDark=document.body.classList.contains('dark-mode');
   localStorage.setItem('darkMode', isDark);
-  // Sync all dark mode toggles
   ['psDarkToggle','psDarkToggleGuest'].forEach(id=>{
     const el=document.getElementById(id);
     if(el) el.checked=isDark;
@@ -1557,6 +1847,11 @@ window.openMobileSheet=id=>{
   document.getElementById('sheetReviewList').innerHTML=reviews.length
     ?reviews.map(r=>`<div class="sheet-review-item"><div class="sheet-ri-top"><span class="sheet-ri-user">${r.reviewerName||'Anonymous'}</span><span class="sheet-ri-date">${new Date(r.timestamp).toLocaleDateString()}</span></div><div class="sheet-ri-stars">${genStars(r.rating)}</div><p class="sheet-ri-text">${r.comment}</p></div>`).join('')
     :'<p style="font-size:0.78rem;color:var(--text-muted);">No reviews yet.</p>';
+
+  // ── Render similar listings (mobile) ──
+  const similar = getSimilarListings(item, listingsData);
+  renderSimilarCards(similar, 'mobileSimilarScroll', 'openMobileSheet');
+
   document.getElementById('sheetBody').scrollTop=0;
   document.getElementById('mobileSheetBackdrop').classList.add('open');
   document.getElementById('mobileSheet').classList.add('open');
@@ -1646,6 +1941,11 @@ window.openModal=id=>{
   document.getElementById('modalReviewList').innerHTML=reviews.length
     ?reviews.map(r=>`<div class="review-item"><div class="review-top"><span class="review-user">${r.reviewerName||'Anonymous'}</span><span class="review-date">${new Date(r.timestamp).toLocaleDateString()}</span></div><div class="review-rating">${genStars(r.rating)}</div><p>${r.comment}</p></div>`).join('')
     :'<p style="color:var(--text-muted);">No reviews yet. Be the first!</p>';
+
+  // ── Render similar listings (desktop) ──
+  const similar = getSimilarListings(item, listingsData);
+  renderSimilarCards(similar, 'desktopSimilarScroll', 'openModal');
+
   document.getElementById('detailModal').classList.add('active');
   document.body.style.overflow='hidden';
 };
@@ -1655,7 +1955,6 @@ window.closeModal=()=>{
 };
 
 /* ── MAP MODAL ── */
-// FIX: openMapModal uses .active class consistently (not style.display)
 window.openMapModal=location=>{
   const loc=location||currentItemLocation; if(!loc)return;
   const isMobile = window.innerWidth <= 767;
@@ -1694,7 +1993,6 @@ window.closeMobileMap=()=>{
     document.body.style.overflow='auto';
   },350);
 };
-
 function initMapDrag(){
   const panel=document.getElementById('mobileMapPanel');
   const handle=document.getElementById('mapHandle');
@@ -1783,7 +2081,6 @@ window.closeMobileReview=()=>{
   },350);
 };
 
-// FIX: submitReview (desktop) was missing — now implemented
 window.submitReview=()=>{
   const comment=document.getElementById('reviewComment').value.trim();
   if(!selectedRating||!comment)return alert('Please select a rating and add a comment.');
@@ -1908,7 +2205,8 @@ onValue(ref(db,'listings'),snapshot=>{
   listingsData=[];
   if(snapshot.exists())snapshot.forEach(c=>{const it={id:c.key,...c.val()};if(it.adminStatus==='approved')listingsData.push(it);});
   renderListings(listingsData);
-  hideSplashOnce(); // Hide splash once data loads
+  hideSplashOnce();
+  checkHashListing(); // Handle deep link on data ready
 });
 
 window.addEventListener('scroll',()=>{
@@ -1945,10 +2243,8 @@ window.openProfileSheet=()=>{
     get(userRef).then(snapshot=>{
       if(snapshot.exists()){
         userProfile=snapshot.val();
-        // FIX: reassign likedItems (let, not const)
         if(userProfile.saved) likedItems=new Set(userProfile.saved);
         if(userProfile.myReviews) myReviewsData=userProfile.myReviews;
-        // FIX: populate all three stats
         document.getElementById('psFavCount').textContent=likedItems.size;
         document.getElementById('psReviewCount').textContent=(myReviewsData||[]).length;
         if(!userProfile.notifications||userProfile.notifications.length===0){
@@ -2007,7 +2303,6 @@ window.saveProfile=async()=>{
   const phone=document.getElementById('psEditPhone').value.trim();
   const location=document.getElementById('psEditLocation').value.trim();
   const bio=document.getElementById('psEditBio').value.trim();
-  // Save to localStorage for persistence
   if(phone) localStorage.setItem('ks_phone',phone);
   if(location) localStorage.setItem('ks_location',location);
   if(bio) localStorage.setItem('ks_bio',bio);

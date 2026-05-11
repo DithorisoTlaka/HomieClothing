@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -95,11 +96,10 @@ nav { display: flex; justify-content: space-between; align-items: center; paddin
 .card-image img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s ease; }
 .card:hover .card-image img { transform: scale(1.1); }
 
-/* Blue verified badge */
-.badge { position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.9); padding: 6px 12px; border-radius: 10px; font-size: 0.7rem; font-weight: 800; backdrop-filter: blur(4px); }
+/* Premium Verified Badge */
+.badge { position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.9); padding: 6px 12px; border-radius: 10px; font-size: 0.7rem; font-weight: 800; backdrop-filter: blur(4px); display: flex; align-items: center; gap: 5px; }
 .dark-mode .badge { background: rgba(0,0,0,0.9); color: white; }
-.badge-verified { background: #1d9bf0 !important; color: white !important; }
-.badge-verified i { color: white; }
+.badge-premium-verified { background: linear-gradient(90deg, #f59e0b, #d97706) !important; color: white !important; box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3); }
 
 .card-content { padding: 1.5rem; }
 .price { font-size: 1.4rem; font-weight: 800; color: var(--primary-black); }
@@ -389,10 +389,10 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
   .card-image img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; border-radius: 14px; }
   .card:hover .card-image img { transform: none; }
 
-  /* Blue verified badge on mobile */
-  .badge { position: absolute; top: 8px; left: 8px; background: rgba(255,255,255,0.95); color: #111; padding: 3px 8px; border-radius: 6px; font-size: 0.6rem; font-weight: 700; z-index: 2; }
+  /* Premium Verified badge on mobile */
+  .badge { position: absolute; top: 8px; left: 8px; background: rgba(255,255,255,0.95); color: #111; padding: 3px 8px; border-radius: 6px; font-size: 0.6rem; font-weight: 700; z-index: 2; display: flex; align-items: center; gap: 3px; }
   .dark-mode .badge { background: rgba(0,0,0,0.85); color: white; }
-  .badge-verified { background: #1d9bf0 !important; color: white !important; border: none !important; }
+  .badge-premium-verified { background: linear-gradient(90deg, #f59e0b, #d97706) !important; color: white !important; border: none !important; }
 
   .like-btn { position: absolute; top: 7px; right: 7px; width: 30px; height: 30px; background: rgba(0,0,0,0.35); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 3; padding: 0; border-radius: 50%; backdrop-filter: blur(4px); flex-direction: column; gap: 1px; }
   .like-btn i { font-size: 0.9rem; color: white; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.4)); transition: transform 0.15s, color 0.15s; line-height: 1; }
@@ -438,10 +438,10 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
 
   #mobileSheetBackdrop { position: fixed; inset: 0; background: rgba(0,0,0,0); z-index: 2999; display: none; transition: background 0.35s ease; -webkit-backdrop-filter: blur(0px); backdrop-filter: blur(0px); }
   #mobileSheetBackdrop.open { display: block; background: rgba(0,0,0,0.5); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); }
-  #mobileSheet { position: fixed; bottom: 0; left: 0; right: 0; z-index: 3000; display: none; padding: 0 10px 10px; pointer-events: none; }
+  #mobileSheet { position: fixed; bottom: 0; left: 0; right: 0; z-index: 3000; display: none; padding: 0 0 0; pointer-events: none; }
   #mobileSheet.open { display: block; pointer-events: auto; }
-  #mobileSheetPanel { background: var(--bg-white); border-radius: 22px; height: 76vh; display: flex; flex-direction: column; overflow: hidden; transform: translateY(calc(100% + 20px)); transition: transform 0.42s cubic-bezier(0.34, 1.56, 0.64, 1); will-change: transform; box-shadow: 0 -4px 40px rgba(0,0,0,0.18), 0 0 0 0.5px rgba(0,0,0,0.06); }
-  .dark-mode #mobileSheetPanel { background: #1c1c1e; box-shadow: 0 -4px 40px rgba(0,0,0,0.55), 0 0 0 0.5px rgba(255,255,255,0.06); }
+  #mobileSheetPanel { background: var(--bg-white); border-radius: 22px 22px 0 0; height: 76vh; display: flex; flex-direction: column; overflow: hidden; transform: translateY(calc(100% + 20px)); transition: transform 0.42s cubic-bezier(0.34, 1.56, 0.64, 1); will-change: transform; box-shadow: 0 -4px 30px rgba(0,0,0,0.15); border-top: 1px solid var(--border-color); }
+  .dark-mode #mobileSheetPanel { background: #1c1c1e; box-shadow: 0 -4px 30px rgba(0,0,0,0.55); }
   #mobileSheet.open #mobileSheetPanel { transform: translateY(0); }
   #mobileSheet.open .sheet-gallery { animation: sheetFadeIn 0.38s cubic-bezier(0.22,1,0.36,1) 0.12s both; }
   #mobileSheet.open .sheet-body > * { animation: sheetFadeIn 0.32s cubic-bezier(0.22,1,0.36,1) both; }
@@ -512,9 +512,9 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
   /* MOBILE MAP BOTTOM SHEET */
   #mobileMapBackdrop { position: fixed; inset: 0; background: rgba(0,0,0,0); z-index: 3100; display: none; transition: background 0.35s ease; }
   #mobileMapBackdrop.open { display: block; background: rgba(0,0,0,0.5); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); }
-  #mobileMapSheet { position: fixed; bottom: 0; left: 0; right: 0; z-index: 3200; display: none; padding: 0 10px 10px; pointer-events: none; }
+  #mobileMapSheet { position: fixed; bottom: 0; left: 0; right: 0; z-index: 3200; display: none; padding: 0 0 0; pointer-events: none; }
   #mobileMapSheet.open { display: block; pointer-events: auto; }
-  #mobileMapPanel { background: var(--bg-white); border-radius: 22px; height: 65vh; display: flex; flex-direction: column; overflow: hidden; transform: translateY(calc(100% + 20px)); transition: transform 0.42s cubic-bezier(0.34, 1.56, 0.64, 1); will-change: transform; box-shadow: 0 -4px 40px rgba(0,0,0,0.18); }
+  #mobileMapPanel { background: var(--bg-white); border-radius: 22px 22px 0 0; height: 65vh; display: flex; flex-direction: column; overflow: hidden; transform: translateY(calc(100% + 20px)); transition: transform 0.42s cubic-bezier(0.34, 1.56, 0.64, 1); will-change: transform; box-shadow: 0 -4px 30px rgba(0,0,0,0.15); border-top: 1px solid var(--border-color); }
   .dark-mode #mobileMapPanel { background: #1c1c1e; }
   #mobileMapSheet.open #mobileMapPanel { transform: translateY(0); }
   #mobileMapPanel .map-container { flex: 1; border-radius: 0 0 22px 22px; overflow: hidden; }
@@ -522,9 +522,9 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
   /* MOBILE REVIEW BOTTOM SHEET */
   #mobileReviewBackdrop { position: fixed; inset: 0; background: rgba(0,0,0,0); z-index: 3100; display: none; transition: background 0.35s ease; }
   #mobileReviewBackdrop.open { display: block; background: rgba(0,0,0,0.5); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); }
-  #mobileReviewSheet { position: fixed; bottom: 0; left: 0; right: 0; z-index: 3200; display: none; padding: 0 10px 10px; pointer-events: none; }
+  #mobileReviewSheet { position: fixed; bottom: 0; left: 0; right: 0; z-index: 3200; display: none; padding: 0 0 0; pointer-events: none; }
   #mobileReviewSheet.open { display: block; pointer-events: auto; }
-  #mobileReviewPanel { background: var(--bg-white); border-radius: 22px; max-height: 70vh; display: flex; flex-direction: column; overflow: hidden; transform: translateY(calc(100% + 20px)); transition: transform 0.42s cubic-bezier(0.34, 1.56, 0.64, 1); will-change: transform; box-shadow: 0 -4px 40px rgba(0,0,0,0.18); }
+  #mobileReviewPanel { background: var(--bg-white); border-radius: 22px 22px 0 0; max-height: 70vh; display: flex; flex-direction: column; overflow: hidden; transform: translateY(calc(100% + 20px)); transition: transform 0.42s cubic-bezier(0.34, 1.56, 0.64, 1); will-change: transform; box-shadow: 0 -4px 30px rgba(0,0,0,0.15); border-top: 1px solid var(--border-color); }
   .dark-mode #mobileReviewPanel { background: #1c1c1e; }
   #mobileReviewSheet.open #mobileReviewPanel { transform: translateY(0); }
   .mobile-review-body { padding: 20px; flex: 1; overflow-y: auto; }
@@ -1555,7 +1555,7 @@ function renderBatch(data){
 
     if(mob){
       const rHtml=avg>0?`<div class="card-rating"><i class="fa-solid fa-star"></i> ${avg.toFixed(1)}</div>`:'';
-      const vHtml=item.verified?`<span class="badge badge-verified"><i class="fa-solid fa-check"></i></span>`:`<span class="badge">New</span>`;
+      const vHtml=item.verified?`<span class="badge badge-premium-verified"><i class="fa-solid fa-crown"></i></span>`:`<span class="badge">New</span>`;
       card.innerHTML=`
         <div class="card-image">
           ${vHtml}
@@ -1574,7 +1574,7 @@ function renderBatch(data){
     }else{
       const rHtml=avg>0?`<div class="rating-stars">${genStars(avg)}</div>`:'';
       const aHtml=item.amenities?.map(a=>`<span class="amenity">${a}</span>`).slice(0,3).join('')||'';
-      const vBadge=item.verified?`<span class="badge badge-verified"><i class="fa-solid fa-check"></i> Verified</span>`:`<span class="badge">New</span>`;
+      const vBadge=item.verified?`<span class="badge badge-premium-verified"><i class="fa-solid fa-crown"></i> Premium Verified</span>`:`<span class="badge">New</span>`;
       card.innerHTML=`
         <div class="card-image" style="cursor:pointer;">
           ${vBadge}
@@ -1761,9 +1761,6 @@ function initSheetDrag(){
     }
   };
 
-  // Clean up any existing listeners by cloning
-  const newPanel=panel.cloneNode(false);
-  // Actually just add listeners; cloning removes children so we skip that
   panel.addEventListener('touchstart',onStart,{passive:true});
   panel.addEventListener('touchmove',onMove,{passive:true});
   panel.addEventListener('touchend',onEnd);

@@ -11,107 +11,45 @@
 <style>
 /* ── SPLASH SCREEN ── */
 #splashScreen {
-  position: fixed;
-  inset: 0;
-  background: #111111;
-  z-index: 99999;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0;
+  position: fixed; inset: 0; background: #111111; z-index: 99999;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0;
   transition: opacity 0.55s cubic-bezier(0.4,0,0.2,1), transform 0.55s cubic-bezier(0.4,0,0.2,1);
 }
-#splashScreen.fade-out {
-  opacity: 0;
-  transform: scale(1.04);
-  pointer-events: none;
-}
-.splash-logo {
-  font-family: 'Inter', sans-serif;
-  font-size: clamp(2.6rem, 10vw, 4rem);
-  font-weight: 800;
-  color: white;
-  letter-spacing: -2px;
-  animation: splashLogoIn 0.7s cubic-bezier(0.22,1,0.36,1) 0.15s both;
-}
+#splashScreen.fade-out { opacity: 0; transform: scale(1.04); pointer-events: none; }
+.splash-logo { font-family: 'Inter', sans-serif; font-size: clamp(2.6rem, 10vw, 4rem); font-weight: 800; color: white; letter-spacing: -2px; animation: splashLogoIn 0.7s cubic-bezier(0.22,1,0.36,1) 0.15s both; }
 .splash-logo span { color: #10b981; }
-.splash-tagline {
-  font-size: 0.95rem;
-  color: rgba(255,255,255,0.45);
-  font-weight: 400;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  margin-top: 10px;
-  animation: splashTagIn 0.6s cubic-bezier(0.22,1,0.36,1) 0.4s both;
-}
-.splash-dots {
-  display: flex;
-  gap: 8px;
-  margin-top: 40px;
-  animation: splashTagIn 0.5s ease 0.5s both;
-}
-.splash-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.2);
-  animation: splashPulse 1.2s ease-in-out infinite;
-}
+.splash-tagline { font-size: 0.95rem; color: rgba(255,255,255,0.45); font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; margin-top: 10px; animation: splashTagIn 0.6s cubic-bezier(0.22,1,0.36,1) 0.4s both; }
+.splash-dots { display: flex; gap: 8px; margin-top: 40px; animation: splashTagIn 0.5s ease 0.5s both; }
+.splash-dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,0.2); animation: splashPulse 1.2s ease-in-out infinite; }
 .splash-dot:nth-child(2) { animation-delay: 0.2s; }
 .splash-dot:nth-child(3) { animation-delay: 0.4s; }
-@keyframes splashLogoIn {
-  from { opacity:0; transform: translateY(22px) scale(0.96); }
-  to { opacity:1; transform: translateY(0) scale(1); }
-}
-@keyframes splashTagIn {
-  from { opacity:0; transform: translateY(10px); }
-  to { opacity:1; transform: translateY(0); }
-}
-@keyframes splashSpin {
-  to { transform: rotate(360deg); }
-}
-@keyframes splashPulse {
-  0%,100% { background: rgba(255,255,255,0.15); transform: scale(1); }
-  50% { background: #10b981; transform: scale(1.3); }
-}
+@keyframes splashLogoIn { from { opacity:0; transform: translateY(22px) scale(0.96); } to { opacity:1; transform: translateY(0) scale(1); } }
+@keyframes splashTagIn { from { opacity:0; transform: translateY(10px); } to { opacity:1; transform: translateY(0); } }
+@keyframes splashPulse { 0%,100% { background: rgba(255,255,255,0.15); transform: scale(1); } 50% { background: #10b981; transform: scale(1.3); } }
 
 :root {
-  --primary-black: #111111;
-  --secondary-black: #222222;
-  --bg-white: #ffffff;
-  --bg-off-white: #f9fafb;
-  --text-main: #1f2937;
-  --text-muted: #6b7280;
-  --accent-green: #10b981;
-  --border-color: #e5e7eb;
-  --radius-lg: 16px;
-  --shadow-sm: 0 1px 2px 0 rgba(0,0,0,0.05);
-  --shadow-md: 0 10px 15px -3px rgba(0,0,0,0.1);
+  --primary-black: #111111; --secondary-black: #222222; --bg-white: #ffffff; --bg-off-white: #f9fafb;
+  --text-main: #1f2937; --text-muted: #6b7280; --accent-green: #10b981; --border-color: #e5e7eb;
+  --radius-lg: 16px; --shadow-sm: 0 1px 2px 0 rgba(0,0,0,0.05); --shadow-md: 0 10px 15px -3px rgba(0,0,0,0.1);
   --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .dark-mode {
-  --primary-black: #ffffff;
-  --secondary-black: #dddddd;
-  --bg-white: #121212;
-  --bg-off-white: #1e1e1e;
-  --text-main: #e0e0e0;
-  --text-muted: #a0a0a0;
-  --accent-green: #4caf50;
-  --border-color: #333333;
-  --shadow-sm: 0 1px 2px 0 rgba(255,255,255,0.05);
-  --shadow-md: 0 10px 15px -3px rgba(255,255,255,0.1);
+  --primary-black: #ffffff; --secondary-black: #dddddd; --bg-white: #121212; --bg-off-white: #1e1e1e;
+  --text-main: #e0e0e0; --text-muted: #a0a0a0; --accent-green: #4caf50; --border-color: #333333;
+  --shadow-sm: 0 1px 2px 0 rgba(255,255,255,0.05); --shadow-md: 0 10px 15px -3px rgba(255,255,255,0.1);
 }
 * { margin:0; padding:0; box-sizing:border-box; font-family:'Inter',sans-serif; }
 body { background: var(--bg-white); color: var(--text-main); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; transition: var(--transition); }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes slideUp { from { transform: translateY(40px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
 nav { display: flex; justify-content: space-between; align-items: center; padding: 1rem 5%; position: sticky; top: 0; background: var(--primary-black); backdrop-filter: blur(12px); z-index: 1000; border-bottom: 1px solid var(--border-color); transition: var(--transition); }
 .logo { font-family: 'Inter', sans-serif; font-size: 1.5rem; font-weight: 800; color: white; letter-spacing: -1px; cursor: pointer; transition: var(--transition); }
 .logo:hover { transform: scale(1.05); }
 .btn { padding: 0.75rem 1.5rem; border-radius: 50px; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: var(--transition); border: none; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
 .btn-primary { background: white; color: var(--primary-black); box-shadow: 0 4px 14px rgba(0,0,0,0.15); }
 .btn-primary:hover { background: var(--bg-off-white); transform: translateY(-2px); }
+
 .hero { padding: 6rem 5% 4rem; text-align: center; background: radial-gradient(circle at top right, #f0fdf4, #ffffff); transition: var(--transition); }
 .dark-mode .hero { background: radial-gradient(circle at top right, #1e1e1e, #121212); }
 .hero h1 { font-family: 'Syne', 'Inter', sans-serif; font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 800; margin-bottom: 1.5rem; color: var(--primary-black); line-height: 1.1; letter-spacing: -2px; }
@@ -125,6 +63,7 @@ nav { display: flex; justify-content: space-between; align-items: center; paddin
 .search-input-group input { border: none; outline: none; width: 100%; font-size: 1rem; color: var(--primary-black); font-weight: 500; background: transparent; }
 .search-btn { background: var(--primary-black); color: white; padding: 1.1rem 2.5rem; border-radius: 40px; font-weight: 700; cursor: pointer; border: none; transition: var(--transition); }
 .search-btn:hover { background: var(--accent-green); }
+
 .filters { padding: 2rem 5%; background: var(--bg-off-white); border-top: 1px solid var(--border-color); transition: var(--transition); }
 .filter-tags-row { display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center; margin-bottom: 2rem; }
 .filter-tag { padding: 0.6rem 1.4rem; border: 1px solid var(--border-color); border-radius: 50px; font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: var(--transition); background: white; }
@@ -144,6 +83,7 @@ nav { display: flex; justify-content: space-between; align-items: center; paddin
 .range-input input { position: absolute; width: 100%; height: 5px; top: -7px; background: none; pointer-events: none; -webkit-appearance: none; }
 .range-input input::-webkit-slider-thumb { height: 20px; width: 20px; border-radius: 50%; background: #fff; border: 2px solid var(--accent-green); pointer-events: auto; -webkit-appearance: none; box-shadow: 0 2px 6px rgba(0,0,0,0.15); cursor: pointer; }
 .range-input input::-moz-range-thumb { height: 20px; width: 20px; border-radius: 50%; background: #fff; border: 2px solid var(--accent-green); pointer-events: auto; -moz-appearance: none; cursor: pointer; }
+
 .section-header { padding: 3rem 5% 1rem; }
 .section-header h2 { font-size: 1.75rem; font-weight: 800; letter-spacing: -0.5px; }
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 2.5rem; padding: 0 5% 5rem; animation: fadeIn 0.6s ease; }
@@ -154,9 +94,13 @@ nav { display: flex; justify-content: space-between; align-items: center; paddin
 .dark-mode .card-image { background: #333; }
 .card-image img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s ease; }
 .card:hover .card-image img { transform: scale(1.1); }
+
+/* Blue verified badge */
 .badge { position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.9); padding: 6px 12px; border-radius: 10px; font-size: 0.7rem; font-weight: 800; backdrop-filter: blur(4px); }
 .dark-mode .badge { background: rgba(0,0,0,0.9); color: white; }
-.badge-verified { background: var(--primary-black); color: white; }
+.badge-verified { background: #1d9bf0 !important; color: white !important; }
+.badge-verified i { color: white; }
+
 .card-content { padding: 1.5rem; }
 .price { font-size: 1.4rem; font-weight: 800; color: var(--primary-black); }
 .price span { font-size: 0.9rem; color: var(--text-muted); font-weight: 400; }
@@ -170,6 +114,11 @@ nav { display: flex; justify-content: space-between; align-items: center; paddin
 .card-btn:hover { background: var(--primary-black); color: white; }
 .rating-stars { display: flex; gap: 4px; color: #eab308; }
 .rating-stars i { font-size: 0.9rem; }
+
+/* Like counter on desktop card */
+.like-counter-badge { position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.6); color: white; padding: 4px 10px; border-radius: 20px; font-size: 0.72rem; font-weight: 700; display: flex; align-items: center; gap: 4px; backdrop-filter: blur(4px); }
+.like-counter-badge i { font-size: 0.65rem; color: #ff385c; }
+
 /* MODALS */
 .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); z-index: 2000; align-items: center; justify-content: center; }
 .modal-overlay.active { display: flex; }
@@ -187,6 +136,7 @@ nav { display: flex; justify-content: space-between; align-items: center; paddin
 .dark-mode .progress-bar-container { background: #333; }
 .progress-bar { height: 100%; width: 0%; background: var(--accent-green); transition: width 0.4s ease; }
 .progress-text { font-weight: 600; margin-bottom: 1rem; }
+
 #signInModal .modal-content { max-width: 380px; padding: 0; }
 #signInModal .modal-header { padding: 1.75rem 1.5rem 1rem; border-bottom: none; text-align: center; }
 #signInModal .modal-body { padding: 1.5rem 1.5rem 2rem; }
@@ -195,14 +145,7 @@ nav { display: flex; justify-content: space-between; align-items: center; paddin
 #signInModal .sign-in-btn { width: 100%; padding: 14px; background: var(--primary-black); color: white; border: none; border-radius: 50px; font-weight: 700; font-size: 1.05rem; margin: 1rem 0 1.25rem; cursor: pointer; transition: var(--transition); }
 .dark-mode #signInModal .sign-in-btn { background: white; color: #111; }
 #signInModal .sign-in-btn:hover { background: var(--accent-green); }
-#signInModal .google-btn {
-  width: 100%; padding: 14px 16px; border-radius: 50px; margin-top: 12px;
-  background: white; color: #1f2937; border: 1.5px solid #e2e4e7;
-  font-weight: 700; font-size: 0.92rem; cursor: pointer;
-  display: flex; align-items: center; justify-content: center; gap: 10px;
-  transition: all 0.2s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  position: relative; overflow: hidden;
-}
+#signInModal .google-btn { width: 100%; padding: 14px 16px; border-radius: 50px; margin-top: 12px; background: white; color: #1f2937; border: 1.5px solid #e2e4e7; font-weight: 700; font-size: 0.92rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: all 0.2s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.08); position: relative; overflow: hidden; }
 #signInModal .google-btn:hover { box-shadow: 0 4px 14px rgba(0,0,0,0.12); transform: translateY(-1px); }
 #signInModal .google-btn:active { transform: scale(0.97); }
 #signInModal .google-btn .google-logo { width: 20px; height: 20px; flex-shrink: 0; display: block; }
@@ -211,11 +154,13 @@ nav { display: flex; justify-content: space-between; align-items: center; paddin
 #signInModal .or-divider::before { content: ''; position: absolute; top: 50%; left: 0; right: 0; height: 1px; background: var(--border-color); }
 #signInModal .or-divider span { background: white; padding: 0 12px; }
 .dark-mode #signInModal .or-divider span { background: #1e1e1e; }
+
 footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; text-align: center; transition: var(--transition); }
 .footer-links { display: flex; gap: 2.5rem; justify-content: center; margin: 2rem 0; }
 .footer-links a { color: #9ca3af; text-decoration: none; font-size: 0.95rem; transition: 0.3s; }
 .footer-links a:hover { color: white; }
 .copyright { border-top: 1px solid #222; padding-top: 2rem; color: #4b5563; font-size: 0.85rem; }
+
 /* DESKTOP DETAIL MODAL */
 @media (min-width: 768px) { #detailModal .modal-content { max-width: 900px; } }
 #detailModal .modal-content { width: 90%; max-width: 420px; max-height: 90vh; display: flex; flex-direction: column; overflow: hidden; }
@@ -275,6 +220,7 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
 .dark-mode .review-item p { color: #a0a0a0; }
 .add-review-btn { background: var(--accent-green); color: white; padding: 0.75rem 1.5rem; border-radius: 50px; font-weight: 600; cursor: pointer; transition: var(--transition); border: none; margin-top: 1rem; }
 .add-review-btn:hover { background: #059669; }
+
 #reviewModal .modal-content { max-width: 480px; }
 .dark-mode #reviewModal .modal-content { background: #1e1e1e; }
 #reviewModal .form-group { margin-bottom: 1rem; }
@@ -284,10 +230,12 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
 #reviewModal .star-rating i.selected { color: #eab308; }
 #reviewModal textarea { width: 100%; height: 100px; padding: 0.75rem 1rem; border: 1.5px solid var(--border-color); border-radius: 12px; font-size: 0.95rem; font-family: 'Inter',sans-serif; resize: vertical; outline: none; background: var(--bg-white); color: var(--text-main); }
 #reviewModal textarea:focus { border-color: var(--accent-green); box-shadow: 0 0 0 3px rgba(16,185,129,0.1); }
+
 #mapModal .modal-content { width: 95%; max-width: 900px; height: 80vh; display: flex; flex-direction: column; }
 .dark-mode #mapModal .modal-content { background: #1e1e1e; }
 #mapModal .map-container { flex: 1; width: 100%; border-radius: 0 0 24px 24px; overflow: hidden; }
 #mapModal iframe { width: 100%; height: 100%; border: none; }
+
 #addModal .modal-content { width: 90%; max-width: 480px; max-height: 90vh; display: flex; flex-direction: column; overflow: hidden; }
 .dark-mode #addModal .modal-content { background: #1e1e1e; }
 #addModal .modal-header { padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; }
@@ -316,26 +264,16 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
 #signedOutModal .modal-content { max-width:380px; }
 
 /* ── SHARE BUTTON STYLES ── */
-.share-btn {
-  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
-  padding: 0.65rem 1.2rem; border-radius: 50px; font-weight: 600; font-size: 0.82rem;
-  border: 1.5px solid var(--border-color); background: transparent; color: var(--text-main);
-  cursor: pointer; transition: var(--transition); white-space: nowrap;
-}
+.share-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 0.65rem 1.2rem; border-radius: 50px; font-weight: 600; font-size: 0.82rem; border: 1.5px solid var(--border-color); background: transparent; color: var(--text-main); cursor: pointer; transition: var(--transition); white-space: nowrap; }
 .share-btn:hover { border-color: var(--accent-green); color: var(--accent-green); transform: translateY(-1px); }
 .share-btn:active { transform: scale(0.96); }
 .dark-mode .share-btn { border-color: #444; color: var(--text-main); }
-
-/* Desktop share bar (sits alongside review btn) */
 .desktop-action-bar { display: flex; align-items: center; gap: 10px; margin-top: 1rem; flex-wrap: wrap; }
 
 /* ── SHARE MODAL ── */
 #shareModal .modal-content { max-width: 420px; }
 .dark-mode #shareModal .modal-content { background: #1e1e1e; }
-.share-preview-card {
-  border: 1px solid var(--border-color); border-radius: 16px; overflow: hidden; margin-bottom: 1.25rem;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-}
+.share-preview-card { border: 1px solid var(--border-color); border-radius: 16px; overflow: hidden; margin-bottom: 1.25rem; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
 .dark-mode .share-preview-card { border-color: #333; }
 .share-preview-img { width: 100%; height: 180px; object-fit: cover; display: block; }
 .share-preview-body { padding: 14px 16px; background: var(--bg-white); }
@@ -344,27 +282,14 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
 .share-preview-price { color: var(--accent-green); font-weight: 700; font-size: 1rem; }
 .share-preview-location { font-size: 0.78rem; color: var(--text-muted); display: flex; align-items: center; gap: 4px; }
 .share-link-row { display: flex; gap: 8px; margin-bottom: 1.25rem; }
-.share-link-input {
-  flex: 1; padding: 11px 14px; border: 1.5px solid var(--border-color); border-radius: 12px;
-  font-size: 0.82rem; background: var(--bg-off-white); color: var(--text-muted);
-  outline: none; cursor: text; font-family: 'Inter', sans-serif; overflow: hidden;
-  white-space: nowrap; text-overflow: ellipsis;
-}
+.share-link-input { flex: 1; padding: 11px 14px; border: 1.5px solid var(--border-color); border-radius: 12px; font-size: 0.82rem; background: var(--bg-off-white); color: var(--text-muted); outline: none; cursor: text; font-family: 'Inter', sans-serif; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 .dark-mode .share-link-input { background: #2c2c2e; border-color: #3a3a3c; color: #a0a0a0; }
-.copy-link-btn {
-  padding: 11px 18px; border-radius: 12px; background: var(--primary-black); color: white;
-  border: none; font-weight: 700; font-size: 0.82rem; cursor: pointer; transition: var(--transition);
-  white-space: nowrap; display: flex; align-items: center; gap: 6px;
-}
+.copy-link-btn { padding: 11px 18px; border-radius: 12px; background: var(--primary-black); color: white; border: none; font-weight: 700; font-size: 0.82rem; cursor: pointer; transition: var(--transition); white-space: nowrap; display: flex; align-items: center; gap: 6px; }
 .dark-mode .copy-link-btn { background: white; color: #111; }
 .copy-link-btn:hover { background: var(--accent-green); }
 .copy-link-btn:active { transform: scale(0.96); }
 .share-options-row { display: flex; gap: 10px; }
-.share-option-btn {
-  flex: 1; padding: 12px; border-radius: 14px; font-weight: 600; font-size: 0.82rem;
-  border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
-  transition: var(--transition);
-}
+.share-option-btn { flex: 1; padding: 12px; border-radius: 14px; font-weight: 600; font-size: 0.82rem; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: var(--transition); }
 .share-option-btn:active { transform: scale(0.96); }
 .share-option-btn.whatsapp { background: #25D366; color: white; }
 .share-option-btn.whatsapp:hover { background: #128C7E; }
@@ -378,11 +303,7 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
 .similar-section-title i { color: var(--accent-green); font-size: 0.82rem; }
 .similar-scroll { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 4px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
 .similar-scroll::-webkit-scrollbar { display: none; }
-.similar-card {
-  flex-shrink: 0; width: 150px; border-radius: 14px; overflow: hidden;
-  border: 1px solid var(--border-color); background: var(--bg-white); cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
+.similar-card { flex-shrink: 0; width: 150px; border-radius: 14px; overflow: hidden; border: 1px solid var(--border-color); background: var(--bg-white); cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease; }
 .dark-mode .similar-card { background: #2c2c2e; border-color: #3a3a3c; }
 .similar-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.12); }
 .similar-card:active { transform: scale(0.97); }
@@ -395,14 +316,12 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
 
 /* Mobile sheet share button row */
 .sheet-action-bar { display: flex; gap: 8px; margin-bottom: 14px; }
-.sheet-share-btn {
-  display: flex; align-items: center; justify-content: center; gap: 6px;
-  padding: 10px 18px; border-radius: 50px; font-weight: 600; font-size: 0.82rem;
-  border: 1.5px solid var(--border-color); background: transparent; color: var(--text-main);
-  cursor: pointer; transition: transform 0.15s ease, border-color 0.15s ease, color 0.15s ease;
-  flex: 1;
-}
+.sheet-share-btn { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 10px 18px; border-radius: 50px; font-weight: 600; font-size: 0.82rem; border: 1.5px solid var(--border-color); background: transparent; color: var(--text-main); cursor: pointer; transition: transform 0.15s ease, border-color 0.15s ease, color 0.15s ease; flex: 1; }
 .sheet-share-btn:active { transform: scale(0.96); border-color: var(--accent-green); color: var(--accent-green); }
+
+/* ── COPY TOAST ── */
+.copy-toast { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%) translateY(10px); background: #111; color: white; padding: 10px 20px; border-radius: 50px; font-size: 0.82rem; font-weight: 600; z-index: 9999; opacity: 0; transition: opacity 0.25s ease, transform 0.25s ease; pointer-events: none; display: flex; align-items: center; gap: 8px; }
+.copy-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
 /* =============================================
    MOBILE STYLES
@@ -413,60 +332,43 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
   .logo { font-size: 1.8rem; margin: 0; color: white; }
   .hero { display: none; }
   footer { display: none; }
+
+  /* ── MOBILE TABS (views) ── */
   #homeView { padding-top: 6px; padding-bottom: 100px; min-height: 80vh; }
   #mobileSearchView { display: none; padding: 20px; padding-bottom: 110px; animation: fadeIn 0.3s ease; }
+  
+  /* ── PROFILE PAGE (tab view) ── */
+  #profilePageView { display: none; padding-bottom: 100px; animation: fadeIn 0.3s ease; }
+  #profilePageView.active { display: block; }
+
   .mobile-search-wrapper { background: white; border-radius: 20px; padding: 1rem; box-shadow: var(--shadow-md); border: 1px solid var(--border-color); margin-bottom: 2rem; }
   .dark-mode .mobile-search-wrapper { background: #333; }
   .mobile-search-wrapper .search-input-group { border-bottom: 1px solid #eee; margin-bottom: 10px; }
   .dark-mode .mobile-search-wrapper .search-input-group { border-bottom: 1px solid #444; }
   .mobile-search-wrapper .search-input-group:last-child { border-bottom: none; margin-bottom: 0; }
   .show-results-btn { border-radius: 50px !important; }
-  .sheet-contact-btn, .ps-signin-cta, .ps-google-cta, .mobile-home-search-btn, .show-results-btn, .ps-edit-btn, .ps-signout, .ps-edit-save, .sheet-add-review, .add-review-btn {
-    border-radius: 50px !important;
-  }
+  .sheet-contact-btn, .ps-signin-cta, .ps-google-cta, .mobile-home-search-btn, .show-results-btn, .ps-edit-btn, .ps-signout, .ps-edit-save, .sheet-add-review, .add-review-btn { border-radius: 50px !important; }
   .dark-mode nav { background: #111111 !important; }
-  .mobile-filter-row .filter-tag.active {
-    background: var(--accent-green) !important;
-    color: white !important;
-    border-color: var(--accent-green) !important;
-  }
-  .home-price-range .price-range-wrapper {
-    box-shadow: 0 15px 35px -10px rgba(0,0,0,0.18) !important;
-    border: none !important;
-  }
+  .mobile-filter-row .filter-tag.active { background: var(--accent-green) !important; color: white !important; border-color: var(--accent-green) !important; }
+  .home-price-range .price-range-wrapper { box-shadow: 0 15px 35px -10px rgba(0,0,0,0.18) !important; border: none !important; }
   .range-selected { box-shadow: 0 0 12px var(--accent-green) !important; }
   .range-input input::-webkit-slider-thumb { box-shadow: 0 4px 12px rgba(16,185,129,0.3) !important; }
   .dark-mode .sheet-contact-btn.call { background: #111111 !important; color: white !important; }
   .dark-mode .sheet-add-review { background: #111111 !important; color: white !important; }
   #signOutConfirmModal { z-index: 3500 !important; }
-  .mobile-home-search {
-    margin: 10px 12px 0;
-    background: white;
-    border-radius: 18px;
-    box-shadow: 0 2px 16px rgba(0,0,0,0.09);
-    border: 1px solid var(--border-color);
-    overflow: hidden;
-    transition: border-color 0.2s, box-shadow 0.2s;
-  }
+
+  .mobile-home-search { margin: 10px 12px 0; background: white; border-radius: 18px; box-shadow: 0 2px 16px rgba(0,0,0,0.09); border: 1px solid var(--border-color); overflow: hidden; transition: border-color 0.2s, box-shadow 0.2s; }
   .dark-mode .mobile-home-search { background: #1e1e1e; border-color: #333; }
   .mobile-home-search:focus-within { border-color: var(--accent-green); box-shadow: 0 2px 20px rgba(16,185,129,0.13); }
   .mobile-home-search-inner { display: flex; align-items: center; gap: 10px; padding: 13px 16px; }
   .mobile-home-search-inner i.search-icon { color: var(--accent-green); font-size: 1rem; flex-shrink: 0; }
-  .mobile-home-search-inner input {
-    border: none; outline: none; background: transparent;
-    font-size: 0.92rem; color: var(--text-main);
-    flex: 1; font-family: 'Inter',sans-serif; font-weight: 500;
-  }
+  .mobile-home-search-inner input { border: none; outline: none; background: transparent; font-size: 0.92rem; color: var(--text-main); flex: 1; font-family: 'Inter',sans-serif; font-weight: 500; }
   .mobile-home-search-inner input::placeholder { color: var(--text-muted); font-weight: 400; }
-  .mobile-home-search-btn {
-    width: calc(100% - 20px); padding: 12px;
-    background: var(--primary-black); color: white;
-    border: none; border-radius: 50px; font-weight: 700; font-size: 0.9rem;
-    cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
-    margin: 0 10px 10px; transition: background 0.2s;
-  }
+  .mobile-home-search-btn { width: calc(100% - 20px); padding: 12px; background: var(--primary-black); color: white; border: none; border-radius: 50px; font-weight: 700; font-size: 0.9rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; margin: 0 10px 10px; transition: background 0.2s; }
   .mobile-home-search-btn:active { background: var(--accent-green); }
   .dark-mode .mobile-home-search-btn { background: white; color: #111; }
+
+  /* Bottom nav */
   .bottom-nav { display: flex; justify-content: space-around; align-items: center; position: fixed; bottom: 0; left: 0; right: 0; width: 100%; background: var(--bg-white); border-top: 1px solid var(--border-color); padding: 8px 0 20px; z-index: 1000; transition: var(--transition); }
   .dark-mode .bottom-nav { background: #1a1a1a; border-top: 1px solid #333; }
   .bottom-nav-item { display: flex; flex-direction: column; align-items: center; justify-content: center; color: #b0b0b0; cursor: pointer; padding: 4px 16px; transition: color 0.2s ease; gap: 4px; background: transparent; flex: 1; }
@@ -475,32 +377,29 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
   .bottom-nav-item span { font-size: 0.7rem; font-weight: 500; display: block; white-space: nowrap; }
   .bottom-nav-item.active { color: var(--primary-black); background: transparent; }
   .dark-mode .bottom-nav-item.active { color: white; }
-  .grid {
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 8px; padding: 8px 10px 1rem; animation: fadeIn 0.6s ease;
-  }
-  .card {
-    background: transparent; border-radius: 0; overflow: visible; border: none;
-    transition: none; position: relative; padding: 0; display: flex; flex-direction: column;
-    gap: 6px; animation: none; cursor: pointer;
-  }
+
+  /* Grid */
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 8px 10px 1rem; animation: fadeIn 0.6s ease; }
+  .card { background: transparent; border-radius: 0; overflow: visible; border: none; transition: none; position: relative; padding: 0; display: flex; flex-direction: column; gap: 6px; animation: none; cursor: pointer; }
   .dark-mode .card { background: transparent; }
   .card:hover { transform: none; box-shadow: none; }
   .card:active { opacity: 0.82; }
-  .card-image {
-    height: 0; padding-bottom: 100%; width: 100%; position: relative;
-    overflow: hidden; background: #f0f0f0; border-radius: 14px; flex-shrink: 0;
-  }
+  .card-image { height: 0; padding-bottom: 100%; width: 100%; position: relative; overflow: hidden; background: #f0f0f0; border-radius: 14px; flex-shrink: 0; }
   .dark-mode .card-image { background: #2a2a2a; }
   .card-image img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; border-radius: 14px; }
   .card:hover .card-image img { transform: none; }
+
+  /* Blue verified badge on mobile */
   .badge { position: absolute; top: 8px; left: 8px; background: rgba(255,255,255,0.95); color: #111; padding: 3px 8px; border-radius: 6px; font-size: 0.6rem; font-weight: 700; z-index: 2; }
   .dark-mode .badge { background: rgba(0,0,0,0.85); color: white; }
-  .badge-verified { background: #111 !important; color: white !important; }
-  .like-btn { position: absolute; top: 7px; right: 7px; width: 28px; height: 28px; background: transparent; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 3; padding: 0; }
-  .like-btn i { font-size: 1.1rem; color: white; filter: drop-shadow(0 1px 3px rgba(0,0,0,0.5)); transition: transform 0.15s, color 0.15s; }
+  .badge-verified { background: #1d9bf0 !important; color: white !important; border: none !important; }
+
+  .like-btn { position: absolute; top: 7px; right: 7px; width: 30px; height: 30px; background: rgba(0,0,0,0.35); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 3; padding: 0; border-radius: 50%; backdrop-filter: blur(4px); flex-direction: column; gap: 1px; }
+  .like-btn i { font-size: 0.9rem; color: white; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.4)); transition: transform 0.15s, color 0.15s; line-height: 1; }
   .like-btn.liked i { color: #ff385c; filter: none; }
   .like-btn:active i { transform: scale(1.3); }
+  .like-count-label { font-size: 0.5rem; color: rgba(255,255,255,0.9); font-weight: 700; line-height: 1; }
+
   .card-content { padding: 3px 0 0; display: flex; flex-direction: column; gap: 0; }
   .card-top-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 4px; margin-bottom: 1px; }
   .card-title { font-size: 0.8rem; font-weight: 700; color: var(--text-main); margin: 0; line-height: 1.25; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -525,36 +424,23 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
   .mobile-filter-row .filter-tag { padding: 5px 12px; font-size: 0.75rem; border-color: #ddd; background: white; border-radius: 50px; flex-shrink: 0; }
   .dark-mode .mobile-filter-row .filter-tag { background: #2a2a2a; border-color: #444; }
   .home-price-range { padding: 0 12px; margin-bottom: 6px; }
-  .ps-google-cta {
-    width: 100%; padding: 14px 16px; border-radius: 50px; margin-top: 12px;
-    background: white; color: #1f2937; border: 1.5px solid #e2e4e7;
-    font-weight: 700; font-size: 0.92rem; cursor: pointer;
-    display: flex; align-items: center; justify-content: center; gap: 10px;
-    transition: all 0.2s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    position: relative; overflow: hidden;
-  }
+
+  .ps-google-cta { width: 100%; padding: 14px 16px; border-radius: 50px; margin-top: 12px; background: white; color: #1f2937; border: 1.5px solid #e2e4e7; font-weight: 700; font-size: 0.92rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: all 0.2s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.08); position: relative; overflow: hidden; }
   .dark-mode .ps-google-cta { background: #2c2c2e; color: white; border-color: #3a3a3c; }
   .ps-google-cta:active { transform: scale(0.97); }
   .ps-google-cta .google-logo { width: 20px; height: 20px; flex-shrink: 0; display: block; }
+
   /* Hide desktop detail modal on mobile */
   #detailModal { display: none !important; }
+
   @keyframes sheetFadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
   @keyframes sheetScaleIn { from { opacity:0; transform:scale(0.94); } to { opacity:1; transform:scale(1); } }
-  #mobileSheetBackdrop {
-    position: fixed; inset: 0; background: rgba(0,0,0,0); z-index: 2999; display: none;
-    transition: background 0.35s ease; -webkit-backdrop-filter: blur(0px); backdrop-filter: blur(0px);
-  }
+
+  #mobileSheetBackdrop { position: fixed; inset: 0; background: rgba(0,0,0,0); z-index: 2999; display: none; transition: background 0.35s ease; -webkit-backdrop-filter: blur(0px); backdrop-filter: blur(0px); }
   #mobileSheetBackdrop.open { display: block; background: rgba(0,0,0,0.5); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); }
   #mobileSheet { position: fixed; bottom: 0; left: 0; right: 0; z-index: 3000; display: none; padding: 0 10px 10px; pointer-events: none; }
   #mobileSheet.open { display: block; pointer-events: auto; }
-  #mobileSheetPanel {
-    background: var(--bg-white); border-radius: 22px; height: 76vh;
-    display: flex; flex-direction: column; overflow: hidden;
-    transform: translateY(calc(100% + 20px));
-    transition: transform 0.42s cubic-bezier(0.34, 1.56, 0.64, 1);
-    will-change: transform;
-    box-shadow: 0 -4px 40px rgba(0,0,0,0.18), 0 0 0 0.5px rgba(0,0,0,0.06);
-  }
+  #mobileSheetPanel { background: var(--bg-white); border-radius: 22px; height: 76vh; display: flex; flex-direction: column; overflow: hidden; transform: translateY(calc(100% + 20px)); transition: transform 0.42s cubic-bezier(0.34, 1.56, 0.64, 1); will-change: transform; box-shadow: 0 -4px 40px rgba(0,0,0,0.18), 0 0 0 0.5px rgba(0,0,0,0.06); }
   .dark-mode #mobileSheetPanel { background: #1c1c1e; box-shadow: 0 -4px 40px rgba(0,0,0,0.55), 0 0 0 0.5px rgba(255,255,255,0.06); }
   #mobileSheet.open #mobileSheetPanel { transform: translateY(0); }
   #mobileSheet.open .sheet-gallery { animation: sheetFadeIn 0.38s cubic-bezier(0.22,1,0.36,1) 0.12s both; }
@@ -565,8 +451,10 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
   #mobileSheet.open .sheet-amenities { animation-delay: 0.27s; }
   #mobileSheet.open .sheet-landlord { animation-delay: 0.3s; }
   #mobileSheet.open .sheet-review-section { animation-delay: 0.33s; }
+
   .sheet-handle-bar { width: 38px; height: 4px; background: #c7c7cc; border-radius: 2px; margin: 10px auto 0; flex-shrink: 0; touch-action: none; cursor: grab; }
   .dark-mode .sheet-handle-bar { background: #48484a; }
+
   .sheet-gallery { width: 100%; height: 210px; position: relative; background: #f0f0f0; flex-shrink: 0; overflow: hidden; margin-top: 10px; }
   .dark-mode .sheet-gallery { background: #2a2a2a; }
   .sheet-main-image { width: 100%; height: 100%; object-fit: cover; display: block; transition: opacity 0.22s ease; }
@@ -579,6 +467,7 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
   .sheet-img-dots { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); display: flex; gap: 5px; }
   .sheet-img-dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(255,255,255,0.45); transition: background 0.25s ease, width 0.25s ease, border-radius 0.25s ease; }
   .sheet-img-dot.active { background: white; width: 14px; border-radius: 3px; }
+
   .sheet-body { padding: 14px 16px 90px; overflow-y: auto; flex: 1; -webkit-overflow-scrolling: touch; }
   .sheet-title-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px; }
   .sheet-title { font-size: 1.08rem; font-weight: 800; flex: 1; padding-right: 10px; line-height: 1.3; letter-spacing: -0.3px; }
@@ -619,172 +508,127 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
   .dark-mode .sheet-ri-text { color: #a0a0a0; }
   .sheet-add-review { background: var(--accent-green); color: white; padding: 10px 18px; border-radius: 50px; font-weight: 600; font-size: 0.82rem; cursor: pointer; border: none; transition: transform 0.15s ease, background 0.15s ease; }
   .sheet-add-review:active { transform: scale(0.96); background: #059669; }
+
   /* MOBILE MAP BOTTOM SHEET */
-  #mobileMapBackdrop { position: fixed; inset: 0; background: rgba(0,0,0,0); z-index: 3100; display: none; transition: background 0.35s ease; -webkit-backdrop-filter: blur(0px); backdrop-filter: blur(0px); }
+  #mobileMapBackdrop { position: fixed; inset: 0; background: rgba(0,0,0,0); z-index: 3100; display: none; transition: background 0.35s ease; }
   #mobileMapBackdrop.open { display: block; background: rgba(0,0,0,0.5); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); }
   #mobileMapSheet { position: fixed; bottom: 0; left: 0; right: 0; z-index: 3200; display: none; padding: 0 10px 10px; pointer-events: none; }
   #mobileMapSheet.open { display: block; pointer-events: auto; }
-  #mobileMapPanel {
-    background: var(--bg-white); border-radius: 22px; height: 65vh;
-    display: flex; flex-direction: column; overflow: hidden;
-    transform: translateY(calc(100% + 20px));
-    transition: transform 0.42s cubic-bezier(0.34, 1.56, 0.64, 1);
-    will-change: transform;
-    box-shadow: 0 -4px 40px rgba(0,0,0,0.18), 0 0 0 0.5px rgba(0,0,0,0.06);
-  }
+  #mobileMapPanel { background: var(--bg-white); border-radius: 22px; height: 65vh; display: flex; flex-direction: column; overflow: hidden; transform: translateY(calc(100% + 20px)); transition: transform 0.42s cubic-bezier(0.34, 1.56, 0.64, 1); will-change: transform; box-shadow: 0 -4px 40px rgba(0,0,0,0.18); }
   .dark-mode #mobileMapPanel { background: #1c1c1e; }
   #mobileMapSheet.open #mobileMapPanel { transform: translateY(0); }
   #mobileMapPanel .map-container { flex: 1; border-radius: 0 0 22px 22px; overflow: hidden; }
+
   /* MOBILE REVIEW BOTTOM SHEET */
-  #mobileReviewBackdrop { position: fixed; inset: 0; background: rgba(0,0,0,0); z-index: 3100; display: none; transition: background 0.35s ease; -webkit-backdrop-filter: blur(0px); backdrop-filter: blur(0px); }
+  #mobileReviewBackdrop { position: fixed; inset: 0; background: rgba(0,0,0,0); z-index: 3100; display: none; transition: background 0.35s ease; }
   #mobileReviewBackdrop.open { display: block; background: rgba(0,0,0,0.5); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); }
   #mobileReviewSheet { position: fixed; bottom: 0; left: 0; right: 0; z-index: 3200; display: none; padding: 0 10px 10px; pointer-events: none; }
   #mobileReviewSheet.open { display: block; pointer-events: auto; }
-  #mobileReviewPanel {
-    background: var(--bg-white); border-radius: 22px; max-height: 70vh;
-    display: flex; flex-direction: column; overflow: hidden;
-    transform: translateY(calc(100% + 20px));
-    transition: transform 0.42s cubic-bezier(0.34, 1.56, 0.64, 1);
-    will-change: transform;
-    box-shadow: 0 -4px 40px rgba(0,0,0,0.18), 0 0 0 0.5px rgba(0,0,0,0.06);
-  }
+  #mobileReviewPanel { background: var(--bg-white); border-radius: 22px; max-height: 70vh; display: flex; flex-direction: column; overflow: hidden; transform: translateY(calc(100% + 20px)); transition: transform 0.42s cubic-bezier(0.34, 1.56, 0.64, 1); will-change: transform; box-shadow: 0 -4px 40px rgba(0,0,0,0.18); }
   .dark-mode #mobileReviewPanel { background: #1c1c1e; }
   #mobileReviewSheet.open #mobileReviewPanel { transform: translateY(0); }
   .mobile-review-body { padding: 20px; flex: 1; overflow-y: auto; }
-  /* ── PROFILE SHEET ── */
-  #profileSheetBackdrop { position: fixed; inset: 0; background: rgba(0,0,0,0); z-index: 2999; display: none; transition: background 0.35s ease; -webkit-backdrop-filter: blur(0px); backdrop-filter: blur(0px); }
-  #profileSheetBackdrop.open { display: block; background: rgba(0,0,0,0.5); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); }
-  #profileSheet { position: fixed; bottom: 0; left: 0; right: 0; z-index: 3000; display: none; padding: 0 10px 10px; pointer-events: none; }
-  #profileSheet.open { display: block; pointer-events: auto; }
-  #profileSheetPanel {
-    background: var(--bg-white); border-radius: 22px; max-height: 88vh;
-    display: flex; flex-direction: column; overflow: hidden;
-    transform: translateY(calc(100% + 20px));
-    transition: transform 0.42s cubic-bezier(0.34, 1.56, 0.64, 1);
-    will-change: transform;
-    box-shadow: 0 -4px 40px rgba(0,0,0,0.18), 0 0 0 0.5px rgba(0,0,0,0.06);
-  }
-  .dark-mode #profileSheetPanel { background: #1c1c1e; box-shadow: 0 -4px 40px rgba(0,0,0,0.55), 0 0 0 0.5px rgba(255,255,255,0.06); }
-  #profileSheet.open #profileSheetPanel { transform: translateY(0); }
-  #profileSheet.open .ps-hero { animation: sheetFadeIn 0.32s cubic-bezier(0.22,1,0.36,1) 0.1s both; }
-  #profileSheet.open .ps-stats { animation: sheetFadeIn 0.32s cubic-bezier(0.22,1,0.36,1) 0.16s both; }
-  #profileSheet.open .ps-section { animation: sheetFadeIn 0.32s cubic-bezier(0.22,1,0.36,1) 0.22s both; }
-  #profileSheet.open .ps-section:nth-child(3) { animation-delay: 0.27s; }
-  #profileSheet.open .ps-section:nth-child(4) { animation-delay: 0.31s; }
-  .ps-handle { width: 38px; height: 4px; background: #c7c7cc; border-radius: 2px; margin: 10px auto 0; flex-shrink: 0; touch-action: none; cursor: grab; }
-  .dark-mode .ps-handle { background: #48484a; }
-  .ps-body { overflow-y: auto; flex: 1; -webkit-overflow-scrolling: touch; padding-bottom: 20px; }
-  .ps-hero { display: flex; align-items: center; gap: 14px; padding: 18px 18px 16px; border-bottom: 1px solid var(--border-color); }
-  .ps-avatar-wrap { position: relative; flex-shrink: 0; }
-  .ps-avatar { width: 64px; height: 64px; border-radius: 50%; background: linear-gradient(135deg, var(--accent-green) 0%, #059669 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem; font-weight: 800; overflow: hidden; position: relative; }
-  .ps-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
-  .ps-avatar-edit { position: absolute; bottom: 0; right: 0; width: 22px; height: 22px; background: var(--primary-black); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 2px solid var(--bg-white); }
-  .dark-mode .ps-avatar-edit { background: white; }
-  .ps-avatar-edit i { font-size: 0.6rem; color: white; }
-  .dark-mode .ps-avatar-edit i { color: #111; }
-  .ps-hero-info { flex: 1; min-width: 0; }
-  .ps-name { font-size: 1.05rem; font-weight: 800; color: var(--text-main); line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .ps-email { font-size: 0.75rem; color: var(--text-muted); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .ps-badge { display: inline-flex; align-items: center; gap: 4px; margin-top: 6px; background: #dcfce7; color: #166534; padding: 3px 9px; border-radius: 20px; font-size: 0.65rem; font-weight: 700; }
-  .dark-mode .ps-badge { background: #14532d; color: #86efac; }
-  .ps-hero-actions { display: flex; flex-direction: column; gap: 6px; flex-shrink: 0; }
-  .ps-edit-btn { padding: 7px 14px; border-radius: 20px; font-size: 0.72rem; font-weight: 600; border: 1.5px solid var(--border-color); background: transparent; color: var(--text-main); cursor: pointer; transition: background 0.15s, border-color 0.15s; }
-  .ps-edit-btn:active { background: var(--bg-off-white); }
-  .ps-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1px; background: var(--border-color); border-bottom: 1px solid var(--border-color); }
-  .ps-stat { background: var(--bg-white); padding: 14px 10px; text-align: center; display: flex; flex-direction: column; gap: 2px; }
-  .dark-mode .ps-stat { background: #1c1c1e; }
-  .ps-stat-num { font-size: 1.1rem; font-weight: 800; color: var(--text-main); line-height: 1; }
-  .ps-stat-label { font-size: 0.65rem; color: var(--text-muted); font-weight: 500; }
-  .ps-section { padding: 16px 18px 0; }
-  .ps-section-title { font-size: 0.7rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
-  .ps-menu { display: flex; flex-direction: column; gap: 0; background: var(--bg-off-white); border-radius: 14px; overflow: hidden; border: 1px solid var(--border-color); }
-  .dark-mode .ps-menu { background: #2c2c2e; border-color: #3a3a3c; }
-  .ps-menu-item { display: flex; align-items: center; gap: 12px; padding: 13px 14px; cursor: pointer; border-bottom: 1px solid var(--border-color); transition: background 0.15s ease; position: relative; }
-  .dark-mode .ps-menu-item { border-bottom-color: #3a3a3c; }
-  .ps-menu-item:last-child { border-bottom: none; }
-  .ps-menu-item:active { background: var(--border-color); }
-  .ps-menu-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; flex-shrink: 0; }
-  .ps-menu-icon.green { background: #dcfce7; color: #16a34a; }
-  .ps-menu-icon.blue { background: #dbeafe; color: #2563eb; }
-  .ps-menu-icon.amber { background: #fef3c7; color: #d97706; }
-  .ps-menu-icon.red { background: #fee2e2; color: #dc2626; }
-  .ps-menu-icon.gray { background: var(--border-color); color: var(--text-muted); }
-  .ps-menu-icon.purple { background: #ede9fe; color: #7c3aed; }
-  .dark-mode .ps-menu-icon.green { background: #14532d; color: #86efac; }
-  .dark-mode .ps-menu-icon.blue { background: #1e3a5f; color: #93c5fd; }
-  .dark-mode .ps-menu-icon.amber { background: #451a03; color: #fcd34d; }
-  .dark-mode .ps-menu-icon.red { background: #450a0a; color: #fca5a5; }
-  .dark-mode .ps-menu-icon.gray { background: #3a3a3c; color: var(--text-muted); }
-  .dark-mode .ps-menu-icon.purple { background: #2e1065; color: #c4b5fd; }
-  .ps-menu-text { flex: 1; min-width: 0; }
-  .ps-menu-label { font-size: 0.88rem; font-weight: 600; color: var(--text-main); }
-  .ps-menu-sub { font-size: 0.7rem; color: var(--text-muted); margin-top: 1px; }
-  .ps-menu-arrow { font-size: 0.7rem; color: var(--text-muted); }
-  .ps-menu-badge { background: var(--accent-green); color: white; font-size: 0.6rem; font-weight: 700; padding: 2px 7px; border-radius: 10px; margin-right: 4px; }
-  .ps-toggle { position: relative; width: 40px; height: 22px; flex-shrink: 0; }
-  .ps-toggle input { opacity: 0; width: 0; height: 0; }
-  .ps-toggle-slider { position: absolute; inset: 0; background: #d1d5db; border-radius: 11px; transition: background 0.25s ease; cursor: pointer; }
-  .ps-toggle-slider::before { content: ''; position: absolute; width: 16px; height: 16px; border-radius: 50%; background: white; top: 3px; left: 3px; transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1); box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
-  .ps-toggle input:checked + .ps-toggle-slider { background: var(--accent-green); }
-  .ps-toggle input:checked + .ps-toggle-slider::before { transform: translateX(18px); }
-  .ps-signout { margin: 16px 18px 18px; padding: 13px; border-radius: 50px; border: 1.5px solid #fee2e2; background: transparent; color: #dc2626; font-size: 0.88rem; font-weight: 600; cursor: pointer; width: calc(100% - 36px); display: flex; align-items: center; justify-content: center; gap: 8px; transition: background 0.15s, border-color 0.15s; }
-  .dark-mode .ps-signout { border-color: #450a0a; color: #fca5a5; }
-  .ps-signout:active { background: #fee2e2; }
-  .dark-mode .ps-signout:active { background: #450a0a; }
-  .ps-signin-prompt { padding: 28px 18px 8px; text-align: center; }
-  .ps-signin-prompt i { font-size: 2.8rem; color: var(--border-color); margin-bottom: 12px; display: block; }
-  .ps-signin-prompt h3 { font-size: 1rem; font-weight: 700; margin-bottom: 6px; }
-  .ps-signin-prompt p { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 18px; line-height: 1.5; }
-  .ps-signin-cta { width: 100%; padding: 13px; border-radius: 50px; background: var(--primary-black); color: white; border: none; font-weight: 700; font-size: 0.95rem; cursor: pointer; transition: opacity 0.15s; }
-  .dark-mode .ps-signin-cta { background: white; color: #111; }
-  .ps-signin-cta:active { opacity: 0.85; }
-  .ps-edit-overlay { position: absolute; inset: 0; background: var(--bg-white); z-index: 10; overflow-y: auto; padding: 16px 18px 30px; transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.4,0,0.2,1); }
-  .dark-mode .ps-edit-overlay { background: #1c1c1e; }
-  .ps-edit-overlay.visible { transform: translateX(0); }
-  .ps-edit-header { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
-  .ps-edit-back { background: transparent; border: none; cursor: pointer; padding: 6px; color: var(--text-main); font-size: 1rem; display: flex; align-items: center; }
-  .ps-edit-header h3 { font-size: 1rem; font-weight: 700; flex: 1; }
-  .ps-edit-save { background: var(--accent-green); color: white; border: none; padding: 7px 16px; border-radius: 20px; font-weight: 600; font-size: 0.78rem; cursor: pointer; }
-  .ps-field-group { display: flex; flex-direction: column; gap: 4px; margin-bottom: 14px; }
-  .ps-field-label { font-size: 0.75rem; font-weight: 600; color: var(--text-muted); }
-  .ps-field-input { padding: 11px 14px; border: 1.5px solid var(--border-color); border-radius: 12px; font-size: 0.9rem; font-family: 'Inter',sans-serif; background: var(--bg-white); color: var(--text-main); outline: none; transition: border-color 0.2s; }
-  .dark-mode .ps-field-input { background: #2c2c2e; border-color: #3a3a3c; }
-  .ps-field-input:focus { border-color: var(--accent-green); box-shadow: 0 0 0 3px rgba(16,185,129,0.1); }
 
   /* Share modal on mobile — higher z-index to sit above sheet */
   #shareModal { z-index: 3100 !important; }
+
+  /* ── PROFILE PAGE TAB ── */
+  .pp-header { background: var(--primary-black); padding: 24px 18px 20px; display: flex; align-items: center; gap: 16px; }
+  .pp-avatar-wrap { position: relative; flex-shrink: 0; }
+  .pp-avatar { width: 64px; height: 64px; border-radius: 50%; background: linear-gradient(135deg, var(--accent-green) 0%, #059669 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem; font-weight: 800; overflow: hidden; }
+  .pp-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+  .pp-avatar-edit-btn { position: absolute; bottom: 0; right: 0; width: 22px; height: 22px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 2px solid var(--primary-black); }
+  .pp-avatar-edit-btn i { font-size: 0.58rem; color: #111; }
+  .pp-hero-info { flex: 1; min-width: 0; }
+  .pp-name { font-size: 1.1rem; font-weight: 800; color: white; line-height: 1.2; }
+  .pp-email { font-size: 0.75rem; color: rgba(255,255,255,0.55); margin-top: 2px; }
+  .pp-badge { display: inline-flex; align-items: center; gap: 4px; margin-top: 6px; background: rgba(16,185,129,0.2); color: #10b981; padding: 3px 9px; border-radius: 20px; font-size: 0.65rem; font-weight: 700; border: 1px solid rgba(16,185,129,0.3); }
+  .pp-edit-btn { padding: 7px 14px; border-radius: 20px; font-size: 0.72rem; font-weight: 600; border: 1.5px solid rgba(255,255,255,0.3); background: transparent; color: white; cursor: pointer; }
+  .pp-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border-color); border-bottom: 1px solid var(--border-color); }
+  .pp-stat { background: var(--bg-white); padding: 14px 10px; text-align: center; display: flex; flex-direction: column; gap: 2px; }
+  .dark-mode .pp-stat { background: #1c1c1e; }
+  .pp-stat-num { font-size: 1.2rem; font-weight: 800; color: var(--text-main); line-height: 1; }
+  .pp-stat-label { font-size: 0.65rem; color: var(--text-muted); font-weight: 500; }
+  .pp-section { padding: 16px 18px 0; }
+  .pp-section-title { font-size: 0.7rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
+  .pp-menu { display: flex; flex-direction: column; gap: 0; background: var(--bg-off-white); border-radius: 14px; overflow: hidden; border: 1px solid var(--border-color); }
+  .dark-mode .pp-menu { background: #2c2c2e; border-color: #3a3a3c; }
+  .pp-menu-item { display: flex; align-items: center; gap: 12px; padding: 13px 14px; cursor: pointer; border-bottom: 1px solid var(--border-color); transition: background 0.15s ease; }
+  .dark-mode .pp-menu-item { border-bottom-color: #3a3a3c; }
+  .pp-menu-item:last-child { border-bottom: none; }
+  .pp-menu-item:active { background: var(--border-color); }
+  .pp-menu-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; flex-shrink: 0; }
+  .pp-menu-icon.green { background: #dcfce7; color: #16a34a; }
+  .pp-menu-icon.blue { background: #dbeafe; color: #2563eb; }
+  .pp-menu-icon.gray { background: var(--border-color); color: var(--text-muted); }
+  .dark-mode .pp-menu-icon.green { background: #14532d; color: #86efac; }
+  .dark-mode .pp-menu-icon.blue { background: #1e3a5f; color: #93c5fd; }
+  .dark-mode .pp-menu-icon.gray { background: #3a3a3c; color: var(--text-muted); }
+  .pp-menu-text { flex: 1; min-width: 0; }
+  .pp-menu-label { font-size: 0.88rem; font-weight: 600; color: var(--text-main); }
+  .pp-menu-sub { font-size: 0.7rem; color: var(--text-muted); margin-top: 1px; }
+  .pp-menu-arrow { font-size: 0.7rem; color: var(--text-muted); }
+  .pp-toggle { position: relative; width: 40px; height: 22px; flex-shrink: 0; }
+  .pp-toggle input { opacity: 0; width: 0; height: 0; }
+  .pp-toggle-slider { position: absolute; inset: 0; background: #d1d5db; border-radius: 11px; transition: background 0.25s ease; cursor: pointer; }
+  .pp-toggle-slider::before { content: ''; position: absolute; width: 16px; height: 16px; border-radius: 50%; background: white; top: 3px; left: 3px; transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1); box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+  .pp-toggle input:checked + .pp-toggle-slider { background: var(--accent-green); }
+  .pp-toggle input:checked + .pp-toggle-slider::before { transform: translateX(18px); }
+  .pp-signout { margin: 16px 18px 30px; padding: 13px; border-radius: 50px; border: 1.5px solid #fee2e2; background: transparent; color: #dc2626; font-size: 0.88rem; font-weight: 600; cursor: pointer; width: calc(100% - 36px); display: flex; align-items: center; justify-content: center; gap: 8px; transition: background 0.15s; }
+  .dark-mode .pp-signout { border-color: #450a0a; color: #fca5a5; }
+  .pp-signout:active { background: #fee2e2; }
+  .pp-signin-prompt { padding: 40px 18px 8px; text-align: center; }
+  .pp-signin-prompt i { font-size: 2.8rem; color: var(--border-color); margin-bottom: 12px; display: block; }
+  .pp-signin-prompt h3 { font-size: 1rem; font-weight: 700; margin-bottom: 6px; }
+  .pp-signin-prompt p { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 18px; line-height: 1.5; }
+  .pp-signin-cta { width: 100%; padding: 13px; border-radius: 50px; background: var(--primary-black); color: white; border: none; font-weight: 700; font-size: 0.95rem; cursor: pointer; }
+  .dark-mode .pp-signin-cta { background: white; color: #111; }
+
+  /* Edit profile overlay inside profile page */
+  .pp-edit-overlay { position: fixed; inset: 0; background: var(--bg-white); z-index: 2000; overflow-y: auto; padding: 16px 18px 80px; transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.4,0,0.2,1); }
+  .dark-mode .pp-edit-overlay { background: #121212; }
+  .pp-edit-overlay.visible { transform: translateX(0); }
+  .pp-edit-header { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-top: 10px; }
+  .pp-edit-back { background: transparent; border: none; cursor: pointer; padding: 6px; color: var(--text-main); font-size: 1rem; display: flex; align-items: center; }
+  .pp-edit-header h3 { font-size: 1rem; font-weight: 700; flex: 1; }
+  .pp-edit-save { background: var(--accent-green); color: white; border: none; padding: 9px 20px; border-radius: 50px; font-weight: 600; font-size: 0.82rem; cursor: pointer; }
+  .pp-field-group { display: flex; flex-direction: column; gap: 4px; margin-bottom: 14px; }
+  .pp-field-label { font-size: 0.75rem; font-weight: 600; color: var(--text-muted); }
+  .pp-field-input { padding: 12px 14px; border: 1.5px solid var(--border-color); border-radius: 12px; font-size: 0.9rem; font-family: 'Inter',sans-serif; background: var(--bg-white); color: var(--text-main); outline: none; transition: border-color 0.2s; }
+  .dark-mode .pp-field-input { background: #2c2c2e; border-color: #3a3a3c; }
+  .pp-field-input:focus { border-color: var(--accent-green); box-shadow: 0 0 0 3px rgba(16,185,129,0.1); }
+
+  /* Saved properties / dynamic panel inside profile page */
+  .pp-dynamic-panel { display: none; padding: 0 0 100px; }
+  .pp-dynamic-panel.visible { display: block; }
+  .pp-dynamic-back { display: flex; align-items: center; gap: 10px; padding: 14px 18px; border-bottom: 1px solid var(--border-color); cursor: pointer; }
+  .pp-dynamic-back i { font-size: 0.9rem; color: var(--text-muted); }
+  .pp-dynamic-back span { font-weight: 600; font-size: 0.9rem; }
+  .pp-main-content { display: block; }
+  .pp-main-content.hidden { display: none; }
 }
+
 @media (min-width: 768px) {
   .bottom-nav { display: none; }
   #mobileSearchView { display: none !important; }
+  #profilePageView { display: none !important; }
   #desktopFilters { display: block; }
   .home-price-range { display: none; }
   .mobile-home-search { display: none; }
   #mobileSheet { display: none !important; }
   #mobileSheetBackdrop { display: none !important; }
-  #profileSheet { display: none !important; }
-  #profileSheetBackdrop { display: none !important; }
   #mobileMapSheet { display: none !important; }
   #mobileMapBackdrop { display: none !important; }
   #mobileReviewSheet { display: none !important; }
   #mobileReviewBackdrop { display: none !important; }
 }
+
 /* ── ENHANCED REFINEMENTS ── */
 .dark-mode #signInModal input { background: #2c2c2e; border-color: #3a3a3c; color: white; }
 .dark-mode #addForm select { background: #333; color: white; }
 .dark-mode #reviewModal textarea { background: #2c2c2e; border-color: #3a3a3c; color: white; }
 .dark-mode .mobile-search-wrapper input { background: transparent; color: var(--text-main); }
 #detailModal .modal-rating { display:flex; align-items:center; gap:6px; margin-bottom:0.5rem; color:#eab308; font-size:0.85rem; }
-
-/* ── COPY TOAST ── */
-.copy-toast {
-  position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%) translateY(10px);
-  background: #111; color: white; padding: 10px 20px; border-radius: 50px;
-  font-size: 0.82rem; font-weight: 600; z-index: 9999; opacity: 0;
-  transition: opacity 0.25s ease, transform 0.25s ease; pointer-events: none;
-  display: flex; align-items: center; gap: 8px;
-}
-.copy-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 </style>
 </head>
 <body>
@@ -810,6 +654,7 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
     <button class="btn btn-primary" id="authButton">Sign In</button>
   </div>
 </nav>
+
 <section class="hero">
   <h1>Your Freedom,<br>starts with a home.</h1>
   <p>Discover verified rooms and apartments in your area. Safe, affordable, and just a click away.</p>
@@ -821,6 +666,7 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
     <button class="search-btn" onclick="applyFilters()">Find Rooms</button>
   </div>
 </section>
+
 <div class="filters" id="desktopFilters">
   <div class="filter-tags-row">
     <button class="filter-tag active" data-filter="all">All Properties</button>
@@ -841,7 +687,9 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
     </div>
   </div>
 </div>
+
 <div id="mainContentWrapper">
+  <!-- HOME / EXPLORE VIEW -->
   <div id="homeView">
     <div class="mobile-home-search">
       <div class="mobile-home-search-inner">
@@ -877,6 +725,8 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
     </div>
     <section class="grid" id="listingsGrid"></section>
   </div>
+
+  <!-- MOBILE SEARCH VIEW -->
   <div id="mobileSearchView">
     <div class="section-header" style="padding: 0 0 1.5rem 0;"><h2>Filter your search</h2></div>
     <div class="mobile-search-wrapper">
@@ -905,6 +755,133 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
           <input type="range" class="range-max" id="mobile-priceMax" min="0" max="30000" value="30000" step="500">
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- PROFILE PAGE VIEW (mobile tab) -->
+  <div id="profilePageView">
+    <!-- Signed In -->
+    <div id="ppSignedIn" style="display:none;">
+      <div class="pp-header">
+        <div class="pp-avatar-wrap">
+          <div class="pp-avatar" id="ppAvatar">K</div>
+          <div class="pp-avatar-edit-btn" onclick="openPPEditProfile()"><i class="fa-solid fa-pen"></i></div>
+        </div>
+        <div class="pp-hero-info">
+          <div class="pp-name" id="ppName">KasiStay User</div>
+          <div class="pp-email" id="ppEmail">user@example.com</div>
+          <div class="pp-badge"><i class="fa-solid fa-shield-halved"></i> Verified Member</div>
+        </div>
+        <button class="pp-edit-btn" onclick="openPPEditProfile()"><i class="fa-solid fa-pen"></i> Edit</button>
+      </div>
+      <!-- Dynamic panel (saved props) -->
+      <div class="pp-dynamic-panel" id="ppDynamicPanel">
+        <div class="pp-dynamic-back" onclick="closePPDynamic()">
+          <i class="fa-solid fa-arrow-left"></i>
+          <span id="ppDynamicTitle">Back</span>
+        </div>
+        <div id="ppDynamicList"></div>
+      </div>
+      <!-- Main content -->
+      <div class="pp-main-content" id="ppMainContent">
+        <div class="pp-stats">
+          <div class="pp-stat"><div class="pp-stat-num" id="ppFavCount">0</div><div class="pp-stat-label">Saved</div></div>
+          <div class="pp-stat"><div class="pp-stat-num" id="ppReviewCount">0</div><div class="pp-stat-label">Reviews</div></div>
+        </div>
+        <div class="pp-section">
+          <div class="pp-section-title">My Activity</div>
+          <div class="pp-menu">
+            <div class="pp-menu-item" onclick="showPPSaved()">
+              <div class="pp-menu-icon green"><i class="fa-solid fa-heart"></i></div>
+              <div class="pp-menu-text"><div class="pp-menu-label">Saved Properties</div><div class="pp-menu-sub">View your favourites</div></div>
+              <i class="fa-solid fa-chevron-right pp-menu-arrow"></i>
+            </div>
+          </div>
+        </div>
+        <div class="pp-section">
+          <div class="pp-section-title">Preferences</div>
+          <div class="pp-menu">
+            <div class="pp-menu-item">
+              <div class="pp-menu-icon gray"><i class="fa-solid fa-moon"></i></div>
+              <div class="pp-menu-text"><div class="pp-menu-label">Dark Mode</div><div class="pp-menu-sub">Switch appearance</div></div>
+              <label class="pp-toggle">
+                <input type="checkbox" id="ppDarkToggle" onchange="toggleDarkMode()">
+                <span class="pp-toggle-slider"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="pp-section">
+          <div class="pp-section-title">Support</div>
+          <div class="pp-menu">
+            <div class="pp-menu-item" onclick="alert('Help coming soon!')">
+              <div class="pp-menu-icon green"><i class="fa-solid fa-circle-question"></i></div>
+              <div class="pp-menu-text"><div class="pp-menu-label">Help &amp; Support</div><div class="pp-menu-sub">FAQs and contact us</div></div>
+              <i class="fa-solid fa-chevron-right pp-menu-arrow"></i>
+            </div>
+            <div class="pp-menu-item" onclick="alert('Privacy policy coming soon!')">
+              <div class="pp-menu-icon gray"><i class="fa-solid fa-shield"></i></div>
+              <div class="pp-menu-text"><div class="pp-menu-label">Privacy Policy</div></div>
+              <i class="fa-solid fa-chevron-right pp-menu-arrow"></i>
+            </div>
+            <div class="pp-menu-item" onclick="alert('About KasiStay v1.0.0')">
+              <div class="pp-menu-icon gray"><i class="fa-solid fa-circle-info"></i></div>
+              <div class="pp-menu-text"><div class="pp-menu-label">About KasiStay</div><div class="pp-menu-sub">Version 1.0.0</div></div>
+              <i class="fa-solid fa-chevron-right pp-menu-arrow"></i>
+            </div>
+          </div>
+        </div>
+        <button class="pp-signout" onclick="openSignOutConfirm()"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</button>
+      </div>
+    </div>
+    <!-- Guest -->
+    <div id="ppGuest" style="display:none;">
+      <div class="pp-signin-prompt">
+        <i class="fa-solid fa-circle-user"></i>
+        <h3>Join KasiStay</h3>
+        <p>Sign in to save properties, manage your listings and track your activity.</p>
+        <button class="pp-signin-cta" onclick="openSignInModal()">Sign In</button>
+        <button class="ps-google-cta" onclick="signInWithGoogle()" style="margin-top:12px;">
+          <svg class="google-logo" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+          </svg>
+          Continue with Google
+        </button>
+      </div>
+      <div class="pp-section" style="padding-top:8px;">
+        <div class="pp-section-title">Preferences</div>
+        <div class="pp-menu">
+          <div class="pp-menu-item">
+            <div class="pp-menu-icon gray"><i class="fa-solid fa-moon"></i></div>
+            <div class="pp-menu-text"><div class="pp-menu-label">Dark Mode</div><div class="pp-menu-sub">Switch appearance</div></div>
+            <label class="pp-toggle">
+              <input type="checkbox" id="ppDarkToggleGuest" onchange="toggleDarkMode()">
+              <span class="pp-toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Edit Profile Overlay (slides over profile page) -->
+    <div class="pp-edit-overlay" id="ppEditOverlay">
+      <div class="pp-edit-header">
+        <button class="pp-edit-back" onclick="closePPEditProfile()"><i class="fa-solid fa-arrow-left"></i></button>
+        <h3>Edit Profile</h3>
+        <button class="pp-edit-save" onclick="savePPProfile()">Save</button>
+      </div>
+      <div style="text-align:center;margin-bottom:20px;">
+        <div class="pp-avatar" id="ppEditAvatar" style="width:72px;height:72px;font-size:1.6rem;margin:0 auto;cursor:pointer;" onclick="document.getElementById('ppAvatarInput').click()">K</div>
+        <input type="file" id="ppAvatarInput" accept="image/*" style="display:none;" onchange="handlePPAvatarChange(event)">
+        <div style="font-size:0.72rem;color:var(--text-muted);margin-top:6px;">Tap to change photo</div>
+      </div>
+      <div class="pp-field-group"><div class="pp-field-label">Display Name</div><input class="pp-field-input" id="ppEditName" type="text" placeholder="Your name"></div>
+      <div class="pp-field-group"><div class="pp-field-label">Email</div><input class="pp-field-input" id="ppEditEmail" type="email" placeholder="Email address" readonly style="opacity:0.6;"></div>
+      <div class="pp-field-group"><div class="pp-field-label">Phone Number</div><input class="pp-field-input" id="ppEditPhone" type="tel" placeholder="+27 ..."></div>
+      <div class="pp-field-group"><div class="pp-field-label">Location</div><input class="pp-field-input" id="ppEditLocation" type="text" placeholder="e.g. Johannesburg, Gauteng"></div>
+      <div class="pp-field-group"><div class="pp-field-label">Bio</div><textarea class="pp-field-input" id="ppEditBio" rows="3" placeholder="Tell others a bit about yourself..." style="resize:none;line-height:1.5;"></textarea></div>
     </div>
   </div>
 </div>
@@ -943,7 +920,6 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
           <a href="#" class="contact-btn call" id="callLink"><i class="fa-solid fa-phone"></i> Call</a>
         </div>
       </div>
-      <!-- Desktop action bar: review + share -->
       <div class="desktop-action-bar">
         <button class="add-review-btn" onclick="openReviewModal()">Add Review</button>
         <button class="share-btn" onclick="openShareModal()"><i class="fa-solid fa-share-nodes"></i> Share</button>
@@ -955,7 +931,6 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
         </div>
         <div class="review-list" id="modalReviewList"></div>
       </div>
-      <!-- Desktop similar listings -->
       <div class="similar-section" id="desktopSimilarSection">
         <div class="similar-section-title"><i class="fa-solid fa-sparkles"></i> Similar Listings</div>
         <div class="similar-scroll" id="desktopSimilarScroll"></div>
@@ -969,7 +944,7 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
 <div id="mobileSheet">
   <div id="mobileSheetPanel">
     <div class="sheet-handle-bar" id="sheetHandle"></div>
-    <div class="sheet-gallery">
+    <div class="sheet-gallery" id="sheetGallery">
       <img src="" alt="" class="sheet-main-image" id="sheetMainImage">
       <button class="sheet-gallery-nav prev" onclick="sheetChangeImage(-1)"><i class="fa-solid fa-chevron-left"></i></button>
       <button class="sheet-gallery-nav next" onclick="sheetChangeImage(1)"><i class="fa-solid fa-chevron-right"></i></button>
@@ -999,7 +974,6 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
           <a href="#" class="sheet-contact-btn call" id="sheetCall"><i class="fa-solid fa-phone"></i> Call</a>
         </div>
       </div>
-      <!-- Mobile share + review action bar -->
       <div class="sheet-action-bar">
         <button class="sheet-share-btn" onclick="openShareModal()"><i class="fa-solid fa-share-nodes"></i> Share Listing</button>
         <button class="sheet-add-review" onclick="openReviewModal()">Add Review</button>
@@ -1014,7 +988,6 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
         </div>
         <div class="sheet-review-list" id="sheetReviewList"></div>
       </div>
-      <!-- Mobile similar listings -->
       <div class="similar-section" id="mobileSimilarSection">
         <div class="similar-section-title"><i class="fa-solid fa-sparkles"></i> Similar Listings</div>
         <div class="similar-scroll" id="mobileSimilarScroll"></div>
@@ -1052,7 +1025,7 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
   </div>
 </div>
 
-<!-- MAP MODAL (desktop only) -->
+<!-- MAP MODAL (desktop) -->
 <div class="modal-overlay" id="mapModal" onclick="if(event.target===this)closeMapModal()">
   <div class="modal-content">
     <div class="modal-header" style="display:flex;justify-content:space-between;align-items:center;padding:1rem 1.5rem;">
@@ -1099,7 +1072,7 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
   </div>
 </div>
 
-<!-- REVIEW MODAL (desktop only) -->
+<!-- REVIEW MODAL (desktop) -->
 <div class="modal-overlay" id="reviewModal" onclick="if(event.target===this)closeReviewModal()">
   <div class="modal-content">
     <div class="modal-header">Add Your Review<button class="close-modal" onclick="closeReviewModal()" style="position:absolute;top:12px;right:12px;background:transparent;border:none;width:32px;height:32px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text-muted);"><i class="fa-solid fa-xmark"></i></button></div>
@@ -1144,7 +1117,7 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
 </div>
 
 <!-- SIGN OUT CONFIRM MODAL -->
-<div class="modal-overlay" id="signOutConfirmModal" onclick="if(event.target===this)closeSignOutConfirm()">
+<div class="modal-overlay" id="signOutConfirmModal" onclick="if(event.target===this)closeSignOutConfirm()" style="z-index:3500;">
   <div class="modal-content" style="max-width:360px;">
     <div class="modal-header" style="border-bottom:none;text-align:center;padding:2rem 1.5rem 1rem;">Sign Out?</div>
     <div class="modal-body" style="padding:0 2rem 2rem;text-align:center;color:var(--text-muted);">Are you sure you want to sign out of KasiStay?</div>
@@ -1182,17 +1155,14 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════
-     SHARE MODAL
-     ══════════════════════════════════════════ -->
-<div class="modal-overlay" id="shareModal" onclick="if(event.target===this)closeShareModal()">
+<!-- SHARE MODAL -->
+<div class="modal-overlay" id="shareModal" onclick="if(event.target===this)closeShareModal()" style="z-index:3100;">
   <div class="modal-content" style="max-width:420px;">
     <div class="modal-header" style="display:flex;justify-content:space-between;align-items:center;padding:1.25rem 1.5rem;">
       <h2 style="font-size:1.1rem;font-weight:700;margin:0;">Share This Listing</h2>
       <button onclick="closeShareModal()" style="background:transparent;border:none;width:32px;height:32px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:1rem;"><i class="fa-solid fa-xmark"></i></button>
     </div>
     <div class="modal-body" style="padding:1.25rem 1.5rem 1.5rem;">
-      <!-- Preview card — mimics a WhatsApp/OG link preview -->
       <div class="share-preview-card">
         <img id="sharePreviewImg" class="share-preview-img" src="" alt="">
         <div class="share-preview-body">
@@ -1203,12 +1173,10 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
           </div>
         </div>
       </div>
-      <!-- Copy link row -->
       <div class="share-link-row">
         <input class="share-link-input" id="shareLinkInput" type="text" readonly>
         <button class="copy-link-btn" id="copyLinkBtn" onclick="copyShareLink()"><i class="fa-regular fa-copy"></i> Copy</button>
       </div>
-      <!-- Share options -->
       <div class="share-options-row">
         <button class="share-option-btn whatsapp" onclick="shareToWhatsApp()">
           <i class="fa-brands fa-whatsapp" style="font-size:1.1rem;"></i> Share on WhatsApp
@@ -1216,164 +1184,6 @@ footer { background: var(--primary-black); color: white; padding: 5rem 5% 2rem; 
         <button class="share-option-btn native" id="nativeShareBtn" onclick="nativeShare()" style="display:none;">
           <i class="fa-solid fa-share-nodes"></i> More
         </button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- PROFILE BOTTOM SHEET -->
-<div id="profileSheetBackdrop" onclick="closeProfileSheet()"></div>
-<div id="profileSheet">
-  <div id="profileSheetPanel">
-    <div class="ps-handle" id="psHandle"></div>
-    <div class="ps-body" id="psBody">
-      <!-- SIGNED IN VIEW -->
-      <div id="psSignedIn" style="display:none;">
-        <div class="ps-hero">
-          <div class="ps-avatar-wrap">
-            <div class="ps-avatar" id="psAvatar">K</div>
-            <div class="ps-avatar-edit" onclick="openEditProfile()"><i class="fa-solid fa-pen"></i></div>
-          </div>
-          <div class="ps-hero-info">
-            <div class="ps-name" id="psName">KasiStay User</div>
-            <div class="ps-email" id="psEmail">user@example.com</div>
-            <div class="ps-badge"><i class="fa-solid fa-shield-halved"></i> Verified Member</div>
-          </div>
-          <div class="ps-hero-actions">
-            <button class="ps-edit-btn" onclick="openEditProfile()"><i class="fa-solid fa-pen"></i> Edit</button>
-          </div>
-        </div>
-        <div class="ps-stats">
-          <div class="ps-stat"><div class="ps-stat-num" id="psFavCount">0</div><div class="ps-stat-label">Saved</div></div>
-          <div class="ps-stat"><div class="ps-stat-num" id="psListingCount">0</div><div class="ps-stat-label">Listings</div></div>
-          <div class="ps-stat"><div class="ps-stat-num" id="psReviewCount">0</div><div class="ps-stat-label">Reviews</div></div>
-        </div>
-        <div class="ps-section">
-          <div class="ps-section-title">My Activity</div>
-          <div class="ps-menu">
-            <div class="ps-menu-item" onclick="showSavedProperties()">
-              <div class="ps-menu-icon green"><i class="fa-solid fa-heart"></i></div>
-              <div class="ps-menu-text"><div class="ps-menu-label">Saved Properties</div><div class="ps-menu-sub">View your favourites</div></div>
-              <i class="fa-solid fa-chevron-right ps-menu-arrow"></i>
-            </div>
-            <div class="ps-menu-item" onclick="alert('My listings coming soon!')">
-              <div class="ps-menu-icon blue"><i class="fa-solid fa-house"></i></div>
-              <div class="ps-menu-text"><div class="ps-menu-label">My Listings</div><div class="ps-menu-sub">Manage your properties</div></div>
-              <i class="fa-solid fa-chevron-right ps-menu-arrow"></i>
-            </div>
-            <div class="ps-menu-item" onclick="showMyReviews()">
-              <div class="ps-menu-icon amber"><i class="fa-solid fa-star"></i></div>
-              <div class="ps-menu-text"><div class="ps-menu-label">My Reviews</div><div class="ps-menu-sub">Reviews you've written</div></div>
-              <i class="fa-solid fa-chevron-right ps-menu-arrow"></i>
-            </div>
-          </div>
-        </div>
-        <div class="ps-section">
-          <div class="ps-section-title">Preferences</div>
-          <div class="ps-menu">
-            <div class="ps-menu-item">
-              <div class="ps-menu-icon gray"><i class="fa-solid fa-moon"></i></div>
-              <div class="ps-menu-text"><div class="ps-menu-label">Dark Mode</div><div class="ps-menu-sub">Switch appearance</div></div>
-              <label class="ps-toggle">
-                <input type="checkbox" id="psDarkToggle" onchange="toggleDarkMode()">
-                <span class="ps-toggle-slider"></span>
-              </label>
-            </div>
-            <div class="ps-menu-item" onclick="showNotifications()">
-              <div class="ps-menu-icon purple"><i class="fa-solid fa-bell"></i></div>
-              <div class="ps-menu-text"><div class="ps-menu-label">Notifications</div><div class="ps-menu-sub">Manage alerts</div></div>
-              <span class="ps-menu-badge">3</span>
-              <i class="fa-solid fa-chevron-right ps-menu-arrow"></i>
-            </div>
-            <div class="ps-menu-item" onclick="showLanguageSelector()">
-              <div class="ps-menu-icon blue"><i class="fa-solid fa-globe"></i></div>
-              <div class="ps-menu-text"><div class="ps-menu-label">Language</div><div class="ps-menu-sub">English (South Africa)</div></div>
-              <i class="fa-solid fa-chevron-right ps-menu-arrow"></i>
-            </div>
-          </div>
-        </div>
-        <div class="ps-section">
-          <div class="ps-section-title">Support</div>
-          <div class="ps-menu">
-            <div class="ps-menu-item" onclick="alert('Help coming soon!')">
-              <div class="ps-menu-icon green"><i class="fa-solid fa-circle-question"></i></div>
-              <div class="ps-menu-text"><div class="ps-menu-label">Help & Support</div><div class="ps-menu-sub">FAQs and contact us</div></div>
-              <i class="fa-solid fa-chevron-right ps-menu-arrow"></i>
-            </div>
-            <div class="ps-menu-item" onclick="alert('Privacy policy coming soon!')">
-              <div class="ps-menu-icon gray"><i class="fa-solid fa-shield"></i></div>
-              <div class="ps-menu-text"><div class="ps-menu-label">Privacy Policy</div><div class="ps-menu-sub">How we use your data</div></div>
-              <i class="fa-solid fa-chevron-right ps-menu-arrow"></i>
-            </div>
-            <div class="ps-menu-item" onclick="alert('About coming soon!')">
-              <div class="ps-menu-icon gray"><i class="fa-solid fa-circle-info"></i></div>
-              <div class="ps-menu-text"><div class="ps-menu-label">About KasiStay</div><div class="ps-menu-sub">Version 1.0.0</div></div>
-              <i class="fa-solid fa-chevron-right ps-menu-arrow"></i>
-            </div>
-          </div>
-        </div>
-        <!-- DYNAMIC CONTENT FOR SAVED / REVIEWS / NOTIFICATIONS / LANGUAGE -->
-        <div id="profileDynamicContent" style="display:none;padding:16px 18px 0;">
-          <div id="dynamicTitle" style="font-size:0.7rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;"></div>
-          <div id="dynamicList" style="background:var(--bg-off-white);border-radius:14px;overflow:hidden;border:1px solid var(--border-color);"></div>
-          <button onclick="closeDynamicContent()" style="margin:1rem 0 0;width:100%;padding:13px;border:1.5px solid var(--border-color);border-radius:12px;background:transparent;color:var(--text-muted);font-weight:600;cursor:pointer;">Back to Profile</button>
-        </div>
-        <button class="ps-signout" onclick="openSignOutConfirm()"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</button>
-        <!-- Edit Profile Overlay -->
-        <div class="ps-edit-overlay" id="psEditOverlay">
-          <div class="ps-edit-header">
-            <button class="ps-edit-back" onclick="closeEditProfile()"><i class="fa-solid fa-arrow-left"></i></button>
-            <h3>Edit Profile</h3>
-            <button class="ps-edit-save" onclick="saveProfile()">Save</button>
-          </div>
-          <div style="text-align:center;margin-bottom:20px;">
-            <div class="ps-avatar" id="psEditAvatar" style="width:72px;height:72px;font-size:1.6rem;margin:0 auto;cursor:pointer;" onclick="document.getElementById('psAvatarInput').click()">K</div>
-            <input type="file" id="psAvatarInput" accept="image/*" style="display:none;" onchange="handleAvatarChange(event)">
-            <div style="font-size:0.72rem;color:var(--text-muted);margin-top:6px;">Tap to change photo</div>
-          </div>
-          <div class="ps-field-group"><div class="ps-field-label">Display Name</div><input class="ps-field-input" id="psEditName" type="text" placeholder="Your name"></div>
-          <div class="ps-field-group"><div class="ps-field-label">Email</div><input class="ps-field-input" id="psEditEmail" type="email" placeholder="Email address" readonly style="opacity:0.6;"></div>
-          <div class="ps-field-group"><div class="ps-field-label">Phone Number</div><input class="ps-field-input" id="psEditPhone" type="tel" placeholder="+27 ..."></div>
-          <div class="ps-field-group"><div class="ps-field-label">Location</div><input class="ps-field-input" id="psEditLocation" type="text" placeholder="e.g. Johannesburg, Gauteng"></div>
-          <div class="ps-field-group"><div class="ps-field-label">Bio</div><textarea class="ps-field-input" id="psEditBio" rows="3" placeholder="Tell others a bit about yourself..." style="resize:none;line-height:1.5;"></textarea></div>
-        </div>
-      </div>
-      <!-- NOT SIGNED IN VIEW -->
-      <div id="psGuest" style="display:none;">
-        <div class="ps-signin-prompt">
-          <i class="fa-solid fa-circle-user"></i>
-          <h3>Join KasiStay</h3>
-          <p>Sign in to save properties, manage your listings and track your activity.</p>
-          <button class="ps-signin-cta" onclick="closeProfileSheet();openSignInModal()">Sign In</button>
-          <button class="ps-google-cta" onclick="closeProfileSheet();signInWithGoogle()">
-            <svg class="google-logo" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-              <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-              <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
-              <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-            </svg>
-            Continue with Google
-          </button>
-        </div>
-        <div class="ps-section" style="padding-top:8px;">
-          <div class="ps-section-title">Preferences</div>
-          <div class="ps-menu">
-            <div class="ps-menu-item">
-              <div class="ps-menu-icon gray"><i class="fa-solid fa-moon"></i></div>
-              <div class="ps-menu-text"><div class="ps-menu-label">Dark Mode</div><div class="ps-menu-sub">Switch appearance</div></div>
-              <label class="ps-toggle">
-                <input type="checkbox" id="psDarkToggleGuest" onchange="toggleDarkMode()">
-                <span class="ps-toggle-slider"></span>
-              </label>
-            </div>
-            <div class="ps-menu-item" onclick="alert('Help coming soon!')">
-              <div class="ps-menu-icon green"><i class="fa-solid fa-circle-question"></i></div>
-              <div class="ps-menu-text"><div class="ps-menu-label">Help &amp; Support</div></div>
-              <i class="fa-solid fa-chevron-right ps-menu-arrow"></i>
-            </div>
-          </div>
-        </div>
-        <div style="height:20px;"></div>
       </div>
     </div>
   </div>
@@ -1406,7 +1216,7 @@ const provider = new GoogleAuthProvider();
 const CLOUD_NAME = "dv5bsbydu";
 const UPLOAD_PRESET = "admin_tlaka";
 
-/* ── SPLASH SCREEN ── */
+/* ── SPLASH ── */
 function hideSplash() {
   const splash = document.getElementById('splashScreen');
   if (!splash) return;
@@ -1433,150 +1243,75 @@ let listingsData=[],currentFiltered=[],displayedData=[],currentFilter='all',minP
 let currentTab=0,currentItemLocation='',currentImages=[],currentImageIndex=0;
 let sheetImages=[],sheetImageIndex=0,currentListingId=null,selectedRating=0;
 const pageSize=10;
-let likedItems=new Set();
+let likedItems=new Set();   // set of listing IDs liked by current user
 let userProfile = {};
-let myReviewsData = [];
 
-/* ══════════════════════════════════════════
-   SIMILAR LISTINGS HELPERS
-   ══════════════════════════════════════════ */
-/**
- * Returns up to 4 listings similar to the given item.
- * Similarity scoring: +2 for same type, +1 for overlapping location word, +1 for price within 30%.
- */
-function getSimilarListings(item, all, count=4) {
-  if (!item || !all || all.length === 0) return [];
-  const locWords = (item.location || '').toLowerCase().split(/[\s,]+/).filter(w => w.length > 2);
-  return all
-    .filter(x => x.id !== item.id)
-    .map(x => {
-      let score = 0;
-      if (x.type === item.type) score += 2;
-      const xLoc = (x.location || '').toLowerCase();
-      if (locWords.some(w => xLoc.includes(w))) score += 1;
-      if (item.price > 0) {
-        const ratio = Math.abs(x.price - item.price) / item.price;
-        if (ratio <= 0.3) score += 1;
-      }
-      return { ...x, _score: score };
-    })
-    .filter(x => x._score > 0)
-    .sort((a, b) => b._score - a._score)
-    .slice(0, count);
-}
+/* ══════════════════════════════════════
+   LIKE COUNTER — per-listing global counter
+   Stored at: likeCounts/<listingId>/count  (shared by all users)
+   User's own liked list: users/<uid>/saved  (array of ids)
+   ══════════════════════════════════════ */
 
-function renderSimilarCards(items, containerId, openFn) {
-  const el = document.getElementById(containerId);
-  if (!el) return;
-  if (!items || items.length === 0) {
-    el.innerHTML = '<span class="similar-empty">No similar listings found nearby.</span>';
-    return;
+/** Increment/decrement shared like count and update user's saved list */
+async function toggleLikeInDb(id, nowLiked) {
+  const countRef = ref(db, `likeCounts/${id}/count`);
+  // Get current count
+  const snap = await get(countRef);
+  const current = snap.exists() ? (snap.val() || 0) : 0;
+  const next = Math.max(0, current + (nowLiked ? 1 : -1));
+  await set(countRef, next);
+  // Update user's saved list
+  const user = auth.currentUser;
+  if (user) {
+    await set(ref(db, `users/${user.uid}/saved`), Array.from(likedItems));
   }
-  el.innerHTML = items.map(item => `
-    <div class="similar-card" onclick="${openFn}('${item.id}')">
-      <img class="similar-card-img" src="${item.image||''}" alt="${item.title||''}" loading="lazy">
-      <div class="similar-card-body">
-        <div class="similar-card-title">${item.title||''}</div>
-        <div class="similar-card-price">R${(item.price||0).toLocaleString()}/mo</div>
-        <div class="similar-card-type">${item.type||''}</div>
-      </div>
-    </div>
-  `).join('');
 }
 
-/* ══════════════════════════════════════════
-   SHARE HELPERS
-   ══════════════════════════════════════════ */
-/**
- * Generates a deep-link-style shareable URL.
- * Since this app is single-page, we encode the listing ID as a hash param:
- *   https://example.com/kasistay.html#listing=<id>
- * On load, if the hash is present we auto-open that listing.
- */
-function buildShareUrl(id) {
-  const base = window.location.href.split('#')[0];
-  return `${base}#listing=${id}`;
-}
-
-window.openShareModal = () => {
-  const item = listingsData.find(x => x.id === currentListingId);
-  if (!item) return;
-  const url = buildShareUrl(item.id);
-  document.getElementById('sharePreviewImg').src = item.image || '';
-  document.getElementById('sharePreviewTitle').textContent = item.title || '';
-  document.getElementById('sharePreviewPrice').textContent = `R${(item.price||0).toLocaleString()}/mo`;
-  document.getElementById('sharePreviewLocationText').textContent = item.location || '';
-  document.getElementById('shareLinkInput').value = url;
-  // Show native share button if available
-  const nativeBtn = document.getElementById('nativeShareBtn');
-  nativeBtn.style.display = navigator.share ? 'flex' : 'none';
-  document.getElementById('shareModal').classList.add('active');
-  document.body.style.overflow = 'hidden';
-};
-
-window.closeShareModal = () => {
-  document.getElementById('shareModal').classList.remove('active');
-  document.body.style.overflow = 'auto';
-};
-
-window.copyShareLink = () => {
-  const val = document.getElementById('shareLinkInput').value;
-  navigator.clipboard.writeText(val).catch(() => {
-    // Fallback for older browsers
-    const inp = document.getElementById('shareLinkInput');
-    inp.select(); document.execCommand('copy');
-  });
-  const btn = document.getElementById('copyLinkBtn');
-  btn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
-  btn.style.background = 'var(--accent-green)';
-  showCopyToast();
-  setTimeout(() => {
-    btn.innerHTML = '<i class="fa-regular fa-copy"></i> Copy';
-    btn.style.background = '';
-  }, 2000);
-};
-
-window.shareToWhatsApp = () => {
-  const item = listingsData.find(x => x.id === currentListingId);
-  if (!item) return;
-  const url = buildShareUrl(item.id);
-  const msg = `🏠 *${item.title}*\n📍 ${item.location}\n💰 R${(item.price||0).toLocaleString()}/month\n\nFound on KasiStay 👇\n${url}`;
-  window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
-};
-
-window.nativeShare = async () => {
-  const item = listingsData.find(x => x.id === currentListingId);
-  if (!item || !navigator.share) return;
-  try {
-    await navigator.share({
-      title: item.title,
-      text: `${item.title} — R${(item.price||0).toLocaleString()}/mo in ${item.location}`,
-      url: buildShareUrl(item.id)
+/** Load all like counts once (called after listings load) */
+async function loadLikeCounts() {
+  const snap = await get(ref(db, 'likeCounts'));
+  if (snap.exists()) {
+    snap.forEach(c => {
+      const el = document.querySelector(`.like-btn[data-id="${c.key}"]`);
+      if (el) {
+        const label = el.querySelector('.like-count-label');
+        const cnt = c.val().count || 0;
+        if (label) label.textContent = cnt > 0 ? cnt : '';
+      }
+      // Also update desktop counter badge
+      const badge = document.querySelector(`.like-counter-badge[data-id="${c.key}"] .lc-num`);
+      if (badge) badge.textContent = c.val().count || 0;
     });
-  } catch(e) { /* user cancelled */ }
+  }
+}
+
+window.toggleLike = async (e, id) => {
+  e.stopPropagation();
+  const btn = e.currentTarget;
+  const wasLiked = likedItems.has(id);
+  const nowLiked = !wasLiked;
+  if (nowLiked) {
+    likedItems.add(id);
+    btn.classList.add('liked');
+    const icon = btn.querySelector('i');
+    if (icon) { icon.className = 'fa-solid fa-heart'; }
+  } else {
+    likedItems.delete(id);
+    btn.classList.remove('liked');
+    const icon = btn.querySelector('i');
+    if (icon) { icon.className = 'fa-regular fa-heart'; }
+  }
+  // Update count label on button
+  const label = btn.querySelector('.like-count-label');
+  // Optimistically read current display
+  const snap = await get(ref(db, `likeCounts/${id}/count`));
+  const current = snap.exists() ? (snap.val() || 0) : 0;
+  const next = Math.max(0, current + (nowLiked ? 1 : -1));
+  if (label) label.textContent = next > 0 ? next : '';
+  await toggleLikeInDb(id, nowLiked);
+  // Update profile saved count
+  document.getElementById('ppFavCount') && (document.getElementById('ppFavCount').textContent = likedItems.size);
 };
-
-function showCopyToast() {
-  const t = document.getElementById('copyToast');
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2200);
-}
-
-/* Auto-open listing from URL hash on page load */
-function checkHashListing() {
-  const hash = window.location.hash;
-  if (!hash.startsWith('#listing=')) return;
-  const id = hash.replace('#listing=', '');
-  if (!id) return;
-  // Wait until listings have loaded, then open
-  const tryOpen = () => {
-    if (listingsData.length === 0) { setTimeout(tryOpen, 300); return; }
-    const isMob = window.innerWidth <= 767;
-    if (isMob) openMobileSheet(id);
-    else openModal(id);
-  };
-  setTimeout(tryOpen, 500);
-}
 
 /* ── SLIDERS ── */
 const sliderGroups=[
@@ -1587,12 +1322,9 @@ const sliderGroups=[
 function updateSlider(gi, triggeredByMin) {
   const g=sliderGroups[gi],rMin=document.getElementById(g.min),rMax=document.getElementById(g.max);
   const rTrack=document.getElementById(g.track),mD=document.getElementById(g.minDisp),xD=document.getElementById(g.maxDisp);
+  if(!rMin||!rMax||!rTrack)return;
   let lo=parseInt(rMin.value),hi=parseInt(rMax.value);
-  if(hi-lo<500){
-    if(triggeredByMin) rMin.value=hi-500;
-    else rMax.value=lo+500;
-    lo=parseInt(rMin.value); hi=parseInt(rMax.value);
-  }
+  if(hi-lo<500){ if(triggeredByMin) rMin.value=hi-500; else rMax.value=lo+500; lo=parseInt(rMin.value); hi=parseInt(rMax.value); }
   minPrice=lo; maxPrice=hi;
   mD.textContent=lo.toLocaleString(); xD.textContent=hi.toLocaleString();
   const p1=(lo/rMin.max)*100, p2=(hi/rMax.max)*100;
@@ -1604,6 +1336,7 @@ function syncSliders(si){
   sliderGroups.forEach((g,i)=>{
     if(i===si)return;
     const mi=document.getElementById(g.min),mx=document.getElementById(g.max),tr=document.getElementById(g.track);
+    if(!mi||!mx||!tr)return;
     mi.value=sMin; mx.value=sMax;
     const p1=(sMin/mi.max)*100,p2=(sMax/mx.max)*100;
     tr.style.left=p1+"%"; tr.style.width=(p2-p1)+"%";
@@ -1613,11 +1346,11 @@ function syncSliders(si){
 }
 sliderGroups.forEach((g,i)=>{
   const mi=document.getElementById(g.min),mx=document.getElementById(g.max);
+  if(!mi||!mx)return;
   mi.addEventListener('input',()=>updateSlider(i,true));
   mx.addEventListener('input',()=>updateSlider(i,false));
-  const p1=(mi.value/mi.max)*100,p2=(mx.value/mx.max)*100;
-  document.getElementById(g.track).style.left=p1+"%";
-  document.getElementById(g.track).style.width=(p2-p1)+"%";
+  const tr=document.getElementById(g.track);
+  if(tr){const p1=(mi.value/mi.max)*100,p2=(mx.value/mx.max)*100;tr.style.left=p1+"%";tr.style.width=(p2-p1)+"%";}
 });
 
 /* ── DARK MODE ── */
@@ -1625,7 +1358,7 @@ window.toggleDarkMode=()=>{
   document.body.classList.toggle('dark-mode');
   const isDark=document.body.classList.contains('dark-mode');
   localStorage.setItem('darkMode', isDark);
-  ['psDarkToggle','psDarkToggleGuest'].forEach(id=>{
+  ['ppDarkToggle','ppDarkToggleGuest'].forEach(id=>{
     const el=document.getElementById(id);
     if(el) el.checked=isDark;
   });
@@ -1637,17 +1370,12 @@ onAuthStateChanged(auth,user=>{
   const btn=document.getElementById('authButton');
   if(user){btn.textContent='Sign Out';btn.onclick=openSignOutConfirm;}
   else{btn.textContent='Sign In';btn.onclick=openSignInModal;}
-  const pNav=document.getElementById('profileNavBtn');
-  if(pNav){
-    const icon=pNav.querySelector('i');
-    if(icon){icon.className=user?'fa-solid fa-circle-user':'fa-regular fa-circle-user';}
-  }
 });
+
 window.openSignInModal=()=>{document.getElementById('signInModal').classList.add('active');document.body.style.overflow='hidden';};
 window.closeSignInModal=()=>{document.getElementById('signInModal').classList.remove('active');document.body.style.overflow='auto';};
-
-/* ── LOGIN FEEDBACK ── */
 window.closeLoginFeedbackModal=()=>{document.getElementById('loginFeedbackModal').classList.remove('active');document.body.style.overflow='auto';};
+
 window.showLoginMessage=(success,msg)=>{
   const inner=document.getElementById('loginFeedbackInner');
   if(success){
@@ -1662,12 +1390,14 @@ window.showLoginMessage=(success,msg)=>{
 window.signInWithCredentials=async()=>{
   const e=document.getElementById('signInEmail').value.trim(),p=document.getElementById('signInPassword').value;
   if(!e||!p)return alert("Enter both email and password");
-  try{await signInWithEmailAndPassword(auth,e,p);closeSignInModal();showLoginMessage(true,"You are now signed in.");}catch(err){showLoginMessage(false,err.message);}
+  try{await signInWithEmailAndPassword(auth,e,p);closeSignInModal();showLoginMessage(true,"You are now signed in.");}
+  catch(err){showLoginMessage(false,err.message);}
 };
 window.signUpWithCredentials=async()=>{
   const e=document.getElementById('signInEmail').value.trim(),p=document.getElementById('signInPassword').value;
   if(!e||!p)return alert("Enter both email and password");
-  try{await createUserWithEmailAndPassword(auth,e,p);closeSignInModal();showLoginMessage(true,"Account created & signed in!");}catch(err){showLoginMessage(false,err.message);}
+  try{await createUserWithEmailAndPassword(auth,e,p);closeSignInModal();showLoginMessage(true,"Account created & signed in!");}
+  catch(err){showLoginMessage(false,err.message);}
 };
 window.signInWithGoogle=async()=>{
   try{await signInWithPopup(auth,provider);closeSignInModal();showLoginMessage(true,"Signed in with Google!");}
@@ -1680,26 +1410,139 @@ window.closeSignOutConfirm=()=>{document.getElementById('signOutConfirmModal').c
 window.confirmSignOut=async()=>{
   closeSignOutConfirm();
   await signOut(auth);
-  closeProfileSheet();
+  likedItems=new Set(); userProfile={};
+  // Refresh profile page
+  if(currentTab===2) loadProfilePage();
   document.getElementById('signedOutModal').classList.add('active');
   document.body.style.overflow='hidden';
 };
 window.closeSignedOutModal=()=>{document.getElementById('signedOutModal').classList.remove('active');document.body.style.overflow='auto';};
 
-/* ── NAV ── */
+/* ══════════════════════════════════════
+   NAVIGATION — smart swipe gesture
+   ══════════════════════════════════════ */
+let touchStartX=0, touchStartY=0, touchStartTime=0;
+document.addEventListener('touchstart', e=>{
+  touchStartX=e.touches[0].clientX;
+  touchStartY=e.touches[0].clientY;
+  touchStartTime=Date.now();
+}, {passive:true});
+document.addEventListener('touchend', e=>{
+  // Only process if no sheet/modal is open
+  const sheetOpen = document.getElementById('mobileSheet').classList.contains('open') ||
+                    document.getElementById('mobileMapSheet').classList.contains('open') ||
+                    document.getElementById('mobileReviewSheet').classList.contains('open') ||
+                    document.querySelector('.modal-overlay.active');
+  if(sheetOpen) return;
+
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  const dy = e.changedTouches[0].clientY - touchStartY;
+  const dt = Date.now() - touchStartTime;
+  // Must be a quick horizontal swipe (fast, wide, not too vertical)
+  if(dt > 350) return;
+  if(Math.abs(dx) < 60) return;
+  if(Math.abs(dy) > Math.abs(dx) * 0.6) return;
+
+  const navTabs = [0, 2]; // Explore (0) and Profile (2) — skip List (1) as it opens modal
+  const idx = navTabs.indexOf(currentTab);
+  if(dx < 0 && idx < navTabs.length-1) { navigateTab(navTabs[idx+1]); }
+  else if(dx > 0 && idx > 0) { navigateTab(navTabs[idx-1]); }
+}, {passive:true});
+
 window.navigateTab=index=>{
   currentTab=index;
   document.querySelectorAll('.bottom-nav-item').forEach((it,i)=>it.classList.toggle('active',i===index));
-  document.getElementById('homeView').style.display=index===0?'block':'none';
+  // Hide all views
+  document.getElementById('homeView').style.display='none';
   document.getElementById('mobileSearchView').style.display='none';
-  if(index===1){openAddModal();return;}
-  if(index===2){openProfileSheet();return;}
-  if(window.innerWidth<768)window.scrollTo({top:0,behavior:'smooth'});
+  const ppv=document.getElementById('profilePageView');
+  if(ppv) ppv.style.display='none';
+
+  if(index===0){
+    document.getElementById('homeView').style.display='block';
+    // Do NOT scroll to top — preserve position
+  } else if(index===1){
+    openAddModal();
+    // Keep home view visible behind modal
+    document.getElementById('homeView').style.display='block';
+    return;
+  } else if(index===2){
+    if(ppv){ ppv.style.display='block'; loadProfilePage(); }
+  }
 };
 
 /* ── HELPERS ── */
 function calcAvg(reviews){if(!reviews||!reviews.length)return 0;return Math.round(reviews.reduce((a,r)=>a+r.rating,0)/reviews.length*10)/10;}
 function genStars(r){let s='';for(let i=1;i<=5;i++)s+=i<=r?'<i class="fa-solid fa-star"></i>':(i-0.5<=r?'<i class="fa-solid fa-star-half-alt"></i>':'<i class="fa-regular fa-star"></i>');return s;}
+
+/* ── SIMILAR LISTINGS ── */
+function getSimilarListings(item, all, count=4) {
+  if(!item||!all||all.length===0)return [];
+  const locWords=(item.location||'').toLowerCase().split(/[\s,]+/).filter(w=>w.length>2);
+  return all.filter(x=>x.id!==item.id).map(x=>{
+    let score=0;
+    if(x.type===item.type)score+=2;
+    const xLoc=(x.location||'').toLowerCase();
+    if(locWords.some(w=>xLoc.includes(w)))score+=1;
+    if(item.price>0){const ratio=Math.abs(x.price-item.price)/item.price;if(ratio<=0.3)score+=1;}
+    return{...x,_score:score};
+  }).filter(x=>x._score>0).sort((a,b)=>b._score-a._score).slice(0,count);
+}
+function renderSimilarCards(items,containerId,openFn){
+  const el=document.getElementById(containerId);
+  if(!el)return;
+  if(!items||items.length===0){el.innerHTML='<span class="similar-empty">No similar listings found nearby.</span>';return;}
+  el.innerHTML=items.map(item=>`<div class="similar-card" onclick="${openFn}('${item.id}')"><img class="similar-card-img" src="${item.image||''}" alt="${item.title||''}" loading="lazy"><div class="similar-card-body"><div class="similar-card-title">${item.title||''}</div><div class="similar-card-price">R${(item.price||0).toLocaleString()}/mo</div><div class="similar-card-type">${item.type||''}</div></div></div>`).join('');
+}
+
+/* ── SHARE ── */
+function buildShareUrl(id){const base=window.location.href.split('#')[0];return `${base}#listing=${id}`;}
+
+window.openShareModal=()=>{
+  const item=listingsData.find(x=>x.id===currentListingId); if(!item)return;
+  const url=buildShareUrl(item.id);
+  document.getElementById('sharePreviewImg').src=item.image||'';
+  document.getElementById('sharePreviewTitle').textContent=item.title||'';
+  document.getElementById('sharePreviewPrice').textContent=`R${(item.price||0).toLocaleString()}/mo`;
+  document.getElementById('sharePreviewLocationText').textContent=item.location||'';
+  document.getElementById('shareLinkInput').value=url;
+  document.getElementById('nativeShareBtn').style.display=navigator.share?'flex':'none';
+  document.getElementById('shareModal').classList.add('active');
+  document.body.style.overflow='hidden';
+};
+window.closeShareModal=()=>{document.getElementById('shareModal').classList.remove('active');document.body.style.overflow='auto';};
+window.copyShareLink=()=>{
+  const val=document.getElementById('shareLinkInput').value;
+  navigator.clipboard.writeText(val).catch(()=>{const inp=document.getElementById('shareLinkInput');inp.select();document.execCommand('copy');});
+  const btn=document.getElementById('copyLinkBtn');
+  btn.innerHTML='<i class="fa-solid fa-check"></i> Copied!'; btn.style.background='var(--accent-green)';
+  showCopyToast();
+  setTimeout(()=>{btn.innerHTML='<i class="fa-regular fa-copy"></i> Copy';btn.style.background='';},2000);
+};
+window.shareToWhatsApp=()=>{
+  const item=listingsData.find(x=>x.id===currentListingId); if(!item)return;
+  const url=buildShareUrl(item.id);
+  const msg=`🏠 *${item.title}*\n📍 ${item.location}\n💰 R${(item.price||0).toLocaleString()}/month\n\nFound on KasiStay 👇\n${url}`;
+  window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`,'_blank');
+};
+window.nativeShare=async()=>{
+  const item=listingsData.find(x=>x.id===currentListingId); if(!item||!navigator.share)return;
+  try{await navigator.share({title:item.title,text:`${item.title} — R${(item.price||0).toLocaleString()}/mo in ${item.location}`,url:buildShareUrl(item.id)});}catch(e){}
+};
+function showCopyToast(){const t=document.getElementById('copyToast');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);}
+
+function checkHashListing(){
+  const hash=window.location.hash;
+  if(!hash.startsWith('#listing='))return;
+  const id=hash.replace('#listing=',''); if(!id)return;
+  const tryOpen=()=>{
+    if(listingsData.length===0){setTimeout(tryOpen,300);return;}
+    const isMob=window.innerWidth<=767;
+    if(isMob)openMobileSheet(id);
+    else openModal(id);
+  };
+  setTimeout(tryOpen,500);
+}
 
 /* ── RENDER ── */
 function renderBatch(data){
@@ -1709,14 +1552,16 @@ function renderBatch(data){
     const mob=window.innerWidth<=767;
     const avg=calcAvg(item.reviews||[]);
     const isLiked=likedItems.has(item.id);
-    const vHtml=item.verified?`<span class="badge badge-verified"><i class="fa-solid fa-check-double"></i> Verified</span>`:`<span class="badge">New</span>`;
+
     if(mob){
       const rHtml=avg>0?`<div class="card-rating"><i class="fa-solid fa-star"></i> ${avg.toFixed(1)}</div>`:'';
+      const vHtml=item.verified?`<span class="badge badge-verified"><i class="fa-solid fa-check"></i></span>`:`<span class="badge">New</span>`;
       card.innerHTML=`
         <div class="card-image">
           ${vHtml}
           <button class="like-btn${isLiked?' liked':''}" data-id="${item.id}" onclick="toggleLike(event,'${item.id}')">
             <i class="fa-${isLiked?'solid':'regular'} fa-heart"></i>
+            <span class="like-count-label"></span>
           </button>
           <img src="${item.image}" alt="${item.title}" loading="lazy">
         </div>
@@ -1729,8 +1574,13 @@ function renderBatch(data){
     }else{
       const rHtml=avg>0?`<div class="rating-stars">${genStars(avg)}</div>`:'';
       const aHtml=item.amenities?.map(a=>`<span class="amenity">${a}</span>`).slice(0,3).join('')||'';
+      const vBadge=item.verified?`<span class="badge badge-verified"><i class="fa-solid fa-check"></i> Verified</span>`:`<span class="badge">New</span>`;
       card.innerHTML=`
-        <div class="card-image" style="cursor:pointer;">${vHtml}<img src="${item.image}" alt="${item.title}" loading="lazy"></div>
+        <div class="card-image" style="cursor:pointer;">
+          ${vBadge}
+          <div class="like-counter-badge" data-id="${item.id}"><i class="fa-solid fa-heart"></i><span class="lc-num">0</span></div>
+          <img src="${item.image}" alt="${item.title}" loading="lazy">
+        </div>
         <div class="card-content">
           <div class="price">R${item.price.toLocaleString()}<span>/month</span></div>
           <h3 class="card-title">${item.title}</h3>
@@ -1744,36 +1594,15 @@ function renderBatch(data){
     }
     grid.appendChild(card);
   });
+  // Load like counts for newly rendered cards
+  loadLikeCounts();
 }
-
-window.toggleLike=(e,id)=>{
-  e.stopPropagation();
-  const btn=e.currentTarget;
-  const wasLiked=likedItems.has(id);
-  if(wasLiked){
-    likedItems.delete(id);
-    btn.classList.remove('liked');
-    btn.innerHTML='<i class="fa-regular fa-heart"></i>';
-  }else{
-    likedItems.add(id);
-    btn.classList.add('liked');
-    btn.innerHTML='<i class="fa-solid fa-heart"></i>';
-  }
-  const user=auth.currentUser;
-  if(user){
-    const savedRef=ref(db,`users/${user.uid}/saved`);
-    set(savedRef,Array.from(likedItems));
-  }
-};
 
 window.renderListings=data=>{
   currentFiltered=data; displayedData=[]; grid.innerHTML='';
   countLabel.innerText=`${data.length} Amazing Places Found`;
   if(!data.length){
-    grid.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:4rem 2rem;">
-      <i class="fa-solid fa-house-crack" style="font-size:3rem;color:#e5e7eb;margin-bottom:1rem;display:block;"></i>
-      <h3 style="margin-bottom:0.5rem;">No matching listings</h3><p style="color:var(--text-muted);margin-bottom:1.5rem;">Try adjusting your filters.</p>
-      <button class="btn btn-primary" onclick="resetFilters()">Clear filters</button></div>`;
+    grid.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:4rem 2rem;"><i class="fa-solid fa-house-crack" style="font-size:3rem;color:#e5e7eb;margin-bottom:1rem;display:block;"></i><h3 style="margin-bottom:0.5rem;">No matching listings</h3><p style="color:var(--text-muted);margin-bottom:1.5rem;">Try adjusting your filters.</p><button class="btn btn-primary" onclick="resetFilters()">Clear filters</button></div>`;
     return;
   }
   loadMore();
@@ -1812,7 +1641,7 @@ window.resetFilters=()=>{
   document.querySelectorAll('.filter-tag').forEach(b=>b.classList.remove('active'));
   document.querySelectorAll('[data-filter="all"]').forEach(b=>b.classList.add('active'));
   currentFilter='all'; renderListings(listingsData);
-  if(window.innerWidth<768)navigateTab(0);
+  if(window.innerWidth<768) navigateTab(0);
 };
 
 /* ── MOBILE BOTTOM SHEET ── */
@@ -1821,18 +1650,16 @@ window.openMobileSheet=id=>{
   currentListingId=id; currentItemLocation=item.location;
   sheetImages=[item.image,...(item.additionalImages||[])];
   sheetImageIndex=0;
+
   const renderGallery=()=>{
     const img=document.getElementById('sheetMainImage');
     img.classList.add('switching');
-    setTimeout(()=>{
-      img.src=sheetImages[sheetImageIndex];
-      img.onload=()=>img.classList.remove('switching');
-      img.onerror=()=>img.classList.remove('switching');
-    },120);
+    setTimeout(()=>{img.src=sheetImages[sheetImageIndex];img.onload=()=>img.classList.remove('switching');img.onerror=()=>img.classList.remove('switching');},120);
     document.getElementById('sheetDots').innerHTML=sheetImages.map((_,i)=>`<div class="sheet-img-dot${i===sheetImageIndex?' active':''}"></div>`).join('');
   };
   window.sheetChangeImage=dir=>{sheetImageIndex=(sheetImageIndex+dir+sheetImages.length)%sheetImages.length;renderGallery();};
   renderGallery();
+
   document.getElementById('sheetTitle').textContent=item.title||'';
   document.getElementById('sheetPrice').innerHTML=`R${item.price?.toLocaleString()||0}<span>/mo</span>`;
   document.getElementById('sheetLocation').innerHTML=`<i class="fa-solid fa-location-dot"></i> ${item.location||''} <i class="fa-solid fa-external-link-alt" style="font-size:0.62rem;margin-left:2px;"></i>`;
@@ -1841,6 +1668,7 @@ window.openMobileSheet=id=>{
   document.getElementById('sheetAmenities').innerHTML=(item.amenities||[]).map(a=>`<span class="sheet-amenity">${a}</span>`).join('');
   document.getElementById('sheetWA').href=`https://wa.me/27123456789?text=Hi, I'm interested in ${encodeURIComponent(item.title)}`;
   document.getElementById('sheetCall').href=`tel:+27123456789`;
+
   const reviews=item.reviews||[]; const avgR=calcAvg(reviews);
   document.getElementById('sheetAvgStars').innerHTML=genStars(avgR);
   document.getElementById('sheetReviewCount').textContent=`(${reviews.length})`;
@@ -1848,9 +1676,8 @@ window.openMobileSheet=id=>{
     ?reviews.map(r=>`<div class="sheet-review-item"><div class="sheet-ri-top"><span class="sheet-ri-user">${r.reviewerName||'Anonymous'}</span><span class="sheet-ri-date">${new Date(r.timestamp).toLocaleDateString()}</span></div><div class="sheet-ri-stars">${genStars(r.rating)}</div><p class="sheet-ri-text">${r.comment}</p></div>`).join('')
     :'<p style="font-size:0.78rem;color:var(--text-muted);">No reviews yet.</p>';
 
-  // ── Render similar listings (mobile) ──
-  const similar = getSimilarListings(item, listingsData);
-  renderSimilarCards(similar, 'mobileSimilarScroll', 'openMobileSheet');
+  const similar=getSimilarListings(item,listingsData);
+  renderSimilarCards(similar,'mobileSimilarScroll','openMobileSheet');
 
   document.getElementById('sheetBody').scrollTop=0;
   document.getElementById('mobileSheetBackdrop').classList.add('open');
@@ -1873,21 +1700,48 @@ window.closeMobileSheet=()=>{
     panel.style.transform=''; panel.style.transition='';
     backdrop.style.background=''; backdrop.style.backdropFilter=''; backdrop.style.webkitBackdropFilter='';
     document.body.style.overflow='auto';
-    if(window.innerWidth<768) navigateTab(0);
+    // Do NOT navigate to tab 0 or scroll — stay where user was
   },350);
 };
 
+/**
+ * Smart sheet drag:
+ * - Handle bar AND the sheet panel itself (but not interactive elements inside) can be dragged.
+ * - Only start drag when touch begins near the top portion of the panel or on the handle.
+ */
 function initSheetDrag(){
   const panel=document.getElementById('mobileSheetPanel');
   const handle=document.getElementById('sheetHandle');
+  const body=document.getElementById('sheetBody');
   const backdrop=document.getElementById('mobileSheetBackdrop');
-  let startY=0,curY=0,dragging=false;
+  let startY=0, curY=0, dragging=false, startPanelY=0;
+
   const getY=e=>e.touches?e.touches[0].clientY:e.clientY;
-  const onStart=e=>{dragging=true;startY=getY(e);curY=0;panel.style.transition='none';};
+
+  const canStartDrag=(e)=>{
+    // Always allow drag on handle
+    if(e.target.closest('#sheetHandle')) return true;
+    // Allow drag on gallery
+    if(e.target.closest('.sheet-gallery')) return true;
+    // Allow drag on panel header area (top 60px of panel, outside body)
+    const panelRect=panel.getBoundingClientRect();
+    const touchY=getY(e)-panelRect.top;
+    if(touchY<60) return true;
+    // Block drag if body is scrolled down
+    if(body.scrollTop>4) return false;
+    // Allow on body only if at top
+    return true;
+  };
+
+  const onStart=e=>{
+    if(!canStartDrag(e)) return;
+    dragging=true; startY=getY(e); curY=0;
+    panel.style.transition='none';
+  };
   const onMove=e=>{
     if(!dragging)return;
     const y=getY(e)-startY;
-    if(y<0){panel.style.transform=`translateY(${y*0.12}px)`;return;}
+    if(y<0){panel.style.transform=`translateY(${y*0.1}px)`;return;}
     curY=y; panel.style.transform=`translateY(${y}px)`;
     const pct=Math.min(y/280,1);
     const alpha=0.5*(1-pct*0.94);
@@ -1906,12 +1760,13 @@ function initSheetDrag(){
       backdrop.style.webkitBackdropFilter='blur(3px)';
     }
   };
-  handle.addEventListener('touchstart',onStart,{passive:true});
-  handle.addEventListener('touchmove',onMove,{passive:true});
-  handle.addEventListener('touchend',onEnd);
-  handle.addEventListener('mousedown',onStart);
-  document.addEventListener('mousemove',onMove);
-  document.addEventListener('mouseup',onEnd);
+
+  // Clean up any existing listeners by cloning
+  const newPanel=panel.cloneNode(false);
+  // Actually just add listeners; cloning removes children so we skip that
+  panel.addEventListener('touchstart',onStart,{passive:true});
+  panel.addEventListener('touchmove',onMove,{passive:true});
+  panel.addEventListener('touchend',onEnd);
 }
 
 /* ── DESKTOP MODAL ── */
@@ -1941,30 +1796,24 @@ window.openModal=id=>{
   document.getElementById('modalReviewList').innerHTML=reviews.length
     ?reviews.map(r=>`<div class="review-item"><div class="review-top"><span class="review-user">${r.reviewerName||'Anonymous'}</span><span class="review-date">${new Date(r.timestamp).toLocaleDateString()}</span></div><div class="review-rating">${genStars(r.rating)}</div><p>${r.comment}</p></div>`).join('')
     :'<p style="color:var(--text-muted);">No reviews yet. Be the first!</p>';
-
-  // ── Render similar listings (desktop) ──
-  const similar = getSimilarListings(item, listingsData);
-  renderSimilarCards(similar, 'desktopSimilarScroll', 'openModal');
-
+  const similar=getSimilarListings(item,listingsData);
+  renderSimilarCards(similar,'desktopSimilarScroll','openModal');
   document.getElementById('detailModal').classList.add('active');
   document.body.style.overflow='hidden';
 };
-window.closeModal=()=>{
-  document.getElementById('detailModal').classList.remove('active');
-  document.body.style.overflow='auto';
-};
+window.closeModal=()=>{document.getElementById('detailModal').classList.remove('active');document.body.style.overflow='auto';};
 
-/* ── MAP MODAL ── */
+/* ── MAP ── */
 window.openMapModal=location=>{
   const loc=location||currentItemLocation; if(!loc)return;
-  const isMobile = window.innerWidth <= 767;
+  const isMobile=window.innerWidth<=767;
   if(isMobile){
     document.getElementById('mobileMapFrame').src=`https://www.google.com/maps?q=${encodeURIComponent(loc+', South Africa')}&output=embed`;
     document.getElementById('mobileMapBackdrop').classList.add('open');
     document.getElementById('mobileMapSheet').classList.add('open');
     document.body.style.overflow='hidden';
     initMapDrag();
-  } else {
+  }else{
     document.getElementById('mapFrame').src=`https://www.google.com/maps?q=${encodeURIComponent(loc+', South Africa')}&output=embed`;
     document.getElementById('mapModal').classList.add('active');
     document.body.style.overflow='hidden';
@@ -1975,21 +1824,17 @@ window.closeMapModal=()=>{
   document.getElementById('mapFrame').src='';
   document.body.style.overflow='auto';
 };
-
-/* ── MOBILE MAP ── */
 window.closeMobileMap=()=>{
   const panel=document.getElementById('mobileMapPanel');
   const backdrop=document.getElementById('mobileMapBackdrop');
   panel.style.transition='transform 0.35s cubic-bezier(0.4,0,1,1)';
   panel.style.transform='translateY(calc(100% + 20px))';
   backdrop.style.background='rgba(0,0,0,0)';
-  backdrop.style.backdropFilter='blur(0px)';
-  backdrop.style.webkitBackdropFilter='blur(0px)';
   setTimeout(()=>{
     document.getElementById('mobileMapSheet').classList.remove('open');
     document.getElementById('mobileMapBackdrop').classList.remove('open');
     panel.style.transform=''; panel.style.transition='';
-    backdrop.style.background=''; backdrop.style.backdropFilter=''; backdrop.style.webkitBackdropFilter='';
+    backdrop.style.background='';
     document.body.style.overflow='auto';
   },350);
 };
@@ -2003,124 +1848,81 @@ function initMapDrag(){
   const onMove=e=>{
     if(!dragging)return;
     const y=getY(e)-startY;
-    if(y<0){panel.style.transform=`translateY(${y*0.12}px)`;return;}
+    if(y<0){panel.style.transform=`translateY(${y*0.1}px)`;return;}
     curY=y; panel.style.transform=`translateY(${y}px)`;
     const pct=Math.min(y/280,1);
-    const alpha=0.5*(1-pct*0.94);
-    backdrop.style.background=`rgba(0,0,0,${alpha.toFixed(3)})`;
-    backdrop.style.backdropFilter=`blur(${(3*(1-pct)).toFixed(1)}px)`;
-    backdrop.style.webkitBackdropFilter=`blur(${(3*(1-pct)).toFixed(1)}px)`;
+    backdrop.style.background=`rgba(0,0,0,${(0.5*(1-pct*0.94)).toFixed(3)})`;
   };
   const onEnd=()=>{
     if(!dragging)return; dragging=false;
     panel.style.transition='transform 0.42s cubic-bezier(0.34,1.56,0.64,1)';
     if(curY>110){closeMobileMap();}
-    else{
-      panel.style.transform='translateY(0)';
-      backdrop.style.background='rgba(0,0,0,0.5)';
-      backdrop.style.backdropFilter='blur(3px)';
-      backdrop.style.webkitBackdropFilter='blur(3px)';
-    }
+    else{panel.style.transform='translateY(0)';backdrop.style.background='rgba(0,0,0,0.5)';}
   };
   handle.addEventListener('touchstart',onStart,{passive:true});
   handle.addEventListener('touchmove',onMove,{passive:true});
   handle.addEventListener('touchend',onEnd);
-  handle.addEventListener('mousedown',onStart);
-  document.addEventListener('mousemove',onMove);
-  document.addEventListener('mouseup',onEnd);
+  panel.addEventListener('touchstart',onStart,{passive:true});
+  panel.addEventListener('touchmove',onMove,{passive:true});
+  panel.addEventListener('touchend',onEnd);
 }
 
-/* ── REVIEW MODALS ── */
+/* ── REVIEW ── */
 window.openReviewModal=()=>{
   if(!auth.currentUser)return alert('Please sign in to leave a review.');
   selectedRating=0;
-  const isMobile = window.innerWidth <= 767;
+  const isMobile=window.innerWidth<=767;
   if(isMobile){
-    document.getElementById('mobileReviewComment').value = '';
-    const stars = document.querySelectorAll('#mobileReviewStars i');
+    document.getElementById('mobileReviewComment').value='';
+    const stars=document.querySelectorAll('#mobileReviewStars i');
     stars.forEach(s=>s.style.color='#d1d5db');
-    stars.forEach(star=>{
-      star.onclick=()=>{
-        selectedRating=parseInt(star.dataset.rating);
-        stars.forEach(s=>s.style.color=parseInt(s.dataset.rating)<=selectedRating?'#eab308':'#d1d5db');
-      };
-    });
+    stars.forEach(star=>{star.onclick=()=>{selectedRating=parseInt(star.dataset.rating);stars.forEach(s=>s.style.color=parseInt(s.dataset.rating)<=selectedRating?'#eab308':'#d1d5db');};});
     document.getElementById('mobileReviewBackdrop').classList.add('open');
     document.getElementById('mobileReviewSheet').classList.add('open');
     document.body.style.overflow='hidden';
-  } else {
+  }else{
     selectedRating=0; document.getElementById('reviewComment').value='';
     const stars=document.querySelectorAll('#reviewStars i');
-    stars.forEach(star=>{
-      star.classList.remove('selected');
-      star.onclick=()=>{
-        selectedRating=parseInt(star.dataset.rating);
-        stars.forEach(s=>s.classList.toggle('selected',parseInt(s.dataset.rating)<=selectedRating));
-      };
-    });
+    stars.forEach(star=>{star.classList.remove('selected');star.onclick=()=>{selectedRating=parseInt(star.dataset.rating);stars.forEach(s=>s.classList.toggle('selected',parseInt(s.dataset.rating)<=selectedRating));};});
     document.getElementById('reviewModal').classList.add('active');
   }
 };
-window.closeReviewModal=()=>{
-  document.getElementById('reviewModal').classList.remove('active');
-};
+window.closeReviewModal=()=>{document.getElementById('reviewModal').classList.remove('active');};
 window.closeMobileReview=()=>{
   const panel=document.getElementById('mobileReviewPanel');
   const backdrop=document.getElementById('mobileReviewBackdrop');
   panel.style.transition='transform 0.35s cubic-bezier(0.4,0,1,1)';
   panel.style.transform='translateY(calc(100% + 20px))';
   backdrop.style.background='rgba(0,0,0,0)';
-  backdrop.style.backdropFilter='blur(0px)';
-  backdrop.style.webkitBackdropFilter='blur(0px)';
   setTimeout(()=>{
     document.getElementById('mobileReviewSheet').classList.remove('open');
     document.getElementById('mobileReviewBackdrop').classList.remove('open');
     panel.style.transform=''; panel.style.transition='';
-    backdrop.style.background=''; backdrop.style.backdropFilter=''; backdrop.style.webkitBackdropFilter='';
-    document.body.style.overflow='auto';
+    backdrop.style.background=''; document.body.style.overflow='auto';
   },350);
 };
-
 window.submitReview=()=>{
   const comment=document.getElementById('reviewComment').value.trim();
   if(!selectedRating||!comment)return alert('Please select a rating and add a comment.');
-  const newR={
-    rating:selectedRating, comment,
-    timestamp:Date.now(),
-    reviewerName:auth.currentUser?(auth.currentUser.displayName||auth.currentUser.email.split('@')[0]):'Anonymous'
-  };
+  const newR={rating:selectedRating,comment,timestamp:Date.now(),reviewerName:auth.currentUser?(auth.currentUser.displayName||auth.currentUser.email.split('@')[0]):'Anonymous'};
   const lRef=ref(db,`listings/${currentListingId}`);
   onValue(lRef,snapshot=>{
     const data=snapshot.val();
     const reviews=[...(data.reviews||[]),newR];
-    update(lRef,{reviews}).then(()=>{
-      closeReviewModal();
-      closeModal();
-      refreshListings();
-    });
+    update(lRef,{reviews}).then(()=>{closeReviewModal();closeModal();refreshListings();});
   },{onlyOnce:true});
 };
-
 window.submitMobileReview=()=>{
   const comment=document.getElementById('mobileReviewComment').value.trim();
   if(!selectedRating||!comment)return alert('Please select a rating and add a comment.');
-  const newR={
-    rating:selectedRating, comment,
-    timestamp:Date.now(),
-    reviewerName:auth.currentUser?(auth.currentUser.displayName||auth.currentUser.email.split('@')[0]):'Anonymous'
-  };
+  const newR={rating:selectedRating,comment,timestamp:Date.now(),reviewerName:auth.currentUser?(auth.currentUser.displayName||auth.currentUser.email.split('@')[0]):'Anonymous'};
   const lRef=ref(db,`listings/${currentListingId}`);
   onValue(lRef,snapshot=>{
     const data=snapshot.val();
     const reviews=[...(data.reviews||[]),newR];
-    update(lRef,{reviews}).then(()=>{
-      closeMobileReview();
-      closeMobileSheet();
-      refreshListings();
-    });
+    update(lRef,{reviews}).then(()=>{closeMobileReview();closeMobileSheet();refreshListings();});
   },{onlyOnce:true});
 };
-
 function refreshListings(){
   onValue(ref(db,'listings'),s=>{
     listingsData=[];
@@ -2136,22 +1938,15 @@ window.closeAddModal=()=>{
   document.body.style.overflow='auto';
   if(window.innerWidth<768) navigateTab(0);
 };
-
 const imagesPreviewContainer=document.getElementById("imagesPreviewContainer");
 document.getElementById("addImage").addEventListener('change',()=>{
   imagesPreviewContainer.innerHTML='';
   Array.from(document.getElementById("addImage").files).forEach(file=>{
     const reader=new FileReader();
-    reader.onload=()=>{
-      const img=document.createElement('img');
-      img.src=reader.result;
-      Object.assign(img.style,{width:'100px',height:'80px',objectFit:'cover',margin:'0 8px 8px 0',borderRadius:'8px'});
-      imagesPreviewContainer.appendChild(img);
-    };
+    reader.onload=()=>{const img=document.createElement('img');img.src=reader.result;Object.assign(img.style,{width:'100px',height:'80px',objectFit:'cover',margin:'0 8px 8px 0',borderRadius:'8px'});imagesPreviewContainer.appendChild(img);};
     reader.readAsDataURL(file);
   });
 });
-
 window.addToDb=async()=>{
   const uM=document.getElementById('uploadModal'),pB=document.getElementById('progressBar'),pS=document.getElementById('progressStatus');
   uM.classList.add('active'); pB.style.width='20%'; pS.textContent='Preparing...';
@@ -2163,27 +1958,14 @@ window.addToDb=async()=>{
   const ams=document.getElementById('addAmenities').value;
   const amenities=ams?ams.split(',').map(a=>a.trim()).filter(a=>a):[];
   const files=Array.from(document.getElementById('addImage').files);
-  if(!title||!price||!type||!location||!files.length){
-    alert('Please fill all required fields and upload at least one photo.');
-    uM.classList.remove('active'); return;
-  }
+  if(!title||!price||!type||!location||!files.length){alert('Please fill all required fields and upload at least one photo.');uM.classList.remove('active');return;}
   const nRef=push(ref(db,'listings')); let urls=[];
   try{
-    for(let i=0;i<files.length;i++){
-      pS.textContent=`Uploading image ${i+1}/${files.length}...`;
-      pB.style.width=`${20+(75*(i+1)/files.length)}%`;
-      urls.push(await uploadToCloudinary(files[i]));
-    }
+    for(let i=0;i<files.length;i++){pS.textContent=`Uploading image ${i+1}/${files.length}...`;pB.style.width=`${20+(75*(i+1)/files.length)}%`;urls.push(await uploadToCloudinary(files[i]));}
     pS.textContent='Saving...'; pB.style.width='100%';
     await set(nRef,{title,price,type,location,desc:desc||'No description provided',amenities,image:urls[0],additionalImages:urls.slice(1),verified:false,adminStatus:'pending',timestamp:Date.now(),reviews:[]});
-    await set(ref(db,`subscriptions/${nRef.key}`),{subscribers:{}});
-    setTimeout(()=>{
-      uM.classList.remove('active');
-      document.getElementById('successModal').classList.add('active');
-      document.getElementById('addForm').reset();
-      imagesPreviewContainer.innerHTML='';
-      closeAddModal();
-    },800);
+    await set(ref(db,`likeCounts/${nRef.key}`),{count:0});
+    setTimeout(()=>{uM.classList.remove('active');document.getElementById('successModal').classList.add('active');document.getElementById('addForm').reset();imagesPreviewContainer.innerHTML='';closeAddModal();},800);
   }catch(err){console.error(err);uM.classList.remove('active');alert('Upload failed: '+(err.message||err));}
 };
 
@@ -2204,121 +1986,128 @@ mobileInlineSearch&&mobileInlineSearch.addEventListener('input',applyFilters);
 onValue(ref(db,'listings'),snapshot=>{
   listingsData=[];
   if(snapshot.exists())snapshot.forEach(c=>{const it={id:c.key,...c.val()};if(it.adminStatus==='approved')listingsData.push(it);});
-  renderListings(listingsData);
+  // Also load user's saved list
+  const user=auth.currentUser;
+  if(user){
+    get(ref(db,`users/${user.uid}/saved`)).then(snap=>{
+      if(snap.exists()&&Array.isArray(snap.val()))likedItems=new Set(snap.val());
+      renderListings(listingsData);
+    });
+  }else{
+    renderListings(listingsData);
+  }
   hideSplashOnce();
-  checkHashListing(); // Handle deep link on data ready
+  checkHashListing();
 });
 
 window.addEventListener('scroll',()=>{
   if(window.innerHeight+window.scrollY>=document.body.offsetHeight-100&&displayedData.length<currentFiltered.length)loadMore();
 });
 
-/* ── PROFILE SHEET ── */
-window.openProfileSheet=()=>{
+/* ══════════════════════════════════════
+   PROFILE PAGE (mobile tab)
+   ══════════════════════════════════════ */
+function loadProfilePage(){
   const isDark=document.body.classList.contains('dark-mode');
-  const dt=document.getElementById('psDarkToggle');
-  const dtg=document.getElementById('psDarkToggleGuest');
+  const dt=document.getElementById('ppDarkToggle');
+  const dtg=document.getElementById('ppDarkToggleGuest');
   if(dt)dt.checked=isDark;
   if(dtg)dtg.checked=isDark;
+
   const user=auth.currentUser;
-  document.getElementById('psSignedIn').style.display=user?'block':'none';
-  document.getElementById('psGuest').style.display=user?'none':'block';
+  document.getElementById('ppSignedIn').style.display=user?'block':'none';
+  document.getElementById('ppGuest').style.display=user?'none':'block';
+
+  if(!user)return;
+
+  const name=user.displayName||user.email?.split('@')[0]||'KasiStay User';
+  const email=user.email||'';
+
+  document.getElementById('ppName').textContent=name;
+  document.getElementById('ppEmail').textContent=email;
+  document.getElementById('ppEditName').value=name;
+  document.getElementById('ppEditEmail').value=email;
+
+  // Load persisted profile extras
+  document.getElementById('ppEditPhone').value=localStorage.getItem('ks_phone')||'';
+  document.getElementById('ppEditLocation').value=localStorage.getItem('ks_location')||'';
+  document.getElementById('ppEditBio').value=localStorage.getItem('ks_bio')||'';
+
+  const photo=user.photoURL||localStorage.getItem('ks_avatar');
+  ['ppAvatar','ppEditAvatar'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(!el)return;
+    if(photo){el.innerHTML=`<img src="${photo}" alt="avatar">`;}
+    else{el.textContent=name.charAt(0).toUpperCase();}
+  });
+
+  // Fetch from DB
+  const userRef=ref(db,`users/${user.uid}`);
+  get(userRef).then(snapshot=>{
+    if(snapshot.exists()){
+      userProfile=snapshot.val();
+      if(userProfile.saved)likedItems=new Set(userProfile.saved);
+    }
+    document.getElementById('ppFavCount').textContent=likedItems.size;
+    document.getElementById('ppReviewCount').textContent=countUserReviews();
+  });
+}
+
+function countUserReviews(){
+  // Count reviews written by current user across all listings
+  const user=auth.currentUser; if(!user)return 0;
+  const name=user.displayName||user.email?.split('@')[0]||'Anonymous';
+  let count=0;
+  listingsData.forEach(item=>{
+    (item.reviews||[]).forEach(r=>{if(r.reviewerName===name)count++;});
+  });
+  return count;
+}
+
+window.openPPEditProfile=()=>{document.getElementById('ppEditOverlay').classList.add('visible');};
+window.closePPEditProfile=()=>{document.getElementById('ppEditOverlay').classList.remove('visible');};
+
+window.savePPProfile=async()=>{
+  const name=document.getElementById('ppEditName').value.trim();
+  const phone=document.getElementById('ppEditPhone').value.trim();
+  const location=document.getElementById('ppEditLocation').value.trim();
+  const bio=document.getElementById('ppEditBio').value.trim();
+
+  // Persist to localStorage so it survives refresh
+  if(name)localStorage.setItem('ks_displayName',name);
+  if(phone)localStorage.setItem('ks_phone',phone);
+  if(location)localStorage.setItem('ks_location',location);
+  if(bio)localStorage.setItem('ks_bio',bio);
+
+  const user=auth.currentUser;
   if(user){
-    const name=user.displayName||user.email?.split('@')[0]||'KasiStay User';
-    const email=user.email||'';
-    document.getElementById('psName').textContent=name;
-    document.getElementById('psEmail').textContent=email;
-    document.getElementById('psEditName').value=name;
-    document.getElementById('psEditEmail').value=email;
-    document.getElementById('psEditPhone').value=localStorage.getItem('ks_phone')||'';
-    document.getElementById('psEditLocation').value=localStorage.getItem('ks_location')||'';
-    document.getElementById('psEditBio').value=localStorage.getItem('ks_bio')||'';
-    const photo=user.photoURL||localStorage.getItem('ks_avatar');
-    ['psAvatar','psEditAvatar'].forEach(id=>{
-      const el=document.getElementById(id);
-      if(photo){el.innerHTML=`<img src="${photo}" alt="avatar">`;}
-      else{el.textContent=name.charAt(0).toUpperCase();}
-    });
     const userRef=ref(db,`users/${user.uid}`);
-    get(userRef).then(snapshot=>{
-      if(snapshot.exists()){
-        userProfile=snapshot.val();
-        if(userProfile.saved) likedItems=new Set(userProfile.saved);
-        if(userProfile.myReviews) myReviewsData=userProfile.myReviews;
-        document.getElementById('psFavCount').textContent=likedItems.size;
-        document.getElementById('psReviewCount').textContent=(myReviewsData||[]).length;
-        if(!userProfile.notifications||userProfile.notifications.length===0){
-          const welcomeNotif=[{title:"Welcome to KasiStay!",message:"Your account is set up. Start exploring rooms!",timestamp:Date.now()}];
-          update(userRef,{notifications:welcomeNotif});
-          userProfile.notifications=welcomeNotif;
-        }
-        if(!userProfile.language)update(userRef,{language:"English (South Africa)"});
-      }else{
-        const initialData={
-          saved:[],myReviews:[],
-          notifications:[{title:"Welcome to KasiStay!",message:"Your account is set up. Start exploring rooms!",timestamp:Date.now()}],
-          language:"English (South Africa)"
-        };
-        set(userRef,initialData);
-        userProfile=initialData;
-        likedItems=new Set();
-        myReviewsData=[];
-        document.getElementById('psFavCount').textContent='0';
-        document.getElementById('psReviewCount').textContent='0';
+    await update(userRef,{
+      displayName:name||user.displayName||'',
+      phone:phone||'',
+      location:location||'',
+      bio:bio||''
+    });
+    // Update display
+    if(name){
+      document.getElementById('ppName').textContent=name;
+      // Update avatar letter
+      const photo=user.photoURL||localStorage.getItem('ks_avatar');
+      if(!photo){
+        ['ppAvatar','ppEditAvatar'].forEach(id=>{
+          const el=document.getElementById(id);
+          if(el&&!el.querySelector('img'))el.textContent=name.charAt(0).toUpperCase();
+        });
       }
-      document.getElementById('psFavCount').textContent=likedItems.size;
-    });
+    }
   }
-  document.getElementById('psBody').scrollTop=0;
-  const eo=document.getElementById('psEditOverlay');
-  if(eo)eo.classList.remove('visible');
-  document.getElementById('profileSheetBackdrop').classList.add('open');
-  document.getElementById('profileSheet').classList.add('open');
-  document.body.style.overflow='hidden';
-  initProfileDrag();
-};
 
-window.closeProfileSheet=()=>{
-  const panel=document.getElementById('profileSheetPanel');
-  const backdrop=document.getElementById('profileSheetBackdrop');
-  panel.style.transition='transform 0.35s cubic-bezier(0.4,0,1,1)';
-  panel.style.transform='translateY(calc(100% + 20px))';
-  backdrop.style.background='rgba(0,0,0,0)';
-  backdrop.style.backdropFilter='blur(0px)';
-  backdrop.style.webkitBackdropFilter='blur(0px)';
-  setTimeout(()=>{
-    document.getElementById('profileSheet').classList.remove('open');
-    backdrop.classList.remove('open');
-    panel.style.transform=''; panel.style.transition='';
-    backdrop.style.background=''; backdrop.style.backdropFilter=''; backdrop.style.webkitBackdropFilter='';
-    document.body.style.overflow='auto';
-    if(window.innerWidth<768) navigateTab(0);
-  },350);
-};
-
-window.openEditProfile=()=>{document.getElementById('psEditOverlay').classList.add('visible');};
-window.closeEditProfile=()=>{document.getElementById('psEditOverlay').classList.remove('visible');};
-window.saveProfile=async()=>{
-  const name=document.getElementById('psEditName').value.trim();
-  const phone=document.getElementById('psEditPhone').value.trim();
-  const location=document.getElementById('psEditLocation').value.trim();
-  const bio=document.getElementById('psEditBio').value.trim();
-  if(phone) localStorage.setItem('ks_phone',phone);
-  if(location) localStorage.setItem('ks_location',location);
-  if(bio) localStorage.setItem('ks_bio',bio);
-  const user=auth.currentUser;
-  if(user){
-    const userRef=ref(db,`users/${user.uid}`);
-    await update(userRef,{displayName:name||user.displayName,phone:phone||'',location:location||'',bio:bio||''});
-    userProfile.displayName=name||userProfile.displayName;
-  }
-  if(name) document.getElementById('psName').textContent=name;
-  closeEditProfile();
-  const btn=document.querySelector('.ps-edit-save');
+  closePPEditProfile();
+  const btn=document.querySelector('.pp-edit-save');
   if(btn){btn.textContent='Saved ✓';btn.style.background='#059669';setTimeout(()=>{btn.textContent='Save';btn.style.background='';},1500);}
 };
 
-window.handleAvatarChange=async(e)=>{
+window.handlePPAvatarChange=async(e)=>{
   const file=e.target.files[0]; if(!file)return;
   try{
     const url=await uploadToCloudinary(file);
@@ -2326,173 +2115,45 @@ window.handleAvatarChange=async(e)=>{
     if(user){
       const userRef=ref(db,`users/${user.uid}`);
       await update(userRef,{avatar:url});
-      userProfile.avatar=url;
-      ['psAvatar','psEditAvatar'].forEach(id=>{
-        document.getElementById(id).innerHTML=`<img src="${url}" alt="avatar">`;
-      });
       localStorage.setItem('ks_avatar',url);
+      ['ppAvatar','ppEditAvatar'].forEach(id=>{
+        const el=document.getElementById(id);
+        if(el)el.innerHTML=`<img src="${url}" alt="avatar">`;
+      });
     }
   }catch(err){alert('Avatar upload failed: '+err.message);}
 };
 
-/* ── DYNAMIC PROFILE CONTENT ── */
-function hideMainProfileSections(){
-  const signedIn=document.getElementById('psSignedIn');
-  signedIn.querySelectorAll('.ps-hero, .ps-stats, .ps-section').forEach(el=>el.style.display='none');
-}
-function showMainProfileSections(){
-  const signedIn=document.getElementById('psSignedIn');
-  signedIn.querySelectorAll('.ps-hero, .ps-stats, .ps-section').forEach(el=>el.style.display='');
-}
-window.closeDynamicContent=()=>{
-  document.getElementById('profileDynamicContent').style.display='none';
-  showMainProfileSections();
-};
-
-window.showSavedProperties=()=>{
-  document.getElementById('dynamicTitle').textContent='SAVED PROPERTIES';
-  const listEl=document.getElementById('dynamicList');
+/* Saved properties panel */
+window.showPPSaved=()=>{
+  document.getElementById('ppDynamicTitle').textContent='Saved Properties';
+  const listEl=document.getElementById('ppDynamicList');
   listEl.innerHTML='';
   const savedIds=Array.from(likedItems);
   if(savedIds.length===0){
-    listEl.innerHTML=`<p style="padding:2rem 1rem;text-align:center;color:var(--text-muted);">No saved properties yet.<br>Tap the heart icon on any listing to save.</p>`;
+    listEl.innerHTML=`<p style="padding:2rem 1rem;text-align:center;color:var(--text-muted);">No saved properties yet.<br>Tap the ♡ on any listing to save.</p>`;
   }else{
     savedIds.forEach(id=>{
       const item=listingsData.find(l=>l.id===id);
       if(item){
-        listEl.innerHTML+=`
-          <div onclick="closeProfileSheet();openMobileSheet('${id}');" style="padding:14px 18px;border-bottom:1px solid var(--border-color);display:flex;gap:12px;cursor:pointer;">
-            <img src="${item.image}" style="width:64px;height:64px;border-radius:10px;object-fit:cover;flex-shrink:0;">
-            <div style="flex:1;min-width:0;">
-              <div style="font-weight:700;font-size:0.95rem;line-height:1.3;">${item.title}</div>
-              <div style="font-size:0.82rem;color:var(--text-muted);">${item.location}</div>
-              <div style="color:var(--accent-green);font-weight:600;margin-top:4px;">R${item.price.toLocaleString()}/mo</div>
-            </div>
-          </div>`;
-      }
-    });
-  }
-  hideMainProfileSections();
-  document.getElementById('profileDynamicContent').style.display='block';
-};
-
-window.showMyReviews=()=>{
-  document.getElementById('dynamicTitle').textContent='MY REVIEWS';
-  const listEl=document.getElementById('dynamicList');
-  listEl.innerHTML='';
-  if(!myReviewsData||myReviewsData.length===0){
-    listEl.innerHTML=`<p style="padding:2rem 1rem;text-align:center;color:var(--text-muted);">No reviews written yet.<br>Review a property to see it here.</p>`;
-  }else{
-    myReviewsData.forEach(rev=>{
-      const item=listingsData.find(l=>l.id===rev.listingId);
-      if(item){
-        listEl.innerHTML+=`
-          <div onclick="closeProfileSheet();openMobileSheet('${rev.listingId}');" style="padding:14px 18px;border-bottom:1px solid var(--border-color);cursor:pointer;">
-            <div style="font-weight:700;">${item.title}</div>
-            <div style="color:#eab308;margin:4px 0;">${genStars(rev.rating)}</div>
-            <div style="font-size:0.82rem;color:var(--text-muted);">${rev.comment}</div>
-            <div style="font-size:0.7rem;color:var(--text-muted);margin-top:6px;">${new Date(rev.timestamp).toLocaleDateString()}</div>
-          </div>`;
-      }
-    });
-  }
-  hideMainProfileSections();
-  document.getElementById('profileDynamicContent').style.display='block';
-};
-
-window.showNotifications=()=>{
-  document.getElementById('dynamicTitle').textContent='NOTIFICATIONS';
-  const listEl=document.getElementById('dynamicList');
-  listEl.innerHTML='';
-  const notifs=userProfile.notifications||[];
-  if(notifs.length===0){
-    listEl.innerHTML=`<p style="padding:2rem 1rem;text-align:center;color:var(--text-muted);">No notifications yet.</p>`;
-  }else{
-    notifs.forEach(n=>{
-      listEl.innerHTML+=`
-        <div style="padding:14px 18px;border-bottom:1px solid var(--border-color);">
-          <div style="font-weight:700;font-size:0.95rem;">${n.title}</div>
-          <div style="font-size:0.82rem;color:var(--text-muted);margin-top:4px;">${n.message}</div>
-          <div style="font-size:0.7rem;color:var(--text-muted);margin-top:8px;">${new Date(n.timestamp).toLocaleDateString()}</div>
+        listEl.innerHTML+=`<div onclick="navigateTab(0);setTimeout(()=>openMobileSheet('${id}'),100);" style="padding:14px 18px;border-bottom:1px solid var(--border-color);display:flex;gap:12px;cursor:pointer;background:var(--bg-off-white);">
+          <img src="${item.image}" style="width:64px;height:64px;border-radius:10px;object-fit:cover;flex-shrink:0;">
+          <div style="flex:1;min-width:0;">
+            <div style="font-weight:700;font-size:0.95rem;line-height:1.3;">${item.title}</div>
+            <div style="font-size:0.82rem;color:var(--text-muted);">${item.location}</div>
+            <div style="color:var(--accent-green);font-weight:600;margin-top:4px;">R${item.price.toLocaleString()}/mo</div>
+          </div>
         </div>`;
+      }
     });
   }
-  hideMainProfileSections();
-  document.getElementById('profileDynamicContent').style.display='block';
+  document.getElementById('ppMainContent').classList.add('hidden');
+  document.getElementById('ppDynamicPanel').classList.add('visible');
 };
-
-window.showLanguageSelector=()=>{
-  document.getElementById('dynamicTitle').textContent='LANGUAGE';
-  const listEl=document.getElementById('dynamicList');
-  listEl.innerHTML=`
-    <div style="padding:18px;">
-      <label style="font-size:0.85rem;font-weight:600;display:block;margin-bottom:8px;">Preferred Language</label>
-      <select id="langSelect" style="width:100%;padding:14px;border:1.5px solid var(--border-color);border-radius:12px;background:var(--bg-white);color:var(--text-main);font-size:0.95rem;">
-        <option value="English (South Africa)">English (South Africa)</option>
-        <option value="Afrikaans">Afrikaans</option>
-        <option value="isiZulu">isiZulu</option>
-        <option value="isiXhosa">isiXhosa</option>
-      </select>
-    </div>`;
-  const saveBtn=document.createElement('button');
-  saveBtn.innerHTML='Save Preference';
-  saveBtn.className='btn btn-primary';
-  saveBtn.style='width:calc(100% - 36px);margin:0 18px 16px;';
-  saveBtn.onclick=()=>{
-    const newLang=document.getElementById('langSelect').value;
-    const user=auth.currentUser;
-    if(user){
-      const userRef=ref(db,`users/${user.uid}`);
-      update(userRef,{language:newLang});
-      userProfile.language=newLang;
-    }
-    closeDynamicContent();
-  };
-  listEl.appendChild(saveBtn);
-  hideMainProfileSections();
-  document.getElementById('profileDynamicContent').style.display='block';
+window.closePPDynamic=()=>{
+  document.getElementById('ppDynamicPanel').classList.remove('visible');
+  document.getElementById('ppMainContent').classList.remove('hidden');
 };
-
-/* ── PROFILE DRAG ── */
-function initProfileDrag(){
-  const panel=document.getElementById('profileSheetPanel');
-  const handle=document.getElementById('psHandle');
-  const backdrop=document.getElementById('profileSheetBackdrop');
-  let startY=0,curY=0,dragging=false;
-  const getY=e=>e.touches?e.touches[0].clientY:e.clientY;
-  const onStart=e=>{
-    if(e.target.closest('.ps-edit-overlay'))return;
-    dragging=true; startY=getY(e); curY=0; panel.style.transition='none';
-  };
-  const onMove=e=>{
-    if(!dragging)return;
-    const y=getY(e)-startY;
-    if(y<0){panel.style.transform=`translateY(${y*0.12}px)`;return;}
-    curY=y; panel.style.transform=`translateY(${y}px)`;
-    const pct=Math.min(y/280,1);
-    const alpha=0.5*(1-pct*0.94);
-    backdrop.style.background=`rgba(0,0,0,${alpha.toFixed(3)})`;
-    backdrop.style.backdropFilter=`blur(${(3*(1-pct)).toFixed(1)}px)`;
-    backdrop.style.webkitBackdropFilter=`blur(${(3*(1-pct)).toFixed(1)}px)`;
-  };
-  const onEnd=()=>{
-    if(!dragging)return; dragging=false;
-    panel.style.transition='transform 0.42s cubic-bezier(0.34,1.56,0.64,1)';
-    if(curY>110){closeProfileSheet();}
-    else{
-      panel.style.transform='translateY(0)';
-      backdrop.style.background='rgba(0,0,0,0.5)';
-      backdrop.style.backdropFilter='blur(3px)';
-      backdrop.style.webkitBackdropFilter='blur(3px)';
-    }
-  };
-  handle.addEventListener('touchstart',onStart,{passive:true});
-  handle.addEventListener('touchmove',onMove,{passive:true});
-  handle.addEventListener('touchend',onEnd);
-  handle.addEventListener('mousedown',onStart);
-  document.addEventListener('mousemove',onMove);
-  document.addEventListener('mouseup',onEnd);
-}
 </script>
 </body>
 </html>

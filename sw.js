@@ -1,12 +1,3 @@
-/* ══════════════════════════════════════════════════
-   KasiStay Service Worker  v1.0.0
-   Strategy:
-   - App shell (HTML, fonts, FA icons) → Cache-first
-   - Firebase Realtime DB → Network-only (live data)
-   - Cloudinary images → Cache-first with fallback
-   - Everything else → Stale-while-revalidate
-════════════════════════════════════════════════════ */
-
 const CACHE_NAME = 'kasistay-v1';
 const STATIC_CACHE = 'kasistay-static-v1';
 const IMAGE_CACHE  = 'kasistay-images-v1';
@@ -15,8 +6,8 @@ const IMAGE_CACHE  = 'kasistay-images-v1';
 const APP_SHELL = [
   '/index.html',
   '/manifest.json',
-  'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Syne:wght@700;800&display=swap',
-  'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css'
+  'https://i.postimg.cc/cLkWz4RY/icon-192.png',
+  'https://i.postimg.cc/3xqMBfhb/icon-512.png'
 ];
 
 /* ── INSTALL: pre-cache app shell ── */

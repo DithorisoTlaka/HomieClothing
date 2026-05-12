@@ -44,7 +44,7 @@
   --shadow-sm:0 1px 2px 0 rgba(255,255,255,0.05);--shadow-md:0 10px 15px -3px rgba(255,255,255,0.1);
 }
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
-body{background:var(--bg-white);color:var(--text-main);line-height:1.6;min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden;transition:var(--transition);}
+body{background:var(--bg-white);color:var(--text-main);line-height:1.6;min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden;transition:background 0.3s ease,color 0.3s ease;}
 @keyframes fadeIn{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
 @keyframes slideUp{from{transform:translateY(44px);opacity:0;}to{transform:translateY(0);opacity:1;}}
 @keyframes scaleIn{from{opacity:0;transform:scale(0.93) translateY(10px);}to{opacity:1;transform:scale(1) translateY(0);}}
@@ -52,29 +52,34 @@ body{background:var(--bg-white);color:var(--text-main);line-height:1.6;min-heigh
 @keyframes bounceIn{0%{transform:scale(0.7);opacity:0;}60%{transform:scale(1.06);opacity:1;}80%{transform:scale(0.97);}100%{transform:scale(1);}}
 @keyframes spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
 
-nav{display:flex;justify-content:space-between;align-items:center;padding:1rem 5%;position:sticky;top:0;background:var(--primary-black);backdrop-filter:blur(12px);z-index:1000;border-bottom:1px solid var(--border-color);transition:var(--transition);}
+nav{display:flex;justify-content:space-between;align-items:center;padding:1rem 5%;position:sticky;top:0;background:var(--primary-black);backdrop-filter:blur(12px);z-index:1000;border-bottom:1px solid rgba(255,255,255,0.1);transition:background 0.3s ease;}
+.dark-mode nav{background:#111111;border-bottom-color:#333;}
 .logo{font-family:'Inter',sans-serif;font-size:1.5rem;font-weight:800;color:white;letter-spacing:-1px;cursor:pointer;transition:var(--transition);}
 .logo:hover{transform:scale(1.05);}
 .btn{padding:0.75rem 1.5rem;border-radius:50px;font-weight:600;font-size:0.9rem;cursor:pointer;transition:var(--transition);border:none;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;}
-.btn-primary{background:white;color:var(--primary-black);box-shadow:0 4px 14px rgba(0,0,0,0.15);}
-.btn-primary:hover{background:var(--bg-off-white);transform:translateY(-2px);}
+.btn-primary{background:white;color:#111111;box-shadow:0 4px 14px rgba(0,0,0,0.15);}
+.btn-primary:hover{background:#f0fdf4;transform:translateY(-2px);}
 
-.hero{padding:6rem 5% 4rem;text-align:center;background:radial-gradient(circle at top right,#f0fdf4,#ffffff);transition:var(--transition);}
-.dark-mode .hero{background:radial-gradient(circle at top right,#1e1e1e,#121212);}
-.hero h1{font-family:'Syne','Inter',sans-serif;font-size:clamp(2.5rem,5vw,4rem);font-weight:800;margin-bottom:1.5rem;color:var(--primary-black);line-height:1.1;letter-spacing:-2px;}
-.hero p{color:var(--text-muted);font-size:1.2rem;max-width:600px;margin:0 auto 3rem;}
-.search-container{background:white;padding:0.6rem;border-radius:100px;box-shadow:var(--shadow-md);border:1px solid var(--border-color);display:flex;flex-direction:column;gap:0.5rem;max-width:850px;margin:0 auto;transition:var(--transition);}
-.dark-mode .search-container{background:#333;}
+.hero{padding:6rem 5% 4rem;text-align:center;background:radial-gradient(circle at top right,#f0fdf4,#ffffff);transition:background 0.3s ease;}
+.dark-mode .hero{background:radial-gradient(circle at top right,#1a2e22,#121212);}
+.hero h1{font-family:'Syne','Inter',sans-serif;font-size:clamp(2.5rem,5vw,4rem);font-weight:800;margin-bottom:1.5rem;color:#111111;line-height:1.1;letter-spacing:-2px;}
+.dark-mode .hero h1{color:#e0e0e0;}
+.hero p{color:#6b7280;font-size:1.2rem;max-width:600px;margin:0 auto 3rem;}
+.dark-mode .hero p{color:#a0a0a0;}
+.search-container{background:white;padding:0.6rem;border-radius:100px;box-shadow:var(--shadow-md);border:1px solid #e5e7eb;display:flex;flex-direction:column;gap:0.5rem;max-width:850px;margin:0 auto;transition:var(--transition);}
+.dark-mode .search-container{background:#2a2a2a;border-color:#444;}
 .search-container:focus-within{transform:scale(1.025);border-color:var(--accent-green);box-shadow:0 0 0 4px rgba(16,185,129,0.12),var(--shadow-md);}
 @media(min-width:768px){.search-container{flex-direction:row;align-items:center;padding:0.6rem 0.6rem 0.6rem 2.5rem;}}
 .search-input-group{flex:1;display:flex;align-items:center;gap:12px;padding:10px;}
 .search-input-group i{color:var(--accent-green);font-size:1.1rem;}
-.search-input-group input{border:none;outline:none;width:100%;font-size:1rem;color:var(--primary-black);font-weight:500;background:transparent;}
-.dark-mode .search-input-group input{color:white;}
-.search-btn{background:var(--primary-black);color:white;padding:1.1rem 2.5rem;border-radius:40px;font-weight:700;cursor:pointer;border:none;transition:var(--transition);}
+.search-input-group input{border:none;outline:none;width:100%;font-size:1rem;color:#111111;font-weight:500;background:transparent;}
+.dark-mode .search-input-group input{color:#e0e0e0;}
+.dark-mode .search-input-group input::placeholder{color:#666;}
+.search-btn{background:#111111;color:white;padding:1.1rem 2.5rem;border-radius:40px;font-weight:700;cursor:pointer;border:none;transition:var(--transition);}
+.dark-mode .search-btn{background:white;color:#111;}
 .search-btn:hover{background:var(--accent-green);}
 
-.filters{padding:2rem 5%;background:var(--bg-off-white);border-top:1px solid var(--border-color);transition:var(--transition);}
+.filters{padding:2rem 5%;background:var(--bg-off-white);border-top:1px solid var(--border-color);transition:background 0.3s ease,border-color 0.3s ease;}
 .filter-tags-row{display:flex;gap:0.75rem;flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;margin-bottom:2rem;padding-bottom:6px;-webkit-overflow-scrolling:touch;scrollbar-width:none;touch-action:pan-x;}
 .filter-tags-row::-webkit-scrollbar{display:none;}
 @media(min-width:768px){.filter-tags-row{flex-wrap:wrap;justify-content:center;}}
@@ -84,24 +89,24 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:1rem 5
 #pwaInstallBanner.show{transform:translateX(-50%) translateY(0);opacity:1;pointer-events:auto;}
 .pwa-banner-icon{width:44px;height:44px;border-radius:12px;background:#10b981;display:flex;align-items:center;justify-content:center;font-size:1.4rem;font-weight:800;color:white;flex-shrink:0;}
 .pwa-banner-text{flex:1;min-width:0;}
-.pwa-banner-title{font-weight:700;font-size:0.88rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.pwa-banner-title{font-weight:700;font-size:0.88rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:white;}
 .pwa-banner-sub{font-size:0.72rem;color:rgba(255,255,255,0.55);margin-top:2px;}
 .pwa-banner-install{background:#10b981;color:white;border:none;border-radius:50px;padding:8px 16px;font-weight:700;font-size:0.8rem;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:transform 0.2s ease,background 0.2s ease;}
 .pwa-banner-install:active{transform:scale(0.95);background:#059669;}
 .pwa-banner-close{background:transparent;border:none;color:rgba(255,255,255,0.45);font-size:1rem;cursor:pointer;padding:4px;flex-shrink:0;line-height:1;}
 @media(min-width:768px){#pwaInstallBanner{bottom:24px;}}
 
-.filter-tag{padding:0.6rem 1.4rem;border:1px solid var(--border-color);border-radius:50px;font-size:0.9rem;font-weight:500;cursor:pointer;transition:transform 0.2s cubic-bezier(0.34,1.56,0.64,1),background 0.22s ease,border-color 0.22s ease,box-shadow 0.22s ease;background:white;}
-.dark-mode .filter-tag{background:#333;color:var(--text-main);}
-.filter-tag:hover{border-color:var(--primary-black);transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,0.1);}
-.filter-tag.active{background:var(--primary-black);color:white;border-color:var(--primary-black);transform:scale(1.04);box-shadow:0 4px 14px rgba(0,0,0,0.18);}
-.dark-mode .filter-tag.active{background:white;color:#111;border-color:white;}
-.price-range-wrapper{background:white;padding:1.5rem;border-radius:16px;border:1px solid var(--border-color);max-width:500px;margin:0 auto;box-shadow:var(--shadow-sm);}
-.dark-mode .price-range-wrapper{background:#1e1e1e;}
+.filter-tag{padding:0.6rem 1.4rem;border:1px solid var(--border-color);border-radius:50px;font-size:0.9rem;font-weight:500;cursor:pointer;transition:transform 0.2s cubic-bezier(0.34,1.56,0.64,1),background 0.22s ease,border-color 0.22s ease,box-shadow 0.22s ease;background:white;color:#1f2937;}
+.dark-mode .filter-tag{background:#2a2a2a;color:#e0e0e0;border-color:#444;}
+.filter-tag:hover{border-color:#111111;transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,0.1);}
+.dark-mode .filter-tag:hover{border-color:#888;}
+.filter-tag.active{background:#111111;color:white;border-color:#111111;transform:scale(1.04);box-shadow:0 4px 14px rgba(0,0,0,0.18);}
+.dark-mode .filter-tag.active{background:#10b981;color:white;border-color:#10b981;}
+.price-range-wrapper{background:white;padding:1.5rem;border-radius:16px;border:1px solid #e5e7eb;max-width:500px;margin:0 auto;box-shadow:var(--shadow-sm);}
+.dark-mode .price-range-wrapper{background:#1e1e1e;border-color:#333;}
 .price-range-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;}
 .price-range-header span:first-child{font-weight:600;color:var(--text-muted);font-size:0.9rem;}
-.price-display{background:var(--bg-off-white);padding:0.4rem 0.8rem;border-radius:8px;font-weight:700;font-size:0.9rem;color:var(--primary-black);border:1px solid var(--border-color);}
-.dark-mode .price-display{background:#333;color:white;}
+.price-display{background:var(--bg-off-white);padding:0.4rem 0.8rem;border-radius:8px;font-weight:700;font-size:0.9rem;color:var(--text-main);border:1px solid var(--border-color);}
 .range-slider-container{position:relative;height:6px;background:#e5e7eb;border-radius:5px;margin:0 10px;}
 .dark-mode .range-slider-container{background:#444;}
 .range-selected{height:100%;position:absolute;border-radius:5px;background-color:var(--accent-green);}
@@ -111,7 +116,7 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:1rem 5
 .range-input input::-moz-range-thumb{height:20px;width:20px;border-radius:50%;background:#fff;border:2px solid var(--accent-green);pointer-events:auto;-moz-appearance:none;cursor:pointer;}
 
 .section-header{padding:3rem 5% 1rem;}
-.section-header h2{font-size:1.75rem;font-weight:800;letter-spacing:-0.5px;}
+.section-header h2{font-size:1.75rem;font-weight:800;letter-spacing:-0.5px;color:var(--text-main);}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:2.5rem;padding:0 5% 5rem;}
 
 /* ── SKELETON LOADING CARDS ── */
@@ -126,28 +131,29 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:1rem 5
 .skeleton-line.medium{width:80%;}
 
 .card{background:white;border-radius:24px;overflow:hidden;border:1px solid var(--border-color);transition:transform 0.35s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.35s ease,border-color 0.25s ease;position:relative;animation:scaleIn 0.5s cubic-bezier(0.22,1,0.36,1) forwards;opacity:0;}
-.dark-mode .card{background:#1e1e1e;}
+.dark-mode .card{background:#1e1e1e;border-color:#333;}
 .card:hover{transform:translateY(-12px) scale(1.01);box-shadow:0 24px 48px -8px rgba(0,0,0,0.14);border-color:var(--accent-green);}
 .card-image{height:240px;width:100%;position:relative;overflow:hidden;background:#f3f4f6;}
-.dark-mode .card-image{background:#333;}
+.dark-mode .card-image{background:#2a2a2a;}
 .card-image img{width:100%;height:100%;object-fit:cover;transition:0.5s ease;}
 .card:hover .card-image img{transform:scale(1.1);}
-.badge{position:absolute;top:15px;left:15px;background:rgba(255,255,255,0.9);padding:6px 12px;border-radius:10px;font-size:0.7rem;font-weight:800;backdrop-filter:blur(4px);display:flex;align-items:center;gap:5px;}
-.dark-mode .badge{background:rgba(0,0,0,0.9);color:white;}
+.badge{position:absolute;top:15px;left:15px;background:rgba(255,255,255,0.9);padding:6px 12px;border-radius:10px;font-size:0.7rem;font-weight:800;backdrop-filter:blur(4px);display:flex;align-items:center;gap:5px;color:#111;}
+.dark-mode .badge{background:rgba(0,0,0,0.85);color:white;}
 .badge-premium-verified{background:linear-gradient(90deg,#f59e0b,#d97706)!important;color:white!important;box-shadow:0 2px 8px rgba(245,158,11,0.3);}
 .card-content{padding:1.5rem;}
-.price{font-size:1.4rem;font-weight:800;color:var(--primary-black);}
+.price{font-size:1.4rem;font-weight:800;color:#111111;}
+.dark-mode .price{color:#e0e0e0;}
 .price span{font-size:0.9rem;color:var(--text-muted);font-weight:400;}
-.card-title{font-weight:700;font-size:1.15rem;margin:0.5rem 0;}
+.card-title{font-weight:700;font-size:1.15rem;margin:0.5rem 0;color:var(--text-main);}
 .card-location{color:var(--text-muted);font-size:0.9rem;margin-bottom:1.2rem;display:flex;align-items:center;gap:6px;cursor:pointer;transition:var(--transition);}
 .card-location:hover{color:var(--accent-green);}
 .amenities{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.5rem;}
 .amenity{font-size:0.75rem;font-weight:600;color:var(--text-main);background:#f3f4f6;padding:5px 12px;border-radius:8px;}
-.dark-mode .amenity{background:#333;}
-.card-btn{width:100%;padding:12px;border:2px solid var(--primary-black);background:transparent;color:var(--primary-black);border-radius:14px;font-weight:700;cursor:pointer;transition:var(--transition);}
-.dark-mode .card-btn{border-color:white;color:white;}
-.card-btn:hover{background:var(--primary-black);color:white;}
-.dark-mode .card-btn:hover{background:white;color:#111;}
+.dark-mode .amenity{background:#2c2c2e;color:#d0d0d0;}
+.card-btn{width:100%;padding:12px;border:2px solid #111111;background:transparent;color:#111111;border-radius:14px;font-weight:700;cursor:pointer;transition:var(--transition);}
+.dark-mode .card-btn{border-color:#e0e0e0;color:#e0e0e0;}
+.card-btn:hover{background:#111111;color:white;}
+.dark-mode .card-btn:hover{background:#e0e0e0;color:#111;}
 .rating-stars{display:flex;gap:4px;color:#eab308;}
 .rating-stars i{font-size:0.9rem;}
 .like-counter-badge{position:absolute;top:15px;right:15px;background:rgba(0,0,0,0.6);color:white;padding:4px 10px;border-radius:20px;font-size:0.72rem;font-weight:700;display:flex;align-items:center;gap:4px;backdrop-filter:blur(4px);}
@@ -157,71 +163,63 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:1rem 5
 .empty-state{grid-column:1/-1;text-align:center;padding:5rem 2rem;}
 .empty-state i{font-size:3.5rem;color:#e5e7eb;margin-bottom:1rem;display:block;}
 .dark-mode .empty-state i{color:#333;}
-.empty-state h3{font-size:1.4rem;font-weight:700;margin-bottom:0.5rem;}
+.empty-state h3{font-size:1.4rem;font-weight:700;margin-bottom:0.5rem;color:var(--text-main);}
 .empty-state p{color:var(--text-muted);margin-bottom:2rem;font-size:1rem;}
 
 /* MODALS */
-.modal-content{background:white;width:90%;max-width:480px;border-radius:24px;overflow:hidden;box-shadow:var(--shadow-md);position:relative;animation:bounceIn 0.45s cubic-bezier(0.22,1,0.36,1);transition:var(--transition);}
+.modal-content{background:white;width:90%;max-width:480px;border-radius:24px;overflow:hidden;box-shadow:var(--shadow-md);position:relative;animation:bounceIn 0.45s cubic-bezier(0.22,1,0.36,1);transition:background 0.3s ease;}
+.dark-mode .modal-content{background:#1e1e1e;color:#e0e0e0;}
 .modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0);backdrop-filter:blur(0px);z-index:2000;align-items:center;justify-content:center;transition:background 0.3s ease,backdrop-filter 0.3s ease;}
 .modal-overlay.active{display:flex;background:rgba(0,0,0,0.55);backdrop-filter:blur(10px);}
-.dark-mode .modal-content{background:#1e1e1e;}
-.modal-header{padding:1.5rem 2rem;border-bottom:1px solid var(--border-color);font-size:1.25rem;font-weight:700;text-align:center;}
+.modal-header{padding:1.5rem 2rem;border-bottom:1px solid var(--border-color);font-size:1.25rem;font-weight:700;text-align:center;color:var(--text-main);}
 .modal-body{padding:2rem;}
 .modal-success{text-align:center;padding:3rem 2rem;}
 .modal-success i{font-size:4rem;color:var(--accent-green);margin-bottom:1.5rem;}
-.modal-success h2{font-size:1.6rem;margin-bottom:1rem;}
+.modal-success h2{font-size:1.6rem;margin-bottom:1rem;color:var(--text-main);}
 .modal-success p{color:var(--text-muted);margin-bottom:2rem;}
 .progress-modal-content{width:90%;max-width:420px;background:white;border-radius:20px;padding:2rem;text-align:center;}
 .dark-mode .progress-modal-content{background:#1e1e1e;}
 .progress-bar-container{height:8px;background:#eee;border-radius:4px;margin:1.5rem 0;overflow:hidden;}
 .dark-mode .progress-bar-container{background:#333;}
 .progress-bar{height:100%;width:0%;background:var(--accent-green);transition:width 0.4s ease;}
-.progress-text{font-weight:600;margin-bottom:1rem;}
+.progress-text{font-weight:600;margin-bottom:1rem;color:var(--text-main);}
+.dark-mode #progressStatus{color:#a0a0a0;}
 
 #signInModal .modal-content{max-width:380px;padding:0;}
 #signInModal .modal-header{padding:1.75rem 1.5rem 1rem;border-bottom:none;text-align:center;}
 #signInModal .modal-body{padding:1.5rem 1.5rem 2rem;}
 #signInModal input{width:100%;padding:14px 16px;border:1.5px solid var(--border-color);border-radius:12px;font-size:1rem;margin-bottom:1rem;transition:var(--transition);background:var(--bg-white);color:var(--text-main);}
+.dark-mode #signInModal input{background:#2c2c2e;border-color:#3a3a3c;color:#e0e0e0;}
+.dark-mode #signInModal input::placeholder{color:#666;}
 #signInModal input:focus{border-color:var(--accent-green);outline:none;box-shadow:0 0 0 3px rgba(16,185,129,0.1);}
-.dark-mode #signInModal input{background:#2c2c2e;border-color:#3a3a3c;color:white;}
-#signInModal .sign-in-btn{width:100%;padding:14px;background:var(--primary-black);color:white;border:none;border-radius:50px;font-weight:700;font-size:1.05rem;margin:1rem 0 1.25rem;cursor:pointer;transition:var(--transition);}
-.dark-mode #signInModal .sign-in-btn{background:white;color:#111;}
-#signInModal .sign-in-btn:hover{background:var(--accent-green);}
-#signInModal .google-btn{width:100%;padding:14px 16px;border-radius:50px;margin-top:12px;background:white;color:#1f2937;border:1.5px solid #e2e4e7;font-weight:700;font-size:0.92rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:all 0.2s ease;box-shadow:0 2px 8px rgba(0,0,0,0.08);position:relative;overflow:hidden;}
-#signInModal .google-btn:hover{box-shadow:0 4px 14px rgba(0,0,0,0.12);transform:translateY(-1px);}
-#signInModal .google-btn:active{transform:scale(0.97);}
-#signInModal .google-btn .google-logo{width:20px;height:20px;flex-shrink:0;display:block;}
-.dark-mode #signInModal .google-btn{background:#2c2c2e;color:white;border-color:#3a3a3c;}
-#signInModal .or-divider{text-align:center;margin:1.25rem 0;color:var(--text-muted);font-size:0.9rem;position:relative;}
-#signInModal .or-divider::before{content:'';position:absolute;top:50%;left:0;right:0;height:1px;background:var(--border-color);}
-#signInModal .or-divider span{background:white;padding:0 12px;}
-.dark-mode #signInModal .or-divider span{background:#1e1e1e;}
 
-footer{background:var(--primary-black);color:white;padding:5rem 5% 2rem;text-align:center;transition:var(--transition);}
+footer{background:#111111;color:white;padding:5rem 5% 2rem;text-align:center;transition:background 0.3s ease;}
+.dark-mode footer{background:#0a0a0a;}
 .footer-links{display:flex;gap:2.5rem;justify-content:center;margin:2rem 0;}
 .footer-links a{color:#9ca3af;text-decoration:none;font-size:0.95rem;transition:0.3s;}
 .footer-links a:hover{color:white;}
 .copyright{border-top:1px solid #222;padding-top:2rem;color:#4b5563;font-size:0.85rem;}
+.dark-mode .copyright{color:#555;}
 
 /* DESKTOP DETAIL MODAL */
 @media(min-width:768px){#detailModal .modal-content{max-width:900px;}}
 #detailModal .modal-content{width:90%;max-width:420px;max-height:90vh;display:flex;flex-direction:column;overflow:hidden;}
 #detailModal .modal-gallery{width:100%;height:300px;position:relative;background:#f3f4f6;flex-shrink:0;}
-.dark-mode #detailModal .modal-gallery{background:#333;}
+.dark-mode #detailModal .modal-gallery{background:#2a2a2a;}
 #detailModal .modal-main-image{width:100%;height:100%;object-fit:cover;}
 #detailModal .modal-thumbnails{display:flex;gap:8px;padding:12px;overflow-x:auto;background:white;border-bottom:1px solid var(--border-color);}
-.dark-mode #detailModal .modal-thumbnails{background:#1e1e1e;}
+.dark-mode #detailModal .modal-thumbnails{background:#1e1e1e;border-bottom-color:#333;}
 #detailModal .modal-thumbnail{width:80px;height:60px;border-radius:8px;object-fit:cover;cursor:pointer;border:2px solid transparent;transition:var(--transition);flex-shrink:0;}
 #detailModal .modal-thumbnail:hover,#detailModal .modal-thumbnail.active{border-color:var(--accent-green);}
 #detailModal .gallery-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.9);border:none;width:40px;height:40px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10;transition:var(--transition);}
 #detailModal .gallery-nav:hover{background:white;transform:translateY(-50%) scale(1.05);}
-.dark-mode #detailModal .gallery-nav{background:rgba(0,0,0,0.9);color:white;}
+.dark-mode #detailModal .gallery-nav{background:rgba(0,0,0,0.85);color:white;}
 #detailModal .gallery-nav.prev{left:12px;}
 #detailModal .gallery-nav.next{right:12px;}
 #detailModal .modal-body{padding:1.25rem;overflow-y:auto;flex:1;}
 #detailModal .modal-header-info{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.75rem;}
-#detailModal .modal-title{font-size:1.25rem;font-weight:800;margin:0;line-height:1.3;flex:1;padding-right:1rem;}
-#detailModal .modal-price{font-size:1.1rem;font-weight:800;color:var(--primary-black);white-space:nowrap;}
+#detailModal .modal-title{font-size:1.25rem;font-weight:800;margin:0;line-height:1.3;flex:1;padding-right:1rem;color:var(--text-main);}
+#detailModal .modal-price{font-size:1.1rem;font-weight:800;color:var(--text-main);white-space:nowrap;}
 #detailModal .modal-price span{font-size:0.75rem;color:var(--text-muted);font-weight:400;}
 #detailModal .modal-meta{display:flex;flex-direction:column;gap:0.4rem;color:var(--text-muted);font-size:0.85rem;margin-bottom:1rem;}
 #detailModal .modal-meta span{display:flex;align-items:center;gap:0.5rem;}
@@ -232,31 +230,31 @@ footer{background:var(--primary-black);color:white;padding:5rem 5% 2rem;text-ali
 #detailModal .modal-amenities{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:1.25rem;}
 #detailModal .modal-amenities .amenity{font-size:0.7rem;padding:4px 10px;}
 #detailModal .landlord-box{background:#f9fafb;padding:1rem;border-radius:16px;border:1px solid var(--border-color);}
-.dark-mode #detailModal .landlord-box{background:#333;}
+.dark-mode #detailModal .landlord-box{background:#2c2c2e;border-color:#444;}
 #detailModal .landlord-header{display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem;}
 #detailModal .landlord-avatar{width:40px;height:40px;border-radius:50%;background:var(--accent-green);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:1rem;}
 #detailModal .landlord-info{flex:1;}
-#detailModal .landlord-name{font-weight:700;color:var(--primary-black);font-size:0.95rem;}
+#detailModal .landlord-name{font-weight:700;color:var(--text-main);font-size:0.95rem;}
 #detailModal .landlord-status{font-size:0.75rem;color:var(--accent-green);font-weight:600;display:flex;align-items:center;gap:0.25rem;}
 #detailModal .contact-buttons{display:flex;gap:8px;}
 #detailModal .contact-btn{flex:1;padding:0.75rem;border-radius:12px;font-weight:600;font-size:0.85rem;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:0.4rem;transition:var(--transition);}
 #detailModal .contact-btn.whatsapp{background:#25D366;color:white;}
 #detailModal .contact-btn.whatsapp:hover{background:#128C7E;}
-#detailModal .contact-btn.call{background:var(--primary-black);color:white;}
+#detailModal .contact-btn.call{background:#111111;color:white;}
 .dark-mode #detailModal .contact-btn.call{background:#333;}
 #detailModal .contact-btn.call:hover{background:#333;}
 #detailModal .close-modal{position:absolute;top:12px;right:12px;background:rgba(255,255,255,0.95);border:none;width:36px;height:36px;border-radius:50%;cursor:pointer;box-shadow:var(--shadow-sm);display:flex;align-items:center;justify-content:center;z-index:10;transition:var(--transition);}
-.dark-mode #detailModal .close-modal{background:rgba(0,0,0,0.95);color:white;}
+.dark-mode #detailModal .close-modal{background:rgba(30,30,30,0.95);color:#e0e0e0;}
 #detailModal .close-modal:hover{transform:scale(1.1);}
 .review-section{margin-top:1.5rem;border-top:1px solid var(--border-color);padding-top:1rem;}
 .review-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;}
-.review-header h3{font-size:1rem;font-weight:700;}
-.review-average{display:flex;align-items:center;gap:0.5rem;font-weight:600;}
+.review-header h3{font-size:1rem;font-weight:700;color:var(--text-main);}
+.review-average{display:flex;align-items:center;gap:0.5rem;font-weight:600;color:var(--text-main);}
 .review-list{display:flex;flex-direction:column;gap:1rem;max-height:200px;overflow-y:auto;}
 .review-item{background:#f9fafb;padding:1rem;border-radius:12px;border:1px solid var(--border-color);}
-.dark-mode .review-item{background:#333;}
+.dark-mode .review-item{background:#2c2c2e;border-color:#444;}
 .review-item .review-top{display:flex;justify-content:space-between;margin-bottom:0.5rem;}
-.review-item .review-user{font-weight:600;font-size:0.85rem;}
+.review-item .review-user{font-weight:600;font-size:0.85rem;color:var(--text-main);}
 .review-item .review-date{font-size:0.75rem;color:var(--text-muted);}
 .review-item .review-rating{display:flex;gap:4px;color:#eab308;font-size:0.8rem;}
 .review-item p{font-size:0.85rem;line-height:1.5;color:#4b5563;}
@@ -265,45 +263,24 @@ footer{background:var(--primary-black);color:white;padding:5rem 5% 2rem;text-ali
 .add-review-btn:hover{background:#059669;}
 
 #reviewModal .modal-content{max-width:480px;}
-.dark-mode #reviewModal .modal-content{background:#1e1e1e;}
-#reviewModal .form-group{margin-bottom:1rem;}
-#reviewModal label{font-weight:600;font-size:0.85rem;display:block;margin-bottom:0.4rem;}
-#reviewModal .star-rating{display:flex;gap:8px;justify-content:center;margin-bottom:1rem;}
-#reviewModal .star-rating i{font-size:1.5rem;color:#d1d5db;cursor:pointer;transition:color 0.2s;}
-#reviewModal .star-rating i.selected{color:#eab308;}
-#reviewModal textarea{width:100%;height:100px;padding:0.75rem 1rem;border:1.5px solid var(--border-color);border-radius:12px;font-size:0.95rem;font-family:'Inter',sans-serif;resize:vertical;outline:none;background:var(--bg-white);color:var(--text-main);}
-.dark-mode #reviewModal textarea{background:#2c2c2e;border-color:#3a3a3c;color:white;}
-#reviewModal textarea:focus{border-color:var(--accent-green);box-shadow:0 0 0 3px rgba(16,185,129,0.1);}
+#reviewModal label{color:var(--text-main);}
 
 #mapModal .modal-content{width:95%;max-width:900px;height:80vh;display:flex;flex-direction:column;}
-.dark-mode #mapModal .modal-content{background:#1e1e1e;}
 #mapModal .map-container{flex:1;width:100%;border-radius:0 0 24px 24px;overflow:hidden;}
 #mapModal iframe{width:100%;height:100%;border:none;}
 
 #addModal .modal-content{width:90%;max-width:480px;max-height:90vh;display:flex;flex-direction:column;overflow:hidden;}
-.dark-mode #addModal .modal-content{background:#1e1e1e;}
 #addModal .modal-header{padding:1.25rem 1.5rem;border-bottom:1px solid var(--border-color);display:flex;align-items:center;justify-content:space-between;}
-#addModal .modal-header h2{font-size:1.25rem;font-weight:800;margin:0;}
+#addModal .modal-header h2{font-size:1.25rem;font-weight:800;margin:0;color:var(--text-main);}
 #addModal .close-modal{background:transparent;border:none;width:32px;height:32px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text-muted);transition:var(--transition);}
-#addModal .close-modal:hover{background:var(--bg-off-white);color:var(--primary-black);}
+#addModal .close-modal:hover{background:var(--bg-off-white);}
 #addModal .modal-body{padding:1.5rem;overflow-y:auto;flex:1;}
-#addForm{display:flex;flex-direction:column;gap:1rem;}
-#addForm .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
-#addForm .form-group{display:flex;flex-direction:column;gap:0.4rem;}
-#addForm .form-group.full-width{grid-column:span 2;}
-#addForm label{font-weight:600;font-size:0.85rem;color:var(--text-main);}
-#addForm input[type="text"],#addForm input[type="number"],#addForm select,#addForm textarea{padding:0.75rem 1rem;border:1.5px solid var(--border-color);border-radius:12px;font-size:0.95rem;font-family:'Inter',sans-serif;background:white;transition:var(--transition);outline:none;color:var(--text-main);}
-.dark-mode #addForm input[type="text"],.dark-mode #addForm input[type="number"],.dark-mode #addForm select,.dark-mode #addForm textarea{background:#333;color:white;border-color:#555;}
+#addForm label{color:var(--text-main);}
+#addForm input[type="text"],#addForm input[type="number"],#addForm select,#addForm textarea{padding:0.75rem 1rem;border:1.5px solid var(--border-color);border-radius:12px;font-size:0.95rem;font-family:'Inter',sans-serif;background:var(--bg-white);color:var(--text-main);transition:var(--transition);outline:none;}
+.dark-mode #addForm input[type="text"],.dark-mode #addForm input[type="number"],.dark-mode #addForm select,.dark-mode #addForm textarea{background:#2c2c2e;color:#e0e0e0;border-color:#3a3a3c;}
 #addForm input:focus,#addForm select:focus,#addForm textarea:focus{border-color:var(--accent-green);box-shadow:0 0 0 3px rgba(16,185,129,0.1);}
 #addForm select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b7280' d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center;padding-right:2.5rem;}
 #addForm textarea{resize:vertical;min-height:80px;}
-#addForm .file-upload{position:relative;border:2px dashed var(--border-color);border-radius:12px;padding:1.25rem;text-align:center;transition:var(--transition);cursor:pointer;background:var(--bg-off-white);}
-#addForm .file-upload:hover{border-color:var(--accent-green);background:#f0fdf4;}
-#addForm .file-upload input[type="file"]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
-#addForm .file-upload-icon{font-size:1.5rem;color:var(--accent-green);margin-bottom:0.5rem;}
-#addForm .file-upload-text{font-size:0.85rem;color:var(--text-muted);font-weight:500;}
-#addForm .file-upload-text span{color:var(--accent-green);font-weight:600;}
-#addForm .submit-btn{margin-top:0.5rem;padding:1rem;font-size:1rem;}
 
 /* SHARE */
 .share-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:0.65rem 1.2rem;border-radius:50px;font-weight:600;font-size:0.82rem;border:1.5px solid var(--border-color);background:transparent;color:var(--text-main);cursor:pointer;transition:var(--transition);white-space:nowrap;}
@@ -312,57 +289,76 @@ footer{background:var(--primary-black);color:white;padding:5rem 5% 2rem;text-ali
 .desktop-action-bar{display:flex;align-items:center;gap:10px;margin-top:1rem;flex-wrap:wrap;}
 
 #shareModal .modal-content{max-width:420px;}
-.dark-mode #shareModal .modal-content{background:#1e1e1e;}
 .share-preview-card{border:1px solid var(--border-color);border-radius:16px;overflow:hidden;margin-bottom:1.25rem;box-shadow:0 4px 20px rgba(0,0,0,0.08);}
-.dark-mode .share-preview-card{border-color:#333;}
 .share-preview-img{width:100%;height:180px;object-fit:cover;display:block;}
 .share-preview-body{padding:14px 16px;background:var(--bg-white);}
-.share-preview-title{font-size:1rem;font-weight:700;margin-bottom:4px;line-height:1.3;}
+.share-preview-title{font-size:1rem;font-weight:700;margin-bottom:4px;line-height:1.3;color:var(--text-main);}
 .share-preview-meta{display:flex;align-items:center;justify-content:space-between;}
 .share-preview-price{color:var(--accent-green);font-weight:700;font-size:1rem;}
 .share-preview-location{font-size:0.78rem;color:var(--text-muted);display:flex;align-items:center;gap:4px;}
 .share-link-row{display:flex;gap:8px;margin-bottom:1.25rem;}
 .share-link-input{flex:1;padding:11px 14px;border:1.5px solid var(--border-color);border-radius:12px;font-size:0.82rem;background:var(--bg-off-white);color:var(--text-muted);outline:none;cursor:text;font-family:'Inter',sans-serif;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
 .dark-mode .share-link-input{background:#2c2c2e;border-color:#3a3a3c;color:#a0a0a0;}
-.copy-link-btn{padding:11px 18px;border-radius:12px;background:var(--primary-black);color:white;border:none;font-weight:700;font-size:0.82rem;cursor:pointer;transition:var(--transition);white-space:nowrap;display:flex;align-items:center;gap:6px;}
+.copy-link-btn{padding:11px 18px;border-radius:12px;background:#111111;color:white;border:none;font-weight:700;font-size:0.82rem;cursor:pointer;transition:var(--transition);white-space:nowrap;display:flex;align-items:center;gap:6px;}
 .dark-mode .copy-link-btn{background:white;color:#111;}
 .copy-link-btn:hover{background:var(--accent-green);}
-.copy-link-btn:active{transform:scale(0.96);}
 .share-options-row{display:flex;gap:10px;}
 .share-option-btn{flex:1;padding:12px;border-radius:14px;font-weight:600;font-size:0.82rem;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:var(--transition);}
-.share-option-btn:active{transform:scale(0.96);}
 .share-option-btn.whatsapp{background:#25D366;color:white;}
 .share-option-btn.whatsapp:hover{background:#128C7E;}
 .share-option-btn.native{background:var(--bg-off-white);color:var(--text-main);border:1.5px solid var(--border-color);}
-.dark-mode .share-option-btn.native{background:#2c2c2e;border-color:#3a3a3c;}
+.dark-mode .share-option-btn.native{background:#2c2c2e;border-color:#3a3a3c;color:#e0e0e0;}
 .share-option-btn.native:hover{border-color:var(--accent-green);color:var(--accent-green);}
 
 /* SIMILAR LISTINGS */
 .similar-section{border-top:1px solid var(--border-color);padding-top:1rem;margin-top:1.5rem;}
-.similar-section-title{font-size:0.88rem;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:6px;}
+.similar-section-title{font-size:0.88rem;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:6px;color:var(--text-main);}
 .similar-section-title i{color:var(--accent-green);font-size:0.82rem;}
 .similar-scroll{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
 .similar-scroll::-webkit-scrollbar{display:none;}
 .similar-card{flex-shrink:0;width:150px;border-radius:14px;overflow:hidden;border:1px solid var(--border-color);background:var(--bg-white);cursor:pointer;transition:transform 0.2s ease,box-shadow 0.2s ease;}
 .dark-mode .similar-card{background:#2c2c2e;border-color:#3a3a3c;}
 .similar-card:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(0,0,0,0.12);}
-.similar-card:active{transform:scale(0.97);}
 .similar-card-img{width:100%;height:90px;object-fit:cover;display:block;}
 .similar-card-body{padding:8px 10px;}
-.similar-card-title{font-size:0.72rem;font-weight:700;line-height:1.25;margin-bottom:3px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.similar-card-title{font-size:0.72rem;font-weight:700;line-height:1.25;margin-bottom:3px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;color:var(--text-main);}
 .similar-card-price{font-size:0.7rem;color:var(--accent-green);font-weight:700;}
 .similar-card-type{font-size:0.62rem;color:var(--text-muted);margin-top:1px;}
 .similar-empty{font-size:0.78rem;color:var(--text-muted);padding:8px 0;font-style:italic;}
 
 /* COPY TOAST */
 .copy-toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(10px);background:#111;color:white;padding:10px 20px;border-radius:50px;font-size:0.82rem;font-weight:600;z-index:9999;opacity:0;transition:opacity 0.25s ease,transform 0.25s ease;pointer-events:none;display:flex;align-items:center;gap:8px;}
+.dark-mode .copy-toast{background:#333;color:#e0e0e0;}
 .copy-toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* ── MAP PAGE STYLES ── */
+#mapPageView{position:relative;overflow:hidden;}
+#mapLeaflet{width:100%;height:100%;z-index:1;}
+.map-pin-wrapper{position:absolute;transform:translate(-50%,-100%);z-index:10;cursor:pointer;transition:transform 0.15s ease;}
+.map-pin-wrapper:active{transform:translate(-50%,-100%) scale(0.93);}
+.map-pin-bubble{background:var(--bg-white);color:var(--text-main);border:1.5px solid var(--border-color);border-radius:20px;padding:4px 9px;font-size:0.68rem;font-weight:700;white-space:nowrap;box-shadow:0 4px 14px rgba(0,0,0,0.18);max-width:120px;overflow:hidden;text-overflow:ellipsis;text-align:center;line-height:1.3;}
+.dark-mode .map-pin-bubble{background:#1e1e1e;color:#e0e0e0;border-color:#444;box-shadow:0 4px 14px rgba(0,0,0,0.55);}
+.map-pin-bubble.selected{background:#10b981;color:white;border-color:#10b981;box-shadow:0 4px 18px rgba(16,185,129,0.45);}
+.map-pin-tail{width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:8px solid var(--border-color);margin:0 auto;margin-top:-1px;}
+.map-pin-tail.selected{border-top-color:#10b981;}
+.dark-mode .map-pin-tail{border-top-color:#444;}
+#mapPageContainer{width:100%;height:100%;position:relative;}
+#mapLoadingOverlay{position:absolute;inset:0;background:var(--bg-off-white);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:20;}
+.dark-mode #mapLoadingOverlay{background:#1a1a1a;}
+#mapLoadingOverlay span{font-size:0.85rem;color:var(--text-muted);font-weight:500;margin-top:14px;}
+
+/* Map property card */
+#mapPropertyCard{display:none;position:absolute;bottom:16px;left:12px;right:12px;z-index:20;background:var(--bg-white);border-radius:18px;box-shadow:0 8px 32px rgba(0,0,0,0.2);border:1px solid var(--border-color);overflow:hidden;animation:slideUp 0.32s cubic-bezier(0.34,1.56,0.64,1);}
+.dark-mode #mapPropertyCard{background:#1e1e1e;border-color:#333;}
+#mapCardTitle{font-weight:700;font-size:0.88rem;line-height:1.3;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--text-main);}
+#mapCardLocation{font-size:0.72rem;color:var(--text-muted);display:flex;align-items:center;gap:4px;margin-bottom:5px;}
+#mapCardPrice{color:var(--accent-green);font-weight:700;font-size:0.9rem;}
 
 /* ── MOBILE ── */
 @media(max-width:767px){
-  nav{justify-content:center;height:64px;border-bottom:none;background:var(--primary-black);}
+  nav{justify-content:center;height:64px;border-bottom:none;background:#111111!important;}
   .nav-btn-container{display:none;}
-  .logo{font-size:1.8rem;margin:0;color:white;}
+  .logo{font-size:1.8rem;margin:0;color:white!important;}
   .hero{display:none;}
   footer{display:none;}
 
@@ -371,34 +367,28 @@ footer{background:var(--primary-black);color:white;padding:5rem 5% 2rem;text-ali
   #profilePageView{display:none;padding-bottom:100px;animation:fadeIn 0.3s ease;}
   #profilePageView.active{display:block;}
 
-  .mobile-search-wrapper{background:white;border-radius:20px;padding:1rem;box-shadow:var(--shadow-md);border:1px solid var(--border-color);margin-bottom:2rem;}
-  .dark-mode .mobile-search-wrapper{background:#333;}
-  .mobile-search-wrapper .search-input-group{border-bottom:1px solid #eee;margin-bottom:10px;}
-  .dark-mode .mobile-search-wrapper .search-input-group{border-bottom:1px solid #444;}
+  .mobile-search-wrapper{background:var(--bg-white);border-radius:20px;padding:1rem;box-shadow:var(--shadow-md);border:1px solid var(--border-color);margin-bottom:2rem;}
+  .mobile-search-wrapper .search-input-group{border-bottom:1px solid var(--border-color);margin-bottom:10px;}
   .mobile-search-wrapper .search-input-group:last-child{border-bottom:none;margin-bottom:0;}
-  .dark-mode nav{background:#111111!important;}
-  .mobile-filter-row .filter-tag.active{background:var(--accent-green)!important;color:white!important;border-color:var(--accent-green)!important;}
-  .home-price-range .price-range-wrapper{box-shadow:0 15px 35px -10px rgba(0,0,0,0.18)!important;border:none!important;}
-  .dark-mode .sheet-contact-btn.call{background:#111111!important;color:white!important;}
 
-  .mobile-home-search{margin:10px 12px 0;background:white;border-radius:18px;box-shadow:0 2px 16px rgba(0,0,0,0.09);border:1px solid var(--border-color);overflow:hidden;transition:border-color 0.2s,box-shadow 0.2s;}
+  .mobile-home-search{margin:10px 12px 0;background:var(--bg-white);border-radius:18px;box-shadow:0 2px 16px rgba(0,0,0,0.09);border:1px solid var(--border-color);overflow:hidden;transition:border-color 0.2s,box-shadow 0.2s;}
   .dark-mode .mobile-home-search{background:#1e1e1e;border-color:#333;}
   .mobile-home-search:focus-within{border-color:var(--accent-green);box-shadow:0 2px 20px rgba(16,185,129,0.13);}
   .mobile-home-search-inner{display:flex;align-items:center;gap:10px;padding:13px 16px;}
   .mobile-home-search-inner i.search-icon{color:var(--accent-green);font-size:1rem;flex-shrink:0;}
   .mobile-home-search-inner input{border:none;outline:none;background:transparent;font-size:0.92rem;color:var(--text-main);flex:1;font-family:'Inter',sans-serif;font-weight:500;}
   .mobile-home-search-inner input::placeholder{color:var(--text-muted);font-weight:400;}
-  .mobile-home-search-btn{width:calc(100% - 20px);padding:12px;background:var(--primary-black);color:white;border:none;border-radius:50px;font-weight:700;font-size:0.9rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin:0 10px 10px;transition:background 0.2s;}
+  .mobile-home-search-btn{width:calc(100% - 20px);padding:12px;background:#111111;color:white;border:none;border-radius:50px;font-weight:700;font-size:0.9rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin:0 10px 10px;transition:background 0.2s;}
   .mobile-home-search-btn:active{background:var(--accent-green);}
   .dark-mode .mobile-home-search-btn{background:white;color:#111;}
 
-  .bottom-nav{display:flex;justify-content:space-around;align-items:center;position:fixed;bottom:0;left:0;right:0;width:100%;background:var(--bg-white);border-top:1px solid var(--border-color);padding:8px 0 20px;z-index:1000;transition:var(--transition);}
-  .dark-mode .bottom-nav{background:#1a1a1a;border-top:1px solid #333;}
-  .bottom-nav-item{display:flex;flex-direction:column;align-items:center;justify-content:center;color:#b0b0b0;cursor:pointer;padding:4px 16px;transition:color 0.2s ease;gap:4px;background:transparent;flex:1;}
+  .bottom-nav{display:flex;justify-content:space-around;align-items:center;position:fixed;bottom:0;left:0;right:0;width:100%;background:var(--bg-white);border-top:1px solid var(--border-color);padding:8px 0 20px;z-index:1000;transition:background 0.3s ease,border-color 0.3s ease;}
+  .dark-mode .bottom-nav{background:#1a1a1a;border-top-color:#333;}
+  .bottom-nav-item{display:flex;flex-direction:column;align-items:center;justify-content:center;color:#b0b0b0;cursor:pointer;padding:4px 0;transition:color 0.2s ease;gap:4px;background:transparent;flex:1;border:none;}
   .dark-mode .bottom-nav-item{color:#666;}
   .bottom-nav-item i{font-size:1.35rem;}
-  .bottom-nav-item span{font-size:0.7rem;font-weight:500;display:block;white-space:nowrap;}
-  .bottom-nav-item.active{color:var(--primary-black);background:transparent;}
+  .bottom-nav-item span{font-size:0.68rem;font-weight:500;display:block;white-space:nowrap;}
+  .bottom-nav-item.active{color:#111111;}
   .dark-mode .bottom-nav-item.active{color:white;}
 
   /* Mobile grid — Instagram style */
@@ -442,9 +432,11 @@ footer{background:var(--primary-black);color:white;padding:5rem 5% 2rem;text-ali
   .mobile-filter-row{display:block;overflow-x:auto;padding:0 10px;margin:8px 0 4px;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
   .mobile-filter-row::-webkit-scrollbar{display:none;}
   .mobile-filter-row .filter-tags-row{flex-wrap:nowrap;justify-content:flex-start;white-space:nowrap;gap:6px;}
-  .mobile-filter-row .filter-tag{padding:5px 12px;font-size:0.75rem;border-color:#ddd;background:white;border-radius:50px;flex-shrink:0;}
-  .dark-mode .mobile-filter-row .filter-tag{background:#2a2a2a;border-color:#444;}
+  .mobile-filter-row .filter-tag{padding:5px 12px;font-size:0.75rem;border-color:#ddd;background:white;border-radius:50px;flex-shrink:0;color:#1f2937;}
+  .dark-mode .mobile-filter-row .filter-tag{background:#2a2a2a;border-color:#444;color:#e0e0e0;}
+  .mobile-filter-row .filter-tag.active{background:#10b981!important;color:white!important;border-color:#10b981!important;}
   .home-price-range{padding:0 12px;margin-bottom:6px;}
+  .home-price-range .price-range-wrapper{box-shadow:0 15px 35px -10px rgba(0,0,0,0.18)!important;border:none!important;}
 
   /* Mobile skeleton */
   .grid .skeleton-card{background:transparent;border:none;border-radius:0;display:flex;flex-direction:column;gap:6px;}
@@ -456,7 +448,6 @@ footer{background:var(--primary-black);color:white;padding:5rem 5% 2rem;text-ali
   #detailModal{display:none!important;}
 
   @keyframes sheetFadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
-  @keyframes sheetScaleIn{from{opacity:0;transform:scale(0.94);}to{opacity:1;transform:scale(1);}}
 
   #mobileSheetBackdrop{position:fixed;inset:0;background:rgba(0,0,0,0);z-index:2999;display:none;transition:background 0.35s ease;-webkit-backdrop-filter:blur(0px);backdrop-filter:blur(0px);}
   #mobileSheetBackdrop.open{display:block;background:rgba(0,0,0,0.5);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);}
@@ -473,7 +464,7 @@ footer{background:var(--primary-black);color:white;padding:5rem 5% 2rem;text-ali
   .dark-mode .sheet-gallery{background:#2a2a2a;}
   .sheet-main-image{width:100%;height:100%;object-fit:cover;display:block;transition:opacity 0.22s ease;}
   .sheet-main-image.switching{opacity:0;}
-  .sheet-gallery-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.93);border:none;width:32px;height:32px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:5;font-size:0.78rem;box-shadow:0 2px 8px rgba(0,0,0,0.15);transition:transform 0.15s ease,background 0.15s ease;}
+  .sheet-gallery-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.93);border:none;width:32px;height:32px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:5;font-size:0.78rem;box-shadow:0 2px 8px rgba(0,0,0,0.15);transition:transform 0.15s ease;}
   .sheet-gallery-nav:active{transform:translateY(-50%) scale(0.9);}
   .dark-mode .sheet-gallery-nav{background:rgba(28,28,30,0.92);color:white;}
   .sheet-gallery-nav.prev{left:10px;}
@@ -484,8 +475,8 @@ footer{background:var(--primary-black);color:white;padding:5rem 5% 2rem;text-ali
 
   .sheet-body{padding:14px 16px 90px;overflow-y:auto;flex:1;-webkit-overflow-scrolling:touch;}
   .sheet-title-row{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;}
-  .sheet-title{font-size:1.08rem;font-weight:800;flex:1;padding-right:10px;line-height:1.3;letter-spacing:-0.3px;}
-  .sheet-price{font-size:0.95rem;font-weight:700;white-space:nowrap;}
+  .sheet-title{font-size:1.08rem;font-weight:800;flex:1;padding-right:10px;line-height:1.3;letter-spacing:-0.3px;color:var(--text-main);}
+  .sheet-price{font-size:0.95rem;font-weight:700;white-space:nowrap;color:var(--text-main);}
   .sheet-price span{font-size:0.7rem;font-weight:400;color:var(--text-muted);}
   .sheet-meta{display:flex;flex-direction:column;gap:3px;margin-bottom:12px;}
   .sheet-meta span{font-size:0.82rem;color:var(--text-muted);display:flex;align-items:center;gap:6px;}
@@ -495,7 +486,7 @@ footer{background:var(--primary-black);color:white;padding:5rem 5% 2rem;text-ali
   .dark-mode .sheet-desc{color:#a0a0a0;}
   .sheet-amenities{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;}
   .sheet-amenity{font-size:0.7rem;font-weight:600;background:#f3f4f6;color:var(--text-main);padding:4px 10px;border-radius:8px;}
-  .dark-mode .sheet-amenity{background:#2c2c2e;}
+  .dark-mode .sheet-amenity{background:#2c2c2e;color:#d0d0d0;}
   .sheet-landlord{background:var(--bg-off-white);padding:12px;border-radius:14px;border:1px solid var(--border-color);margin-bottom:14px;}
   .dark-mode .sheet-landlord{background:#2c2c2e;border-color:#3a3a3c;}
   .sheet-landlord-header{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
@@ -506,16 +497,17 @@ footer{background:var(--primary-black);color:white;padding:5rem 5% 2rem;text-ali
   .sheet-contact-btn{flex:1;padding:11px;border-radius:50px;font-weight:600;font-size:0.82rem;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:6px;transition:transform 0.15s ease,opacity 0.15s ease;}
   .sheet-contact-btn:active{transform:scale(0.96);opacity:0.85;}
   .sheet-contact-btn.wa{background:#25D366;color:white;}
-  .sheet-contact-btn.call{background:var(--primary-black);color:white;}
+  .sheet-contact-btn.call{background:#111111;color:white;}
+  .dark-mode .sheet-contact-btn.call{background:#333333!important;color:white!important;}
   .sheet-review-section{border-top:1px solid var(--border-color);padding-top:12px;}
   .sheet-review-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
-  .sheet-review-hdr h3{font-size:0.88rem;font-weight:700;}
+  .sheet-review-hdr h3{font-size:0.88rem;font-weight:700;color:var(--text-main);}
   .sheet-review-avg{display:flex;align-items:center;gap:5px;font-size:0.78rem;font-weight:600;}
   .sheet-review-list{display:flex;flex-direction:column;gap:8px;margin-bottom:12px;}
   .sheet-review-item{background:var(--bg-off-white);padding:10px;border-radius:10px;border:1px solid var(--border-color);}
   .dark-mode .sheet-review-item{background:#2c2c2e;border-color:#3a3a3c;}
   .sheet-ri-top{display:flex;justify-content:space-between;margin-bottom:4px;}
-  .sheet-ri-user{font-weight:600;font-size:0.78rem;}
+  .sheet-ri-user{font-weight:600;font-size:0.78rem;color:var(--text-main);}
   .sheet-ri-date{font-size:0.68rem;color:var(--text-muted);}
   .sheet-ri-stars{display:flex;gap:2px;color:#eab308;font-size:0.7rem;margin-bottom:3px;}
   .sheet-ri-text{font-size:0.78rem;color:#4b5563;line-height:1.5;}
@@ -526,7 +518,7 @@ footer{background:var(--primary-black);color:white;padding:5rem 5% 2rem;text-ali
   .sheet-share-btn{display:flex;align-items:center;justify-content:center;gap:6px;padding:10px 18px;border-radius:50px;font-weight:600;font-size:0.82rem;border:1.5px solid var(--border-color);background:transparent;color:var(--text-main);cursor:pointer;transition:transform 0.15s ease,border-color 0.15s ease,color 0.15s ease;flex:1;}
   .sheet-share-btn:active{transform:scale(0.96);border-color:var(--accent-green);color:var(--accent-green);}
 
-  /* MOBILE MAP SHEET */
+  /* MOBILE MAP SHEET (for location) */
   #mobileMapBackdrop{position:fixed;inset:0;background:rgba(0,0,0,0);z-index:3100;display:none;transition:background 0.35s ease;}
   #mobileMapBackdrop.open{display:block;background:rgba(0,0,0,0.5);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);}
   #mobileMapSheet{position:fixed;bottom:0;left:0;right:0;z-index:3200;display:none;pointer-events:none;}
@@ -545,15 +537,41 @@ footer{background:var(--primary-black);color:white;padding:5rem 5% 2rem;text-ali
   .dark-mode #mobileReviewPanel{background:#1c1c1e;}
   #mobileReviewSheet.open #mobileReviewPanel{transform:translateY(0);}
   .mobile-review-body{padding:20px;flex:1;overflow-y:auto;}
+  .mobile-review-body h3{color:var(--text-main);}
+  #mobileReviewComment{background:var(--bg-white);color:var(--text-main);border-color:var(--border-color);}
+  .dark-mode #mobileReviewComment{background:#2c2c2e!important;color:#e0e0e0!important;border-color:#3a3a3c!important;}
 
   #shareModal{z-index:3100!important;}
 
+  /* FAVOURITES PAGE */
+  #favouritesPageView{padding-bottom:100px;animation:fadeIn 0.3s ease;background:var(--bg-white);}
+  .dark-mode #favouritesPageView{background:#121212;}
+  .fav-header{padding:20px 16px 0;display:flex;align-items:center;justify-content:space-between;}
+  .fav-header h2{font-size:1.15rem;font-weight:800;letter-spacing:-0.4px;color:var(--text-main);}
+  .fav-count-badge{background:var(--accent-green);color:white;padding:3px 10px;border-radius:20px;font-size:0.72rem;font-weight:700;}
+  .fav-item{display:flex;gap:12px;padding:14px 16px;border-bottom:1px solid var(--border-color);cursor:pointer;background:var(--bg-white);align-items:center;transition:background 0.15s;}
+  .dark-mode .fav-item{background:#121212;border-bottom-color:#333;}
+  .fav-item:active{background:var(--bg-off-white);}
+  .dark-mode .fav-item:active{background:#1e1e1e;}
+  .fav-item-img{width:68px;height:68px;border-radius:12px;object-fit:cover;flex-shrink:0;}
+  .fav-item-info{flex:1;min-width:0;}
+  .fav-item-title{font-weight:700;font-size:0.95rem;line-height:1.3;color:var(--text-main);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .fav-item-loc{font-size:0.8rem;color:var(--text-muted);margin-top:2px;display:flex;align-items:center;gap:4px;}
+  .fav-item-price{color:var(--accent-green);font-weight:700;font-size:0.88rem;margin-top:4px;}
+  .fav-item-remove{padding:6px 10px;border-radius:50%;border:1.5px solid var(--border-color);background:transparent;color:var(--text-muted);cursor:pointer;font-size:0.8rem;flex-shrink:0;transition:border-color 0.15s,color 0.15s;}
+  .fav-item-remove:active{border-color:#ef4444;color:#ef4444;}
+  .fav-empty-state{padding:50px 20px;text-align:center;}
+  .fav-empty-state i{font-size:3rem;color:var(--border-color);margin-bottom:12px;display:block;}
+  .fav-empty-state h3{font-size:1rem;font-weight:700;color:var(--text-main);margin-bottom:6px;}
+  .fav-empty-state p{font-size:0.82rem;color:var(--text-muted);}
+
   /* PROFILE PAGE */
-  .pp-header{background:var(--primary-black);padding:24px 18px 20px;display:flex;align-items:center;gap:16px;}
+  .pp-header{background:#111111;padding:24px 18px 20px;display:flex;align-items:center;gap:16px;}
+  .dark-mode .pp-header{background:#0d0d0d;}
   .pp-avatar-wrap{position:relative;flex-shrink:0;}
   .pp-avatar{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--accent-green) 0%,#059669 100%);display:flex;align-items:center;justify-content:center;color:white;font-size:1.5rem;font-weight:800;overflow:hidden;}
   .pp-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%;}
-  .pp-avatar-edit-btn{position:absolute;bottom:0;right:0;width:22px;height:22px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;border:2px solid var(--primary-black);}
+  .pp-avatar-edit-btn{position:absolute;bottom:0;right:0;width:22px;height:22px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;border:2px solid #111111;}
   .pp-avatar-edit-btn i{font-size:0.58rem;color:#111;}
   .pp-hero-info{flex:1;min-width:0;}
   .pp-name{font-size:1.1rem;font-weight:800;color:white;line-height:1.2;}
@@ -595,12 +613,12 @@ footer{background:var(--primary-black);color:white;padding:5rem 5% 2rem;text-ali
   .pp-signout:active{background:#fee2e2;}
   .pp-signin-prompt{padding:40px 18px 8px;text-align:center;}
   .pp-signin-prompt i{font-size:2.8rem;color:var(--border-color);margin-bottom:12px;display:block;}
-  .pp-signin-prompt h3{font-size:1rem;font-weight:700;margin-bottom:6px;}
+  .pp-signin-prompt h3{font-size:1rem;font-weight:700;margin-bottom:6px;color:var(--text-main);}
   .pp-signin-prompt p{font-size:0.82rem;color:var(--text-muted);margin-bottom:18px;line-height:1.5;}
-  .pp-signin-cta{width:100%;padding:13px;border-radius:50px;background:var(--primary-black);color:white;border:none;font-weight:700;font-size:0.95rem;cursor:pointer;}
+  .pp-signin-cta{width:100%;padding:13px;border-radius:50px;background:#111111;color:white;border:none;font-weight:700;font-size:0.95rem;cursor:pointer;}
   .dark-mode .pp-signin-cta{background:white;color:#111;}
   .ps-google-cta{width:100%;padding:14px 16px;border-radius:50px;margin-top:12px;background:white;color:#1f2937;border:1.5px solid #e2e4e7;font-weight:700;font-size:0.92rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:all 0.2s ease;box-shadow:0 2px 8px rgba(0,0,0,0.08);}
-  .dark-mode .ps-google-cta{background:#2c2c2e;color:white;border-color:#3a3a3c;}
+  .dark-mode .ps-google-cta{background:#2c2c2e;color:#e0e0e0;border-color:#3a3a3c;}
   .ps-google-cta:active{transform:scale(0.97);}
   .ps-google-cta .google-logo{width:20px;height:20px;flex-shrink:0;display:block;}
 
@@ -609,21 +627,27 @@ footer{background:var(--primary-black);color:white;padding:5rem 5% 2rem;text-ali
   .pp-edit-overlay.visible{transform:translateX(0);}
   .pp-edit-header{display:flex;align-items:center;gap:10px;margin-bottom:20px;padding-top:10px;}
   .pp-edit-back{background:transparent;border:none;cursor:pointer;padding:6px;color:var(--text-main);font-size:1rem;display:flex;align-items:center;}
-  .pp-edit-header h3{font-size:1rem;font-weight:700;flex:1;}
+  .pp-edit-header h3{font-size:1rem;font-weight:700;flex:1;color:var(--text-main);}
   .pp-edit-save{background:var(--accent-green);color:white;border:none;padding:9px 20px;border-radius:50px;font-weight:600;font-size:0.82rem;cursor:pointer;}
   .pp-field-group{display:flex;flex-direction:column;gap:4px;margin-bottom:14px;}
   .pp-field-label{font-size:0.75rem;font-weight:600;color:var(--text-muted);}
   .pp-field-input{padding:12px 14px;border:1.5px solid var(--border-color);border-radius:12px;font-size:0.9rem;font-family:'Inter',sans-serif;background:var(--bg-white);color:var(--text-main);outline:none;transition:border-color 0.2s;}
-  .dark-mode .pp-field-input{background:#2c2c2e;border-color:#3a3a3c;color:white;}
+  .dark-mode .pp-field-input{background:#2c2c2e;border-color:#3a3a3c;color:#e0e0e0;}
   .pp-field-input:focus{border-color:var(--accent-green);box-shadow:0 0 0 3px rgba(16,185,129,0.1);}
 
   .pp-dynamic-panel{display:none;padding:0 0 100px;}
   .pp-dynamic-panel.visible{display:block;}
   .pp-dynamic-back{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid var(--border-color);cursor:pointer;}
   .pp-dynamic-back i{font-size:0.9rem;color:var(--text-muted);}
-  .pp-dynamic-back span{font-weight:600;font-size:0.9rem;}
+  .pp-dynamic-back span{font-weight:600;font-size:0.9rem;color:var(--text-main);}
   .pp-main-content{display:block;}
   .pp-main-content.hidden{display:none;}
+
+  /* MAP PAGE VIEW (full-screen tab) */
+  #mapPageView{height:calc(100vh - 120px);background:var(--bg-off-white);}
+
+  #mobileSheet.open~.bottom-nav,
+  #mobileSheetBackdrop.open~.bottom-nav{pointer-events:none;}
 }
 
 @media(min-width:768px){
@@ -642,110 +666,6 @@ footer{background:var(--primary-black);color:white;padding:5rem 5% 2rem;text-ali
   #mobileReviewSheet{display:none!important;}
   #mobileReviewBackdrop{display:none!important;}
 }
-
-/* ── COMPREHENSIVE DARK MODE FIXES ── */
-.dark-mode body{background:#121212;color:#e0e0e0;}
-.dark-mode nav{background:#111111;border-bottom-color:#333;}
-.dark-mode .logo{color:white;}
-.dark-mode .hero{background:radial-gradient(circle at top right,#1a2e22,#121212);}
-.dark-mode .hero h1{color:#e0e0e0;}
-.dark-mode .hero p{color:#a0a0a0;}
-.dark-mode .search-container{background:#2a2a2a;border-color:#444;}
-.dark-mode .search-input-group input{color:white;}
-.dark-mode .search-input-group input::placeholder{color:#777;}
-.dark-mode .search-btn{background:white;color:#111;}
-.dark-mode .filters{background:#1a1a1a;border-top-color:#333;}
-.dark-mode .filter-tag{background:#2a2a2a;color:#e0e0e0;border-color:#444;}
-.dark-mode .price-range-wrapper{background:#1e1e1e;border-color:#333;}
-.dark-mode .price-range-header span{color:#a0a0a0;}
-.dark-mode .price-display{background:#333;color:white;border-color:#555;}
-.dark-mode .range-slider-container{background:#444;}
-.dark-mode .section-header h2{color:#e0e0e0;}
-.dark-mode .card{background:#1e1e1e;border-color:#333;}
-.dark-mode .card-title{color:#e0e0e0;}
-.dark-mode .card-location{color:#a0a0a0;}
-.dark-mode .price{color:#e0e0e0;}
-.dark-mode .price span{color:#888;}
-.dark-mode .card-btn{border-color:#e0e0e0;color:#e0e0e0;}
-.dark-mode .card-btn:hover{background:#e0e0e0;color:#111;}
-.dark-mode .amenity{background:#2c2c2e;color:#d0d0d0;}
-.dark-mode .empty-state h3{color:#e0e0e0;}
-.dark-mode .empty-state p{color:#a0a0a0;}
-.dark-mode .modal-content{background:#1e1e1e;color:#e0e0e0;}
-.dark-mode .modal-header{color:#e0e0e0;border-bottom-color:#333;}
-.dark-mode .modal-body{color:#e0e0e0;}
-.dark-mode .modal-overlay{background:rgba(0,0,0,0.75);}
-.dark-mode #detailModal .modal-title{color:#e0e0e0;}
-.dark-mode #detailModal .modal-price{color:#e0e0e0;}
-.dark-mode #detailModal .modal-meta{color:#a0a0a0;}
-.dark-mode #detailModal .modal-thumbnails{background:#1e1e1e;border-bottom-color:#333;}
-.dark-mode .review-header h3{color:#e0e0e0;}
-.dark-mode .review-average{color:#e0e0e0;}
-.dark-mode .review-user{color:#e0e0e0;}
-.dark-mode .review-date{color:#888;}
-.dark-mode .share-preview-body{background:#1e1e1e;}
-.dark-mode .share-preview-title{color:#e0e0e0;}
-.dark-mode .modal-success h2{color:#e0e0e0;}
-.dark-mode .modal-success p{color:#a0a0a0;}
-.dark-mode .progress-text{color:#e0e0e0;}
-.dark-mode #progressStatus{color:#a0a0a0;}
-.dark-mode .section-header h2{color:#e0e0e0;}
-.dark-mode .mobile-home-search-inner input{color:#e0e0e0;}
-.dark-mode .mobile-home-search-inner input::placeholder{color:#777;}
-.dark-mode .mobile-filter-row .filter-tag{background:#2a2a2a;color:#e0e0e0;border-color:#444;}
-.dark-mode .skeleton-card{background:#1e1e1e;}
-.dark-mode .sheet-title{color:#e0e0e0;}
-.dark-mode .sheet-price{color:#e0e0e0;}
-.dark-mode .sheet-desc{color:#a0a0a0;}
-.dark-mode .sheet-ll-name{color:#e0e0e0;}
-.dark-mode .sheet-review-hdr h3{color:#e0e0e0;}
-.dark-mode .sheet-ri-user{color:#e0e0e0;}
-.dark-mode .sheet-ri-date{color:#888;}
-.dark-mode .sheet-ri-text{color:#a0a0a0;}
-.dark-mode .similar-card-title{color:#e0e0e0;}
-.dark-mode .similar-card-type{color:#888;}
-.dark-mode .pp-stat-num{color:#e0e0e0;}
-.dark-mode .pp-stat-label{color:#a0a0a0;}
-.dark-mode .pp-section-title{color:#a0a0a0;}
-.dark-mode .pp-menu-label{color:#e0e0e0;}
-.dark-mode .pp-menu-sub{color:#888;}
-.dark-mode .pp-menu-arrow{color:#666;}
-.dark-mode .pp-name{color:white;}
-.dark-mode .pp-email{color:rgba(255,255,255,0.55);}
-.dark-mode .pp-dynamic-back span{color:#e0e0e0;}
-.dark-mode .pp-dynamic-back i{color:#a0a0a0;}
-.dark-mode .pp-edit-header h3{color:#e0e0e0;}
-.dark-mode .pp-field-label{color:#a0a0a0;}
-.dark-mode .pp-signin-prompt h3{color:#e0e0e0;}
-.dark-mode .pp-signin-prompt p{color:#a0a0a0;}
-.dark-mode .pp-signin-prompt i{color:#444;}
-.dark-mode #signInModal .or-divider{color:#a0a0a0;}
-.dark-mode #addForm label{color:#e0e0e0;}
-.dark-mode .file-upload-text{color:#a0a0a0;}
-.dark-mode #reviewModal label{color:#e0e0e0;}
-.dark-mode .mobile-search-wrapper .search-input-group{border-bottom-color:#444;}
-.dark-mode #mobileSearchView .section-header h2{color:#e0e0e0;}
-.dark-mode footer{background:#0a0a0a;}
-.dark-mode .copyright{color:#555;border-top-color:#222;}
-.dark-mode .footer-links a{color:#777;}
-.dark-mode .pwa-banner-title{color:white;}
-.dark-mode .share-link-row .share-link-input{color:#a0a0a0;}
-.dark-mode .mapPropertyCard-bg{background:#1e1e1e;}
-.dark-mode #mapPropertyCard{background:var(--bg-white);border-color:var(--border-color);}
-.dark-mode #mapCardTitle{color:var(--text-main);}
-.dark-mode #mapCardLocation{color:var(--text-muted);}
-.dark-mode #mapLoadingOverlay{background:#1a1a1a;}
-.dark-mode #mapLoadingOverlay span{color:#a0a0a0;}
-.dark-mode #favouritesPageView h2{color:#e0e0e0;}
-.dark-mode .fav-item{background:#1e1e1e;border-color:#333;}
-.dark-mode .fav-item-title{color:#e0e0e0;}
-.dark-mode .fav-item-loc{color:#a0a0a0;}
-.dark-mode .fav-empty{color:#a0a0a0;}
-.dark-mode .fav-empty i{color:#444;}
-.dark-mode .copy-toast{background:#333;color:#e0e0e0;}
-.dark-mode #signInModal input{background:#2c2c2e;border-color:#3a3a3c;color:white;}
-.dark-mode #signInModal input::placeholder{color:#666;}
-.dark-mode .map-pin-label{background:#1e1e1e;color:#e0e0e0;border-color:#444;}
 </style>
 </head>
 <body>
@@ -763,7 +683,7 @@ footer{background:var(--primary-black);color:white;padding:5rem 5% 2rem;text-ali
 </div>
 
 <nav>
-  <div class="logo" onclick="resetFilters()">KasiStay<span style="color:var(--accent-green)">.</span></div>
+  <div class="logo" onclick="resetFilters()">KasiStay<span style="color:#10b981">.</span></div>
   <div class="nav-btn-container">
     <button class="btn btn-primary" onclick="openAddModal()"><i class="fa-solid fa-plus"></i> List a Room</button>
     <button class="btn btn-primary" id="authButton">Sign In</button>
@@ -839,7 +759,6 @@ footer{background:var(--primary-black);color:white;padding:5rem 5% 2rem;text-ali
       <h2 id="listingCount">Loading listings...</h2>
     </div>
     <section class="grid" id="listingsGrid">
-      <!-- Skeleton placeholders -->
       <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line medium"></div><div class="skeleton-line short"></div><div class="skeleton-line"></div></div></div>
       <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line medium"></div><div class="skeleton-line short"></div><div class="skeleton-line"></div></div></div>
       <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line medium"></div><div class="skeleton-line short"></div><div class="skeleton-line"></div></div></div>
@@ -874,6 +793,43 @@ footer{background:var(--primary-black);color:white;padding:5rem 5% 2rem;text-ali
           <input type="range" class="range-min" id="mobile-priceMin" min="0" max="30000" value="0" step="500">
           <input type="range" class="range-max" id="mobile-priceMax" min="0" max="30000" value="30000" step="500">
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAVOURITES VIEW -->
+  <div id="favouritesPageView" style="display:none;">
+    <div class="fav-header">
+      <h2>My Favourites</h2>
+      <span class="fav-count-badge" id="favCountBadge">0</span>
+    </div>
+    <div id="favouritesListEl" style="margin-top:12px;"></div>
+  </div>
+
+  <!-- MAP PAGE VIEW -->
+  <div id="mapPageView" style="display:none;position:relative;overflow:hidden;">
+    <div id="mapPageContainer" style="width:100%;height:100%;position:relative;">
+      <div id="mapLoadingOverlay" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:20;">
+        <div style="width:44px;height:44px;border:3px solid var(--border-color);border-top-color:var(--accent-green);border-radius:50%;animation:spin 0.8s linear infinite;"></div>
+        <span>Loading map...</span>
+      </div>
+      <!-- Custom pins container - overlaid on iframe -->
+      <div id="mapPinsContainer" style="position:absolute;inset:0;z-index:5;pointer-events:none;overflow:hidden;"></div>
+      <iframe id="mapPageFrame" src="" style="position:absolute;inset:0;width:100%;height:100%;border:none;z-index:1;" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+    <!-- Property popup card -->
+    <div id="mapPropertyCard" style="display:none;position:absolute;bottom:16px;left:12px;right:12px;z-index:20;border-radius:18px;overflow:hidden;animation:slideUp 0.32s cubic-bezier(0.34,1.56,0.64,1);">
+      <div style="display:flex;gap:0;align-items:stretch;">
+        <img id="mapCardImg" src="" style="width:90px;object-fit:cover;flex-shrink:0;" onerror="this.src='https://placehold.co/90x90/f3f4f6/9ca3af?text=?'">
+        <div style="padding:12px 14px;flex:1;min-width:0;">
+          <div id="mapCardTitle"></div>
+          <div id="mapCardLocation"></div>
+          <div id="mapCardPrice"></div>
+        </div>
+        <button onclick="closeMapPropertyCard()" style="background:transparent;border:none;padding:10px 12px;color:var(--text-muted);cursor:pointer;font-size:0.9rem;align-self:flex-start;"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div style="padding:0 14px 14px;">
+        <button id="mapCardViewBtn" style="width:100%;padding:10px;border:none;border-radius:50px;font-weight:700;font-size:0.84rem;cursor:pointer;" onclick="openSheetFromMapCard()">View Property</button>
       </div>
     </div>
   </div>
@@ -990,95 +946,6 @@ footer{background:var(--primary-black);color:white;padding:5rem 5% 2rem;text-ali
   </div>
 </div>
 
-<!-- FAVOURITES VIEW -->
-<div id="favouritesPageView" style="display:none;padding-bottom:100px;animation:fadeIn 0.3s ease;">
-  <div style="padding:20px 16px 0;display:flex;align-items:center;justify-content:space-between;">
-    <h2 style="font-size:1.15rem;font-weight:800;letter-spacing:-0.4px;color:var(--text-main);">My Favourites</h2>
-    <span id="favCountBadge" style="background:var(--accent-green);color:white;padding:3px 10px;border-radius:20px;font-size:0.72rem;font-weight:700;">0</span>
-  </div>
-  <div id="favouritesListEl" style="margin-top:12px;"></div>
-</div>
-
-<!-- MAP VIEW -->
-<div id="mapPageView" style="display:none;animation:fadeIn 0.3s ease;height:calc(100vh - 120px);position:relative;overflow:hidden;">
-  <div id="mapPageContainer" style="width:100%;height:100%;position:relative;">
-    <div id="mapLoadingOverlay" style="position:absolute;inset:0;background:var(--bg-off-white);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:10;">
-      <div style="width:44px;height:44px;border:3px solid var(--border-color);border-top-color:var(--accent-green);border-radius:50%;animation:spin 0.8s linear infinite;margin-bottom:14px;"></div>
-      <span style="font-size:0.85rem;color:var(--text-muted);font-weight:500;">Loading map...</span>
-    </div>
-    <div id="mapPinsContainer" style="position:absolute;inset:0;z-index:5;pointer-events:none;overflow:hidden;"></div>
-    <iframe id="mapPageFrame" src="" style="position:absolute;inset:0;width:100%;height:100%;border:none;z-index:1;" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-  </div>
-  <!-- Property popup card -->
-  <div id="mapPropertyCard" style="display:none;position:absolute;bottom:16px;left:12px;right:12px;z-index:20;background:var(--bg-white);border-radius:18px;box-shadow:0 8px 32px rgba(0,0,0,0.2);border:1px solid var(--border-color);overflow:hidden;animation:slideUp 0.32s cubic-bezier(0.34,1.56,0.64,1);">
-    <div style="display:flex;gap:0;align-items:stretch;">
-      <img id="mapCardImg" src="" style="width:90px;object-fit:cover;flex-shrink:0;" onerror="this.src='https://placehold.co/90x90/f3f4f6/9ca3af?text=?'">
-      <div style="padding:12px 14px;flex:1;min-width:0;">
-        <div id="mapCardTitle" style="font-weight:700;font-size:0.88rem;line-height:1.3;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--text-main);"></div>
-        <div id="mapCardLocation" style="font-size:0.72rem;color:var(--text-muted);display:flex;align-items:center;gap:4px;margin-bottom:5px;"></div>
-        <div id="mapCardPrice" style="color:var(--accent-green);font-weight:700;font-size:0.9rem;"></div>
-      </div>
-      <button onclick="closeMapPropertyCard()" style="background:transparent;border:none;padding:10px 12px;color:var(--text-muted);cursor:pointer;font-size:0.9rem;align-self:flex-start;"><i class="fa-solid fa-xmark"></i></button>
-    </div>
-    <div style="padding:0 14px 14px;">
-      <button id="mapCardViewBtn" style="width:100%;padding:10px;background:var(--primary-black);color:white;border:none;border-radius:50px;font-weight:700;font-size:0.84rem;cursor:pointer;" onclick="openSheetFromMapCard()">View Property</button>
-    </div>
-  </div>
-</div>
-
-<!-- DESKTOP DETAIL MODAL -->
-<div class="modal-overlay" id="detailModal" onclick="if(event.target===this)closeModal()">
-  <div class="modal-content">
-    <button class="close-modal" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
-    <div class="modal-gallery">
-      <img src="" alt="Room" class="modal-main-image" id="modalMainImage">
-      <button class="gallery-nav prev" onclick="changeImage(-1)"><i class="fa-solid fa-chevron-left"></i></button>
-      <button class="gallery-nav next" onclick="changeImage(1)"><i class="fa-solid fa-chevron-right"></i></button>
-    </div>
-    <div class="modal-thumbnails" id="modalThumbnails"></div>
-    <div class="modal-body">
-      <div class="modal-header-info">
-        <h2 class="modal-title" id="modalTitle">Title</h2>
-        <div class="modal-price" id="modalPrice">R0<span>/mo</span></div>
-      </div>
-      <div class="modal-meta">
-        <span id="modalLocation" class="modal-location-link" onclick="openMapModal()"><i class="fa-solid fa-location-dot"></i> <span id="modalLocationText">Location</span> <i class="fa-solid fa-external-link-alt" style="font-size:0.7rem;margin-left:4px;"></i></span>
-        <span id="modalType"><i class="fa-solid fa-home"></i> <span id="modalTypeText">Type</span></span>
-      </div>
-      <p class="modal-desc" id="modalDesc">Description...</p>
-      <div class="modal-amenities" id="modalAmenities"></div>
-      <div class="landlord-box">
-        <div class="landlord-header">
-          <div class="landlord-avatar">K</div>
-          <div class="landlord-info">
-            <div class="landlord-name">KasiStay Verified</div>
-            <div class="landlord-status"><i class="fa-solid fa-bolt"></i> Responds fast</div>
-          </div>
-        </div>
-        <div class="contact-buttons">
-          <a href="#" class="contact-btn whatsapp" id="whatsappLink" target="_blank"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
-          <a href="#" class="contact-btn call" id="callLink"><i class="fa-solid fa-phone"></i> Call</a>
-        </div>
-      </div>
-      <div class="desktop-action-bar">
-        <button class="add-review-btn" onclick="openReviewModal()">Add Review</button>
-        <button class="share-btn" onclick="openShareModal()"><i class="fa-solid fa-share-nodes"></i> Share</button>
-      </div>
-      <div class="review-section">
-        <div class="review-header">
-          <h3>Reviews</h3>
-          <div class="review-average"><span class="rating-stars" id="modalAvgStars"></span><span id="modalReviewCount">(0)</span></div>
-        </div>
-        <div class="review-list" id="modalReviewList"></div>
-      </div>
-      <div class="similar-section">
-        <div class="similar-section-title"><i class="fa-solid fa-sparkles"></i> Similar Listings</div>
-        <div class="similar-scroll" id="desktopSimilarScroll"></div>
-      </div>
-    </div>
-  </div>
-</div>
-
 <!-- MOBILE BOTTOM SHEET -->
 <div id="mobileSheetBackdrop" onclick="closeMobileSheet()"></div>
 <div id="mobileSheet">
@@ -1136,7 +1003,7 @@ footer{background:var(--primary-black);color:white;padding:5rem 5% 2rem;text-ali
   </div>
 </div>
 
-<!-- MOBILE MAP SHEET -->
+<!-- MOBILE MAP SHEET (for location view) -->
 <div id="mobileMapBackdrop" onclick="closeMobileMap()"></div>
 <div id="mobileMapSheet">
   <div id="mobileMapPanel">
@@ -1163,7 +1030,7 @@ footer{background:var(--primary-black);color:white;padding:5rem 5% 2rem;text-ali
           <i class="fa-solid fa-star" data-rating="5" style="font-size:1.5rem;color:#d1d5db;cursor:pointer;"></i>
         </div>
       </div>
-      <textarea id="mobileReviewComment" placeholder="Share your experience..." style="width:100%;height:140px;padding:14px;border:1.5px solid var(--border-color);border-radius:12px;font-size:0.95rem;resize:vertical;outline:none;margin-bottom:1.5rem;background:var(--bg-white);color:var(--text-main);font-family:'Inter',sans-serif;"></textarea>
+      <textarea id="mobileReviewComment" placeholder="Share your experience..." style="width:100%;height:140px;padding:14px;border:1.5px solid var(--border-color);border-radius:12px;font-size:0.95rem;resize:vertical;outline:none;margin-bottom:1.5rem;font-family:'Inter',sans-serif;"></textarea>
       <button onclick="submitMobileReview()" class="btn btn-primary" style="width:100%;padding:14px;border-radius:50px;">Submit Review</button>
     </div>
   </div>
@@ -1173,7 +1040,7 @@ footer{background:var(--primary-black);color:white;padding:5rem 5% 2rem;text-ali
 <div class="modal-overlay" id="mapModal" onclick="if(event.target===this)closeMapModal()">
   <div class="modal-content" style="max-width:900px;height:80vh;display:flex;flex-direction:column;">
     <div style="display:flex;justify-content:space-between;align-items:center;padding:1rem 1.5rem;border-bottom:1px solid var(--border-color);">
-      <h2 style="font-size:1.1rem;font-weight:700;">Location</h2>
+      <h2 style="font-size:1.1rem;font-weight:700;color:var(--text-main);">Location</h2>
       <button onclick="closeMapModal()" style="background:transparent;border:none;width:32px;height:32px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:1.1rem;"><i class="fa-solid fa-xmark"></i></button>
     </div>
     <div style="flex:1;overflow:hidden;"><iframe id="mapFrame" src="" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade" style="width:100%;height:100%;border:none;"></iframe></div>
@@ -1183,17 +1050,17 @@ footer{background:var(--primary-black);color:white;padding:5rem 5% 2rem;text-ali
 <!-- ADD MODAL -->
 <div class="modal-overlay" id="addModal" onclick="if(event.target===this)closeAddModal()">
   <div class="modal-content">
-    <div class="modal-header" style="padding:1.25rem 1.5rem;border-bottom:1px solid var(--border-color);display:flex;align-items:center;justify-content:space-between;">
-      <h2 style="font-size:1.25rem;font-weight:800;margin:0;">List Your Property</h2>
+    <div class="modal-header" style="display:flex;align-items:center;justify-content:space-between;">
+      <h2 style="font-size:1.25rem;font-weight:800;margin:0;color:var(--text-main);">List Your Property</h2>
       <button class="close-modal" onclick="closeAddModal()" style="position:static;background:transparent;border:none;width:32px;height:32px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text-muted);"><i class="fa-solid fa-xmark"></i></button>
     </div>
-    <div class="modal-body" style="padding:1.5rem;overflow-y:auto;flex:1;max-height:calc(90vh - 80px);">
+    <div class="modal-body" style="overflow-y:auto;max-height:calc(90vh - 80px);">
       <form id="addForm" onsubmit="return false;">
         <div style="display:flex;flex-direction:column;gap:1rem;">
-          <div style="display:flex;flex-direction:column;gap:0.4rem;"><label style="font-weight:600;font-size:0.85rem;">Property Owner Name</label><input type="text" id="addOwnerName" placeholder="Enter your name" style="padding:0.75rem 1rem;border:1.5px solid var(--border-color);border-radius:12px;font-size:0.95rem;background:var(--bg-white);color:var(--text-main);outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--accent-green)'" onblur="this.style.borderColor='var(--border-color)'"></div>
-          <div style="display:flex;flex-direction:column;gap:0.4rem;"><label style="font-weight:600;font-size:0.85rem;">Listing Title</label><input type="text" id="addTitle" placeholder="e.g. Modern Student Studio near UJ" style="padding:0.75rem 1rem;border:1.5px solid var(--border-color);border-radius:12px;font-size:0.95rem;background:var(--bg-white);color:var(--text-main);outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--accent-green)'" onblur="this.style.borderColor='var(--border-color)'"></div>
+          <div style="display:flex;flex-direction:column;gap:0.4rem;"><label style="font-weight:600;font-size:0.85rem;">Property Owner Name</label><input type="text" id="addOwnerName" placeholder="Enter your name"></div>
+          <div style="display:flex;flex-direction:column;gap:0.4rem;"><label style="font-weight:600;font-size:0.85rem;">Listing Title</label><input type="text" id="addTitle" placeholder="e.g. Modern Student Studio near UJ"></div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
-            <div style="display:flex;flex-direction:column;gap:0.4rem;"><label style="font-weight:600;font-size:0.85rem;">Monthly Rent (R)</label><input type="number" id="addPrice" placeholder="5500" style="padding:0.75rem 1rem;border:1.5px solid var(--border-color);border-radius:12px;font-size:0.95rem;background:var(--bg-white);color:var(--text-main);outline:none;" onfocus="this.style.borderColor='var(--accent-green)'" onblur="this.style.borderColor='var(--border-color)'"></div>
+            <div style="display:flex;flex-direction:column;gap:0.4rem;"><label style="font-weight:600;font-size:0.85rem;">Monthly Rent (R)</label><input type="number" id="addPrice" placeholder="5500"></div>
             <div style="display:flex;flex-direction:column;gap:0.4rem;"><label style="font-weight:600;font-size:0.85rem;">Room Type</label>
               <select id="addType" style="padding:0.75rem 1rem;border:1.5px solid var(--border-color);border-radius:12px;font-size:0.95rem;background:var(--bg-white);color:var(--text-main);outline:none;cursor:pointer;appearance:none;background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b7280' d='M6 8L1 3h10z'/%3E%3C/svg%3E&quot;);background-repeat:no-repeat;background-position:right 1rem center;padding-right:2.5rem;">
                 <option value="Single room">Single room</option>
@@ -1203,7 +1070,7 @@ footer{background:var(--primary-black);color:white;padding:5rem 5% 2rem;text-ali
               </select>
             </div>
           </div>
-          <div style="display:flex;flex-direction:column;gap:0.4rem;"><label style="font-weight:600;font-size:0.85rem;">Area / Location</label><input type="text" id="addLocation" placeholder="e.g. Braamfontein, Johannesburg" style="padding:0.75rem 1rem;border:1.5px solid var(--border-color);border-radius:12px;font-size:0.95rem;background:var(--bg-white);color:var(--text-main);outline:none;" onfocus="this.style.borderColor='var(--accent-green)'" onblur="this.style.borderColor='var(--border-color)'"></div>
+          <div style="display:flex;flex-direction:column;gap:0.4rem;"><label style="font-weight:600;font-size:0.85rem;">Area / Location</label><input type="text" id="addLocation" placeholder="e.g. Braamfontein, Johannesburg"></div>
           <div style="display:flex;flex-direction:column;gap:0.4rem;"><label style="font-weight:600;font-size:0.85rem;">Photos</label>
             <div id="fileUploadArea" style="position:relative;border:2px dashed var(--border-color);border-radius:12px;padding:1.25rem;text-align:center;cursor:pointer;background:var(--bg-off-white);">
               <div style="font-size:1.5rem;color:var(--accent-green);margin-bottom:0.5rem;"><i class="fa-solid fa-cloud-arrow-up"></i></div>
@@ -1212,8 +1079,8 @@ footer{background:var(--primary-black);color:white;padding:5rem 5% 2rem;text-ali
               <div id="imagesPreviewContainer" style="display:flex;flex-wrap:wrap;margin-top:10px;gap:8px;"></div>
             </div>
           </div>
-          <div style="display:flex;flex-direction:column;gap:0.4rem;"><label style="font-weight:600;font-size:0.85rem;">Amenities (comma separated)</label><input type="text" id="addAmenities" placeholder="WiFi, Parking, Study Desk, ..." style="padding:0.75rem 1rem;border:1.5px solid var(--border-color);border-radius:12px;font-size:0.95rem;background:var(--bg-white);color:var(--text-main);outline:none;" onfocus="this.style.borderColor='var(--accent-green)'" onblur="this.style.borderColor='var(--border-color)'"></div>
-          <div style="display:flex;flex-direction:column;gap:0.4rem;"><label style="font-weight:600;font-size:0.85rem;">Full Description</label><textarea id="addDesc" rows="3" placeholder="Tell students about your space..." style="padding:0.75rem 1rem;border:1.5px solid var(--border-color);border-radius:12px;font-size:0.95rem;font-family:'Inter',sans-serif;resize:vertical;outline:none;background:var(--bg-white);color:var(--text-main);" onfocus="this.style.borderColor='var(--accent-green)'" onblur="this.style.borderColor='var(--border-color)'"></textarea></div>
+          <div style="display:flex;flex-direction:column;gap:0.4rem;"><label style="font-weight:600;font-size:0.85rem;">Amenities (comma separated)</label><input type="text" id="addAmenities" placeholder="WiFi, Parking, Study Desk, ..."></div>
+          <div style="display:flex;flex-direction:column;gap:0.4rem;"><label style="font-weight:600;font-size:0.85rem;">Full Description</label><textarea id="addDesc" rows="3" placeholder="Tell students about your space..."></textarea></div>
           <button type="button" class="btn btn-primary" onclick="addToDb()" style="width:100%;padding:1rem;font-size:1rem;margin-top:0.5rem;"><i class="fa-solid fa-paper-plane"></i> Post Listing Now</button>
         </div>
       </form>
@@ -1228,7 +1095,7 @@ footer{background:var(--primary-black);color:white;padding:5rem 5% 2rem;text-ali
       <button onclick="closeReviewModal()" style="position:absolute;top:50%;right:1.5rem;transform:translateY(-50%);background:transparent;border:none;width:32px;height:32px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text-muted);"><i class="fa-solid fa-xmark"></i></button>
     </div>
     <div class="modal-body">
-      <div style="margin-bottom:1rem;"><label style="font-weight:600;font-size:0.85rem;display:block;margin-bottom:0.4rem;">Rating</label>
+      <div style="margin-bottom:1rem;"><label style="font-weight:600;font-size:0.85rem;display:block;margin-bottom:0.4rem;color:var(--text-main);">Rating</label>
         <div id="reviewStars" style="display:flex;gap:8px;">
           <i class="fa-solid fa-star" data-rating="1" style="font-size:1.5rem;color:#d1d5db;cursor:pointer;transition:color 0.2s;"></i>
           <i class="fa-solid fa-star" data-rating="2" style="font-size:1.5rem;color:#d1d5db;cursor:pointer;transition:color 0.2s;"></i>
@@ -1237,10 +1104,63 @@ footer{background:var(--primary-black);color:white;padding:5rem 5% 2rem;text-ali
           <i class="fa-solid fa-star" data-rating="5" style="font-size:1.5rem;color:#d1d5db;cursor:pointer;transition:color 0.2s;"></i>
         </div>
       </div>
-      <div style="margin-bottom:1rem;"><label style="font-weight:600;font-size:0.85rem;display:block;margin-bottom:0.4rem;">Your Review</label>
+      <div style="margin-bottom:1rem;"><label style="font-weight:600;font-size:0.85rem;display:block;margin-bottom:0.4rem;color:var(--text-main);">Your Review</label>
         <textarea id="reviewComment" placeholder="Share your experience..." style="width:100%;height:100px;padding:0.75rem 1rem;border:1.5px solid var(--border-color);border-radius:12px;font-size:0.95rem;font-family:'Inter',sans-serif;resize:vertical;outline:none;background:var(--bg-white);color:var(--text-main);" onfocus="this.style.borderColor='var(--accent-green)'" onblur="this.style.borderColor='var(--border-color)'"></textarea>
       </div>
       <button type="button" class="btn btn-primary" onclick="submitReview()" style="width:100%;padding:1rem;">Submit Review</button>
+    </div>
+  </div>
+</div>
+
+<!-- DESKTOP DETAIL MODAL -->
+<div class="modal-overlay" id="detailModal" onclick="if(event.target===this)closeModal()">
+  <div class="modal-content">
+    <button class="close-modal" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+    <div class="modal-gallery">
+      <img src="" alt="Room" class="modal-main-image" id="modalMainImage">
+      <button class="gallery-nav prev" onclick="changeImage(-1)"><i class="fa-solid fa-chevron-left"></i></button>
+      <button class="gallery-nav next" onclick="changeImage(1)"><i class="fa-solid fa-chevron-right"></i></button>
+    </div>
+    <div class="modal-thumbnails" id="modalThumbnails"></div>
+    <div class="modal-body">
+      <div class="modal-header-info">
+        <h2 class="modal-title" id="modalTitle">Title</h2>
+        <div class="modal-price" id="modalPrice">R0<span>/mo</span></div>
+      </div>
+      <div class="modal-meta">
+        <span id="modalLocation" class="modal-location-link" onclick="openMapModal()"><i class="fa-solid fa-location-dot"></i> <span id="modalLocationText">Location</span> <i class="fa-solid fa-external-link-alt" style="font-size:0.7rem;margin-left:4px;"></i></span>
+        <span id="modalType"><i class="fa-solid fa-home"></i> <span id="modalTypeText">Type</span></span>
+      </div>
+      <p class="modal-desc" id="modalDesc">Description...</p>
+      <div class="modal-amenities" id="modalAmenities"></div>
+      <div class="landlord-box">
+        <div class="landlord-header">
+          <div class="landlord-avatar">K</div>
+          <div class="landlord-info">
+            <div class="landlord-name">KasiStay Verified</div>
+            <div class="landlord-status"><i class="fa-solid fa-bolt"></i> Responds fast</div>
+          </div>
+        </div>
+        <div class="contact-buttons">
+          <a href="#" class="contact-btn whatsapp" id="whatsappLink" target="_blank"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
+          <a href="#" class="contact-btn call" id="callLink"><i class="fa-solid fa-phone"></i> Call</a>
+        </div>
+      </div>
+      <div class="desktop-action-bar">
+        <button class="add-review-btn" onclick="openReviewModal()">Add Review</button>
+        <button class="share-btn" onclick="openShareModal()"><i class="fa-solid fa-share-nodes"></i> Share</button>
+      </div>
+      <div class="review-section">
+        <div class="review-header">
+          <h3>Reviews</h3>
+          <div class="review-average"><span class="rating-stars" id="modalAvgStars"></span><span id="modalReviewCount">(0)</span></div>
+        </div>
+        <div class="review-list" id="modalReviewList"></div>
+      </div>
+      <div class="similar-section">
+        <div class="similar-section-title"><i class="fa-solid fa-sparkles"></i> Similar Listings</div>
+        <div class="similar-scroll" id="desktopSimilarScroll"></div>
+      </div>
     </div>
   </div>
 </div>
@@ -1254,10 +1174,10 @@ footer{background:var(--primary-black);color:white;padding:5rem 5% 2rem;text-ali
     <div class="modal-body" style="padding:1rem 1.5rem 2rem;">
       <input type="email" id="signInEmail" placeholder="Email address" autocomplete="email" style="width:100%;padding:14px 16px;border:1.5px solid var(--border-color);border-radius:12px;font-size:1rem;margin-bottom:1rem;background:var(--bg-white);color:var(--text-main);outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--accent-green)'" onblur="this.style.borderColor='var(--border-color)'">
       <input type="password" id="signInPassword" placeholder="Password" autocomplete="current-password" style="width:100%;padding:14px 16px;border:1.5px solid var(--border-color);border-radius:12px;font-size:1rem;margin-bottom:1rem;background:var(--bg-white);color:var(--text-main);outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--accent-green)'" onblur="this.style.borderColor='var(--border-color)'">
-      <button onclick="signInWithCredentials()" style="width:100%;padding:14px;background:var(--primary-black);color:white;border:none;border-radius:50px;font-weight:700;font-size:1.05rem;margin:0.5rem 0 1.25rem;cursor:pointer;transition:background 0.2s;" onmouseover="this.style.background='var(--accent-green)'" onmouseout="this.style.background='var(--primary-black)'">Sign In</button>
+      <button onclick="signInWithCredentials()" style="width:100%;padding:14px;background:#111111;color:white;border:none;border-radius:50px;font-weight:700;font-size:1.05rem;margin:0.5rem 0 1.25rem;cursor:pointer;transition:background 0.2s;" onmouseover="this.style.background='var(--accent-green)'" onmouseout="this.style.background='#111111'">Sign In</button>
       <div style="text-align:center;margin:1rem 0;color:var(--text-muted);font-size:0.9rem;position:relative;">
         <div style="position:absolute;top:50%;left:0;right:0;height:1px;background:var(--border-color);"></div>
-        <span style="background:var(--bg-white);padding:0 12px;position:relative;">or</span>
+        <span style="background:var(--bg-white);padding:0 12px;position:relative;color:var(--text-muted);">or</span>
       </div>
       <button onclick="signInWithGoogle()" style="width:100%;padding:14px 16px;border-radius:50px;background:white;color:#1f2937;border:1.5px solid #e2e4e7;font-weight:700;font-size:0.92rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:all 0.2s ease;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
         <svg width="20" height="20" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
@@ -1300,7 +1220,7 @@ footer{background:var(--primary-black);color:white;padding:5rem 5% 2rem;text-ali
   <div class="progress-modal-content">
     <h3 class="progress-text">Uploading your listing...</h3>
     <div class="progress-bar-container"><div class="progress-bar" id="progressBar"></div></div>
-    <p id="progressStatus">Preparing file...</p>
+    <p id="progressStatus" style="color:var(--text-muted);">Preparing file...</p>
   </div>
 </div>
 
@@ -1318,7 +1238,7 @@ footer{background:var(--primary-black);color:white;padding:5rem 5% 2rem;text-ali
 <div class="modal-overlay" id="shareModal" onclick="if(event.target===this)closeShareModal()" style="z-index:3100;">
   <div class="modal-content" style="max-width:420px;">
     <div style="display:flex;justify-content:space-between;align-items:center;padding:1.25rem 1.5rem;border-bottom:1px solid var(--border-color);">
-      <h2 style="font-size:1.1rem;font-weight:700;margin:0;">Share This Listing</h2>
+      <h2 style="font-size:1.1rem;font-weight:700;margin:0;color:var(--text-main);">Share This Listing</h2>
       <button onclick="closeShareModal()" style="background:transparent;border:none;width:32px;height:32px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:1rem;"><i class="fa-solid fa-xmark"></i></button>
     </div>
     <div class="modal-body" style="padding:1.25rem 1.5rem 1.5rem;">
@@ -1345,18 +1265,18 @@ footer{background:var(--primary-black);color:white;padding:5rem 5% 2rem;text-ali
 </div>
 
 <footer>
-  <div class="logo" style="color:white;font-size:2rem;">KasiStay<span style="color:var(--accent-green)">.</span></div>
+  <div class="logo" style="color:white;font-size:2rem;">KasiStay<span style="color:#10b981">.</span></div>
   <p style="color:#6b7280;margin-top:10px;">South Africa's #1 Accommodation Finder</p>
   <div class="footer-links"><a href="#">About Us</a><a href="#">Safety Guidelines</a><a href="#">Landlord Portal</a><a href="#">Support</a></div>
   <div class="copyright">&copy; 2026 KasiStay Inc. Built to make your job easier.</div>
 </footer>
 
-<!-- BOTTOM NAV -->
+<!-- BOTTOM NAV: Explore | Favourites | Map | Profile -->
 <div class="bottom-nav">
-  <div class="bottom-nav-item active" data-tab="0" onclick="navigateTab(0)"><i class="fa-solid fa-magnifying-glass"></i><span>Explore</span></div>
-  <div class="bottom-nav-item" data-tab="1" onclick="navigateTab(1)"><i class="fa-solid fa-heart"></i><span>Favourites</span></div>
-  <div class="bottom-nav-item" data-tab="3" onclick="navigateTab(3)"><i class="fa-solid fa-map-location-dot"></i><span>Map</span></div>
-  <div class="bottom-nav-item" data-tab="2" onclick="navigateTab(2)" id="profileNavBtn"><i class="fa-solid fa-circle-user"></i><span>Profile</span></div>
+  <button class="bottom-nav-item active" data-tab="0" onclick="navigateTab(0)"><i class="fa-solid fa-magnifying-glass"></i><span>Explore</span></button>
+  <button class="bottom-nav-item" data-tab="1" onclick="navigateTab(1)"><i class="fa-solid fa-heart"></i><span>Favourites</span></button>
+  <button class="bottom-nav-item" data-tab="2" onclick="navigateTab(2)"><i class="fa-solid fa-map-location-dot"></i><span>Map</span></button>
+  <button class="bottom-nav-item" data-tab="3" onclick="navigateTab(3)" id="profileNavBtn"><i class="fa-solid fa-circle-user"></i><span>Profile</span></button>
 </div>
 
 <!-- PWA INSTALL BANNER -->
@@ -1410,7 +1330,7 @@ function hideSplash() {
   s.classList.add('fade-out');
   setTimeout(() => { s.style.display = 'none'; }, 580);
 }
-setTimeout(hideSplash, 3000); // fallback — always hide after 3s
+setTimeout(hideSplash, 3000);
 
 // ── CLOUDINARY UPLOAD ─────────────────────────────────────────────────────────
 async function uploadToCloudinary(file) {
@@ -1435,6 +1355,7 @@ let currentFiltered = [];
 let displayedData   = [];
 let currentFilter   = 'all';
 let minPrice = 0, maxPrice = 30000;
+// Tabs: 0=Explore, 1=Favourites, 2=Map, 3=Profile
 let currentTab = 0;
 let currentItemLocation = '';
 let currentImages       = [];
@@ -1444,6 +1365,7 @@ let sheetImageIndex = 0;
 let currentListingId = null;
 let selectedRating   = 0;
 let likedItems = new Set();
+let mapCurrentItemId = null;
 const PAGE_SIZE = 10;
 
 // ── DARK MODE ────────────────────────────────────────────────────────────────
@@ -1451,12 +1373,20 @@ window.toggleDarkMode = () => {
   document.body.classList.toggle('dark-mode');
   const isDark = document.body.classList.contains('dark-mode');
   localStorage.setItem('darkMode', isDark);
+  syncDarkToggles(isDark);
+  // refresh map pins style if on map tab
+  if (currentTab === 2) renderMapPins();
+};
+function syncDarkToggles(isDark) {
   ['ppDarkToggle','ppDarkToggleGuest'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.checked = isDark;
   });
-};
-if (localStorage.getItem('darkMode') === 'true') document.body.classList.add('dark-mode');
+}
+if (localStorage.getItem('darkMode') === 'true') {
+  document.body.classList.add('dark-mode');
+}
+syncDarkToggles(document.body.classList.contains('dark-mode'));
 
 // ── SLIDERS ───────────────────────────────────────────────────────────────────
 const sliderGroups = [
@@ -1522,15 +1452,18 @@ onAuthStateChanged(auth, user => {
   const btn = document.getElementById('authButton');
   if (user) { btn.textContent = 'Sign Out'; btn.onclick = openSignOutConfirm; }
   else       { btn.textContent = 'Sign In';  btn.onclick = openSignInModal; }
-  // Reload saved list when auth changes
   if (user) {
     get(ref(db, `users/${user.uid}/saved`)).then(snap => {
       if (snap.exists() && Array.isArray(snap.val())) {
         likedItems = new Set(snap.val());
       }
+      if (currentTab === 1) renderFavouritesPage();
+      if (currentTab === 3) loadProfilePage();
     }).catch(() => {});
   } else {
     likedItems = new Set();
+    if (currentTab === 1) renderFavouritesPage();
+    if (currentTab === 3) loadProfilePage();
   }
 });
 
@@ -1593,7 +1526,8 @@ window.confirmSignOut = async () => {
   closeSignOutConfirm();
   await signOut(auth);
   likedItems = new Set();
-  if (currentTab === 2) loadProfilePage();
+  if (currentTab === 3) loadProfilePage();
+  if (currentTab === 1) renderFavouritesPage();
   document.getElementById('signedOutModal').classList.add('active');
   document.body.style.overflow = 'hidden';
 };
@@ -1603,55 +1537,329 @@ window.closeSignedOutModal = () => {
 };
 
 // ── NAVIGATION ────────────────────────────────────────────────────────────────
+// Tabs: 0=Explore, 1=Favourites, 2=Map, 3=Profile
+const TAB_ORDER = [0, 1, 2, 3];
+
+// Swipe gesture state
 let touchStartX = 0, touchStartY = 0, touchStartTime = 0, swipeBlocked = false;
+
 document.addEventListener('touchstart', e => {
   touchStartX = e.touches[0].clientX;
   touchStartY = e.touches[0].clientY;
   touchStartTime = Date.now();
   const t = e.target;
+  // Block swipe if touching scrollable horizontal elements or range inputs
   swipeBlocked = !!(
-    t.closest('.filter-tags-row') || t.closest('.mobile-filter-row') ||
-    t.closest('.range-input') || t.closest('.range-slider-container') ||
-    t.closest('.price-range-wrapper') || t.closest('.home-price-range') ||
+    t.closest('.filter-tags-row') ||
+    t.closest('.mobile-filter-row') ||
+    t.closest('.range-input') ||
+    t.closest('.range-slider-container') ||
+    t.closest('.price-range-wrapper') ||
+    t.closest('.home-price-range') ||
+    t.closest('.similar-scroll') ||
+    t.closest('.sheet-gallery') ||
     t.type === 'range'
   );
 }, { passive: true });
 
 document.addEventListener('touchend', e => {
   if (swipeBlocked) return;
-  const sheetOpen = document.getElementById('mobileSheet')?.classList.contains('open') ||
-                    document.getElementById('mobileMapSheet')?.classList.contains('open') ||
-                    document.getElementById('mobileReviewSheet')?.classList.contains('open') ||
-                    document.querySelector('.modal-overlay.active');
-  if (sheetOpen) return;
+  // Don't swipe tabs if a sheet/modal is open
+  const anySheetOpen =
+    document.getElementById('mobileSheet')?.classList.contains('open') ||
+    document.getElementById('mobileMapSheet')?.classList.contains('open') ||
+    document.getElementById('mobileReviewSheet')?.classList.contains('open') ||
+    document.querySelector('.modal-overlay.active');
+  if (anySheetOpen) return;
+
   const dx = e.changedTouches[0].clientX - touchStartX;
   const dy = e.changedTouches[0].clientY - touchStartY;
-  if (Date.now() - touchStartTime > 350) return;
-  if (Math.abs(dx) < 60) return;
-  if (Math.abs(dy) > Math.abs(dx) * 0.6) return;
-  const navTabs = [0, 2];
-  const idx = navTabs.indexOf(currentTab);
-  if (dx < 0 && idx < navTabs.length - 1) navigateTab(navTabs[idx + 1]);
-  else if (dx > 0 && idx > 0) navigateTab(navTabs[idx - 1]);
+  const elapsed = Date.now() - touchStartTime;
+
+  // Must be fast enough, wide enough, and more horizontal than vertical
+  if (elapsed > 400) return;
+  if (Math.abs(dx) < 55) return;
+  if (Math.abs(dy) > Math.abs(dx) * 0.65) return;
+
+  const idx = TAB_ORDER.indexOf(currentTab);
+  if (dx < 0 && idx < TAB_ORDER.length - 1) {
+    // Swipe left → next tab
+    navigateTab(TAB_ORDER[idx + 1]);
+  } else if (dx > 0 && idx > 0) {
+    // Swipe right → previous tab
+    navigateTab(TAB_ORDER[idx - 1]);
+  }
 }, { passive: true });
 
 window.navigateTab = index => {
   currentTab = index;
-  document.querySelectorAll('.bottom-nav-item').forEach((it, i) => it.classList.toggle('active', i === index));
-  document.getElementById('homeView').style.display      = 'none';
-  document.getElementById('mobileSearchView').style.display = 'none';
-  const ppv = document.getElementById('profilePageView');
-  if (ppv) ppv.style.display = 'none';
+
+  // Update nav indicators
+  document.querySelectorAll('.bottom-nav-item').forEach(it => {
+    it.classList.toggle('active', parseInt(it.dataset.tab) === index);
+  });
+
+  // Hide all views
+  const views = ['homeView','mobileSearchView','favouritesPageView','mapPageView','profilePageView'];
+  views.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+  });
 
   if (index === 0) {
     document.getElementById('homeView').style.display = 'block';
   } else if (index === 1) {
-    openAddModal();
-    document.getElementById('homeView').style.display = 'block';
-    return;
+    document.getElementById('favouritesPageView').style.display = 'block';
+    renderFavouritesPage();
   } else if (index === 2) {
+    const mpv = document.getElementById('mapPageView');
+    mpv.style.display = 'block';
+    initMapPageView();
+  } else if (index === 3) {
+    const ppv = document.getElementById('profilePageView');
     if (ppv) { ppv.style.display = 'block'; loadProfilePage(); }
   }
+};
+
+// ── FAVOURITES PAGE ───────────────────────────────────────────────────────────
+function renderFavouritesPage() {
+  const listEl = document.getElementById('favouritesListEl');
+  const badge  = document.getElementById('favCountBadge');
+  const savedIds = Array.from(likedItems);
+  if (badge) badge.textContent = savedIds.length;
+
+  if (!savedIds.length) {
+    listEl.innerHTML = `
+      <div class="fav-empty-state">
+        <i class="fa-solid fa-heart-crack"></i>
+        <h3>No favourites yet</h3>
+        <p>Tap the ♡ on any listing to save it here.</p>
+      </div>`;
+    return;
+  }
+
+  listEl.innerHTML = savedIds.map(id => {
+    const item = listingsData.find(l => l.id === id);
+    if (!item) return '';
+    return `
+      <div class="fav-item" onclick="openMobileSheet('${id}')">
+        <img class="fav-item-img" src="${item.image || ''}" alt="${item.title || ''}" onerror="this.src='https://placehold.co/68x68/f3f4f6/9ca3af?text=?'">
+        <div class="fav-item-info">
+          <div class="fav-item-title">${item.title || ''}</div>
+          <div class="fav-item-loc"><i class="fa-solid fa-location-dot"></i> ${item.location || ''}</div>
+          <div class="fav-item-price">R${(item.price || 0).toLocaleString()}/mo</div>
+        </div>
+        <button class="fav-item-remove" onclick="removeFav(event,'${id}')" title="Remove"><i class="fa-solid fa-xmark"></i></button>
+      </div>`;
+  }).join('');
+}
+
+window.removeFav = async (e, id) => {
+  e.stopPropagation();
+  likedItems.delete(id);
+  // Update DB
+  const user = auth.currentUser;
+  if (user) {
+    try { await set(ref(db, `users/${user.uid}/saved`), Array.from(likedItems)); } catch(_) {}
+  }
+  // Update like count
+  try {
+    const snap = await get(ref(db, `likeCounts/${id}/count`));
+    const cnt = snap.exists() ? Math.max(0, (snap.val() || 0) - 1) : 0;
+    await set(ref(db, `likeCounts/${id}/count`), cnt);
+  } catch(_) {}
+  renderFavouritesPage();
+  // Update profile count
+  const ppFav = document.getElementById('ppFavCount');
+  if (ppFav) ppFav.textContent = likedItems.size;
+};
+
+// ── MAP PAGE VIEW ─────────────────────────────────────────────────────────────
+let mapPageInitialized = false;
+let mapCurrentPinItem = null;
+
+function initMapPageView() {
+  const mpv = document.getElementById('mapPageView');
+  // Set height
+  mpv.style.height = `calc(100vh - ${document.querySelector('.bottom-nav')?.offsetHeight || 64}px - 64px)`;
+
+  if (!mapPageInitialized) {
+    mapPageInitialized = true;
+    // Load Google Maps iframe centred on South Africa
+    const frame = document.getElementById('mapPageFrame');
+    frame.src = `https://www.google.com/maps?q=-26.2041,28.0473&z=11&output=embed`;
+    frame.onload = () => {
+      document.getElementById('mapLoadingOverlay').style.display = 'none';
+      renderMapPins();
+    };
+  } else {
+    renderMapPins();
+  }
+}
+
+// Geocode cache — SA city approximate coords
+const geocodeCache = {};
+const SA_CITIES = {
+  'johannesburg':  { lat: -26.2041, lng: 28.0473 },
+  'braamfontein':  { lat: -26.1929, lng: 28.0336 },
+  'sandton':       { lat: -26.1076, lng: 28.0567 },
+  'soweto':        { lat: -26.2677, lng: 27.8591 },
+  'pretoria':      { lat: -25.7479, lng: 28.2293 },
+  'cape town':     { lat: -33.9249, lng: 18.4241 },
+  'durban':        { lat: -29.8587, lng: 31.0218 },
+  'polokwane':     { lat: -23.9045, lng: 29.4688 },
+  'bloemfontein':  { lat: -29.1212, lng: 26.2146 },
+  'eastlondon':    { lat: -33.0153, lng: 27.9116 },
+  'nelspruit':     { lat: -25.4753, lng: 30.9694 },
+  'kimberley':     { lat: -28.7282, lng: 24.7499 },
+  'george':        { lat: -33.9648, lng: 22.4617 },
+  'tembisa':       { lat: -25.9965, lng: 28.2266 },
+  'mamelodi':      { lat: -25.7230, lng: 28.3620 },
+  'soshanguve':    { lat: -25.5176, lng: 28.0992 },
+  'centurion':     { lat: -25.8528, lng: 28.1884 },
+  'midrand':       { lat: -25.9986, lng: 28.1284 },
+  'randburg':      { lat: -26.0934, lng: 27.9990 },
+  'roodepoort':    { lat: -26.1629, lng: 27.8710 },
+  'boksburg':      { lat: -26.2140, lng: 28.2606 },
+  'benoni':        { lat: -26.1875, lng: 28.3200 },
+  'germiston':     { lat: -26.2254, lng: 28.1610 },
+  'alberton':      { lat: -26.2655, lng: 28.1219 },
+  'katlehong':     { lat: -26.3418, lng: 28.1565 },
+  'alexandra':     { lat: -26.1055, lng: 28.0968 },
+  'diepsloot':     { lat: -25.9330, lng: 27.9720 },
+  'uj':            { lat: -26.1839, lng: 27.9949 },
+  'wits':          { lat: -26.1929, lng: 28.0305 },
+  'unisa':         { lat: -25.7479, lng: 28.1800 },
+  'tshwane':       { lat: -25.7479, lng: 28.2293 },
+  'vaal':          { lat: -26.7144, lng: 27.8469 },
+};
+
+function getApproxCoords(location) {
+  if (!location) return null;
+  const lc = location.toLowerCase();
+  for (const [key, coords] of Object.entries(SA_CITIES)) {
+    if (lc.includes(key)) return { ...coords };
+  }
+  return null;
+}
+
+// Spread pins that have the same coords so they don't stack
+function spreadPins(items) {
+  const placed = [];
+  return items.map(item => {
+    if (!item._coords) return item;
+    let { lat, lng } = item._coords;
+    // Check proximity to already placed pins
+    let attempts = 0;
+    while (attempts < 20) {
+      const too_close = placed.some(p => Math.abs(p.lat - lat) < 0.005 && Math.abs(p.lng - lng) < 0.005);
+      if (!too_close) break;
+      // Nudge slightly in a spiral
+      const angle = (attempts * 137.5) * Math.PI / 180;
+      const radius = 0.006 * Math.ceil(attempts / 6);
+      lat = item._coords.lat + radius * Math.sin(angle);
+      lng = item._coords.lng + radius * Math.cos(angle);
+      attempts++;
+    }
+    placed.push({ lat, lng });
+    return { ...item, _coords: { lat, lng } };
+  });
+}
+
+function renderMapPins() {
+  // We use an overlay of clickable HTML pins positioned via a coordinate-to-pixel transform
+  const container = document.getElementById('mapPinsContainer');
+  if (!container) return;
+  container.innerHTML = '';
+
+  // Only show listed items with resolvable coords
+  const geoItems = listingsData
+    .filter(item => item.adminStatus === 'approved' || !item.adminStatus)
+    .map(item => ({ ...item, _coords: getApproxCoords(item.location) }))
+    .filter(item => item._coords);
+
+  if (!geoItems.length) return;
+
+  const spread = spreadPins(geoItems);
+
+  // Compute bounding box
+  const lats = spread.map(i => i._coords.lat);
+  const lngs = spread.map(i => i._coords.lng);
+  const minLat = Math.min(...lats), maxLat = Math.max(...lats);
+  const minLng = Math.min(...lngs), maxLng = Math.max(...lngs);
+
+  const padLat = Math.max((maxLat - minLat) * 0.25, 0.03);
+  const padLng = Math.max((maxLng - minLng) * 0.25, 0.04);
+  const bMinLat = minLat - padLat, bMaxLat = maxLat + padLat;
+  const bMinLng = minLng - padLng, bMaxLng = maxLng + padLng;
+
+  const W = container.offsetWidth  || window.innerWidth;
+  const H = container.offsetHeight || (window.innerHeight - 128);
+
+  function latLngToXY(lat, lng) {
+    const x = ((lng - bMinLng) / (bMaxLng - bMinLng)) * W;
+    const y = ((bMaxLat - lat) / (bMaxLat - bMinLat)) * H;
+    return { x, y };
+  }
+
+  // Also update iframe src to fit the bounds
+  const centLat = (bMinLat + bMaxLat) / 2;
+  const centLng = (bMinLng + bMaxLng) / 2;
+  const frame = document.getElementById('mapPageFrame');
+  if (frame && frame.src.includes('output=embed')) {
+    frame.src = `https://www.google.com/maps?q=${centLat},${centLng}&z=12&output=embed`;
+  }
+
+  container.style.pointerEvents = 'none';
+
+  spread.forEach(item => {
+    const { x, y } = latLngToXY(item._coords.lat, item._coords.lng);
+    const isSelected = item.id === mapCurrentPinItem;
+
+    const wrap = document.createElement('div');
+    wrap.className = 'map-pin-wrapper';
+    wrap.style.cssText = `left:${x}px;top:${y}px;pointer-events:auto;`;
+
+    const shortTitle = (item.title || item.location || '').substring(0, 18) + ((item.title || '').length > 18 ? '…' : '');
+    wrap.innerHTML = `
+      <div class="map-pin-bubble${isSelected ? ' selected' : ''}">${shortTitle}</div>
+      <div class="map-pin-tail${isSelected ? ' selected' : ''}"></div>`;
+
+    wrap.addEventListener('click', () => {
+      mapCurrentPinItem = item.id;
+      renderMapPins(); // re-render to update selected state
+      showMapPropertyCard(item);
+    });
+
+    container.appendChild(wrap);
+  });
+}
+
+function showMapPropertyCard(item) {
+  const card = document.getElementById('mapPropertyCard');
+  card.style.display = 'block';
+  document.getElementById('mapCardImg').src = item.image || '';
+  document.getElementById('mapCardTitle').textContent = item.title || '';
+  document.getElementById('mapCardLocation').innerHTML = `<i class="fa-solid fa-location-dot"></i> ${item.location || ''}`;
+  document.getElementById('mapCardPrice').textContent  = `R${(item.price || 0).toLocaleString()}/mo`;
+
+  // Style the card button
+  const btn = document.getElementById('mapCardViewBtn');
+  btn.style.cssText = 'width:100%;padding:10px;border:none;border-radius:50px;font-weight:700;font-size:0.84rem;cursor:pointer;background:var(--primary-black);color:white;';
+
+  currentListingId = item.id;
+  currentItemLocation = item.location || '';
+}
+
+window.closeMapPropertyCard = () => {
+  document.getElementById('mapPropertyCard').style.display = 'none';
+  mapCurrentPinItem = null;
+  renderMapPins();
+};
+
+window.openSheetFromMapCard = () => {
+  if (!currentListingId) return;
+  openMobileSheet(currentListingId);
 };
 
 // ── HELPERS ───────────────────────────────────────────────────────────────────
@@ -1677,13 +1885,10 @@ async function loadLikeCounts() {
     snap.forEach(child => {
       const id  = child.key;
       const cnt = child.val()?.count || 0;
-      // Mobile like button label
       const btn = document.querySelector(`.like-btn[data-id="${id}"] .like-count-label`);
       if (btn) btn.textContent = cnt > 0 ? cnt : '';
-      // Desktop counter badge
       const badge = document.querySelector(`.like-counter-badge[data-id="${id}"] .lc-num`);
       if (badge) badge.textContent = cnt;
-      // Reflect liked state
       const likeBtn = document.querySelector(`.like-btn[data-id="${id}"]`);
       if (likeBtn && likedItems.has(id)) {
         likeBtn.classList.add('liked');
@@ -1711,7 +1916,6 @@ window.toggleLike = async (e, id) => {
     const icon = btn.querySelector('i');
     if (icon) icon.className = 'fa-regular fa-heart';
   }
-  // Optimistic counter update
   try {
     const snap = await get(ref(db, `likeCounts/${id}/count`));
     const current = snap.exists() ? (snap.val() || 0) : 0;
@@ -1719,11 +1923,12 @@ window.toggleLike = async (e, id) => {
     const label   = btn.querySelector('.like-count-label');
     if (label) label.textContent = next > 0 ? next : '';
     await set(ref(db, `likeCounts/${id}/count`), next);
-    // Save user's list
     const user = auth.currentUser;
     if (user) await set(ref(db, `users/${user.uid}/saved`), Array.from(likedItems));
     const ppFav = document.getElementById('ppFavCount');
     if (ppFav) ppFav.textContent = likedItems.size;
+    const favBadge = document.getElementById('favCountBadge');
+    if (favBadge) favBadge.textContent = likedItems.size;
   } catch (err) { console.warn('like error:', err); }
 };
 
@@ -1777,7 +1982,7 @@ window.openShareModal = () => {
   const item = listingsData.find(x => x.id === currentListingId);
   if (!item) return;
   const url = buildShareUrl(item.id);
-  document.getElementById('sharePreviewImg').src         = item.image || '';
+  document.getElementById('sharePreviewImg').src           = item.image || '';
   document.getElementById('sharePreviewTitle').textContent = item.title || '';
   document.getElementById('sharePreviewPrice').textContent = `R${(item.price || 0).toLocaleString()}/mo`;
   document.getElementById('sharePreviewLocationText').textContent = item.location || '';
@@ -1891,7 +2096,6 @@ function renderBatch(data) {
     }
     grid.appendChild(card);
   });
-  // Load fresh like counts after cards are in DOM
   loadLikeCounts();
 }
 
@@ -1915,6 +2119,13 @@ function loadMore() {
   renderBatch(batch);
   displayedData = displayedData.concat(batch);
 }
+
+window.addEventListener('scroll', () => {
+  if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 200 &&
+      displayedData.length < currentFiltered.length) {
+    loadMore();
+  }
+});
 
 window.applyFilters = () => {
   const isMob = window.innerWidth <= 767;
@@ -1958,14 +2169,6 @@ window.resetFilters = () => {
   if (window.innerWidth < 768) navigateTab(0);
 };
 
-// Infinite scroll
-window.addEventListener('scroll', () => {
-  if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 200 &&
-      displayedData.length < currentFiltered.length) {
-    loadMore();
-  }
-});
-
 // ── FILTER TAGS ───────────────────────────────────────────────────────────────
 document.querySelectorAll('.filter-tag').forEach(btn => {
   btn.addEventListener('click', () => {
@@ -1976,7 +2179,6 @@ document.querySelectorAll('.filter-tag').forEach(btn => {
   });
 });
 
-// Search inputs
 [searchInput, mobileSearchInput, mobileInlineSearch].forEach(el => {
   if (el) el.addEventListener('input', applyFilters);
 });
@@ -1987,7 +2189,6 @@ onValue(ref(db, 'listings'), snapshot => {
   if (snapshot.exists()) {
     snapshot.forEach(child => {
       const it = { id: child.key, ...child.val() };
-      // Show approved listings OR listings without adminStatus (legacy data)
       if (it.adminStatus === 'approved' || !it.adminStatus) {
         listingsData.push(it);
       }
@@ -1997,6 +2198,10 @@ onValue(ref(db, 'listings'), snapshot => {
   renderListings(listingsData);
   hideSplash();
   checkHashListing();
+  // If map tab is visible, refresh pins
+  if (currentTab === 2 && mapPageInitialized) renderMapPins();
+  // If favourites tab is visible, refresh
+  if (currentTab === 1) renderFavouritesPage();
 }, error => {
   console.error('Firebase load error:', error);
   grid.innerHTML = `<div class="empty-state"><i class="fa-solid fa-wifi"></i><h3>Connection Error</h3><p>Could not load listings. Please check your internet connection and refresh.</p><button class="btn btn-primary" onclick="location.reload()">Retry</button></div>`;
@@ -2076,7 +2281,6 @@ window.closeMobileSheet = () => {
 
 function initSheetDrag() {
   const panel   = document.getElementById('mobileSheetPanel');
-  const handle  = document.getElementById('sheetHandle');
   const body    = document.getElementById('sheetBody');
   const backdrop = document.getElementById('mobileSheetBackdrop');
   let startY = 0, curY = 0, dragging = false;
@@ -2159,7 +2363,7 @@ window.closeModal = () => {
   document.body.style.overflow = 'auto';
 };
 
-// ── MAP ───────────────────────────────────────────────────────────────────────
+// ── MAP (location popup) ──────────────────────────────────────────────────────
 window.openMapModal = location => {
   const loc = location || currentItemLocation;
   if (!loc) return;
@@ -2275,9 +2479,6 @@ function saveReview(comment) {
     const data    = snap.val() || {};
     const reviews = [...(data.reviews || []), newR];
     update(lRef, { reviews }).then(() => {
-      closeMobileReview();
-      closeModal();
-      // Refresh
       get(ref(db, `listings/${currentListingId}`)).then(s => {
         const idx = listingsData.findIndex(x => x.id === currentListingId);
         if (idx !== -1) listingsData[idx] = { id: currentListingId, ...s.val() };
@@ -2307,7 +2508,6 @@ window.openAddModal = () => {
 window.closeAddModal = () => {
   document.getElementById('addModal').classList.remove('active');
   document.body.style.overflow = 'auto';
-  if (window.innerWidth < 768) navigateTab(0);
 };
 
 document.getElementById('addImage').addEventListener('change', () => {
@@ -2382,10 +2582,7 @@ window.addToDb = async () => {
 // ── PROFILE PAGE ──────────────────────────────────────────────────────────────
 function loadProfilePage() {
   const isDark = document.body.classList.contains('dark-mode');
-  ['ppDarkToggle','ppDarkToggleGuest'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.checked = isDark;
-  });
+  syncDarkToggles(isDark);
 
   const user = auth.currentUser;
   document.getElementById('ppSignedIn').style.display = user ? 'block' : 'none';
@@ -2486,7 +2683,7 @@ window.showPPSaved = () => {
         listEl.innerHTML += `<div onclick="navigateTab(0);setTimeout(()=>openMobileSheet('${id}'),100);" style="padding:14px 18px;border-bottom:1px solid var(--border-color);display:flex;gap:12px;cursor:pointer;background:var(--bg-off-white);">
           <img src="${item.image || ''}" style="width:64px;height:64px;border-radius:10px;object-fit:cover;flex-shrink:0;" onerror="this.src='https://placehold.co/64x64/f3f4f6/9ca3af?text=?'">
           <div style="flex:1;min-width:0;">
-            <div style="font-weight:700;font-size:0.95rem;line-height:1.3;">${item.title || ''}</div>
+            <div style="font-weight:700;font-size:0.95rem;line-height:1.3;color:var(--text-main);">${item.title || ''}</div>
             <div style="font-size:0.82rem;color:var(--text-muted);">${item.location || ''}</div>
             <div style="color:var(--accent-green);font-weight:600;margin-top:4px;">R${(item.price || 0).toLocaleString()}/mo</div>
           </div>
@@ -2508,7 +2705,6 @@ const installBanner = document.getElementById('pwaInstallBanner');
 const installBtn    = document.getElementById('pwaInstallBtn');
 const installClose  = document.getElementById('pwaInstallClose');
 
-// Register service worker
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('./sw.js')
@@ -2517,7 +2713,6 @@ if ('serviceWorker' in navigator) {
   });
 }
 
-// Listen for install prompt (Android/Chrome)
 window.addEventListener('beforeinstallprompt', e => {
   e.preventDefault();
   deferredPrompt = e;
@@ -2546,7 +2741,6 @@ installClose?.addEventListener('click', () => {
   localStorage.setItem('ks_pwa_dismissed', '1');
 });
 
-// iOS Safari — no beforeinstallprompt, show manual instructions
 const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent);
 const isStandalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
 if (isIos && !isStandalone && !localStorage.getItem('ks_pwa_dismissed') && !localStorage.getItem('ks_pwa_installed')) {
@@ -2563,16 +2757,6 @@ if (isIos && !isStandalone && !localStorage.getItem('ks_pwa_dismissed') && !loca
   }, 4500);
 }
 
-  if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js')
-      .then(reg => console.log('Service Worker registered!', reg))
-      .catch(err => console.err('Service Worker registration failed:', err));
-  });
-}
-
-
-  
 </script>
 </body>
 </html>

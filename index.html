@@ -648,6 +648,9 @@ footer{background:#111111;color:white;padding:5rem 5% 2rem;text-align:center;tra
 
   #mobileSheet.open~.bottom-nav,
   #mobileSheetBackdrop.open~.bottom-nav{pointer-events:none;}
+
+  /* Mobile Floating List Room Button */
+  .fab-list-room{display:none;}
 }
 
 @media(min-width:768px){
@@ -1040,7 +1043,7 @@ footer{background:#111111;color:white;padding:5rem 5% 2rem;text-align:center;tra
 <div class="modal-overlay" id="mapModal" onclick="if(event.target===this)closeMapModal()">
   <div class="modal-content" style="max-width:900px;height:80vh;display:flex;flex-direction:column;">
     <div style="display:flex;justify-content:space-between;align-items:center;padding:1rem 1.5rem;border-bottom:1px solid var(--border-color);">
-      <h2 style="font-size:1.1rem;font-weight:700;color:var(--text-main);">Location</h2>
+      <h2 style="font-size:1.1rem;font-weight:700;margin:0;color:var(--text-main);">Location</h2>
       <button onclick="closeMapModal()" style="background:transparent;border:none;width:32px;height:32px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:1.1rem;"><i class="fa-solid fa-xmark"></i></button>
     </div>
     <div style="flex:1;overflow:hidden;"><iframe id="mapFrame" src="" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade" style="width:100%;height:100%;border:none;"></iframe></div>
@@ -1270,6 +1273,11 @@ footer{background:#111111;color:white;padding:5rem 5% 2rem;text-align:center;tra
   <div class="footer-links"><a href="#">About Us</a><a href="#">Safety Guidelines</a><a href="#">Landlord Portal</a><a href="#">Support</a></div>
   <div class="copyright">&copy; 2026 KasiStay Inc. Built to make your job easier.</div>
 </footer>
+
+<!-- MOBILE FLOATING LIST ROOM BUTTON -->
+<button class="fab-list-room" onclick="openAddModal()" aria-label="List a room">
+  <i class="fa-solid fa-plus"></i>
+</button>
 
 <!-- BOTTOM NAV: Explore | Favourites | Map | Profile -->
 <div class="bottom-nav">

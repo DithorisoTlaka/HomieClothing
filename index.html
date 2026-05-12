@@ -1677,23 +1677,56 @@ window.removeFav = async (e, id) => {
 // ── MAP PAGE VIEW ─────────────────────────────────────────────────────────────
 let mapPageInitialized = false;
 let mapCurrentPinItem = null;
+let mapBounds = null;
 
 function initMapPageView() {
   const mpv = document.getElementById('mapPageView');
-  // Set height
   mpv.style.height = `calc(100vh - ${document.querySelector('.bottom-nav')?.offsetHeight || 64}px - 64px)`;
 
   if (!mapPageInitialized) {
     mapPageInitialized = true;
-    // Load Google Maps iframe centred on South Africa
+
+    // Calculate center from listings so pins align with the map
+    const geoItems = listingsData
+      .filter(item => item.adminStatus === 'approved' || !item.adminStatus)
+      .map(item => ({ ...item, _coords: getApproxCoords(item.location) }))
+      .filter(item => item._coords);
+
+    let src;
+    if (geoItems.length) {
+      const lats = geoItems.map(i => i._coords.lat);
+      const lngs = geoItems.map(i => i._coords.lng);
+      const minLat = Math.min(...lats), maxLat = Math.max(...lats);
+      const minLng = Math.min(...lngs), maxLng = Math.max(...lngs);
+      const padLat = Math.max((maxLat - minLat) * 0.25, 0.03);
+      const padLng = Math.max((maxLng - minLng) * 0.25, 0.04);
+      mapBounds = {
+        minLat: minLat - padLat,
+        maxLat: maxLat + padLat,
+        minLng: minLng - padLng,
+        maxLng: maxLng + padLng
+      };
+      const centLat = (mapBounds.minLat + mapBounds.maxLat) / 2;
+      const centLng = (mapBounds.minLng + mapBounds.maxLng) / 2;
+      src = `https://www.google.com/maps?q=${centLat},${centLng}&z=12&output=embed`;
+    } else {
+      mapBounds = {
+        minLat: -26.2041 - 0.03,
+        maxLat: -26.2041 + 0.03,
+        minLng: 28.0473 - 0.04,
+        maxLng: 28.0473 + 0.04
+      };
+      src = `https://www.google.com/maps?q=-26.2041,28.0473&z=11&output=embed`;
+    }
+
     const frame = document.getElementById('mapPageFrame');
-    frame.src = `https://www.google.com/maps?q=-26.2041,28.0473&z=11&output=embed`;
+    frame.src = src;
     frame.onload = () => {
       document.getElementById('mapLoadingOverlay').style.display = 'none';
-      renderMapPins();
+      requestAnimationFrame(() => renderMapPins());
     };
   } else {
-    renderMapPins();
+    requestAnimationFrame(() => renderMapPins());
   }
 }
 
@@ -1769,8 +1802,9 @@ function spreadPins(items) {
 function renderMapPins() {
   // We use an overlay of clickable HTML pins positioned via a coordinate-to-pixel transform
   const container = document.getElementById('mapPinsContainer');
-  if (!container) return;
+  if (!container || !mapBounds) return;
   container.innerHTML = '';
+  container.style.pointerEvents = 'none';
 
   // Only show listed items with resolvable coords
   const geoItems = listingsData
@@ -1782,32 +1816,13 @@ function renderMapPins() {
 
   const spread = spreadPins(geoItems);
 
-  // Compute bounding box
-  const lats = spread.map(i => i._coords.lat);
-  const lngs = spread.map(i => i._coords.lng);
-  const minLat = Math.min(...lats), maxLat = Math.max(...lats);
-  const minLng = Math.min(...lngs), maxLng = Math.max(...lngs);
-
-  const padLat = Math.max((maxLat - minLat) * 0.25, 0.03);
-  const padLng = Math.max((maxLng - minLng) * 0.25, 0.04);
-  const bMinLat = minLat - padLat, bMaxLat = maxLat + padLat;
-  const bMinLng = minLng - padLng, bMaxLng = maxLng + padLng;
-
   const W = container.offsetWidth  || window.innerWidth;
   const H = container.offsetHeight || (window.innerHeight - 128);
 
   function latLngToXY(lat, lng) {
-    const x = ((lng - bMinLng) / (bMaxLng - bMinLng)) * W;
-    const y = ((bMaxLat - lat) / (bMaxLat - bMinLat)) * H;
+    const x = ((lng - mapBounds.minLng) / (mapBounds.maxLng - mapBounds.minLng)) * W;
+    const y = ((mapBounds.maxLat - lat) / (mapBounds.maxLat - mapBounds.minLat)) * H;
     return { x, y };
-  }
-
-  // Also update iframe src to fit the bounds
-  const centLat = (bMinLat + bMaxLat) / 2;
-  const centLng = (bMinLng + bMaxLng) / 2;
-  const frame = document.getElementById('mapPageFrame');
-  if (frame && frame.src.includes('output=embed')) {
-    frame.src = `https://www.google.com/maps?q=${centLat},${centLng}&z=12&output=embed`;
   }
 
   container.style.pointerEvents = 'none';

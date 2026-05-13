@@ -650,7 +650,179 @@ footer{background:#111111;color:white;padding:5rem 5% 2rem;text-align:center;tra
   #mobileSheetBackdrop.open~.bottom-nav{pointer-events:none;}
 
   /* Mobile Floating List Room Button */
-  .fab-list-room{display:none;}
+  .fab-list-room{
+    display:flex;
+    bottom:88px;
+    right:20px;
+  }
+}
+
+/* ── FLOATING ACTION BUTTON (all screen sizes) ── */
+@keyframes fabPop{0%{opacity:0;transform:scale(0.4) rotate(-90deg);}60%{transform:scale(1.15) rotate(8deg);}80%{transform:scale(0.95) rotate(-3deg);}100%{opacity:1;transform:scale(1) rotate(0deg);}}
+@keyframes fabPulseRing{0%{transform:scale(1);opacity:0.6;}100%{transform:scale(1.65);opacity:0;}}
+@keyframes fabShimmer{0%{background-position:-200% center;}100%{background-position:200% center;}}
+
+.fab-list-room{
+  position:fixed;
+  right:24px;
+  bottom:24px;
+  width:56px;
+  height:56px;
+  border-radius:50%;
+  border:none;
+  cursor:pointer;
+  z-index:1500;
+  background:linear-gradient(135deg,#34d399 0%,#10b981 40%,#059669 100%);
+  background-size:200% 200%;
+  color:white;
+  font-size:1.35rem;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 4px 20px rgba(16,185,129,0.45),0 2px 8px rgba(0,0,0,0.18);
+  animation:fabPop 0.55s cubic-bezier(0.22,1,0.36,1) 0.8s both;
+  transition:transform 0.25s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.25s ease,background-position 0.6s ease;
+  outline:none;
+}
+.fab-list-room::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  border-radius:50%;
+  background:inherit;
+  animation:fabPulseRing 2.2s cubic-bezier(0.4,0,0.6,1) 1.4s infinite;
+  z-index:-1;
+}
+.fab-list-room:hover{
+  transform:scale(1.12) translateY(-2px);
+  box-shadow:0 8px 28px rgba(16,185,129,0.55),0 4px 12px rgba(0,0,0,0.2);
+  background-position:right center;
+}
+.fab-list-room:active{
+  transform:scale(0.93);
+  box-shadow:0 3px 10px rgba(16,185,129,0.3);
+}
+.fab-list-room i{
+  transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  pointer-events:none;
+}
+.fab-list-room.modal-open i{transform:rotate(45deg);}
+
+/* ── LIST ROOM FLOATING MODAL ── */
+@keyframes listRoomModalIn{from{opacity:0;transform:scale(0.88) translateY(24px);}to{opacity:1;transform:scale(1) translateY(0);}}
+@keyframes listRoomBackdropIn{from{opacity:0;}to{opacity:1;}}
+
+#listRoomBackdrop{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.55);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  z-index:2800;
+  animation:listRoomBackdropIn 0.28s ease;
+}
+#listRoomBackdrop.active{display:block;}
+
+#listRoomModal{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:2900;
+  align-items:flex-end;
+  justify-content:center;
+  padding:0;
+  pointer-events:none;
+}
+#listRoomModal.active{display:flex;pointer-events:auto;}
+
+#listRoomPanel{
+  background:var(--bg-white);
+  width:100%;
+  max-width:520px;
+  border-radius:28px 28px 0 0;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  max-height:92vh;
+  animation:listRoomModalIn 0.38s cubic-bezier(0.22,1,0.36,1);
+  box-shadow:0 -8px 48px rgba(0,0,0,0.18);
+  pointer-events:auto;
+}
+.dark-mode #listRoomPanel{background:#1c1c1e;}
+
+#listRoomPanel .lr-handle{width:40px;height:4px;background:var(--border-color);border-radius:2px;margin:12px auto 0;}
+#listRoomPanel .lr-header{
+  padding:16px 20px 14px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  border-bottom:1px solid var(--border-color);
+  flex-shrink:0;
+}
+#listRoomPanel .lr-header h2{font-size:1.1rem;font-weight:800;color:var(--text-main);letter-spacing:-0.3px;margin:0;}
+#listRoomPanel .lr-close{
+  width:32px;height:32px;border-radius:50%;border:none;background:var(--bg-off-white);
+  color:var(--text-muted);cursor:pointer;display:flex;align-items:center;justify-content:center;
+  font-size:0.95rem;transition:background 0.2s,transform 0.2s;flex-shrink:0;
+}
+.dark-mode #listRoomPanel .lr-close{background:#2c2c2e;}
+#listRoomPanel .lr-close:hover{background:var(--border-color);transform:scale(1.1);}
+#listRoomPanel .lr-body{padding:18px 20px 24px;overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:14px;}
+
+.lr-field{display:flex;flex-direction:column;gap:5px;}
+.lr-label{font-size:0.78rem;font-weight:700;color:var(--text-muted);letter-spacing:0.03em;}
+.lr-input{
+  padding:13px 14px;border:1.5px solid var(--border-color);border-radius:12px;
+  font-size:0.93rem;font-family:'Inter',sans-serif;background:var(--bg-white);
+  color:var(--text-main);outline:none;transition:border-color 0.2s,box-shadow 0.2s;width:100%;
+}
+.dark-mode .lr-input{background:#2c2c2e;border-color:#3a3a3c;color:#e0e0e0;}
+.lr-input:focus{border-color:var(--accent-green);box-shadow:0 0 0 3px rgba(16,185,129,0.12);}
+.lr-input::placeholder{color:var(--text-muted);}
+.lr-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.lr-select{
+  padding:13px 36px 13px 14px;border:1.5px solid var(--border-color);border-radius:12px;
+  font-size:0.93rem;font-family:'Inter',sans-serif;background:var(--bg-white);
+  color:var(--text-main);outline:none;cursor:pointer;width:100%;
+  appearance:none;-webkit-appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b7280' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center;
+  transition:border-color 0.2s,box-shadow 0.2s;
+}
+.dark-mode .lr-select{background-color:#2c2c2e;border-color:#3a3a3c;color:#e0e0e0;}
+.lr-select:focus{border-color:var(--accent-green);box-shadow:0 0 0 3px rgba(16,185,129,0.12);outline:none;}
+.lr-textarea{resize:none;min-height:80px;line-height:1.55;}
+.lr-upload-area{
+  border:2px dashed var(--border-color);border-radius:12px;padding:18px;text-align:center;
+  cursor:pointer;background:var(--bg-off-white);position:relative;transition:border-color 0.2s,background 0.2s;
+}
+.dark-mode .lr-upload-area{background:#2c2c2e;border-color:#3a3a3c;}
+.lr-upload-area:hover{border-color:var(--accent-green);background:#f0fdf4;}
+.dark-mode .lr-upload-area:hover{background:#14532d22;}
+.lr-upload-area i{font-size:1.4rem;color:var(--accent-green);margin-bottom:6px;display:block;}
+.lr-upload-area span{font-size:0.82rem;color:var(--text-muted);}
+.lr-upload-area span b{color:var(--accent-green);}
+.lr-upload-area input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+#lrImagesPreview{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px;}
+.lr-preview-img{width:56px;height:56px;border-radius:8px;object-fit:cover;border:1.5px solid var(--border-color);}
+
+.lr-submit-btn{
+  width:100%;padding:15px;border:none;border-radius:50px;cursor:pointer;font-weight:700;
+  font-size:0.97rem;color:white;font-family:'Inter',sans-serif;
+  background:linear-gradient(135deg,#34d399 0%,#10b981 50%,#059669 100%);
+  background-size:200% auto;
+  box-shadow:0 4px 16px rgba(16,185,129,0.38);
+  transition:transform 0.22s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.22s ease,background-position 0.4s ease;
+  display:flex;align-items:center;justify-content:center;gap:8px;letter-spacing:0.01em;
+}
+.lr-submit-btn:hover{transform:translateY(-2px);box-shadow:0 7px 22px rgba(16,185,129,0.48);background-position:right center;}
+.lr-submit-btn:active{transform:scale(0.97);}
+
+@media(min-width:768px){
+  #listRoomModal{align-items:center;padding:1rem;}
+  #listRoomPanel{border-radius:24px;max-height:88vh;}
+  #listRoomPanel .lr-handle{display:none;}
+  .fab-list-room{bottom:32px;right:32px;}
 }
 
 @media(min-width:768px){
@@ -1274,8 +1446,69 @@ footer{background:#111111;color:white;padding:5rem 5% 2rem;text-align:center;tra
   <div class="copyright">&copy; 2026 KasiStay Inc. Built to make your job easier.</div>
 </footer>
 
-<!-- MOBILE FLOATING LIST ROOM BUTTON -->
-<button class="fab-list-room" onclick="openAddModal()" aria-label="List a room">
+<!-- LIST ROOM FLOATING MODAL -->
+<div id="listRoomBackdrop" onclick="closeLRModal()"></div>
+<div id="listRoomModal" aria-modal="true" role="dialog" aria-label="List a Room">
+  <div id="listRoomPanel">
+    <div class="lr-handle"></div>
+    <div class="lr-header">
+      <h2>🏠 List Your Room</h2>
+      <button class="lr-close" onclick="closeLRModal()" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="lr-body">
+      <div class="lr-field">
+        <label class="lr-label">Property Owner Name</label>
+        <input class="lr-input" type="text" id="lrOwnerName" placeholder="Enter your full name">
+      </div>
+      <div class="lr-field">
+        <label class="lr-label">Listing Title</label>
+        <input class="lr-input" type="text" id="lrTitle" placeholder="e.g. Modern Studio near UJ">
+      </div>
+      <div class="lr-row">
+        <div class="lr-field">
+          <label class="lr-label">Monthly Rent (R)</label>
+          <input class="lr-input" type="number" id="lrPrice" placeholder="5500">
+        </div>
+        <div class="lr-field">
+          <label class="lr-label">Room Type</label>
+          <select class="lr-select" id="lrType">
+            <option value="Single room">Single Room</option>
+            <option value="Bachelor Room">Bachelor Room</option>
+            <option value="2 Room">2 Room</option>
+            <option value="Flat Apartments">Apartment</option>
+          </select>
+        </div>
+      </div>
+      <div class="lr-field">
+        <label class="lr-label">Area / Location</label>
+        <input class="lr-input" type="text" id="lrLocation" placeholder="e.g. Braamfontein, Johannesburg">
+      </div>
+      <div class="lr-field">
+        <label class="lr-label">Photos</label>
+        <div class="lr-upload-area">
+          <i class="fa-solid fa-cloud-arrow-up"></i>
+          <span>Drop photos here or <b>browse</b></span>
+          <input type="file" id="lrImage" accept="image/*" multiple onchange="lrPreviewImages(event)">
+          <div id="lrImagesPreview"></div>
+        </div>
+      </div>
+      <div class="lr-field">
+        <label class="lr-label">Amenities (comma separated)</label>
+        <input class="lr-input" type="text" id="lrAmenities" placeholder="WiFi, Parking, Study Desk...">
+      </div>
+      <div class="lr-field">
+        <label class="lr-label">Description</label>
+        <textarea class="lr-input lr-textarea" id="lrDesc" placeholder="Tell students about your space..."></textarea>
+      </div>
+      <button class="lr-submit-btn" onclick="submitLRListing()">
+        <i class="fa-solid fa-paper-plane"></i> Post Listing Now
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- FLOATING ACTION BUTTON -->
+<button class="fab-list-room" id="fabListRoom" onclick="openLRModal()" aria-label="List a room">
   <i class="fa-solid fa-plus"></i>
 </button>
 
@@ -2763,6 +2996,52 @@ installClose?.addEventListener('click', () => {
   installBanner.classList.remove('show');
   localStorage.setItem('ks_pwa_dismissed', '1');
 });
+
+// ── LIST ROOM FLOATING MODAL ──────────────────────────────────────────────────
+function openLRModal() {
+  document.getElementById('listRoomBackdrop').classList.add('active');
+  document.getElementById('listRoomModal').classList.add('active');
+  document.getElementById('fabListRoom').classList.add('modal-open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLRModal() {
+  document.getElementById('listRoomBackdrop').classList.remove('active');
+  document.getElementById('listRoomModal').classList.remove('active');
+  document.getElementById('fabListRoom').classList.remove('modal-open');
+  document.body.style.overflow = '';
+}
+function lrPreviewImages(e) {
+  const preview = document.getElementById('lrImagesPreview');
+  preview.innerHTML = '';
+  Array.from(e.target.files).slice(0, 8).forEach(file => {
+    const url = URL.createObjectURL(file);
+    preview.innerHTML += `<img src="${url}" class="lr-preview-img" alt="preview">`;
+  });
+}
+async function submitLRListing() {
+  // Sync values into the original addForm fields and reuse existing addToDb()
+  const map = {lrOwnerName:'addOwnerName',lrTitle:'addTitle',lrPrice:'addPrice',lrType:'addType',lrLocation:'addLocation',lrAmenities:'addAmenities',lrDesc:'addDesc'};
+  let valid = true;
+  for (const [lrId, addId] of Object.entries(map)) {
+    const lrEl = document.getElementById(lrId);
+    const addEl = document.getElementById(addId);
+    if (addEl && lrEl) {
+      addEl.value = lrEl.value;
+      if (lrId !== 'lrAmenities' && !lrEl.value.trim()) valid = false;
+    }
+  }
+  // Sync images
+  const lrFile = document.getElementById('lrImage');
+  const addFile = document.getElementById('addImage');
+  if (lrFile && addFile && lrFile.files.length) {
+    const dt = new DataTransfer();
+    Array.from(lrFile.files).forEach(f => dt.items.add(f));
+    addFile.files = dt.files;
+  }
+  if (!valid) { alert('Please fill in all required fields.'); return; }
+  closeLRModal();
+  if (typeof addToDb === 'function') addToDb();
+}
 
 const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent);
 const isStandalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;

@@ -84,17 +84,62 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:1rem 5
 .filter-tags-row::-webkit-scrollbar{display:none;}
 @media(min-width:768px){.filter-tags-row{flex-wrap:wrap;justify-content:center;}}
 
-/* PWA Install Banner */
-#pwaInstallBanner{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(120px);background:#111;color:white;border-radius:20px;padding:14px 18px;display:flex;align-items:center;gap:12px;z-index:9000;box-shadow:0 8px 32px rgba(0,0,0,0.35);max-width:calc(100vw - 32px);width:380px;transition:transform 0.5s cubic-bezier(0.34,1.56,0.64,1),opacity 0.4s ease;opacity:0;pointer-events:none;border:1px solid rgba(255,255,255,0.1);}
-#pwaInstallBanner.show{transform:translateX(-50%) translateY(0);opacity:1;pointer-events:auto;}
-.pwa-banner-icon{width:44px;height:44px;border-radius:12px;background:#10b981;display:flex;align-items:center;justify-content:center;font-size:1.4rem;font-weight:800;color:white;flex-shrink:0;}
+/* PWA Install Banner — TOP persistent strip */
+#pwaInstallBanner{
+  position:fixed;
+  top:0;left:0;right:0;
+  width:100%;
+  background:linear-gradient(135deg,#111111 0%,#1a2e22 100%);
+  color:white;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:10px 16px;
+  z-index:99998;
+  box-shadow:0 2px 16px rgba(0,0,0,0.35);
+  border-bottom:1px solid rgba(16,185,129,0.3);
+  transform:translateY(-110%);
+  transition:transform 0.5s cubic-bezier(0.34,1.56,0.64,1);
+  pointer-events:none;
+}
+#pwaInstallBanner.show{
+  transform:translateY(0);
+  pointer-events:auto;
+}
+.pwa-banner-icon{
+  width:36px;height:36px;border-radius:10px;
+  background:linear-gradient(135deg,#34d399,#059669);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.1rem;font-weight:800;color:white;flex-shrink:0;
+}
 .pwa-banner-text{flex:1;min-width:0;}
-.pwa-banner-title{font-weight:700;font-size:0.88rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:white;}
-.pwa-banner-sub{font-size:0.72rem;color:rgba(255,255,255,0.55);margin-top:2px;}
-.pwa-banner-install{background:#10b981;color:white;border:none;border-radius:50px;padding:8px 16px;font-weight:700;font-size:0.8rem;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:transform 0.2s ease,background 0.2s ease;}
-.pwa-banner-install:active{transform:scale(0.95);background:#059669;}
-.pwa-banner-close{background:transparent;border:none;color:rgba(255,255,255,0.45);font-size:1rem;cursor:pointer;padding:4px;flex-shrink:0;line-height:1;}
-@media(min-width:768px){#pwaInstallBanner{bottom:24px;}}
+.pwa-banner-title{font-weight:700;font-size:0.82rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:white;line-height:1.3;}
+.pwa-banner-sub{font-size:0.68rem;color:rgba(255,255,255,0.5);margin-top:1px;line-height:1.3;}
+.pwa-banner-install{
+  background:linear-gradient(135deg,#34d399,#10b981);
+  color:white;border:none;border-radius:50px;
+  padding:7px 14px;font-weight:700;font-size:0.75rem;
+  cursor:pointer;white-space:nowrap;flex-shrink:0;
+  transition:transform 0.2s ease,box-shadow 0.2s ease;
+  box-shadow:0 2px 8px rgba(16,185,129,0.35);
+}
+.pwa-banner-install:hover{transform:scale(1.04);box-shadow:0 4px 14px rgba(16,185,129,0.5);}
+.pwa-banner-install:active{transform:scale(0.95);}
+.pwa-banner-close{
+  background:transparent;border:none;
+  color:rgba(255,255,255,0.45);font-size:1rem;
+  cursor:pointer;padding:4px 6px;flex-shrink:0;line-height:1;
+  transition:color 0.2s;
+}
+.pwa-banner-close:hover{color:rgba(255,255,255,0.8);}
+/* Push nav below banner when banner is visible */
+body.pwa-banner-visible nav{top:56px;transition:top 0.5s cubic-bezier(0.34,1.56,0.64,1);}
+@media(min-width:768px){
+  #pwaInstallBanner{padding:12px 24px;}
+  .pwa-banner-title{font-size:0.88rem;}
+  .pwa-banner-sub{font-size:0.72rem;}
+  body.pwa-banner-visible nav{top:52px;}
+}
 
 .filter-tag{padding:0.6rem 1.4rem;border:1px solid var(--border-color);border-radius:50px;font-size:0.9rem;font-weight:500;cursor:pointer;transition:transform 0.2s cubic-bezier(0.34,1.56,0.64,1),background 0.22s ease,border-color 0.22s ease,box-shadow 0.22s ease;background:white;color:#1f2937;}
 .dark-mode .filter-tag{background:#2a2a2a;color:#e0e0e0;border-color:#444;}
@@ -652,7 +697,7 @@ footer{background:#111111;color:white;padding:5rem 5% 2rem;text-align:center;tra
   /* Mobile Floating List Room Button */
   .fab-list-room{
     display:flex;
-    bottom:88px;
+    bottom:84px;
     right:20px;
   }
 }
@@ -664,8 +709,8 @@ footer{background:#111111;color:white;padding:5rem 5% 2rem;text-align:center;tra
 
 .fab-list-room{
   position:fixed;
-  right:24px;
-  bottom:24px;
+  right:20px;
+  bottom:84px;
   width:56px;
   height:56px;
   border-radius:50%;
@@ -676,6 +721,7 @@ footer{background:#111111;color:white;padding:5rem 5% 2rem;text-align:center;tra
   background-size:200% 200%;
   color:white;
   font-size:1.35rem;
+  display:flex;
   align-items:center;
   justify-content:center;
   box-shadow:0 4px 20px rgba(16,185,129,0.45),0 2px 8px rgba(0,0,0,0.18);
@@ -822,7 +868,7 @@ footer{background:#111111;color:white;padding:5rem 5% 2rem;text-align:center;tra
   #listRoomModal{align-items:center;padding:1rem;}
   #listRoomPanel{border-radius:24px;max-height:88vh;}
   #listRoomPanel .lr-handle{display:none;}
-  .fab-list-room{bottom:32px;right:32px;}
+  .fab-list-room{bottom:36px;right:36px;}
 }
 
 @media(min-width:768px){
@@ -2955,11 +3001,23 @@ window.closePPDynamic = () => {
   document.getElementById('ppMainContent').classList.remove('hidden');
 };
 
-// ── PWA & SERVICE WORKER ──────────────────────────────────────────────────────
+// ── PWA INSTALL BANNER (top strip, persistent every refresh) ─────────────────
 let deferredPrompt = null;
 const installBanner = document.getElementById('pwaInstallBanner');
 const installBtn    = document.getElementById('pwaInstallBtn');
 const installClose  = document.getElementById('pwaInstallClose');
+
+function showInstallBanner() {
+  if (localStorage.getItem('ks_pwa_installed')) return;
+  installBanner.classList.add('show');
+  document.body.classList.add('pwa-banner-visible');
+}
+function hideInstallBanner(permanent) {
+  installBanner.classList.remove('show');
+  document.body.classList.remove('pwa-banner-visible');
+  if (permanent) localStorage.setItem('ks_pwa_installed', '1');
+  // No ks_pwa_dismissed stored — banner returns every refresh unless installed
+}
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
@@ -2969,33 +3027,61 @@ if ('serviceWorker' in navigator) {
   });
 }
 
+// Already running as installed PWA — mark installed permanently
+const _isStandalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
+if (_isStandalone) { localStorage.setItem('ks_pwa_installed', '1'); }
+
 window.addEventListener('beforeinstallprompt', e => {
   e.preventDefault();
   deferredPrompt = e;
-  if (!localStorage.getItem('ks_pwa_dismissed') && !localStorage.getItem('ks_pwa_installed')) {
-    setTimeout(() => installBanner.classList.add('show'), 3500);
+  if (!localStorage.getItem('ks_pwa_installed')) {
+    setTimeout(showInstallBanner, 1200);
   }
 });
 
 window.addEventListener('appinstalled', () => {
-  localStorage.setItem('ks_pwa_installed', '1');
-  installBanner.classList.remove('show');
+  hideInstallBanner(true);
   deferredPrompt = null;
 });
 
 installBtn?.addEventListener('click', async () => {
-  if (!deferredPrompt) return;
-  installBanner.classList.remove('show');
-  deferredPrompt.prompt();
-  const { outcome } = await deferredPrompt.userChoice;
-  deferredPrompt = null;
-  if (outcome === 'accepted') localStorage.setItem('ks_pwa_installed', '1');
+  if (deferredPrompt) {
+    installBanner.classList.remove('show');
+    document.body.classList.remove('pwa-banner-visible');
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    deferredPrompt = null;
+    if (outcome === 'accepted') {
+      hideInstallBanner(true);
+    } else {
+      // User declined prompt — show banner again (returns next refresh anyway)
+      installBanner.classList.add('show');
+      document.body.classList.add('pwa-banner-visible');
+    }
+  }
 });
 
 installClose?.addEventListener('click', () => {
+  // Close only hides for this session — returns on next refresh
   installBanner.classList.remove('show');
-  localStorage.setItem('ks_pwa_dismissed', '1');
+  document.body.classList.remove('pwa-banner-visible');
 });
+
+// iOS: no beforeinstallprompt event, show banner manually every session
+const _isIos = /iphone|ipad|ipod/i.test(navigator.userAgent);
+if (_isIos && !_isStandalone && !localStorage.getItem('ks_pwa_installed')) {
+  setTimeout(() => {
+    if (installBtn) {
+      installBtn.textContent = 'How to Install';
+      installBtn.onclick = () => {
+        alert('To install KasiStay on your iPhone:\n\n1. Tap the Share button \u229e\n2. Scroll down and tap \u201cAdd to Home Screen\u201d\n3. Tap \u201cAdd\u201d');
+        installBanner.classList.remove('show');
+        document.body.classList.remove('pwa-banner-visible');
+      };
+    }
+    showInstallBanner();
+  }, 1200);
+}
 
 // ── LIST ROOM FLOATING MODAL ──────────────────────────────────────────────────
 function openLRModal() {
@@ -3019,7 +3105,6 @@ function lrPreviewImages(e) {
   });
 }
 async function submitLRListing() {
-  // Sync values into the original addForm fields and reuse existing addToDb()
   const map = {lrOwnerName:'addOwnerName',lrTitle:'addTitle',lrPrice:'addPrice',lrType:'addType',lrLocation:'addLocation',lrAmenities:'addAmenities',lrDesc:'addDesc'};
   let valid = true;
   for (const [lrId, addId] of Object.entries(map)) {
@@ -3030,7 +3115,6 @@ async function submitLRListing() {
       if (lrId !== 'lrAmenities' && !lrEl.value.trim()) valid = false;
     }
   }
-  // Sync images
   const lrFile = document.getElementById('lrImage');
   const addFile = document.getElementById('addImage');
   if (lrFile && addFile && lrFile.files.length) {
@@ -3041,22 +3125,6 @@ async function submitLRListing() {
   if (!valid) { alert('Please fill in all required fields.'); return; }
   closeLRModal();
   if (typeof addToDb === 'function') addToDb();
-}
-
-const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent);
-const isStandalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
-if (isIos && !isStandalone && !localStorage.getItem('ks_pwa_dismissed') && !localStorage.getItem('ks_pwa_installed')) {
-  setTimeout(() => {
-    if (installBtn) {
-      installBtn.textContent = 'How to Install';
-      installBtn.onclick = () => {
-        alert('To install KasiStay on your iPhone:\n\n1. Tap the Share button (box with arrow)\n2. Scroll down and tap "Add to Home Screen"\n3. Tap "Add"');
-        installBanner.classList.remove('show');
-        localStorage.setItem('ks_pwa_dismissed', '1');
-      };
-    }
-    installBanner.classList.add('show');
-  }, 4500);
 }
 
 </script>

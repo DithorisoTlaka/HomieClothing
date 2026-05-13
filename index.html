@@ -696,9 +696,7 @@ footer{background:#111111;color:white;padding:5rem 5% 2rem;text-align:center;tra
 
   /* Mobile Floating List Room Button */
   .fab-list-room{
-    display:flex!important;
-    opacity:1!important;
-    pointer-events:auto!important;
+    display:flex;
     bottom:84px;
     right:20px;
   }
@@ -706,7 +704,7 @@ footer{background:#111111;color:white;padding:5rem 5% 2rem;text-align:center;tra
 
 /* ── FLOATING ACTION BUTTON (all screen sizes) ── */
 @keyframes fabFadeIn{0%{opacity:0;transform:scale(0.82);}100%{opacity:1;transform:scale(1);}}
-@keyframes fabBreath{0%,100%{box-shadow:0 4px 20px rgba(16,185,129,0.4),0 2px 8px rgba(0,0,0,0.15);}50%{box-shadow:0 6px 26px rgba(16,185,129,0.62),0 2px 10px rgba(0,0,0,0.18);}}
+@keyframes fabBreath{0%,100%{box-shadow:0 4px 20px rgba(16,185,129,0.4),0 2px 8px rgba(0,0,0,0.15);}50%{box-shadow:0 6px 28px rgba(16,185,129,0.65),0 2px 10px rgba(0,0,0,0.18);}}
 
 .fab-list-room{
   position:fixed;
@@ -3077,7 +3075,7 @@ if (_isIos && !_isStandalone && !localStorage.getItem('ks_pwa_installed')) {
 }
 
 // ── LIST ROOM FLOATING MODAL ──────────────────────────────────────────────────
-function openLRModal() {
+window.openLRModal = function() {
   const backdrop = document.getElementById('listRoomBackdrop');
   const modal    = document.getElementById('listRoomModal');
   const fab      = document.getElementById('fabListRoom');
@@ -3086,22 +3084,26 @@ function openLRModal() {
   modal.classList.add('active');
   if (fab) fab.classList.add('modal-open');
   document.body.style.overflow = 'hidden';
-}
-function closeLRModal() {
-  document.getElementById('listRoomBackdrop').classList.remove('active');
-  document.getElementById('listRoomModal').classList.remove('active');
-  document.getElementById('fabListRoom').classList.remove('modal-open');
+};
+window.closeLRModal = function() {
+  const backdrop = document.getElementById('listRoomBackdrop');
+  const modal    = document.getElementById('listRoomModal');
+  const fab      = document.getElementById('fabListRoom');
+  if (!backdrop || !modal) return;
+  backdrop.classList.remove('active');
+  modal.classList.remove('active');
+  if (fab) fab.classList.remove('modal-open');
   document.body.style.overflow = '';
-}
-function lrPreviewImages(e) {
+};
+window.lrPreviewImages = function(e) {
   const preview = document.getElementById('lrImagesPreview');
   preview.innerHTML = '';
   Array.from(e.target.files).slice(0, 8).forEach(file => {
     const url = URL.createObjectURL(file);
     preview.innerHTML += `<img src="${url}" class="lr-preview-img" alt="preview">`;
   });
-}
-async function submitLRListing() {
+};
+window.submitLRListing = async function() {
   const map = {lrOwnerName:'addOwnerName',lrTitle:'addTitle',lrPrice:'addPrice',lrType:'addType',lrLocation:'addLocation',lrAmenities:'addAmenities',lrDesc:'addDesc'};
   let valid = true;
   for (const [lrId, addId] of Object.entries(map)) {
@@ -3120,9 +3122,9 @@ async function submitLRListing() {
     addFile.files = dt.files;
   }
   if (!valid) { alert('Please fill in all required fields.'); return; }
-  closeLRModal();
+  window.closeLRModal();
   if (typeof addToDb === 'function') addToDb();
-}
+};
 
 </script>
 </body>

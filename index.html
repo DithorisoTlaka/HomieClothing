@@ -1975,7 +1975,7 @@ function initMapPageView() {
 
     // Calculate center from listings so pins align with the map
     const geoItems = listingsData
-      .filter(item => item.adminStatus === 'approved' || !item.adminStatus)
+      .filter(item => item.adminStatus === 'approved')
       .map(item => ({ ...item, _coords: getApproxCoords(item.location) }))
       .filter(item => item._coords);
 
@@ -2095,7 +2095,7 @@ function renderMapPins() {
 
   // Only show listed items with resolvable coords
   const geoItems = listingsData
-    .filter(item => item.adminStatus === 'approved' || !item.adminStatus)
+    .filter(item => item.adminStatus === 'approved')
     .map(item => ({ ...item, _coords: getApproxCoords(item.location) }))
     .filter(item => item._coords);
 
@@ -2491,7 +2491,8 @@ onValue(ref(db, 'listings'), snapshot => {
   if (snapshot.exists()) {
     snapshot.forEach(child => {
       const it = { id: child.key, ...child.val() };
-      if (it.adminStatus === 'approved' || !it.adminStatus) {
+      // Only show listings explicitly approved by admin
+      if (it.adminStatus === 'approved') {
         listingsData.push(it);
       }
     });

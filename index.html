@@ -861,6 +861,51 @@ footer{background:#111111;color:white;padding:5rem 5% 2rem;text-align:center;tra
   .fab-list-room{bottom:36px;right:36px;}
 }
 
+/* ── LIST ROOM STEPPER ── */
+.lr-stepper{display:flex;align-items:center;justify-content:center;gap:0;padding:12px 20px 16px;flex-shrink:0;}
+.lr-step-item{display:flex;flex-direction:column;align-items:center;gap:4px;position:relative;flex:1;}
+.lr-step-circle{width:30px;height:30px;border-radius:50%;border:2px solid var(--border-color);background:var(--bg-white);display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;color:var(--text-muted);transition:all 0.3s ease;z-index:1;position:relative;}
+.dark-mode .lr-step-circle{background:#2c2c2e;border-color:#444;}
+.lr-step-circle.active{border-color:var(--accent-green);background:var(--accent-green);color:white;}
+.lr-step-circle.done{border-color:var(--accent-green);background:var(--accent-green);color:white;}
+.lr-step-label{font-size:0.6rem;font-weight:600;color:var(--text-muted);text-align:center;white-space:nowrap;letter-spacing:0.02em;}
+.lr-step-label.active{color:var(--accent-green);}
+.lr-step-connector{height:2px;flex:1;background:var(--border-color);margin-top:-18px;position:relative;top:-10px;z-index:0;transition:background 0.3s ease;}
+.lr-step-connector.done{background:var(--accent-green);}
+
+.lr-step-panel{display:none;flex-direction:column;gap:14px;}
+.lr-step-panel.active{display:flex;}
+
+.lr-nav-row{display:flex;gap:10px;padding:0 0 4px;flex-shrink:0;}
+.lr-nav-btn{flex:1;padding:14px;border:none;border-radius:50px;cursor:pointer;font-weight:700;font-size:0.93rem;font-family:'Inter',sans-serif;transition:all 0.22s ease;display:flex;align-items:center;justify-content:center;gap:7px;}
+.lr-nav-btn.back{background:var(--bg-off-white);color:var(--text-main);border:1.5px solid var(--border-color);}
+.dark-mode .lr-nav-btn.back{background:#2c2c2e;border-color:#3a3a3c;color:#e0e0e0;}
+.lr-nav-btn.back:hover{border-color:var(--accent-green);color:var(--accent-green);}
+.lr-nav-btn.next{background:linear-gradient(135deg,#34d399 0%,#10b981 50%,#059669 100%);color:white;box-shadow:0 4px 14px rgba(16,185,129,0.35);}
+.lr-nav-btn.next:hover{transform:translateY(-2px);box-shadow:0 7px 20px rgba(16,185,129,0.48);}
+.lr-nav-btn.next:active{transform:scale(0.97);}
+
+/* Confirmation step */
+.lr-confirm-section{background:var(--bg-off-white);border-radius:14px;padding:14px 16px;border:1px solid var(--border-color);}
+.dark-mode .lr-confirm-section{background:#2c2c2e;border-color:#3a3a3c;}
+.lr-confirm-section-title{font-size:0.68rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px;}
+.lr-confirm-row{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:5px 0;border-bottom:1px solid var(--border-color);}
+.dark-mode .lr-confirm-row{border-bottom-color:#3a3a3c;}
+.lr-confirm-row:last-child{border-bottom:none;}
+.lr-confirm-key{font-size:0.78rem;color:var(--text-muted);font-weight:500;flex-shrink:0;}
+.lr-confirm-val{font-size:0.82rem;color:var(--text-main);font-weight:600;text-align:right;}
+.lr-payment-box{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1.5px solid #bbf7d0;border-radius:16px;padding:16px 18px;text-align:center;}
+.dark-mode .lr-payment-box{background:linear-gradient(135deg,#14532d22,#14532d33);border-color:#166534;}
+.lr-payment-box .lr-pay-label{font-size:0.78rem;color:#166534;font-weight:600;margin-bottom:4px;}
+.dark-mode .lr-payment-box .lr-pay-label{color:#86efac;}
+.lr-payment-box .lr-pay-amount{font-size:2rem;font-weight:800;color:#15803d;letter-spacing:-1px;line-height:1;}
+.dark-mode .lr-payment-box .lr-pay-amount{color:#4ade80;}
+.lr-payment-box .lr-pay-sub{font-size:0.72rem;color:#166534;margin-top:4px;}
+.dark-mode .lr-payment-box .lr-pay-sub{color:#86efac;}
+.lr-pay-btn{width:100%;padding:15px;border:none;border-radius:50px;cursor:pointer;font-weight:700;font-size:0.97rem;color:white;font-family:'Inter',sans-serif;background:linear-gradient(135deg,#34d399 0%,#10b981 50%,#059669 100%);background-size:200% auto;box-shadow:0 4px 16px rgba(16,185,129,0.38);transition:transform 0.22s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.22s ease;display:flex;align-items:center;justify-content:center;gap:8px;}
+.lr-pay-btn:hover{transform:translateY(-2px);box-shadow:0 7px 22px rgba(16,185,129,0.48);}
+.lr-pay-btn:active{transform:scale(0.97);}
+
 @media(min-width:768px){
   .bottom-nav{display:none;}
   #mobileSearchView{display:none!important;}
@@ -1488,57 +1533,165 @@ footer{background:#111111;color:white;padding:5rem 5% 2rem;text-align:center;tra
   <div id="listRoomPanel">
     <div class="lr-handle"></div>
     <div class="lr-header">
-      <h2>🏠 List Your Room</h2>
+      <h2 id="lrHeaderTitle">🏠 List Your Room</h2>
       <button class="lr-close" onclick="closeLRModal()" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
     </div>
+
+    <!-- STEPPER INDICATOR -->
+    <div class="lr-stepper">
+      <div class="lr-step-item">
+        <div class="lr-step-circle active" id="lrStepCircle1">1</div>
+        <div class="lr-step-label active" id="lrStepLabel1">Property</div>
+      </div>
+      <div class="lr-step-connector" id="lrConnector1"></div>
+      <div class="lr-step-item">
+        <div class="lr-step-circle" id="lrStepCircle2">2</div>
+        <div class="lr-step-label" id="lrStepLabel2">Your Details</div>
+      </div>
+      <div class="lr-step-connector" id="lrConnector2"></div>
+      <div class="lr-step-item">
+        <div class="lr-step-circle" id="lrStepCircle3">3</div>
+        <div class="lr-step-label" id="lrStepLabel3">Confirm</div>
+      </div>
+    </div>
+
     <div class="lr-body">
-      <div class="lr-field">
-        <label class="lr-label">Property Owner Name</label>
-        <input class="lr-input" type="text" id="lrOwnerName" placeholder="Enter your full name">
-      </div>
-      <div class="lr-field">
-        <label class="lr-label">Listing Title</label>
-        <input class="lr-input" type="text" id="lrTitle" placeholder="e.g. Modern Studio near UJ">
-      </div>
-      <div class="lr-row">
+
+      <!-- STEP 1: Property Details -->
+      <div class="lr-step-panel active" id="lrPanel1">
         <div class="lr-field">
-          <label class="lr-label">Monthly Rent (R)</label>
-          <input class="lr-input" type="number" id="lrPrice" placeholder="5500">
+          <label class="lr-label">Listing Title</label>
+          <input class="lr-input" type="text" id="lrTitle" placeholder="e.g. Modern Studio near UJ">
+        </div>
+        <div class="lr-row">
+          <div class="lr-field">
+            <label class="lr-label">Monthly Rent (R)</label>
+            <input class="lr-input" type="number" id="lrPrice" placeholder="5500">
+          </div>
+          <div class="lr-field">
+            <label class="lr-label">Room Type</label>
+            <select class="lr-select" id="lrType">
+              <option value="Single room">Single Room</option>
+              <option value="Bachelor Room">Bachelor Room</option>
+              <option value="2 Room">2 Room</option>
+              <option value="Flat Apartments">Apartment</option>
+            </select>
+          </div>
         </div>
         <div class="lr-field">
-          <label class="lr-label">Room Type</label>
-          <select class="lr-select" id="lrType">
-            <option value="Single room">Single Room</option>
-            <option value="Bachelor Room">Bachelor Room</option>
-            <option value="2 Room">2 Room</option>
-            <option value="Flat Apartments">Apartment</option>
+          <label class="lr-label">Area / Location</label>
+          <input class="lr-input" type="text" id="lrLocation" placeholder="e.g. Braamfontein, Johannesburg">
+        </div>
+        <div class="lr-field">
+          <label class="lr-label">Photos</label>
+          <div class="lr-upload-area">
+            <i class="fa-solid fa-cloud-arrow-up"></i>
+            <span>Drop photos here or <b>browse</b></span>
+            <input type="file" id="lrImage" accept="image/*" multiple onchange="lrPreviewImages(event)">
+            <div id="lrImagesPreview"></div>
+          </div>
+        </div>
+        <div class="lr-field">
+          <label class="lr-label">Amenities (comma separated)</label>
+          <input class="lr-input" type="text" id="lrAmenities" placeholder="WiFi, Parking, Study Desk...">
+        </div>
+        <div class="lr-field">
+          <label class="lr-label">Description</label>
+          <textarea class="lr-input lr-textarea" id="lrDesc" placeholder="Tell students about your space..."></textarea>
+        </div>
+        <div class="lr-nav-row">
+          <button class="lr-nav-btn next" onclick="lrNextStep(1)">
+            Next: Your Details <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 2: Owner Details -->
+      <div class="lr-step-panel" id="lrPanel2">
+        <div class="lr-field">
+          <label class="lr-label">Full Name</label>
+          <input class="lr-input" type="text" id="lrOwnerName" placeholder="Enter your full name">
+        </div>
+        <div class="lr-field">
+          <label class="lr-label">Email Address</label>
+          <input class="lr-input" type="email" id="lrOwnerEmail" placeholder="you@example.com">
+        </div>
+        <div class="lr-field">
+          <label class="lr-label">Phone Number</label>
+          <input class="lr-input" type="tel" id="lrOwnerPhone" placeholder="+27 60 000 0000">
+        </div>
+        <div class="lr-field">
+          <label class="lr-label">ID Number / Passport</label>
+          <input class="lr-input" type="text" id="lrOwnerID" placeholder="Enter your ID or Passport number">
+        </div>
+        <div class="lr-field">
+          <label class="lr-label">Bank Name</label>
+          <select class="lr-select" id="lrOwnerBank">
+            <option value="">Select your bank</option>
+            <option value="ABSA">ABSA</option>
+            <option value="Capitec">Capitec</option>
+            <option value="FNB">FNB</option>
+            <option value="Nedbank">Nedbank</option>
+            <option value="Standard Bank">Standard Bank</option>
+            <option value="TymeBank">TymeBank</option>
+            <option value="African Bank">African Bank</option>
+            <option value="Other">Other</option>
           </select>
         </div>
-      </div>
-      <div class="lr-field">
-        <label class="lr-label">Area / Location</label>
-        <input class="lr-input" type="text" id="lrLocation" placeholder="e.g. Braamfontein, Johannesburg">
-      </div>
-      <div class="lr-field">
-        <label class="lr-label">Photos</label>
-        <div class="lr-upload-area">
-          <i class="fa-solid fa-cloud-arrow-up"></i>
-          <span>Drop photos here or <b>browse</b></span>
-          <input type="file" id="lrImage" accept="image/*" multiple onchange="lrPreviewImages(event)">
-          <div id="lrImagesPreview"></div>
+        <div class="lr-field">
+          <label class="lr-label">Account Number</label>
+          <input class="lr-input" type="text" id="lrOwnerAccount" placeholder="Enter your bank account number">
+        </div>
+        <div class="lr-nav-row">
+          <button class="lr-nav-btn back" onclick="lrPrevStep(2)">
+            <i class="fa-solid fa-arrow-left"></i> Back
+          </button>
+          <button class="lr-nav-btn next" onclick="lrNextStep(2)">
+            Review <i class="fa-solid fa-arrow-right"></i>
+          </button>
         </div>
       </div>
-      <div class="lr-field">
-        <label class="lr-label">Amenities (comma separated)</label>
-        <input class="lr-input" type="text" id="lrAmenities" placeholder="WiFi, Parking, Study Desk...">
+
+      <!-- STEP 3: Confirmation -->
+      <div class="lr-step-panel" id="lrPanel3">
+        <!-- Payment cost box -->
+        <div class="lr-payment-box">
+          <div class="lr-pay-label">Monthly Listing Fee</div>
+          <div class="lr-pay-amount">R150</div>
+          <div class="lr-pay-sub">Your property will be listed on KasiStay for R150/month</div>
+        </div>
+
+        <!-- Property summary -->
+        <div class="lr-confirm-section">
+          <div class="lr-confirm-section-title">Property Details</div>
+          <div class="lr-confirm-row"><span class="lr-confirm-key">Title</span><span class="lr-confirm-val" id="cfTitle">—</span></div>
+          <div class="lr-confirm-row"><span class="lr-confirm-key">Type</span><span class="lr-confirm-val" id="cfType">—</span></div>
+          <div class="lr-confirm-row"><span class="lr-confirm-key">Monthly Rent</span><span class="lr-confirm-val" id="cfPrice">—</span></div>
+          <div class="lr-confirm-row"><span class="lr-confirm-key">Location</span><span class="lr-confirm-val" id="cfLocation">—</span></div>
+          <div class="lr-confirm-row"><span class="lr-confirm-key">Amenities</span><span class="lr-confirm-val" id="cfAmenities">—</span></div>
+        </div>
+
+        <!-- Owner summary -->
+        <div class="lr-confirm-section">
+          <div class="lr-confirm-section-title">Owner Details</div>
+          <div class="lr-confirm-row"><span class="lr-confirm-key">Name</span><span class="lr-confirm-val" id="cfOwnerName">—</span></div>
+          <div class="lr-confirm-row"><span class="lr-confirm-key">Email</span><span class="lr-confirm-val" id="cfOwnerEmail">—</span></div>
+          <div class="lr-confirm-row"><span class="lr-confirm-key">Phone</span><span class="lr-confirm-val" id="cfOwnerPhone">—</span></div>
+          <div class="lr-confirm-row"><span class="lr-confirm-key">ID / Passport</span><span class="lr-confirm-val" id="cfOwnerID">—</span></div>
+          <div class="lr-confirm-row"><span class="lr-confirm-key">Bank</span><span class="lr-confirm-val" id="cfOwnerBank">—</span></div>
+          <div class="lr-confirm-row"><span class="lr-confirm-key">Account No.</span><span class="lr-confirm-val" id="cfOwnerAccount">—</span></div>
+        </div>
+
+        <div class="lr-nav-row">
+          <button class="lr-nav-btn back" onclick="lrPrevStep(3)">
+            <i class="fa-solid fa-arrow-left"></i> Back
+          </button>
+        </div>
+        <button class="lr-pay-btn" onclick="submitLRListing()">
+          <i class="fa-solid fa-credit-card"></i> Pay R150 &amp; Post Listing
+        </button>
       </div>
-      <div class="lr-field">
-        <label class="lr-label">Description</label>
-        <textarea class="lr-input lr-textarea" id="lrDesc" placeholder="Tell students about your space..."></textarea>
-      </div>
-      <button class="lr-submit-btn" onclick="submitLRListing()">
-        <i class="fa-solid fa-paper-plane"></i> Post Listing Now
-      </button>
+
     </div>
   </div>
 </div>
@@ -3075,6 +3228,92 @@ if (_isIos && !_isStandalone && !localStorage.getItem('ks_pwa_installed')) {
 }
 
 // ── LIST ROOM FLOATING MODAL ──────────────────────────────────────────────────
+let _lrCurrentStep = 1;
+
+function lrUpdateStepper(step) {
+  _lrCurrentStep = step;
+  const titles = ['', '🏠 List Your Room', '👤 Your Details', '✅ Confirm & Pay'];
+  const headerEl = document.getElementById('lrHeaderTitle');
+  if (headerEl) headerEl.textContent = titles[step] || '🏠 List Your Room';
+
+  for (let i = 1; i <= 3; i++) {
+    const circle = document.getElementById('lrStepCircle' + i);
+    const label  = document.getElementById('lrStepLabel' + i);
+    const panel  = document.getElementById('lrPanel' + i);
+    if (!circle || !label || !panel) continue;
+
+    circle.classList.remove('active', 'done');
+    label.classList.remove('active');
+    panel.classList.remove('active');
+
+    if (i < step) {
+      circle.classList.add('done');
+      circle.innerHTML = '<i class="fa-solid fa-check" style="font-size:0.65rem;"></i>';
+    } else if (i === step) {
+      circle.classList.add('active');
+      circle.textContent = i;
+      label.classList.add('active');
+      panel.classList.add('active');
+    } else {
+      circle.textContent = i;
+    }
+  }
+  // connectors
+  const c1 = document.getElementById('lrConnector1');
+  const c2 = document.getElementById('lrConnector2');
+  if (c1) c1.classList.toggle('done', step > 1);
+  if (c2) c2.classList.toggle('done', step > 2);
+}
+
+window.lrNextStep = function(from) {
+  if (from === 1) {
+    const title = document.getElementById('lrTitle');
+    const price = document.getElementById('lrPrice');
+    const loc   = document.getElementById('lrLocation');
+    if (!title.value.trim() || !price.value.trim() || !loc.value.trim()) {
+      alert('Please fill in the Listing Title, Monthly Rent, and Location to continue.');
+      return;
+    }
+    lrUpdateStepper(2);
+  } else if (from === 2) {
+    const name  = document.getElementById('lrOwnerName');
+    const email = document.getElementById('lrOwnerEmail');
+    const phone = document.getElementById('lrOwnerPhone');
+    const id    = document.getElementById('lrOwnerID');
+    const bank  = document.getElementById('lrOwnerBank');
+    const acc   = document.getElementById('lrOwnerAccount');
+    if (!name.value.trim() || !email.value.trim() || !phone.value.trim() || !id.value.trim() || !bank.value || !acc.value.trim()) {
+      alert('Please fill in all your details to continue.');
+      return;
+    }
+    // Populate confirmation step
+    document.getElementById('cfTitle').textContent    = document.getElementById('lrTitle').value || '—';
+    document.getElementById('cfType').textContent     = document.getElementById('lrType').value || '—';
+    const priceVal = parseFloat(document.getElementById('lrPrice').value);
+    document.getElementById('cfPrice').textContent    = priceVal ? 'R' + priceVal.toLocaleString() + '/mo' : '—';
+    document.getElementById('cfLocation').textContent = document.getElementById('lrLocation').value || '—';
+    document.getElementById('cfAmenities').textContent= document.getElementById('lrAmenities').value || 'None';
+    document.getElementById('cfOwnerName').textContent   = name.value;
+    document.getElementById('cfOwnerEmail').textContent  = email.value;
+    document.getElementById('cfOwnerPhone').textContent  = phone.value;
+    document.getElementById('cfOwnerID').textContent     = id.value;
+    document.getElementById('cfOwnerBank').textContent   = bank.value;
+    document.getElementById('cfOwnerAccount').textContent= acc.value;
+    lrUpdateStepper(3);
+  }
+  // Scroll modal body back to top
+  const body = document.querySelector('#listRoomPanel .lr-body');
+  if (body) body.scrollTop = 0;
+};
+
+window.lrPrevStep = function(from) {
+  if (from > 1) {
+    lrUpdateStepper(from - 1);
+    const body = document.querySelector('#listRoomPanel .lr-body');
+    if (body) body.scrollTop = 0;
+  }
+};
+
 window.openLRModal = function() {
   const backdrop = document.getElementById('listRoomBackdrop');
   const modal    = document.getElementById('listRoomModal');
@@ -3084,6 +3323,7 @@ window.openLRModal = function() {
   modal.classList.add('active');
   if (fab) fab.classList.add('modal-open');
   document.body.style.overflow = 'hidden';
+  lrUpdateStepper(1);
 };
 window.closeLRModal = function() {
   const backdrop = document.getElementById('listRoomBackdrop');

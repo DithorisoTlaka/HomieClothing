@@ -894,6 +894,28 @@ footer{background:#111111;color:white;padding:5rem 5% 2rem;text-align:center;tra
 .lr-confirm-row:last-child{border-bottom:none;}
 .lr-confirm-key{font-size:0.78rem;color:var(--text-muted);font-weight:500;flex-shrink:0;}
 .lr-confirm-val{font-size:0.82rem;color:var(--text-main);font-weight:600;text-align:right;}
+
+/* ── NSFAS ACCREDITED TOGGLE ── */
+.lr-nsfas-toggle-row{display:flex;align-items:center;justify-content:space-between;background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1.5px solid #bbf7d0;border-radius:14px;padding:14px 16px;gap:12px;}
+.dark-mode .lr-nsfas-toggle-row{background:linear-gradient(135deg,#14532d22,#14532d33);border-color:#166534;}
+.lr-nsfas-toggle-info{flex:1;}
+.lr-nsfas-toggle-title{font-size:0.88rem;font-weight:700;color:#15803d;display:flex;align-items:center;gap:6px;}
+.dark-mode .lr-nsfas-toggle-title{color:#4ade80;}
+.lr-nsfas-toggle-sub{font-size:0.72rem;color:#166534;margin-top:2px;}
+.dark-mode .lr-nsfas-toggle-sub{color:#86efac;}
+.lr-nsfas-switch{position:relative;display:inline-block;width:48px;height:26px;flex-shrink:0;}
+.lr-nsfas-switch input{opacity:0;width:0;height:0;}
+.lr-nsfas-slider{position:absolute;cursor:pointer;inset:0;background:#d1fae5;border-radius:26px;transition:background 0.25s;border:1.5px solid #bbf7d0;}
+.dark-mode .lr-nsfas-slider{background:#1a3a2a;border-color:#166534;}
+.lr-nsfas-slider:before{content:'';position:absolute;height:18px;width:18px;left:3px;bottom:3px;background:white;border-radius:50%;transition:transform 0.25s;box-shadow:0 1px 4px rgba(0,0,0,0.18);}
+.lr-nsfas-switch input:checked + .lr-nsfas-slider{background:#10b981;border-color:#059669;}
+.lr-nsfas-switch input:checked + .lr-nsfas-slider:before{transform:translateX(22px);}
+
+/* ── NSFAS ACCREDITED BADGE (on cards & detail views) ── */
+.badge-nsfas{background:linear-gradient(90deg,#0ea5e9,#0284c7)!important;color:white!important;box-shadow:0 2px 8px rgba(14,165,233,0.35);font-size:0.65rem!important;padding:5px 10px!important;border-radius:8px!important;}
+.badge-nsfas i{color:white!important;}
+.nsfas-badge-inline{display:inline-flex;align-items:center;gap:5px;background:linear-gradient(90deg,#0ea5e9,#0284c7);color:white;font-size:0.72rem;font-weight:700;padding:4px 10px;border-radius:20px;box-shadow:0 2px 8px rgba(14,165,233,0.3);}
+.nsfas-badge-inline i{font-size:0.65rem;}
 .lr-payment-box{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1.5px solid #bbf7d0;border-radius:16px;padding:16px 18px;text-align:center;}
 .dark-mode .lr-payment-box{background:linear-gradient(135deg,#14532d22,#14532d33);border-color:#166534;}
 .lr-payment-box .lr-pay-label{font-size:0.78rem;color:#166534;font-weight:600;margin-bottom:4px;}
@@ -1616,6 +1638,19 @@ footer{background:#111111;color:white;padding:5rem 5% 2rem;text-align:center;tra
           <label class="lr-label">Description</label>
           <textarea class="lr-input lr-textarea" id="lrDesc" placeholder="Tell students about your space..."></textarea>
         </div>
+        <div class="lr-field">
+          <label class="lr-label">NSFAS Accreditation</label>
+          <div class="lr-nsfas-toggle-row">
+            <div class="lr-nsfas-toggle-info">
+              <div class="lr-nsfas-toggle-title"><i class="fa-solid fa-graduation-cap"></i> NSFAS Accredited Property</div>
+              <div class="lr-nsfas-toggle-sub">Enable if your property is accredited by NSFAS. A badge will appear after admin approval.</div>
+            </div>
+            <label class="lr-nsfas-switch">
+              <input type="checkbox" id="lrNsfas">
+              <span class="lr-nsfas-slider"></span>
+            </label>
+          </div>
+        </div>
         <div class="lr-nav-row">
           <button class="lr-nav-btn next" onclick="lrNextStep(1)">
             Next: Your Details <i class="fa-solid fa-arrow-right"></i>
@@ -1716,6 +1751,7 @@ footer{background:#111111;color:white;padding:5rem 5% 2rem;text-align:center;tra
           <div class="lr-confirm-row"><span class="lr-confirm-key">Monthly Rent</span><span class="lr-confirm-val" id="cfPrice">—</span></div>
           <div class="lr-confirm-row"><span class="lr-confirm-key">Location</span><span class="lr-confirm-val" id="cfLocation">—</span></div>
           <div class="lr-confirm-row"><span class="lr-confirm-key">Amenities</span><span class="lr-confirm-val" id="cfAmenities">—</span></div>
+          <div class="lr-confirm-row"><span class="lr-confirm-key">NSFAS Accredited</span><span class="lr-confirm-val" id="cfNsfas">—</span></div>
         </div>
 
         <!-- Owner summary -->
@@ -3376,6 +3412,8 @@ window.lrNextStep = function(from) {
     document.getElementById('cfPrice').textContent       = priceVal ? 'R' + priceVal.toLocaleString() + '/mo' : '—';
     document.getElementById('cfLocation').textContent    = document.getElementById('lrLocation').value || '—';
     document.getElementById('cfAmenities').textContent   = document.getElementById('lrAmenities').value || 'None';
+    const nsfasChecked = document.getElementById('lrNsfas')?.checked;
+    document.getElementById('cfNsfas').textContent = nsfasChecked ? '✅ Yes — NSFAS Accredited' : '❌ No';
     document.getElementById('cfOwnerName').textContent   = name.value;
     document.getElementById('cfOwnerEmail').textContent  = email.value;
     document.getElementById('cfOwnerWhatsApp').textContent = wa.value;
@@ -3410,6 +3448,8 @@ function lrClearForm() {
   });
   const lrTypeEl = document.getElementById('lrType');
   if (lrTypeEl) lrTypeEl.selectedIndex = 0;
+  const lrNsfasEl = document.getElementById('lrNsfas');
+  if (lrNsfasEl) lrNsfasEl.checked = false;
   const lrImageEl = document.getElementById('lrImage');
   if (lrImageEl) lrImageEl.value = '';
   const lrPreview = document.getElementById('lrImagesPreview');

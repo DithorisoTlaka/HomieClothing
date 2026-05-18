@@ -906,6 +906,19 @@ footer{background:#111111;color:white;padding:5rem 5% 2rem;text-align:center;tra
 .lr-pay-btn:hover{transform:translateY(-2px);box-shadow:0 7px 22px rgba(16,185,129,0.48);}
 .lr-pay-btn:active{transform:scale(0.97);}
 
+/* Document upload */
+.lr-doc-upload{border:2px dashed var(--border-color);border-radius:12px;padding:12px 14px;cursor:pointer;background:var(--bg-off-white);position:relative;transition:border-color 0.2s,background 0.2s;display:flex;align-items:center;gap:10px;}
+.dark-mode .lr-doc-upload{background:#2c2c2e;border-color:#3a3a3c;}
+.lr-doc-upload:hover{border-color:var(--accent-green);background:#f0fdf4;}
+.dark-mode .lr-doc-upload:hover{background:#14532d22;}
+.lr-doc-upload input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.lr-doc-upload-icon{width:34px;height:34px;border-radius:8px;background:rgba(16,185,129,0.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.lr-doc-upload-icon i{color:var(--accent-green);font-size:0.95rem;}
+.lr-doc-upload-text{flex:1;min-width:0;}
+.lr-doc-upload-label{font-size:0.8rem;font-weight:600;color:var(--text-main);}
+.lr-doc-upload-sub{font-size:0.68rem;color:var(--text-muted);margin-top:1px;}
+.lr-doc-filename{font-size:0.7rem;color:var(--accent-green);font-weight:600;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+
 @media(min-width:768px){
   .bottom-nav{display:none;}
   #mobileSearchView{display:none!important;}
@@ -1226,9 +1239,9 @@ footer{background:#111111;color:white;padding:5rem 5% 2rem;text-align:center;tra
       <div class="sheet-amenities" id="sheetAmenities"></div>
       <div class="sheet-landlord">
         <div class="sheet-landlord-header">
-          <div class="sheet-avatar">K</div>
+          <div class="sheet-avatar" id="sheetAvatar">K</div>
           <div>
-            <div class="sheet-ll-name">KasiStay Verified</div>
+            <div class="sheet-ll-name" id="sheetLLName">KasiStay Verified</div>
             <div class="sheet-ll-status"><i class="fa-solid fa-bolt"></i> Responds fast</div>
           </div>
         </div>
@@ -1391,9 +1404,9 @@ footer{background:#111111;color:white;padding:5rem 5% 2rem;text-align:center;tra
       <div class="modal-amenities" id="modalAmenities"></div>
       <div class="landlord-box">
         <div class="landlord-header">
-          <div class="landlord-avatar">K</div>
+          <div class="landlord-avatar" id="modalLandlordAvatar">K</div>
           <div class="landlord-info">
-            <div class="landlord-name">KasiStay Verified</div>
+            <div class="landlord-name" id="modalLandlordName">KasiStay Verified</div>
             <div class="landlord-status"><i class="fa-solid fa-bolt"></i> Responds fast</div>
           </div>
         </div>
@@ -1616,9 +1629,15 @@ footer{background:#111111;color:white;padding:5rem 5% 2rem;text-align:center;tra
           <label class="lr-label">Email Address</label>
           <input class="lr-input" type="email" id="lrOwnerEmail" placeholder="you@example.com">
         </div>
-        <div class="lr-field">
-          <label class="lr-label">Phone Number</label>
-          <input class="lr-input" type="tel" id="lrOwnerPhone" placeholder="+27 60 000 0000">
+        <div class="lr-row">
+          <div class="lr-field">
+            <label class="lr-label">WhatsApp Number</label>
+            <input class="lr-input" type="tel" id="lrOwnerWhatsApp" placeholder="+27 60 000 0000">
+          </div>
+          <div class="lr-field">
+            <label class="lr-label">Call Number</label>
+            <input class="lr-input" type="tel" id="lrOwnerPhone" placeholder="+27 60 000 0000">
+          </div>
         </div>
         <div class="lr-field">
           <label class="lr-label">ID Number / Passport</label>
@@ -1641,6 +1660,30 @@ footer{background:#111111;color:white;padding:5rem 5% 2rem;text-align:center;tra
         <div class="lr-field">
           <label class="lr-label">Account Number</label>
           <input class="lr-input" type="text" id="lrOwnerAccount" placeholder="Enter your bank account number">
+        </div>
+        <div class="lr-field">
+          <label class="lr-label">ID Copy (PDF)</label>
+          <div class="lr-doc-upload" id="lrIDUploadArea">
+            <input type="file" id="lrDocID" accept=".pdf,application/pdf" onchange="lrDocFileChosen(event,'lrDocIDName')">
+            <div class="lr-doc-upload-icon"><i class="fa-solid fa-file-pdf"></i></div>
+            <div class="lr-doc-upload-text">
+              <div class="lr-doc-upload-label">Upload ID Copy</div>
+              <div class="lr-doc-upload-sub">PDF format only</div>
+              <div class="lr-doc-filename" id="lrDocIDName"></div>
+            </div>
+          </div>
+        </div>
+        <div class="lr-field">
+          <label class="lr-label">Proof of Bank Account (PDF)</label>
+          <div class="lr-doc-upload" id="lrBankUploadArea">
+            <input type="file" id="lrDocBank" accept=".pdf,application/pdf" onchange="lrDocFileChosen(event,'lrDocBankName')">
+            <div class="lr-doc-upload-icon"><i class="fa-solid fa-file-pdf"></i></div>
+            <div class="lr-doc-upload-text">
+              <div class="lr-doc-upload-label">Upload Bank Statement</div>
+              <div class="lr-doc-upload-sub">PDF format only</div>
+              <div class="lr-doc-filename" id="lrDocBankName"></div>
+            </div>
+          </div>
         </div>
         <div class="lr-nav-row">
           <button class="lr-nav-btn back" onclick="lrPrevStep(2)">
@@ -1676,10 +1719,13 @@ footer{background:#111111;color:white;padding:5rem 5% 2rem;text-align:center;tra
           <div class="lr-confirm-section-title">Owner Details</div>
           <div class="lr-confirm-row"><span class="lr-confirm-key">Name</span><span class="lr-confirm-val" id="cfOwnerName">—</span></div>
           <div class="lr-confirm-row"><span class="lr-confirm-key">Email</span><span class="lr-confirm-val" id="cfOwnerEmail">—</span></div>
-          <div class="lr-confirm-row"><span class="lr-confirm-key">Phone</span><span class="lr-confirm-val" id="cfOwnerPhone">—</span></div>
+          <div class="lr-confirm-row"><span class="lr-confirm-key">WhatsApp</span><span class="lr-confirm-val" id="cfOwnerWhatsApp">—</span></div>
+          <div class="lr-confirm-row"><span class="lr-confirm-key">Call No.</span><span class="lr-confirm-val" id="cfOwnerPhone">—</span></div>
           <div class="lr-confirm-row"><span class="lr-confirm-key">ID / Passport</span><span class="lr-confirm-val" id="cfOwnerID">—</span></div>
           <div class="lr-confirm-row"><span class="lr-confirm-key">Bank</span><span class="lr-confirm-val" id="cfOwnerBank">—</span></div>
           <div class="lr-confirm-row"><span class="lr-confirm-key">Account No.</span><span class="lr-confirm-val" id="cfOwnerAccount">—</span></div>
+          <div class="lr-confirm-row"><span class="lr-confirm-key">ID Copy</span><span class="lr-confirm-val" id="cfDocID">—</span></div>
+          <div class="lr-confirm-row"><span class="lr-confirm-key">Bank Proof</span><span class="lr-confirm-val" id="cfDocBank">—</span></div>
         </div>
 
         <div class="lr-nav-row">
@@ -2688,8 +2734,18 @@ window.openMobileSheet = id => {
   document.getElementById('sheetType').innerHTML     = `<i class="fa-solid fa-home"></i> ${item.type || ''}`;
   document.getElementById('sheetDesc').textContent   = item.desc || 'No description available.';
   document.getElementById('sheetAmenities').innerHTML = (item.amenities || []).map(a => `<span class="sheet-amenity">${a}</span>`).join('');
-  document.getElementById('sheetWA').href   = `https://wa.me/27123456789?text=Hi, I'm interested in ${encodeURIComponent(item.title || '')}`;
-  document.getElementById('sheetCall').href = `tel:+27123456789`;
+  const ownerWA   = item.ownerWhatsApp || item.ownerPhone || '';
+  const ownerCall = item.ownerPhone || item.ownerWhatsApp || '';
+  const ownerName = item.ownerName || 'KasiStay Verified';
+  const waNum     = ownerWA.replace(/[^\d+]/g, '').replace(/^0/, '27');
+  const callNum   = ownerCall.replace(/[^\d+]/g, '').replace(/^0/, '27');
+  const waMsg     = `Hi ${ownerName}, I'm interested in your listing: ${item.title || ''}`;
+  document.getElementById('sheetWA').href   = waNum ? `https://wa.me/${waNum}?text=${encodeURIComponent(waMsg)}` : '#';
+  document.getElementById('sheetCall').href = callNum ? `tel:+${callNum}` : '#';
+  const sheetLLNameEl = document.getElementById('sheetLLName');
+  const sheetAvatarEl = document.getElementById('sheetAvatar');
+  if (sheetLLNameEl) sheetLLNameEl.textContent = ownerName;
+  if (sheetAvatarEl) sheetAvatarEl.textContent = ownerName.charAt(0).toUpperCase();
 
   const reviews = item.reviews || [];
   const avgR    = calcAvg(reviews);
@@ -2789,8 +2845,18 @@ window.openModal = id => {
   document.getElementById('modalTypeText').textContent    = item.type || '';
   document.getElementById('modalDesc').textContent        = item.desc || 'No description available.';
   document.getElementById('modalAmenities').innerHTML     = (item.amenities || []).map(a => `<span class="amenity">${a}</span>`).join('');
-  document.getElementById('whatsappLink').href = `https://wa.me/27123456789?text=Hi, I'm interested in ${encodeURIComponent(item.title || '')}`;
-  document.getElementById('callLink').href     = `tel:+27123456789`;
+  const mOwnerWA   = item.ownerWhatsApp || item.ownerPhone || '';
+  const mOwnerCall = item.ownerPhone || item.ownerWhatsApp || '';
+  const mOwnerName = item.ownerName || 'KasiStay Verified';
+  const mWaNum     = mOwnerWA.replace(/[^\d+]/g, '').replace(/^0/, '27');
+  const mCallNum   = mOwnerCall.replace(/[^\d+]/g, '').replace(/^0/, '27');
+  const mWaMsg     = `Hi ${mOwnerName}, I'm interested in your listing: ${item.title || ''}`;
+  document.getElementById('whatsappLink').href = mWaNum ? `https://wa.me/${mWaNum}?text=${encodeURIComponent(mWaMsg)}` : '#';
+  document.getElementById('callLink').href     = mCallNum ? `tel:+${mCallNum}` : '#';
+  const mLLNameEl   = document.getElementById('modalLandlordName');
+  const mLLAvatarEl = document.getElementById('modalLandlordAvatar');
+  if (mLLNameEl)   mLLNameEl.textContent   = mOwnerName;
+  if (mLLAvatarEl) mLLAvatarEl.textContent = mOwnerName.charAt(0).toUpperCase();
 
   const reviews = item.reviews || [];
   const avg     = calcAvg(reviews);
@@ -3007,7 +3073,11 @@ window.addToDb = async () => {
       amenities, image: urls[0],
       additionalImages: urls.slice(1),
       verified: false, adminStatus: 'pending',
-      timestamp: Date.now(), reviews: []
+      timestamp: Date.now(), reviews: [],
+      ownerName:      document.getElementById('addOwnerName')?.value?.trim() || (window._lrOwnerWhatsApp ? '' : ''),
+      ownerWhatsApp:  window._lrOwnerWhatsApp || '',
+      ownerPhone:     window._lrOwnerPhone    || '',
+      ownerEmail:     window._lrOwnerEmail    || '',
     });
     await set(ref(db, `likeCounts/${nRef.key}`), { count: 0 });
     pB.style.width = '100%';
@@ -3265,6 +3335,14 @@ function lrUpdateStepper(step) {
   if (c2) c2.classList.toggle('done', step > 2);
 }
 
+window.lrDocFileChosen = function(e, labelId) {
+  const file = e.target.files[0];
+  const labelEl = document.getElementById(labelId);
+  if (labelEl) labelEl.textContent = file ? file.name : '';
+  const uploadArea = e.target.closest('.lr-doc-upload');
+  if (uploadArea) uploadArea.style.borderColor = file ? 'var(--accent-green)' : '';
+};
+
 window.lrNextStep = function(from) {
   if (from === 1) {
     const title = document.getElementById('lrTitle');
@@ -3278,27 +3356,33 @@ window.lrNextStep = function(from) {
   } else if (from === 2) {
     const name  = document.getElementById('lrOwnerName');
     const email = document.getElementById('lrOwnerEmail');
+    const wa    = document.getElementById('lrOwnerWhatsApp');
     const phone = document.getElementById('lrOwnerPhone');
     const id    = document.getElementById('lrOwnerID');
     const bank  = document.getElementById('lrOwnerBank');
     const acc   = document.getElementById('lrOwnerAccount');
-    if (!name.value.trim() || !email.value.trim() || !phone.value.trim() || !id.value.trim() || !bank.value || !acc.value.trim()) {
-      alert('Please fill in all your details to continue.');
+    if (!name.value.trim() || !email.value.trim() || !wa.value.trim() || !phone.value.trim() || !id.value.trim() || !bank.value || !acc.value.trim()) {
+      alert('Please fill in all your details (including both WhatsApp and Call numbers) to continue.');
       return;
     }
     // Populate confirmation step
-    document.getElementById('cfTitle').textContent    = document.getElementById('lrTitle').value || '—';
-    document.getElementById('cfType').textContent     = document.getElementById('lrType').value || '—';
+    document.getElementById('cfTitle').textContent       = document.getElementById('lrTitle').value || '—';
+    document.getElementById('cfType').textContent        = document.getElementById('lrType').value || '—';
     const priceVal = parseFloat(document.getElementById('lrPrice').value);
-    document.getElementById('cfPrice').textContent    = priceVal ? 'R' + priceVal.toLocaleString() + '/mo' : '—';
-    document.getElementById('cfLocation').textContent = document.getElementById('lrLocation').value || '—';
-    document.getElementById('cfAmenities').textContent= document.getElementById('lrAmenities').value || 'None';
+    document.getElementById('cfPrice').textContent       = priceVal ? 'R' + priceVal.toLocaleString() + '/mo' : '—';
+    document.getElementById('cfLocation').textContent    = document.getElementById('lrLocation').value || '—';
+    document.getElementById('cfAmenities').textContent   = document.getElementById('lrAmenities').value || 'None';
     document.getElementById('cfOwnerName').textContent   = name.value;
     document.getElementById('cfOwnerEmail').textContent  = email.value;
+    document.getElementById('cfOwnerWhatsApp').textContent = wa.value;
     document.getElementById('cfOwnerPhone').textContent  = phone.value;
     document.getElementById('cfOwnerID').textContent     = id.value;
     document.getElementById('cfOwnerBank').textContent   = bank.value;
     document.getElementById('cfOwnerAccount').textContent= acc.value;
+    const docIDFile   = document.getElementById('lrDocID').files[0];
+    const docBankFile = document.getElementById('lrDocBank').files[0];
+    document.getElementById('cfDocID').textContent   = docIDFile   ? docIDFile.name   : 'Not uploaded';
+    document.getElementById('cfDocBank').textContent = docBankFile ? docBankFile.name : 'Not uploaded';
     lrUpdateStepper(3);
   }
   // Scroll modal body back to top
@@ -3313,6 +3397,39 @@ window.lrPrevStep = function(from) {
     if (body) body.scrollTop = 0;
   }
 };
+
+function lrClearForm() {
+  // Step 1
+  ['lrTitle','lrPrice','lrLocation','lrAmenities','lrDesc'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  const lrTypeEl = document.getElementById('lrType');
+  if (lrTypeEl) lrTypeEl.selectedIndex = 0;
+  const lrImageEl = document.getElementById('lrImage');
+  if (lrImageEl) lrImageEl.value = '';
+  const lrPreview = document.getElementById('lrImagesPreview');
+  if (lrPreview) lrPreview.innerHTML = '';
+  // Step 2
+  ['lrOwnerName','lrOwnerEmail','lrOwnerWhatsApp','lrOwnerPhone','lrOwnerID','lrOwnerAccount'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  const lrBankEl = document.getElementById('lrOwnerBank');
+  if (lrBankEl) lrBankEl.selectedIndex = 0;
+  ['lrDocID','lrDocBank'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  ['lrDocIDName','lrDocBankName'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = '';
+  });
+  ['lrIDUploadArea','lrBankUploadArea'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.borderColor = '';
+  });
+}
 
 window.openLRModal = function() {
   const backdrop = document.getElementById('listRoomBackdrop');
@@ -3354,6 +3471,14 @@ window.submitLRListing = async function() {
       if (lrId !== 'lrAmenities' && !lrEl.value.trim()) valid = false;
     }
   }
+  // Pass owner contact details through hidden fields or via global so addToDb can store them
+  window._lrOwnerWhatsApp = (document.getElementById('lrOwnerWhatsApp') || {}).value || '';
+  window._lrOwnerPhone    = (document.getElementById('lrOwnerPhone')    || {}).value || '';
+  window._lrOwnerEmail    = (document.getElementById('lrOwnerEmail')    || {}).value || '';
+  window._lrOwnerID       = (document.getElementById('lrOwnerID')       || {}).value || '';
+  window._lrOwnerBank     = (document.getElementById('lrOwnerBank')     || {}).value || '';
+  window._lrOwnerAccount  = (document.getElementById('lrOwnerAccount')  || {}).value || '';
+
   const lrFile = document.getElementById('lrImage');
   const addFile = document.getElementById('addImage');
   if (lrFile && addFile && lrFile.files.length) {
@@ -3363,6 +3488,7 @@ window.submitLRListing = async function() {
   }
   if (!valid) { alert('Please fill in all required fields.'); return; }
   window.closeLRModal();
+  lrClearForm();
   if (typeof addToDb === 'function') addToDb();
 };
 

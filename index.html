@@ -7,7 +7,7 @@
 
   
   <link rel="manifest" href="manifest.json">
-  <link rel="apple-touch-icon" href="https://i.postimg.cc/cLkWz4RY/icon-192.png">
+  <link rel="apple-touch-icon" href="./icon-192x192.png">
 
   
 <meta name="theme-color" content="#111111">
@@ -2618,9 +2618,13 @@ function renderBatch(data) {
       const vBadge = item.verified
         ? `<span class="badge badge-premium-verified"><i class="fa-solid fa-crown"></i></span>`
         : `<span class="badge">New</span>`;
+      const nsfasBadgeDesktop = item.nsfas
+        ? `<span class="badge badge-nsfas" style="top:${item.verified ? '50px' : '50px'};left:15px;"><i class="fa-solid fa-graduation-cap"></i> NSFAS Accredited</span>`
+        : '';
       card.innerHTML = `
         <div class="card-image" style="cursor:pointer;">
           ${vBadge}
+          ${nsfasBadgeDesktop}
           <div class="like-counter-badge" data-id="${item.id}"><i class="fa-solid fa-heart"></i><span class="lc-num">0</span></div>
           <img src="${item.image || ''}" alt="${item.title || 'Room'}" loading="lazy" onerror="this.src='https://placehold.co/600x400/f3f4f6/9ca3af?text=No+Image'">
         </div>

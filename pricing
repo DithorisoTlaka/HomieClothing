@@ -1,0 +1,385 @@
+export default function PremiumPricingPlatform() {
+  return (
+    <div className="min-h-screen bg-black text-white transition-all duration-500">
+      {/* NAVBAR */}
+      <nav className="sticky top-0 z-50 backdrop-blur-lg bg-black/60 border-b border-blue-500/20">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+          <div className="text-2xl font-bold tracking-wide">
+            Stay<span className="text-blue-500">Premium</span>
+          </div>
+
+          <div className="hidden md:flex items-center gap-8 text-sm font-medium">
+            <a href="#home" className="hover:text-blue-400 transition">Home</a>
+            <a href="#pricing" className="hover:text-blue-400 transition">Pricing</a>
+            <a href="#list" className="hover:text-blue-400 transition">List Property</a>
+            <a href="#support" className="hover:text-blue-400 transition">Support</a>
+          </div>
+
+          <div className="flex items-center gap-4">
+            <button className="px-5 py-2 rounded-xl border border-blue-500 hover:bg-blue-500/20 transition-all duration-300">
+              Login
+            </button>
+
+            <button className="px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 shadow-lg shadow-blue-500/30 transition-all duration-300">
+              Register
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      {/* HERO SECTION */}
+      <section
+        id="home"
+        className="relative overflow-hidden py-28 px-6"
+      >
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-black to-black"></div>
+
+        <div className="absolute top-20 left-20 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-10 right-20 w-96 h-96 bg-blue-700/10 rounded-full blur-3xl animate-pulse"></div>
+
+        <div className="relative max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+          <div>
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-sm mb-6">
+              Premium Accommodation Advertising Platform
+            </div>
+
+            <h1 className="text-5xl md:text-7xl font-black leading-tight mb-6">
+              Advertise Your Property To Thousands Of Customers
+            </h1>
+
+            <p className="text-gray-300 text-lg leading-relaxed mb-10 max-w-xl">
+              Increase your bookings, grow your accommodation business, and reach more travelers with our premium property advertising platform.
+            </p>
+
+            <div className="flex flex-wrap gap-4">
+              <button className="px-8 py-4 rounded-2xl bg-blue-600 hover:bg-blue-500 text-lg font-semibold shadow-2xl shadow-blue-500/40 hover:scale-105 transition-all duration-300">
+                List Your Property
+              </button>
+
+              <button className="px-8 py-4 rounded-2xl border border-blue-500 text-lg font-semibold hover:bg-blue-500/10 hover:scale-105 transition-all duration-300">
+                View Pricing
+              </button>
+            </div>
+          </div>
+
+          <div className="relative">
+            <div className="bg-gradient-to-br from-blue-900/40 to-black border border-blue-500/20 rounded-3xl p-8 backdrop-blur-xl shadow-2xl shadow-blue-500/20 animate-pulse">
+              <div className="flex items-center justify-between mb-8">
+                <div>
+                  <p className="text-gray-400 text-sm">Active Listings</p>
+                  <h2 className="text-4xl font-bold">4,280+</h2>
+                </div>
+
+                <div className="w-16 h-16 rounded-2xl bg-blue-600 flex items-center justify-center text-2xl">
+                  🏨
+                </div>
+              </div>
+
+              <div className="space-y-5">
+                <div className="bg-black/50 rounded-2xl p-5 border border-blue-500/20 hover:scale-[1.02] transition-all">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h3 className="font-semibold text-lg">Blue Ocean Lodge</h3>
+                      <p className="text-gray-400 text-sm">Premium Verified</p>
+                    </div>
+
+                    <div className="text-green-400 font-bold">+92%</div>
+                  </div>
+                </div>
+
+                <div className="bg-black/50 rounded-2xl p-5 border border-blue-500/20 hover:scale-[1.02] transition-all">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h3 className="font-semibold text-lg">Royal Suites</h3>
+                      <p className="text-gray-400 text-sm">Featured Listing</p>
+                    </div>
+
+                    <div className="text-green-400 font-bold">+88%</div>
+                  </div>
+                </div>
+
+                <div className="bg-black/50 rounded-2xl p-5 border border-blue-500/20 hover:scale-[1.02] transition-all">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h3 className="font-semibold text-lg">Elite Guest House</h3>
+                      <p className="text-gray-400 text-sm">Top Visibility</p>
+                    </div>
+
+                    <div className="text-green-400 font-bold">+95%</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* TRUST SECTION */}
+      <section className="py-16 px-6 border-y border-blue-500/10 bg-gradient-to-r from-blue-900/10 to-black">
+        <div className="max-w-7xl mx-auto grid md:grid-cols-4 gap-8 text-center">
+          <div>
+            <h2 className="text-5xl font-black text-blue-500 mb-2">90%</h2>
+            <p className="text-gray-300">Guaranteed Customer Reach</p>
+          </div>
+
+          <div>
+            <h2 className="text-5xl font-black text-blue-500 mb-2">24/7</h2>
+            <p className="text-gray-300">Reliable Support</p>
+          </div>
+
+          <div>
+            <h2 className="text-5xl font-black text-blue-500 mb-2">Fast</h2>
+            <p className="text-gray-300">Subscription Activation</p>
+          </div>
+
+          <div>
+            <h2 className="text-5xl font-black text-blue-500 mb-2">Top</h2>
+            <p className="text-gray-300">Featured Placement</p>
+          </div>
+        </div>
+      </section>
+
+      {/* PRICING SECTION */}
+      <section id="pricing" className="py-28 px-6 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-blue-950/10 to-black"></div>
+
+        <div className="relative max-w-7xl mx-auto text-center mb-20">
+          <h2 className="text-5xl font-black mb-5">
+            Flexible Premium Advertising Packages
+          </h2>
+
+          <p className="text-gray-400 text-xl max-w-2xl mx-auto">
+            Choose the best package for your accommodation business and maximize visibility.
+          </p>
+        </div>
+
+        <div className="relative max-w-7xl mx-auto grid md:grid-cols-3 gap-10">
+          {/* PLAN 1 */}
+          <div className="group bg-gradient-to-b from-gray-900 to-black border border-blue-500/20 rounded-3xl p-8 hover:-translate-y-3 hover:shadow-2xl hover:shadow-blue-500/20 transition-all duration-500">
+            <div className="mb-8">
+              <h3 className="text-3xl font-bold mb-3">Monthly Plan</h3>
+              <div className="text-6xl font-black text-blue-500 mb-2">30%</div>
+              <p className="text-gray-400">Per Property / Monthly</p>
+            </div>
+
+            <ul className="space-y-4 mb-10 text-left">
+              <li>✔ Featured property advertising</li>
+              <li>✔ Professional visibility</li>
+              <li>✔ Customer reach optimization</li>
+              <li>✔ 24 Hour Reliability Support</li>
+              <li>✔ Priority listing placement</li>
+            </ul>
+
+            <button className="w-full py-4 rounded-2xl bg-blue-600 hover:bg-blue-500 font-bold text-lg hover:shadow-lg hover:shadow-blue-500/40 transition-all duration-300">
+              Subscribe Monthly
+            </button>
+          </div>
+
+          {/* PLAN 2 */}
+          <div className="relative group bg-gradient-to-b from-blue-950/50 to-black border-2 border-blue-500 rounded-3xl p-8 scale-105 hover:-translate-y-3 hover:shadow-2xl hover:shadow-blue-500/40 transition-all duration-500 overflow-hidden">
+            <div className="absolute top-5 right-5 px-4 py-2 rounded-full bg-blue-600 text-sm font-bold">
+              MOST POPULAR
+            </div>
+
+            <div className="mb-8 mt-5">
+              <h3 className="text-3xl font-bold mb-3">3 Month Plan</h3>
+              <div className="text-6xl font-black text-blue-400 mb-2">25%</div>
+              <p className="text-gray-300">Per Property / 3 Months</p>
+            </div>
+
+            <ul className="space-y-4 mb-10 text-left">
+              <li>✔ Everything in Monthly Plan</li>
+              <li>✔ Higher listing visibility</li>
+              <li>✔ Faster customer reach</li>
+              <li>✔ Priority support access</li>
+              <li>✔ Better search rankings</li>
+            </ul>
+
+            <button className="w-full py-4 rounded-2xl bg-blue-600 hover:bg-blue-500 font-bold text-lg hover:shadow-lg hover:shadow-blue-500/40 transition-all duration-300">
+              Start 3 Month Plan
+            </button>
+          </div>
+
+          {/* PLAN 3 */}
+          <div className="relative group bg-gradient-to-b from-gray-900 to-black border border-blue-500/20 rounded-3xl p-8 hover:-translate-y-3 hover:shadow-2xl hover:shadow-cyan-500/20 transition-all duration-500 overflow-hidden">
+            <div className="absolute top-5 right-5 px-4 py-2 rounded-full bg-cyan-500 text-black text-sm font-black">
+              BEST VALUE
+            </div>
+
+            <div className="mb-8 mt-5">
+              <h3 className="text-3xl font-bold mb-3">6 Month Premium</h3>
+              <div className="text-6xl font-black text-cyan-400 mb-2">20%</div>
+              <p className="text-gray-300">Per Property / 6 Months</p>
+            </div>
+
+            <ul className="space-y-4 mb-10 text-left">
+              <li>✔ Maximum customer exposure</li>
+              <li>✔ Featured homepage placement</li>
+              <li>✔ Premium recommendation ranking</li>
+              <li>✔ Dedicated premium support</li>
+              <li>✔ Long-term advertising stability</li>
+            </ul>
+
+            <button className="w-full py-4 rounded-2xl bg-cyan-500 hover:bg-cyan-400 text-black font-black text-lg hover:shadow-lg hover:shadow-cyan-500/40 transition-all duration-300">
+              Activate Premium Plan
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* LIST PROPERTY */}
+      <section id="list" className="py-24 px-6 bg-gradient-to-b from-black to-blue-950/10">
+        <div className="max-w-5xl mx-auto bg-white/5 border border-blue-500/20 backdrop-blur-xl rounded-[40px] p-10 shadow-2xl shadow-blue-500/10">
+          <div className="text-center mb-14">
+            <h2 className="text-5xl font-black mb-5">List Your Property</h2>
+            <p className="text-gray-400 text-lg">
+              Submit your accommodation and start reaching customers globally.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            <input
+              type="text"
+              placeholder="Property Name"
+              className="bg-black/60 border border-blue-500/20 rounded-2xl px-5 py-4 outline-none focus:border-blue-500"
+            />
+
+            <input
+              type="text"
+              placeholder="Property Type"
+              className="bg-black/60 border border-blue-500/20 rounded-2xl px-5 py-4 outline-none focus:border-blue-500"
+            />
+
+            <input
+              type="text"
+              placeholder="Province / Country"
+              className="bg-black/60 border border-blue-500/20 rounded-2xl px-5 py-4 outline-none focus:border-blue-500"
+            />
+
+            <input
+              type="text"
+              placeholder="Contact Number"
+              className="bg-black/60 border border-blue-500/20 rounded-2xl px-5 py-4 outline-none focus:border-blue-500"
+            />
+
+            <textarea
+              placeholder="Property Description"
+              rows="5"
+              className="md:col-span-2 bg-black/60 border border-blue-500/20 rounded-2xl px-5 py-4 outline-none focus:border-blue-500"
+            ></textarea>
+          </div>
+
+          <div className="mt-10 text-center">
+            <button className="px-10 py-5 rounded-2xl bg-blue-600 hover:bg-blue-500 text-lg font-bold hover:shadow-2xl hover:shadow-blue-500/40 transition-all duration-300 hover:scale-105">
+              Submit Property
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* PAYMENT SECTION */}
+      <section className="py-28 px-6">
+        <div className="max-w-4xl mx-auto text-center mb-14">
+          <h2 className="text-5xl font-black mb-6">Secure Subscription Payment</h2>
+          <p className="text-gray-400 text-lg">
+            All payments are securely processed under your listed property reference name.
+          </p>
+        </div>
+
+        <div className="max-w-3xl mx-auto bg-gradient-to-br from-blue-950/20 to-black border border-blue-500/20 rounded-[40px] p-10 shadow-2xl shadow-blue-500/20">
+          <div className="space-y-6">
+            <div>
+              <label className="block mb-2 text-gray-400">Property Reference</label>
+              <input
+                type="text"
+                value="REF-BLUE-OCEAN-GUEST-HOUSE"
+                readOnly
+                className="w-full bg-black/60 border border-blue-500/20 rounded-2xl px-5 py-4 outline-none"
+              />
+            </div>
+
+            <div>
+              <label className="block mb-2 text-gray-400">Selected Package</label>
+              <select className="w-full bg-black/60 border border-blue-500/20 rounded-2xl px-5 py-4 outline-none">
+                <option>Monthly Plan - 30%</option>
+                <option>3 Month Plan - 25%</option>
+                <option>6 Month Premium - 20%</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block mb-2 text-gray-400">Amount</label>
+              <input
+                type="text"
+                placeholder="Calculated Automatically"
+                className="w-full bg-black/60 border border-blue-500/20 rounded-2xl px-5 py-4 outline-none"
+              />
+            </div>
+
+            <button className="w-full py-5 rounded-2xl bg-blue-600 hover:bg-blue-500 text-xl font-black shadow-2xl shadow-blue-500/40 hover:scale-[1.02] transition-all duration-300">
+              COMPLETE SECURE PAYMENT
+            </button>
+
+            <div className="flex justify-center gap-5 pt-5 text-gray-400 text-sm flex-wrap">
+              <span>Yoco</span>
+              <span>PayFast</span>
+              <span>Stripe</span>
+              <span>PayPal</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FOOTER */}
+      <footer
+        id="support"
+        className="border-t border-blue-500/10 py-12 px-6 bg-black"
+      >
+        <div className="max-w-7xl mx-auto grid md:grid-cols-4 gap-10">
+          <div>
+            <h3 className="text-2xl font-black mb-4">
+              Stay<span className="text-blue-500">Premium</span>
+            </h3>
+            <p className="text-gray-400 leading-relaxed">
+              Premium accommodation advertising platform helping property owners reach more customers worldwide.
+            </p>
+          </div>
+
+          <div>
+            <h4 className="font-bold mb-4">Platform</h4>
+            <ul className="space-y-3 text-gray-400">
+              <li>Pricing</li>
+              <li>List Property</li>
+              <li>Subscriptions</li>
+              <li>Dashboard</li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-bold mb-4">Support</h4>
+            <ul className="space-y-3 text-gray-400">
+              <li>24 Hour Support</li>
+              <li>Contact Team</li>
+              <li>Help Center</li>
+              <li>Live Chat</li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-bold mb-4">Legal</h4>
+            <ul className="space-y-3 text-gray-400">
+              <li>Privacy Policy</li>
+              <li>Terms & Conditions</li>
+              <li>Payment Policy</li>
+              <li>Property Rules</li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="border-t border-blue-500/10 mt-12 pt-8 text-center text-gray-500">
+          © 2026 StayPremium. All rights reserved.
+        </div>
+      </footer>
+    </div>
+  );
+}

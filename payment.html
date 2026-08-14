@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pay R150 Listing Fee</title>
+
+<style>
+
+/* =========================
+   THEME VARIABLES
+========================= */
+:root {
+  --bg: #f4f6f8;
+  --card: #ffffff;
+  --text: #111;
+  --muted: #666;
+  --primary: #14b8a6;
+  --shadow: 0 10px 30px rgba(0,0,0,0.12);
+  --border: rgba(0,0,0,0.08);
+}
+
+body.dark {
+  --bg: #0f0f10;
+  --card: #1a1a1a;
+  --text: #ffffff;
+  --muted: #aaa;
+  --primary: #14b8a6;
+  --shadow: 0 10px 30px rgba(0,0,0,0.6);
+  --border: rgba(255,255,255,0.08);
+}
+
+/* =========================
+   BASE
+========================= */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  transition: 0.3s ease;
+}
+
+/* =========================
+   CARD
+========================= */
+.container {
+  width: 92%;
+  max-width: 560px;
+  background: var(--card);
+  padding: 42px;
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+  text-align: center;
+  animation: fadeIn 0.6s ease;
+  border: 1px solid var(--border);
+}
+
+/* =========================
+   TYPOGRAPHY
+========================= */
+h2 {
+  margin-bottom: 8px;
+  font-size: 26px;
+}
+
+p {
+  color: var(--muted);
+  font-size: 15px;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+button {
+  width: 100%;
+  padding: 16px;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.pay-btn {
+  background: var(--primary);
+  color: white;
+  font-weight: 600;
+  font-size: 17px;
+  padding: 18px;
+}
+
+.pay-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(20,184,166,0.25);
+}
+
+/* =========================
+   SWITCH TOGGLE (NEW)
+========================= */
+.toggle-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.switch {
+  position: relative;
+  width: 55px;
+  height: 30px;
+}
+
+.switch input {
+  display: none;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #ccc;
+  border-radius: 30px;
+  transition: 0.3s;
+}
+
+.slider:before {
+  content: "";
+  position: absolute;
+  height: 22px;
+  width: 22px;
+  left: 4px;
+  bottom: 4px;
+  background: white;
+  border-radius: 50%;
+  transition: 0.3s;
+}
+
+input:checked + .slider {
+  background: var(--primary);
+}
+
+input:checked + .slider:before {
+  transform: translateX(25px);
+}
+
+/* =========================
+   STATUS
+========================= */
+.status {
+  margin-top: 15px;
+  font-size: 13px;
+  color: var(--muted);
+  min-height: 20px;
+}
+
+/* =========================
+   ANIMATION
+========================= */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* =========================
+   MOBILE
+========================= */
+@media (max-width: 600px) {
+  .container {
+    padding: 22px;
+  }
+}
+</style>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- TOGGLE SWITCH -->
+  <div class="toggle-wrapper">
+    <span>Light / Dark</span>
+
+    <label class="switch">
+      <input type="checkbox" onchange="toggleTheme(this)">
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <h2>Complete Payment</h2>
+  <p>Pay <strong>R150</strong> to publish your property listing</p>
+
+  <button class="pay-btn" onclick="startPayment()">
+    Pay Now
+  </button>
+
+  <p class="status" id="statusText"></p>
+</div>
+
+<script>
+/* =========================
+   THEME TOGGLE
+========================= */
+function toggleTheme(el) {
+  document.body.classList.toggle("dark", el.checked);
+}
+
+/* =========================
+   FIREBASE INIT (v8 compat)
+========================= */
+const firebaseConfig = {
+  apiKey: "AIzaSyD_MtScfT0J5b8LbMm5oAATmw84plKWl-0",
+  authDomain: "kasistay-3b79c.firebaseapp.com",
+  projectId: "kasistay-3b79c",
+  storageBucket: "kasistay-3b79c.appspot.com",
+  messagingSenderId: "19156366595",
+  appId: "1:19156366595:web:c64b9bd6dfde5790e02536",
+  databaseURL: "https://kasistay-3b79c-default-rtdb.firebaseio.com"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+/* =========================
+   SESSION DATA
+========================= */
+const listing = JSON.parse(localStorage.getItem("pendingListing"));
+const paymentId = localStorage.getItem("paymentId");
+
+let alreadyPublished = false;
+
+/* =========================
+   START PAYMENT
+========================= */
+function startPayment() {
+
+  if (!listing || !paymentId) {
+    alert("No listing or payment session found. Please restart.");
+    return;
+  }
+
+  document.getElementById("statusText").innerText =
+    "Redirecting to secure payment...";
+
+  setTimeout(() => {
+    window.location.href = "https://pay.yoco.com/r/2AWdrn";
+  }, 1200);
+}
+
+/* =========================
+   PAYMENT LISTENER (FIRESTORE)
+========================= */
+window.onload = function () {
+
+  if (!paymentId) {
+    document.getElementById("statusText").innerText =
+      "Invalid payment session.";
+    return;
+  }
+
+  document.getElementById("statusText").innerText =
+    "Waiting for payment confirmation...";
+
+  db.collection("paymentSessions")
+    .doc(paymentId)
+    .onSnapshot(async (doc) => {
+
+      if (!doc.exists) {
+        document.getElementById("statusText").innerText =
+          "Session not found.";
+        return;
+      }
+
+      const data = doc.data();
+
+      if (data.status === "paid" && !alreadyPublished) {
+        alreadyPublished = true;
+        await publishListing(data.listing);
+      }
+    });
+};
+
+/* =========================
+   PUBLISH LISTING
+========================= */
+async function publishListing(listingData) {
+
+  if (!listingData) return;
+
+  document.getElementById("statusText").innerText =
+    "Payment confirmed. Publishing listing...";
+
+  try {
+    await db.collection("properties").add({
+      ...listingData,
+      createdAt: new Date(),
+      status: "active",
+      paymentStatus: "paid"
+    });
+
+    localStorage.removeItem("pendingListing");
+    localStorage.removeItem("paymentId");
+
+    document.getElementById("statusText").innerText =
+      "Listing published successfully!";
+
+    setTimeout(() => {
+      window.location.href = "index.html";
+    }, 1500);
+
+  } catch (err) {
+    console.error("Publish error:", err);
+    document.getElementById("statusText").innerText =
+      "Error publishing listing.";
+  }
+}
+</script>
+
+</body>
+</html>

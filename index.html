@@ -1200,10 +1200,10 @@ footer{background:#111111;color:white;padding:5rem 5% 2rem;text-align:center;tra
               <div class="pp-menu-text"><div class="pp-menu-label">Help &amp; Support</div><div class="pp-menu-sub">FAQs and contact us</div></div>
               <i class="fa-solid fa-chevron-right pp-menu-arrow"></i>
             </div>
-            <div class="pp-menu-item" onclick="alert('Privacy policy coming soon!')">
-              <div class="pp-menu-icon gray"><i class="fa-solid fa-shield"></i></div>
+            <div class="pp-menu-item" onclick="window.open('/privacy.html','_blank','noopener')">
+              <div class="pp-menu-icon"><i class="fa-solid fa-shield-halved"></i></div>
               <div class="pp-menu-text"><div class="pp-menu-label">Privacy Policy</div></div>
-              <i class="fa-solid fa-chevron-right pp-menu-arrow"></i>
+              <i class="fa-solid fa-chevron-right pp-menu-chevron"></i>
             </div>
             <div class="pp-menu-item" onclick="alert('KasiStay v1.0.0')">
               <div class="pp-menu-icon gray"><i class="fa-solid fa-circle-info"></i></div>
@@ -1783,6 +1783,23 @@ footer{background:#111111;color:white;padding:5rem 5% 2rem;text-align:center;tra
           <div class="lr-confirm-row"><span class="lr-confirm-key">ID Copy</span><span class="lr-confirm-val" id="cfDocID">—</span></div>
           <div class="lr-confirm-row"><span class="lr-confirm-key">Bank Proof</span><span class="lr-confirm-val" id="cfDocBank">—</span></div>
         </div>
+        
+        <!-- POPIA consent -->
+        <div class="lr-confirm-section">
+          <label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer;font-size:0.85rem;line-height:1.5;">
+            <input type="checkbox" id="lrConsent" style="margin-top:3px;flex-shrink:0;">
+            <span>
+              I confirm the details above are accurate, and I consent to KasiStay
+              processing my personal information — including my ID number, banking
+              details and supporting documents — for identity verification, payment
+              and listing management, as set out in the
+              <a href="/privacy.html" target="_blank" rel="noopener">Privacy Policy</a>
+              and <a href="/terms.html" target="_blank" rel="noopener">Terms of Service</a>.
+              I understand I may withdraw this consent and request deletion of my data
+              at any time.
+            </span>
+          </label>
+        </div>
 
         <div class="lr-nav-row">
           <button class="lr-nav-btn back" onclick="lrPrevStep(3)">
@@ -1883,9 +1900,15 @@ function isValidPhone(v) { return /^[0-9+\s()-]{7,20}$/.test(String(v || '').tri
 function clampStr(v, max) { return String(v ?? '').slice(0, max); }
 
 const CLOUD_NAME    = "dv5bsbydu";
-// NOTE: Unsigned uploads were removed for security. Uploads now go through a
-// Cloud Function that returns a short-lived signature (see uploadToCloudinary).
+
+// ── UPLOAD CONSTRAINTS ────────────────────────────────────────────────────────
+const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+const MAX_UPLOAD_BYTES    = 5 * 1024 * 1024;   // 5MB per image
+const ALLOWED_DOC_TYPES   = ['application/pdf'];
+const MAX_DOC_BYTES       = 10 * 1024 * 1024;  // 10MB per document
+const MAX_IMAGES          = 8;
 const UPLOAD_FUNCTION_URL = "https://us-central1-kasistay-3b79c.cloudfunctions.net/cloudinarySign";
+  
 // Server-side Yoco checkout creation (returns a hosted checkout redirect URL).
 const CHECKOUT_FUNCTION_URL = "https://us-central1-kasistay-3b79c.cloudfunctions.net/createCheckout";
 
@@ -1902,38 +1925,68 @@ function hideSplash() {
 setTimeout(hideSplash, 3000);
 
 // ── CLOUDINARY UPLOAD ─────────────────────────────────────────────────────────
-async function uploadToCloudinary(file) {
+// kind: 'image'  → public, delivered in listing cards
+// kind: 'doc'    → private (authenticated), FICA/KYC only, never publicly served
+async function uploadToCloudinary(file, kind = 'image') {
   if (!file) throw new Error('No file selected');
-  if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
-    throw new Error('Only JPG, PNG, WEBP or GIF images are allowed.');
-  }
-  if (file.size > MAX_UPLOAD_BYTES) {
-    throw new Error('Image is too large (max 5MB).');
+
+  if (kind === 'image') {
+    if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
+      throw new Error('Only JPG, PNG, WEBP or GIF images are allowed.');
+    }
+    if (file.size > MAX_UPLOAD_BYTES) {
+      throw new Error('Image is too large (max 5MB).');
+    }
+  } else {
+    if (!ALLOWED_DOC_TYPES.includes(file.type)) {
+      throw new Error('Documents must be PDF files.');
+    }
+    if (file.size > MAX_DOC_BYTES) {
+      throw new Error('Document is too large (max 10MB).');
+    }
   }
 
   // 1. Ask the backend for a signature (requires an authenticated user).
   const user = auth.currentUser;
-  if (!user) throw new Error('You must be signed in to upload images.');
+  if (!user) throw new Error('You must be signed in to upload files.');
   const idToken = await user.getIdToken();
+
   const signRes = await fetch(UPLOAD_FUNCTION_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${idToken}` },
-    body: JSON.stringify({})
+    body: JSON.stringify({ kind })
   });
   if (!signRes.ok) throw new Error('Could not obtain upload signature.');
-  const { timestamp, signature, api_key, folder } = await signRes.json();
 
-  // 2. Upload with the signature.
+  // The function returns exactly the params it signed, plus resource_type.
+  const { timestamp, signature, api_key, folder, type, resource_type } = await signRes.json();
+
+  // 2. Upload with the signature. Every signed param must be resent verbatim.
   const fd = new FormData();
   fd.append("file", file);
   fd.append("api_key", api_key);
   fd.append("timestamp", timestamp);
   fd.append("signature", signature);
   if (folder) fd.append("folder", folder);
-  const r = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, { method: "POST", body: fd });
+  if (type)   fd.append("type", type);
+
+  const rt = resource_type || 'image';
+  const r  = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/${rt}/upload`, {
+    method: "POST",
+    body: fd
+  });
   const d = await r.json();
-  if (d.secure_url) return d.secure_url;
-  throw new Error(d.error?.message || "Upload failed");
+  if (d.error) throw new Error(d.error.message || "Upload failed");
+
+  // Private docs: return the public_id, not a URL. The URL is useless without
+  // a signed token, and the backend regenerates it for admins on demand.
+  if (kind === 'doc') {
+    if (!d.public_id) throw new Error("Upload failed");
+    return { publicId: d.public_id, resourceType: rt, deliveryType: type || 'upload' };
+  }
+
+  if (!d.secure_url) throw new Error("Upload failed");
+  return d.secure_url;
 }
 
 // ── STATE ─────────────────────────────────────────────────────────────────────
@@ -3682,123 +3735,179 @@ onAuthStateChanged(auth, (user) => {
 });
 
 window.submitLRListing = async function () {
-
   const user = auth.currentUser;
 
   if (!user) {
-
     // Remember that the user was trying to list a property
     continueListingAfterLogin = true;
-
-    // Bring sign-in modal to the front
     const signInModal = document.getElementById("signInModal");
-
     if (signInModal) {
       signInModal.style.display = "flex";
-      signInModal.style.zIndex = "99999";
+      signInModal.style.zIndex  = "99999";
     }
-
     return;
   }
 
-  const map = {
-    lrOwnerName: 'addOwnerName',
-    lrTitle: 'addTitle',
-    lrPrice: 'addPrice',
-    lrType: 'addType',
-    lrLocation: 'addLocation',
-    lrAmenities: 'addAmenities',
-    lrDesc: 'addDesc'
-  };
-
-
-  let valid = true;
-
-  // =========================
-  // 1. COPY FORM DATA
-  // =========================
-  for (const [lrId, addId] of Object.entries(map)) {
-    const lrEl = document.getElementById(lrId);
-    const addEl = document.getElementById(addId);
-
-    if (lrEl && addEl) {
-      addEl.value = lrEl.value;
-
-      if (lrId !== 'lrAmenities' && !lrEl.value.trim()) {
-        valid = false;
-      }
-    }
+  // Email must be verified before we accept ID numbers or take payment.
+  if (!user.emailVerified) {
+    alert('Please verify your email address before listing a property. Check your inbox for the verification link.');
+    return;
   }
 
   // =========================
-  // 2. OWNER DETAILS (SAFE)
+  // 1. READ + VALIDATE FORM
   // =========================
+  const val = id => (document.getElementById(id)?.value || '').trim();
+
+  const title    = clampStr(val('lrTitle'), 120);
+  const priceRaw = val('lrPrice');
+  const type     = clampStr(val('lrType'), 40);
+  const location = clampStr(val('lrLocation'), 120);
+  const desc     = clampStr(val('lrDesc'), 2000);
+  const amenities = val('lrAmenities')
+    ? val('lrAmenities').split(',').map(a => clampStr(a.trim(), 40)).filter(Boolean).slice(0, 20)
+    : [];
+
   const owner = {
-    whatsapp: document.getElementById('lrOwnerWhatsApp')?.value || '',
-    phone: document.getElementById('lrOwnerPhone')?.value || '',
-    email: document.getElementById('lrOwnerEmail')?.value || '',
-    id: document.getElementById('lrOwnerID')?.value || '',
-    bank: document.getElementById('lrOwnerBank')?.value || '',
-    account: document.getElementById('lrOwnerAccount')?.value || ''
+    name:     clampStr(val('lrOwnerName'), 80),
+    whatsapp: clampStr(val('lrOwnerWhatsApp'), 20),
+    phone:    clampStr(val('lrOwnerPhone'), 20),
+    email:    clampStr(val('lrOwnerEmail'), 120),
+    id:       clampStr(val('lrOwnerID'), 40),
+    bank:     clampStr(val('lrOwnerBank'), 60),
+    account:  clampStr(val('lrOwnerAccount'), 40)
   };
 
-  // =========================
-  // 3. VALIDATION CHECK
-  // =========================
-  if (!valid) {
-    alert('Please fill in all required fields.');
+  const price = Number(priceRaw);
+  if (!title || !type || !location) {
+    alert('Please fill in the Listing Title, Property Type and Location.');
+    return;
+  }
+  if (!Number.isFinite(price) || price <= 0 || price > 1000000) {
+    alert('Please enter a valid monthly rent.');
+    return;
+  }
+  if (!owner.name || !owner.email || !owner.whatsapp || !owner.phone ||
+      !owner.id || !owner.bank || !owner.account) {
+    alert('Please complete all your owner details.');
+    return;
+  }
+  if (!isValidEmail(owner.email)) { alert('Please enter a valid email address.'); return; }
+  if (!isValidPhone(owner.whatsapp) || !isValidPhone(owner.phone)) {
+    alert('Please enter valid phone numbers.');
+    return;
+  }
+
+  // POPIA: explicit, recorded consent before we process ID / banking data.
+  const consentEl = document.getElementById('lrConsent');
+  if (!consentEl || !consentEl.checked) {
+    alert('Please accept the Privacy Policy and Terms to continue.');
     return;
   }
 
   // =========================
-  // 4. CLOSE UI + RESET FORM
+  // 2. FILES
   // =========================
-  if (typeof window.closeLRModal === "function") window.closeLRModal();
-  if (typeof lrClearForm === "function") lrClearForm();
+  const imageFiles = Array.from(document.getElementById('lrImage')?.files || []).slice(0, MAX_IMAGES);
+  const docIDFile   = document.getElementById('lrDocID')?.files[0]   || null;
+  const docBankFile = document.getElementById('lrDocBank')?.files[0] || null;
+
+  if (!imageFiles.length) {
+    alert('Please upload at least one photo of the property.');
+    return;
+  }
+  if (!docIDFile || !docBankFile) {
+    alert('Please upload both your ID copy and proof of bank account (PDF).');
+    return;
+  }
 
   // =========================
-  // 5. BUILD LISTING PAYLOAD
+  // 3. UPLOAD + CHECKOUT
   // =========================
-  const listing = {
-    title:    clampStr(document.getElementById('addTitle')?.value || '', 120),
-    price:    Number(document.getElementById('addPrice')?.value) || 0,
-    type:     clampStr(document.getElementById('addType')?.value || '', 40),
-    location: clampStr(document.getElementById('addLocation')?.value || '', 120),
-    desc:     clampStr(document.getElementById('addDesc')?.value || '', 2000),
-    amenities: (document.getElementById('addAmenities')?.value || '')
-                 .split(',').map(a => clampStr(a.trim(), 40)).filter(Boolean).slice(0, 20),
-    nsfas:    !!(document.getElementById('lrNsfas')?.checked),
-    ownerName: clampStr(document.getElementById('addOwnerName')?.value || '', 80),
-    owner: {
-      whatsapp: clampStr(owner.whatsapp, 20),
-      phone:    clampStr(owner.phone, 20),
-      email:    clampStr(owner.email, 120),
-      id:       clampStr(owner.id, 40),
-      bank:     clampStr(owner.bank, 60),
-      account:  clampStr(owner.account, 40)
-    }
+  const uM = document.getElementById('uploadModal');
+  const pB = document.getElementById('progressBar');
+  const pS = document.getElementById('progressStatus');
+  const setProgress = (pct, text) => {
+    if (pB) pB.style.width = pct + '%';
+    if (pS) pS.textContent = text;
   };
 
-  // =========================
-  // 6. CREATE SERVER-SIDE CHECKOUT
-  // =========================
-  // The listing (including PII) is sent to a Cloud Function which stores it
-  // privately and creates a Yoco checkout. The listing is only published to
-  // the public feed by a verified payment webhook — never by the client.
+  if (uM) uM.classList.add('active');
+  setProgress(5, 'Preparing…');
+
   try {
+    // 3a. Property photos (public).
+    const imageUrls = [];
+    const totalFiles = imageFiles.length + 2;
+    for (let i = 0; i < imageFiles.length; i++) {
+      setProgress(5 + (70 * i / totalFiles), `Uploading photo ${i + 1} of ${imageFiles.length}…`);
+      imageUrls.push(await uploadToCloudinary(imageFiles[i], 'image'));
+    }
+
+    // 3b. KYC documents (private, authenticated delivery).
+    setProgress(5 + (70 * imageFiles.length / totalFiles), 'Uploading ID document…');
+    const docID = await uploadToCloudinary(docIDFile, 'doc');
+
+    setProgress(5 + (70 * (imageFiles.length + 1) / totalFiles), 'Uploading bank proof…');
+    const docBank = await uploadToCloudinary(docBankFile, 'doc');
+
+    setProgress(80, 'Starting secure checkout…');
+
+    // 3c. Payload. The server splits public display data from PII, stores the
+    //     PII under /ownerPrivate, and publishes nothing until the webhook fires.
+    const listing = {
+      title, price, type, location,
+      desc: desc || 'No description provided.',
+      amenities,
+      image: imageUrls[0],
+      additionalImages: imageUrls.slice(1),
+      nsfas: !!(document.getElementById('lrNsfas')?.checked),
+      ownerName: owner.name,
+      owner: {
+        whatsapp: owner.whatsapp,
+        phone:    owner.phone,
+        email:    owner.email,
+        id:       owner.id,
+        bank:     owner.bank,
+        account:  owner.account,
+        docID,      // { publicId, resourceType, deliveryType }
+        docBank
+      },
+      consent: {
+        privacyPolicyVersion: PRIVACY_POLICY_VERSION,
+        termsVersion:         TERMS_VERSION,
+        acceptedAt:           Date.now()
+      }
+    };
+
     const idToken = await user.getIdToken();
     const res = await fetch(CHECKOUT_FUNCTION_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${idToken}` },
       body: JSON.stringify({ listing })
     });
-    if (!res.ok) throw new Error('Checkout could not be created.');
+
+    if (!res.ok) {
+      const detail = await res.json().catch(() => ({}));
+      throw new Error(detail.error || 'Checkout could not be created.');
+    }
     const data = await res.json();
     if (!data || !data.redirectUrl) throw new Error('Invalid checkout response.');
+
+    setProgress(100, 'Redirecting to payment…');
+
+    // Only clear the form once we know the checkout exists.
+    if (typeof window.closeLRModal === "function") window.closeLRModal();
+    lrClearForm();
+
     window.location.href = data.redirectUrl;
+
   } catch (err) {
-    console.error('Checkout error:', err);
-    alert('Could not start checkout. Please try again.');
+    console.error('Listing submission error:', err);
+    if (uM) uM.classList.remove('active');
+    setProgress(0, '');
+    alert('Could not complete your listing: ' + (err.message || err));
+    // Form is intentionally NOT cleared, so the user can retry without retyping.
   }
 };
 

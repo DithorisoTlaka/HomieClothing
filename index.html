@@ -1827,7 +1827,8 @@ footer{background:#111111;color:white;padding:5rem 5% 2rem;text-align:center;tra
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import {
   getAuth, signInWithPopup, GoogleAuthProvider, signOut,
-  onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword
+  onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword,
+  sendEmailVerification
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 import {
   getDatabase, ref, push, set, onValue, update, get
@@ -1849,8 +1850,44 @@ const auth = getAuth(app);
 const db   = getDatabase(app);
 const provider = new GoogleAuthProvider();
 
+// ── SECURITY HELPERS ─────────────────────────────────────────────────────────
+// Escape untrusted strings before inserting them into HTML (prevents stored XSS).
+function escapeHtml(str) {
+  return String(str ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+// Only allow https image URLs from trusted hosts; otherwise return a placeholder.
+function safeUrl(url) {
+  try {
+    const u = new URL(String(url), location.origin);
+    if (u.protocol === 'https:' &&
+        (u.hostname === 'res.cloudinary.com' || u.hostname.endsWith('.cloudinary.com'))) {
+      return u.href;
+    }
+  } catch (_) {}
+  return 'https://placehold.co/600x400/f3f4f6/9ca3af?text=No+Image';
+}
+// Escape a value for safe use inside a single-quoted JS string in an inline handler.
+function jsStr(str) {
+  return String(str ?? '')
+    .replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '\\"')
+    .replace(/</g, '\\x3c').replace(/>/g, '\\x3e');
+}
+// Basic client-side validation helpers (server-side rules are the real authority).
+function isValidEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(v || '').trim()); }
+function isValidPhone(v) { return /^[0-9+\s()-]{7,20}$/.test(String(v || '').trim()); }
+function clampStr(v, max) { return String(v ?? '').slice(0, max); }
+
 const CLOUD_NAME    = "dv5bsbydu";
-const UPLOAD_PRESET = "admin_tlaka";
+// NOTE: Unsigned uploads were removed for security. Uploads now go through a
+// Cloud Function that returns a short-lived signature (see uploadToCloudinary).
+const UPLOAD_FUNCTION_URL = "https://us-central1-kasistay-3b79c.cloudfunctions.net/cloudinarySign";
+// Server-side Yoco checkout creation (returns a hosted checkout redirect URL).
+const CHECKOUT_FUNCTION_URL = "https://us-central1-kasistay-3b79c.cloudfunctions.net/createCheckout";
 
 // ── SPLASH ───────────────────────────────────────────────────────────────────
 let splashHidden = false;
@@ -1866,9 +1903,33 @@ setTimeout(hideSplash, 3000);
 
 // ── CLOUDINARY UPLOAD ─────────────────────────────────────────────────────────
 async function uploadToCloudinary(file) {
+  if (!file) throw new Error('No file selected');
+  if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
+    throw new Error('Only JPG, PNG, WEBP or GIF images are allowed.');
+  }
+  if (file.size > MAX_UPLOAD_BYTES) {
+    throw new Error('Image is too large (max 5MB).');
+  }
+
+  // 1. Ask the backend for a signature (requires an authenticated user).
+  const user = auth.currentUser;
+  if (!user) throw new Error('You must be signed in to upload images.');
+  const idToken = await user.getIdToken();
+  const signRes = await fetch(UPLOAD_FUNCTION_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${idToken}` },
+    body: JSON.stringify({})
+  });
+  if (!signRes.ok) throw new Error('Could not obtain upload signature.');
+  const { timestamp, signature, api_key, folder } = await signRes.json();
+
+  // 2. Upload with the signature.
   const fd = new FormData();
   fd.append("file", file);
-  fd.append("upload_preset", UPLOAD_PRESET);
+  fd.append("api_key", api_key);
+  fd.append("timestamp", timestamp);
+  fd.append("signature", signature);
+  if (folder) fd.append("folder", folder);
   const r = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, { method: "POST", body: fd });
   const d = await r.json();
   if (d.secure_url) return d.secure_url;
@@ -1883,6 +1944,7 @@ const mobileSearchInput  = document.getElementById('mobileSearchInput');
 const mobileInlineSearch = document.getElementById('mobileInlineSearch');
 
 let listingsData    = [];
+let reviewsData     = {};
 let currentFiltered = [];
 let displayedData   = [];
 let currentFilter   = 'all';
@@ -1897,6 +1959,7 @@ let sheetImageIndex = 0;
 let currentListingId = null;
 let selectedRating   = 0;
 let likedItems = new Set();
+let likeCountsData = {};
 let mapCurrentItemId = null;
 const PAGE_SIZE = 10;
 
@@ -2014,10 +2077,11 @@ window.closeLoginFeedbackModal = () => {
 
 window.showLoginMessage = (success, msg) => {
   const inner = document.getElementById('loginFeedbackInner');
+  const safeMsg = escapeHtml(msg || '');
   if (success) {
-    inner.innerHTML = `<i class="fa-solid fa-circle-check"></i><h2>Success!</h2><p>${msg || 'Welcome back to KasiStay.'}</p><button class="btn btn-primary" onclick="closeLoginFeedbackModal()" style="margin-top:1rem;padding:0.9rem 2rem;">Continue</button>`;
+    inner.innerHTML = `<i class="fa-solid fa-circle-check"></i><h2>Success!</h2><p>${safeMsg || 'Welcome back to KasiStay.'}</p><button class="btn btn-primary" onclick="closeLoginFeedbackModal()" style="margin-top:1rem;padding:0.9rem 2rem;">Continue</button>`;
   } else {
-    inner.innerHTML = `<i class="fa-solid fa-circle-xmark" style="color:#ef4444;font-size:4rem;margin-bottom:1.5rem;"></i><h2>Login Failed</h2><p>${msg}</p><button class="btn btn-primary" onclick="closeLoginFeedbackModal()" style="margin-top:1rem;padding:0.9rem 2rem;">Try Again</button>`;
+    inner.innerHTML = `<i class="fa-solid fa-circle-xmark" style="color:#ef4444;font-size:4rem;margin-bottom:1.5rem;"></i><h2>Login Failed</h2><p>${safeMsg}</p><button class="btn btn-primary" onclick="closeLoginFeedbackModal()" style="margin-top:1rem;padding:0.9rem 2rem;">Try Again</button>`;
   }
   closeSignInModal();
   document.getElementById('loginFeedbackModal').classList.add('active');
@@ -2028,6 +2092,7 @@ window.signInWithCredentials = async () => {
   const e = document.getElementById('signInEmail').value.trim();
   const p = document.getElementById('signInPassword').value;
   if (!e || !p) return alert("Enter both email and password");
+  if (!isValidEmail(e)) return alert("Please enter a valid email address.");
   try {
     await signInWithEmailAndPassword(auth, e, p);
     showLoginMessage(true, "You are now signed in.");
@@ -2038,9 +2103,16 @@ window.signUpWithCredentials = async () => {
   const e = document.getElementById('signInEmail').value.trim();
   const p = document.getElementById('signInPassword').value;
   if (!e || !p) return alert("Enter both email and password");
+  if (!isValidEmail(e)) return alert("Please enter a valid email address.");
+  // Password policy: min 8 chars, upper, lower, number.
+  if (p.length < 8 || !/[A-Z]/.test(p) || !/[a-z]/.test(p) || !/[0-9]/.test(p)) {
+    return alert("Password must be at least 8 characters and include an uppercase letter, a lowercase letter, and a number.");
+  }
   try {
-    await createUserWithEmailAndPassword(auth, e, p);
-    showLoginMessage(true, "Account created & signed in!");
+    const cred = await createUserWithEmailAndPassword(auth, e, p);
+    // Send a verification email; unverified accounts are restricted by rules.
+    try { await sendEmailVerification(cred.user); } catch (_) {}
+    showLoginMessage(true, "Account created! Please check your email to verify your address.");
   } catch (err) { showLoginMessage(false, err.message); }
 };
 
@@ -2174,32 +2246,28 @@ function renderFavouritesPage() {
     const item = listingsData.find(l => l.id === id);
     if (!item) return '';
     return `
-      <div class="fav-item" onclick="openMobileSheet('${id}')">
-        <img class="fav-item-img" src="${item.image || ''}" alt="${item.title || ''}" onerror="this.src='https://placehold.co/68x68/f3f4f6/9ca3af?text=?'">
+      <div class="fav-item" onclick="openMobileSheet('${jsStr(id)}')">
+        <img class="fav-item-img" src="${safeUrl(item.image)}" alt="${escapeHtml(item.title || '')}" onerror="this.src='https://placehold.co/68x68/f3f4f6/9ca3af?text=?'">
         <div class="fav-item-info">
-          <div class="fav-item-title">${item.title || ''}</div>
-          <div class="fav-item-loc"><i class="fa-solid fa-location-dot"></i> ${item.location || ''}</div>
-          <div class="fav-item-price">R${(item.price || 0).toLocaleString()}/mo</div>
+          <div class="fav-item-title">${escapeHtml(item.title || '')}</div>
+          <div class="fav-item-loc"><i class="fa-solid fa-location-dot"></i> ${escapeHtml(item.location || '')}</div>
+          <div class="fav-item-price">R${(Number(item.price) || 0).toLocaleString()}/mo</div>
         </div>
-        <button class="fav-item-remove" onclick="removeFav(event,'${id}')" title="Remove"><i class="fa-solid fa-xmark"></i></button>
+        <button class="fav-item-remove" onclick="removeFav(event,'${jsStr(id)}')" title="Remove"><i class="fa-solid fa-xmark"></i></button>
       </div>`;
   }).join('');
 }
 
 window.removeFav = async (e, id) => {
   e.stopPropagation();
-  likedItems.delete(id);
-  // Update DB
   const user = auth.currentUser;
+  likedItems.delete(id);
   if (user) {
-    try { await set(ref(db, `users/${user.uid}/saved`), Array.from(likedItems)); } catch(_) {}
+    try {
+      await set(ref(db, `likes/${id}/${user.uid}`), null);
+      await set(ref(db, `users/${user.uid}/saved`), Array.from(likedItems));
+    } catch(_) {}
   }
-  // Update like count
-  try {
-    const snap = await get(ref(db, `likeCounts/${id}/count`));
-    const cnt = snap.exists() ? Math.max(0, (snap.val() || 0) - 1) : 0;
-    await set(ref(db, `likeCounts/${id}/count`), cnt);
-  } catch(_) {}
   renderFavouritesPage();
   // Update profile count
   const ppFav = document.getElementById('ppFavCount');
@@ -2369,7 +2437,7 @@ function renderMapPins() {
 
     const shortTitle = (item.title || item.location || '').substring(0, 18) + ((item.title || '').length > 18 ? '…' : '');
     wrap.innerHTML = `
-      <div class="map-pin-bubble${isSelected ? ' selected' : ''}">${shortTitle}</div>
+      <div class="map-pin-bubble${isSelected ? ' selected' : ''}">${escapeHtml(shortTitle)}</div>
       <div class="map-pin-tail${isSelected ? ' selected' : ''}"></div>`;
 
     wrap.addEventListener('click', () => {
@@ -2385,9 +2453,9 @@ function renderMapPins() {
 function showMapPropertyCard(item) {
   const card = document.getElementById('mapPropertyCard');
   card.style.display = 'block';
-  document.getElementById('mapCardImg').src = item.image || '';
+  document.getElementById('mapCardImg').src = safeUrl(item.image);
   document.getElementById('mapCardTitle').textContent = item.title || '';
-  document.getElementById('mapCardLocation').innerHTML = `<i class="fa-solid fa-location-dot"></i> ${item.location || ''}`;
+  document.getElementById('mapCardLocation').innerHTML = `<i class="fa-solid fa-location-dot"></i> ${escapeHtml(item.location || '')}`;
   document.getElementById('mapCardPrice').textContent  = `R${(item.price || 0).toLocaleString()}/mo`;
 
   // Style the card button
@@ -2432,6 +2500,7 @@ async function loadLikeCounts() {
     snap.forEach(child => {
       const id  = child.key;
       const cnt = child.val()?.count || 0;
+      likeCountsData[id] = cnt;
       const btn = document.querySelector(`.like-btn[data-id="${id}"] .like-count-label`);
       if (btn) btn.textContent = cnt > 0 ? cnt : '';
       const badge = document.querySelector(`.like-counter-badge[data-id="${id}"] .lc-num`);
@@ -2448,10 +2517,12 @@ async function loadLikeCounts() {
 
 window.toggleLike = async (e, id) => {
   e.stopPropagation();
-  if (!auth.currentUser) { openSignInModal(); return; }
+  const user = auth.currentUser;
+  if (!user) { openSignInModal(); return; }
   const btn      = e.currentTarget;
   const wasLiked = likedItems.has(id);
   const nowLiked = !wasLiked;
+  // Optimistic UI
   if (nowLiked) {
     likedItems.add(id);
     btn.classList.add('liked');
@@ -2463,20 +2534,25 @@ window.toggleLike = async (e, id) => {
     const icon = btn.querySelector('i');
     if (icon) icon.className = 'fa-regular fa-heart';
   }
+  const label = btn.querySelector('.like-count-label');
+  const prevCount = likeCountsData[id] || 0;
+  const optimistic = Math.max(0, prevCount + (nowLiked ? 1 : -1));
+  if (label) label.textContent = optimistic > 0 ? optimistic : '';
   try {
-    const snap = await get(ref(db, `likeCounts/${id}/count`));
-    const current = snap.exists() ? (snap.val() || 0) : 0;
-    const next    = Math.max(0, current + (nowLiked ? 1 : -1));
-    const label   = btn.querySelector('.like-count-label');
-    if (label) label.textContent = next > 0 ? next : '';
-    await set(ref(db, `likeCounts/${id}/count`), next);
-    const user = auth.currentUser;
-    if (user) await set(ref(db, `users/${user.uid}/saved`), Array.from(likedItems));
+    // Per-user like record — the count is derived from these records, so a user
+    // can only ever add/remove their OWN like (enforced by security rules).
+    await set(ref(db, `likes/${id}/${user.uid}`), nowLiked ? true : null);
+    await set(ref(db, `users/${user.uid}/saved`), Array.from(likedItems));
     const ppFav = document.getElementById('ppFavCount');
     if (ppFav) ppFav.textContent = likedItems.size;
     const favBadge = document.getElementById('favCountBadge');
     if (favBadge) favBadge.textContent = likedItems.size;
-  } catch (err) { console.warn('like error:', err); }
+  } catch (err) {
+    console.warn('like error:', err);
+    // Revert on failure
+    if (nowLiked) { likedItems.delete(id); btn.classList.remove('liked'); }
+    else { likedItems.add(id); btn.classList.add('liked'); }
+  }
 };
 
 // ── SIMILAR LISTINGS ──────────────────────────────────────────────────────────
@@ -2509,12 +2585,12 @@ function renderSimilarCards(items, containerId, openFn) {
     return;
   }
   el.innerHTML = items.map(item =>
-    `<div class="similar-card" onclick="${openFn}('${item.id}')">
-      <img class="similar-card-img" src="${item.image || ''}" alt="${item.title || ''}" loading="lazy">
+    `<div class="similar-card" onclick="${openFn}('${jsStr(item.id)}')">
+      <img class="similar-card-img" src="${safeUrl(item.image)}" alt="${escapeHtml(item.title || '')}" loading="lazy">
       <div class="similar-card-body">
-        <div class="similar-card-title">${item.title || ''}</div>
-        <div class="similar-card-price">R${(item.price || 0).toLocaleString()}/mo</div>
-        <div class="similar-card-type">${item.type || ''}</div>
+        <div class="similar-card-title">${escapeHtml(item.title || '')}</div>
+        <div class="similar-card-price">R${(Number(item.price) || 0).toLocaleString()}/mo</div>
+        <div class="similar-card-type">${escapeHtml(item.type || '')}</div>
       </div>
     </div>`
   ).join('');
@@ -2529,7 +2605,7 @@ window.openShareModal = () => {
   const item = listingsData.find(x => x.id === currentListingId);
   if (!item) return;
   const url = buildShareUrl(item.id);
-  document.getElementById('sharePreviewImg').src           = item.image || '';
+  document.getElementById('sharePreviewImg').src           = safeUrl(item.image);
   document.getElementById('sharePreviewTitle').textContent = item.title || '';
   document.getElementById('sharePreviewPrice').textContent = `R${(item.price || 0).toLocaleString()}/mo`;
   document.getElementById('sharePreviewLocationText').textContent = item.location || '';
@@ -2607,22 +2683,22 @@ function renderBatch(data) {
         <div class="card-image">
           ${vBadge}
           ${nsfasBadge}
-          <button class="like-btn${isLiked ? ' liked' : ''}" data-id="${item.id}" onclick="toggleLike(event,'${item.id}')">
+          <button class="like-btn${isLiked ? ' liked' : ''}" data-id="${escapeHtml(item.id)}" onclick="toggleLike(event,'${jsStr(item.id)}')">
             <i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart"></i>
             <span class="like-count-label"></span>
           </button>
-          <img src="${item.image || ''}" alt="${item.title || 'Room'}" loading="lazy" onerror="this.src='https://placehold.co/400x400/f3f4f6/9ca3af?text=No+Image'">
+          <img src="${safeUrl(item.image)}" alt="${escapeHtml(item.title || 'Room')}" loading="lazy" onerror="this.src='https://placehold.co/400x400/f3f4f6/9ca3af?text=No+Image'">
         </div>
         <div class="card-content">
-          <div class="card-top-row"><h3 class="card-title">${item.title || ''}</h3>${rHtml}</div>
-          <div class="card-location"><i class="fa-solid fa-location-dot"></i> ${item.location || ''}</div>
-          <div class="price"><strong>R${(item.price || 0).toLocaleString()}</strong><span>/mo</span></div>
+          <div class="card-top-row"><h3 class="card-title">${escapeHtml(item.title || '')}</h3>${rHtml}</div>
+          <div class="card-location"><i class="fa-solid fa-location-dot"></i> ${escapeHtml(item.location || '')}</div>
+          <div class="price"><strong>R${(Number(item.price) || 0).toLocaleString()}</strong><span>/mo</span></div>
         </div>`;
       card.addEventListener('click', e => {
         if (!e.target.closest('.like-btn')) openMobileSheet(item.id);
       });
     } else {
-      const aHtml  = (item.amenities || []).slice(0, 3).map(a => `<span class="amenity">${a}</span>`).join('') || '';
+      const aHtml  = (item.amenities || []).slice(0, 3).map(a => `<span class="amenity">${escapeHtml(a)}</span>`).join('') || '';
       const rHtml  = avg > 0 ? `<div class="rating-stars">${genStars(avg)}</div>` : '';
       const vBadge = item.verified
         ? `<span class="badge badge-premium-verified"><i class="fa-solid fa-crown"></i></span>`
@@ -2634,13 +2710,13 @@ function renderBatch(data) {
         <div class="card-image" style="cursor:pointer;">
           ${vBadge}
           ${nsfasBadgeDesktop}
-          <div class="like-counter-badge" data-id="${item.id}"><i class="fa-solid fa-heart"></i><span class="lc-num">0</span></div>
-          <img src="${item.image || ''}" alt="${item.title || 'Room'}" loading="lazy" onerror="this.src='https://placehold.co/600x400/f3f4f6/9ca3af?text=No+Image'">
+          <div class="like-counter-badge" data-id="${escapeHtml(item.id)}"><i class="fa-solid fa-heart"></i><span class="lc-num">0</span></div>
+          <img src="${safeUrl(item.image)}" alt="${escapeHtml(item.title || 'Room')}" loading="lazy" onerror="this.src='https://placehold.co/600x400/f3f4f6/9ca3af?text=No+Image'">
         </div>
         <div class="card-content">
-          <div class="price">R${(item.price || 0).toLocaleString()}<span>/month</span></div>
-          <h3 class="card-title">${item.title || ''}</h3>
-          <div class="card-location"><i class="fa-solid fa-location-dot"></i> ${item.location || ''}</div>
+          <div class="price">R${(Number(item.price) || 0).toLocaleString()}<span>/month</span></div>
+          <h3 class="card-title">${escapeHtml(item.title || '')}</h3>
+          <div class="card-location"><i class="fa-solid fa-location-dot"></i> ${escapeHtml(item.location || '')}</div>
           <div class="amenities">${aHtml}</div>
           ${rHtml}
           <button class="card-btn">View Property</button>
@@ -2750,6 +2826,8 @@ onValue(ref(db, 'listings'), snapshot => {
       }
     });
   }
+  // Merge in reviews from the dedicated reviews node (never stored on the listing).
+  listingsData.forEach(it => { it.reviews = reviewsData[it.id] || []; });
   countLabel.textContent = `${listingsData.length} Amazing Places Found`;
   renderListings(listingsData);
   hideSplash();
@@ -2763,6 +2841,38 @@ onValue(ref(db, 'listings'), snapshot => {
   grid.innerHTML = `<div class="empty-state"><i class="fa-solid fa-wifi"></i><h3>Connection Error</h3><p>Could not load listings. Please check your internet connection and refresh.</p><button class="btn btn-primary" onclick="location.reload()">Retry</button></div>`;
   countLabel.textContent = 'Connection error';
   hideSplash();
+});
+
+// ── REVIEWS LOAD (separate node, read-only for clients) ──────────────────────
+onValue(ref(db, 'reviews'), snapshot => {
+  reviewsData = {};
+  if (snapshot.exists()) {
+    snapshot.forEach(listingSnap => {
+      const arr = [];
+      listingSnap.forEach(r => arr.push(r.val()));
+      reviewsData[listingSnap.key] = arr;
+    });
+  }
+  listingsData.forEach(it => { it.reviews = reviewsData[it.id] || []; });
+  if (listingsData.length) renderListings(listingsData);
+});
+
+// ── LIKES LOAD (per-user records; count is derived, never client-writable) ───
+onValue(ref(db, 'likes'), snapshot => {
+  likeCountsData = {};
+  if (snapshot.exists()) {
+    snapshot.forEach(listingSnap => {
+      let c = 0;
+      listingSnap.forEach(() => { c++; });
+      likeCountsData[listingSnap.key] = c;
+    });
+  }
+  Object.entries(likeCountsData).forEach(([id, cnt]) => {
+    const badge = document.querySelector(`.like-counter-badge[data-id="${id}"] .lc-num`);
+    if (badge) badge.textContent = cnt;
+    const label = document.querySelector(`.like-btn[data-id="${id}"] .like-count-label`);
+    if (label) label.textContent = cnt > 0 ? cnt : '';
+  });
 });
 
 // ── MOBILE BOTTOM SHEET ───────────────────────────────────────────────────────
@@ -2779,7 +2889,7 @@ window.openMobileSheet = id => {
     const img = document.getElementById('sheetMainImage');
     img.classList.add('switching');
     setTimeout(() => {
-      img.src = sheetImages[sheetImageIndex];
+      img.src = safeUrl(sheetImages[sheetImageIndex]);
       img.onload = () => img.classList.remove('switching');
       img.onerror = () => img.classList.remove('switching');
     }, 120);
@@ -2794,10 +2904,10 @@ window.openMobileSheet = id => {
 
   document.getElementById('sheetTitle').textContent = item.title || '';
   document.getElementById('sheetPrice').innerHTML   = `R${(item.price || 0).toLocaleString()}<span>/mo</span>`;
-  document.getElementById('sheetLocation').innerHTML = `<i class="fa-solid fa-location-dot"></i> ${item.location || ''} <i class="fa-solid fa-external-link-alt" style="font-size:0.62rem;margin-left:2px;"></i>`;
-  document.getElementById('sheetType').innerHTML     = `<i class="fa-solid fa-home"></i> ${item.type || ''}`;
+  document.getElementById('sheetLocation').innerHTML = `<i class="fa-solid fa-location-dot"></i> ${escapeHtml(item.location || '')} <i class="fa-solid fa-external-link-alt" style="font-size:0.62rem;margin-left:2px;"></i>`;
+  document.getElementById('sheetType').innerHTML     = `<i class="fa-solid fa-home"></i> ${escapeHtml(item.type || '')}`;
   document.getElementById('sheetDesc').textContent   = item.desc || 'No description available.';
-  document.getElementById('sheetAmenities').innerHTML = (item.amenities || []).map(a => `<span class="sheet-amenity">${a}</span>`).join('');
+  document.getElementById('sheetAmenities').innerHTML = (item.amenities || []).map(a => `<span class="sheet-amenity">${escapeHtml(a)}</span>`).join('');
   const ownerWA   = item.ownerWhatsApp || item.ownerPhone || '';
   const ownerCall = item.ownerPhone || item.ownerWhatsApp || '';
   const ownerName = item.ownerName || 'KasiStay Verified';
@@ -2816,7 +2926,7 @@ window.openMobileSheet = id => {
   document.getElementById('sheetAvgStars').innerHTML    = genStars(avgR);
   document.getElementById('sheetReviewCount').textContent = `(${reviews.length})`;
   document.getElementById('sheetReviewList').innerHTML   = reviews.length
-    ? reviews.map(r => `<div class="sheet-review-item"><div class="sheet-ri-top"><span class="sheet-ri-user">${r.reviewerName || 'Anonymous'}</span><span class="sheet-ri-date">${new Date(r.timestamp).toLocaleDateString()}</span></div><div class="sheet-ri-stars">${genStars(r.rating)}</div><p class="sheet-ri-text">${r.comment || ''}</p></div>`).join('')
+    ? reviews.map(r => `<div class="sheet-review-item"><div class="sheet-ri-top"><span class="sheet-ri-user">${escapeHtml(r.reviewerName || 'Anonymous')}</span><span class="sheet-ri-date">${new Date(r.timestamp).toLocaleDateString()}</span></div><div class="sheet-ri-stars">${genStars(r.rating)}</div><p class="sheet-ri-text">${escapeHtml(r.comment || '')}</p></div>`).join('')
     : '<p style="font-size:0.78rem;color:var(--text-muted);">No reviews yet. Be the first!</p>';
 
   renderSimilarCards(getSimilarListings(item, listingsData), 'mobileSimilarScroll', 'openMobileSheet');
@@ -2894,9 +3004,9 @@ window.openModal = id => {
   currentImageIndex = 0;
 
   const refreshGallery = () => {
-    document.getElementById('modalMainImage').src = currentImages[currentImageIndex];
+    document.getElementById('modalMainImage').src = safeUrl(currentImages[currentImageIndex]);
     document.getElementById('modalThumbnails').innerHTML = currentImages.map((img, idx) =>
-      `<img src="${img}" class="modal-thumbnail${idx === currentImageIndex ? ' active' : ''}" onclick="selectImage(${idx})">`
+      `<img src="${safeUrl(img)}" class="modal-thumbnail${idx === currentImageIndex ? ' active' : ''}" onclick="selectImage(${idx})">`
     ).join('');
   };
   window.selectImage = idx => { currentImageIndex = idx; refreshGallery(); };
@@ -2908,7 +3018,7 @@ window.openModal = id => {
   document.getElementById('modalLocationText').textContent = item.location || '';
   document.getElementById('modalTypeText').textContent    = item.type || '';
   document.getElementById('modalDesc').textContent        = item.desc || 'No description available.';
-  document.getElementById('modalAmenities').innerHTML     = (item.amenities || []).map(a => `<span class="amenity">${a}</span>`).join('');
+  document.getElementById('modalAmenities').innerHTML     = (item.amenities || []).map(a => `<span class="amenity">${escapeHtml(a)}</span>`).join('');
   const mOwnerWA   = item.ownerWhatsApp || item.ownerPhone || '';
   const mOwnerCall = item.ownerPhone || item.ownerWhatsApp || '';
   const mOwnerName = item.ownerName || 'KasiStay Verified';
@@ -2927,7 +3037,7 @@ window.openModal = id => {
   document.getElementById('modalAvgStars').innerHTML     = genStars(avg);
   document.getElementById('modalReviewCount').textContent = `(${reviews.length} reviews)`;
   document.getElementById('modalReviewList').innerHTML   = reviews.length
-    ? reviews.map(r => `<div class="review-item"><div class="review-top"><span class="review-user">${r.reviewerName || 'Anonymous'}</span><span class="review-date">${new Date(r.timestamp).toLocaleDateString()}</span></div><div class="review-rating">${genStars(r.rating)}</div><p>${r.comment || ''}</p></div>`).join('')
+    ? reviews.map(r => `<div class="review-item"><div class="review-top"><span class="review-user">${escapeHtml(r.reviewerName || 'Anonymous')}</span><span class="review-date">${new Date(r.timestamp).toLocaleDateString()}</span></div><div class="review-rating">${genStars(r.rating)}</div><p>${escapeHtml(r.comment || '')}</p></div>`).join('')
     : '<p style="color:var(--text-muted);">No reviews yet. Be the first!</p>';
 
   renderSimilarCards(getSimilarListings(item, listingsData), 'desktopSimilarScroll', 'openModal');
@@ -3044,23 +3154,27 @@ window.closeMobileReview = () => {
 
 function saveReview(comment) {
   const user = auth.currentUser;
+  if (!user) { openSignInModal(); return; }
+  if (!currentListingId) return;
+  const cleanComment = clampStr(String(comment || '').trim(), 1000);
+  if (!cleanComment) { alert('Please add a comment.'); return; }
+  const rating = Math.min(5, Math.max(1, Number(selectedRating) || 0));
   const newR = {
-    rating: selectedRating,
-    comment,
+    rating,
+    comment: cleanComment,
     timestamp: Date.now(),
-    reviewerName: user ? (user.displayName || user.email?.split('@')[0]) : 'Anonymous'
+    reviewerName: clampStr(user.displayName || user.email?.split('@')[0] || 'Anonymous', 60),
+    reviewerUid: user.uid
   };
-  const lRef = ref(db, `listings/${currentListingId}`);
-  get(lRef).then(snap => {
-    const data    = snap.val() || {};
-    const reviews = [...(data.reviews || []), newR];
-    update(lRef, { reviews }).then(() => {
-      get(ref(db, `listings/${currentListingId}`)).then(s => {
-        const idx = listingsData.findIndex(x => x.id === currentListingId);
-        if (idx !== -1) listingsData[idx] = { id: currentListingId, ...s.val() };
-      });
-    });
-  });
+  // Reviews live in their own node so a user can never overwrite listing data.
+  const rRef = push(ref(db, `reviews/${currentListingId}`));
+  set(rRef, newR).then(() => {
+    const idx = listingsData.findIndex(x => x.id === currentListingId);
+    if (idx !== -1) {
+      const reviews = [...(listingsData[idx].reviews || []), newR];
+      listingsData[idx] = { ...listingsData[idx], reviews };
+    }
+  }).catch(err => { console.warn('review error:', err); alert('Could not save review.'); });
 }
 window.submitReview = () => {
   const comment = document.getElementById('reviewComment').value.trim();
@@ -3107,13 +3221,16 @@ window.addToDb = async () => {
   const pS = document.getElementById('progressStatus');
   uM.classList.add('active'); pB.style.width = '10%'; pS.textContent = 'Preparing...';
 
-  const title    = document.getElementById('addTitle').value.trim();
+  const user = auth.currentUser;
+  if (!user) { uM.classList.remove('active'); openSignInModal(); return; }
+
+  const title    = clampStr(document.getElementById('addTitle').value.trim(), 120);
   const price    = Number(document.getElementById('addPrice').value);
-  const type     = document.getElementById('addType').value;
-  const location = document.getElementById('addLocation').value.trim();
-  const desc     = document.getElementById('addDesc').value.trim();
+  const type     = clampStr(document.getElementById('addType').value, 40);
+  const location = clampStr(document.getElementById('addLocation').value.trim(), 120);
+  const desc     = clampStr(document.getElementById('addDesc').value.trim(), 2000);
   const amsRaw   = document.getElementById('addAmenities').value;
-  const amenities = amsRaw ? amsRaw.split(',').map(a => a.trim()).filter(Boolean) : [];
+  const amenities = amsRaw ? amsRaw.split(',').map(a => clampStr(a.trim(), 40)).filter(Boolean).slice(0, 20) : [];
   const files    = Array.from(document.getElementById('addImage').files);
 
   if (!title || !price || !type || !location || !files.length) {
@@ -3121,8 +3238,12 @@ window.addToDb = async () => {
     uM.classList.remove('active');
     return;
   }
+  if (!Number.isFinite(price) || price <= 0 || price > 1000000) {
+    alert('Please enter a valid monthly rent.');
+    uM.classList.remove('active');
+    return;
+  }
 
-  const nRef = push(ref(db, 'listings'));
   let urls = [];
   try {
     for (let i = 0; i < files.length; i++) {
@@ -3130,32 +3251,39 @@ window.addToDb = async () => {
       pB.style.width = `${10 + (80 * (i + 1) / files.length)}%`;
       urls.push(await uploadToCloudinary(files[i]));
     }
-    pS.textContent = 'Saving listing...'; pB.style.width = '95%';
-    await set(nRef, {
+    pS.textContent = 'Starting secure checkout...'; pB.style.width = '95%';
+
+    // Listings are published ONLY by the verified payment webhook. We send the
+    // listing (with image URLs) to the server, which creates a Yoco checkout.
+    const listing = {
       title, price, type, location,
       desc: desc || 'No description provided.',
-      amenities, image: urls[0],
+      amenities,
+      image: urls[0],
       additionalImages: urls.slice(1),
-      verified: false, adminStatus: 'pending',
-      timestamp: Date.now(), reviews: [],
-      ownerName:      document.getElementById('addOwnerName')?.value?.trim() || '',
-      ownerWhatsApp:  window._lrOwnerWhatsApp || '',
-      ownerPhone:     window._lrOwnerPhone    || '',
-      ownerEmail:     window._lrOwnerEmail    || '',
-      ownerID:        window._lrOwnerID       || '',
-      ownerBank:      window._lrOwnerBank     || '',
-      ownerAccount:   window._lrOwnerAccount  || '',
-      nsfas:          !!(document.getElementById('lrNsfas')?.checked),
+      nsfas: !!(document.getElementById('lrNsfas')?.checked),
+      ownerName: clampStr(document.getElementById('addOwnerName')?.value?.trim() || '', 80),
+      owner: {
+        whatsapp: clampStr(window._lrOwnerWhatsApp || '', 20),
+        phone:    clampStr(window._lrOwnerPhone    || '', 20),
+        email:    clampStr(window._lrOwnerEmail    || '', 120),
+        id:       clampStr(window._lrOwnerID       || '', 40),
+        bank:     clampStr(window._lrOwnerBank     || '', 60),
+        account:  clampStr(window._lrOwnerAccount  || '', 40)
+      }
+    };
+
+    const idToken = await user.getIdToken();
+    const res = await fetch(CHECKOUT_FUNCTION_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${idToken}` },
+      body: JSON.stringify({ listing })
     });
-    await set(ref(db, `likeCounts/${nRef.key}`), { count: 0 });
+    if (!res.ok) throw new Error('Checkout could not be created.');
+    const data = await res.json();
+    if (!data || !data.redirectUrl) throw new Error('Invalid checkout response.');
     pB.style.width = '100%';
-    setTimeout(() => {
-      uM.classList.remove('active');
-      document.getElementById('successModal').classList.add('active');
-      document.getElementById('addForm').reset();
-      document.getElementById('imagesPreviewContainer').innerHTML = '';
-      closeAddModal();
-    }, 600);
+    window.location.href = data.redirectUrl;
   } catch (err) {
     console.error(err);
     uM.classList.remove('active');
@@ -3187,7 +3315,7 @@ function loadProfilePage() {
   ['ppAvatar','ppEditAvatar'].forEach(id => {
     const el = document.getElementById(id);
     if (!el) return;
-    if (photo) el.innerHTML = `<img src="${photo}" alt="avatar" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
+    if (photo) el.innerHTML = `<img src="${safeUrl(photo)}" alt="avatar" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
     else el.textContent = name.charAt(0).toUpperCase();
   });
 
@@ -3247,7 +3375,7 @@ window.handlePPAvatarChange = async e => {
       localStorage.setItem('ks_avatar', url);
       ['ppAvatar','ppEditAvatar'].forEach(id => {
         const el = document.getElementById(id);
-        if (el) el.innerHTML = `<img src="${url}" alt="avatar" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
+        if (el) el.innerHTML = `<img src="${safeUrl(url)}" alt="avatar" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
       });
     }
   } catch (err) { alert('Avatar upload failed: ' + err.message); }
@@ -3264,12 +3392,12 @@ window.showPPSaved = () => {
     savedIds.forEach(id => {
       const item = listingsData.find(l => l.id === id);
       if (item) {
-        listEl.innerHTML += `<div onclick="navigateTab(0);setTimeout(()=>openMobileSheet('${id}'),100);" style="padding:14px 18px;border-bottom:1px solid var(--border-color);display:flex;gap:12px;cursor:pointer;background:var(--bg-off-white);">
-          <img src="${item.image || ''}" style="width:64px;height:64px;border-radius:10px;object-fit:cover;flex-shrink:0;" onerror="this.src='https://placehold.co/64x64/f3f4f6/9ca3af?text=?'">
+        listEl.innerHTML += `<div onclick="navigateTab(0);setTimeout(()=>openMobileSheet('${jsStr(id)}'),100);" style="padding:14px 18px;border-bottom:1px solid var(--border-color);display:flex;gap:12px;cursor:pointer;background:var(--bg-off-white);">
+          <img src="${safeUrl(item.image)}" style="width:64px;height:64px;border-radius:10px;object-fit:cover;flex-shrink:0;" onerror="this.src='https://placehold.co/64x64/f3f4f6/9ca3af?text=?'">
           <div style="flex:1;min-width:0;">
-            <div style="font-weight:700;font-size:0.95rem;line-height:1.3;color:var(--text-main);">${item.title || ''}</div>
-            <div style="font-size:0.82rem;color:var(--text-muted);">${item.location || ''}</div>
-            <div style="color:var(--accent-green);font-weight:600;margin-top:4px;">R${(item.price || 0).toLocaleString()}/mo</div>
+            <div style="font-weight:700;font-size:0.95rem;line-height:1.3;color:var(--text-main);">${escapeHtml(item.title || '')}</div>
+            <div style="font-size:0.82rem;color:var(--text-muted);">${escapeHtml(item.location || '')}</div>
+            <div style="color:var(--accent-green);font-weight:600;margin-top:4px;">R${(Number(item.price) || 0).toLocaleString()}/mo</div>
           </div>
         </div>`;
       }
@@ -3304,8 +3432,7 @@ function hideInstallBanner(permanent) {
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('./sw.js')
-      .then(reg => console.log('[KasiStay] SW registered, scope:', reg.scope))
-      .catch(err => console.warn('[KasiStay] SW registration failed:', err));
+      .catch(() => {});
   });
 }
 
@@ -3433,6 +3560,8 @@ window.lrNextStep = function(from) {
       alert('Please fill in all your details (including both WhatsApp and Call numbers) to continue.');
       return;
     }
+    if (!isValidEmail(email.value)) { alert('Please enter a valid email address.'); return; }
+    if (!isValidPhone(wa.value) || !isValidPhone(phone.value)) { alert('Please enter valid phone numbers.'); return; }
     // Populate confirmation step
     document.getElementById('cfTitle').textContent       = document.getElementById('lrTitle').value || '—';
     document.getElementById('cfType').textContent        = document.getElementById('lrType').value || '—';
@@ -3628,56 +3757,49 @@ window.submitLRListing = async function () {
   if (typeof lrClearForm === "function") lrClearForm();
 
   // =========================
-  // 5. CREATE PAYMENT ID
-  // =========================
-  const paymentId = crypto.randomUUID();
-
-  // =========================
-  // 6. BUILD LISTING OBJECT
+  // 5. BUILD LISTING PAYLOAD
   // =========================
   const listing = {
-    title: document.getElementById('addTitle')?.value || '',
-    price: document.getElementById('addPrice')?.value || '',
-    type: document.getElementById('addType')?.value || '',
-    location: document.getElementById('addLocation')?.value || '',
-    desc: document.getElementById('addDesc')?.value || '',
-    owner
+    title:    clampStr(document.getElementById('addTitle')?.value || '', 120),
+    price:    Number(document.getElementById('addPrice')?.value) || 0,
+    type:     clampStr(document.getElementById('addType')?.value || '', 40),
+    location: clampStr(document.getElementById('addLocation')?.value || '', 120),
+    desc:     clampStr(document.getElementById('addDesc')?.value || '', 2000),
+    amenities: (document.getElementById('addAmenities')?.value || '')
+                 .split(',').map(a => clampStr(a.trim(), 40)).filter(Boolean).slice(0, 20),
+    nsfas:    !!(document.getElementById('lrNsfas')?.checked),
+    ownerName: clampStr(document.getElementById('addOwnerName')?.value || '', 80),
+    owner: {
+      whatsapp: clampStr(owner.whatsapp, 20),
+      phone:    clampStr(owner.phone, 20),
+      email:    clampStr(owner.email, 120),
+      id:       clampStr(owner.id, 40),
+      bank:     clampStr(owner.bank, 60),
+      account:  clampStr(owner.account, 40)
+    }
   };
 
   // =========================
-  // 7. STORE LOCALLY
+  // 6. CREATE SERVER-SIDE CHECKOUT
   // =========================
-  localStorage.setItem("pendingListing", JSON.stringify(listing));
-  localStorage.setItem("paymentId", paymentId);
-
-  // =========================
-  // 8. STORE IN FIREBASE (SESSION)
-  // =========================
-try {
-  const paymentSessionRef = ref(
-    db,
-    `paymentSessions/${paymentId}`
-  );
-
-  await set(paymentSessionRef, {
-    userId: user.uid,
-    listing: listing,
-    status: "pending",
-    createdAt: Date.now()
-  });
-
-  console.log("Payment session created:", paymentId);
-
-} catch (err) {
-  console.error("Firebase error:", err);
-  alert("Could not create payment session. Try again.");
-  return;
-}
-
-  // =========================
-  // 9. REDIRECT TO PAYMENT
-  // =========================
-  window.location.href = "payment.html";
+  // The listing (including PII) is sent to a Cloud Function which stores it
+  // privately and creates a Yoco checkout. The listing is only published to
+  // the public feed by a verified payment webhook — never by the client.
+  try {
+    const idToken = await user.getIdToken();
+    const res = await fetch(CHECKOUT_FUNCTION_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${idToken}` },
+      body: JSON.stringify({ listing })
+    });
+    if (!res.ok) throw new Error('Checkout could not be created.');
+    const data = await res.json();
+    if (!data || !data.redirectUrl) throw new Error('Invalid checkout response.');
+    window.location.href = data.redirectUrl;
+  } catch (err) {
+    console.error('Checkout error:', err);
+    alert('Could not start checkout. Please try again.');
+  }
 };
 
 </script>

@@ -144,24 +144,39 @@ if (!paymentRef) {
     }
     // The listing is published ONLY by the verified server-side webhook.
     // This page merely reflects the server-written status.
-    const statusRef = ref(db, `paymentSessions/${paymentRef}/status`);
+    const sessionRef = ref(db, `paymentSessions/${paymentRef}`);
     let settled = false;
-    onValue(statusRef, snap => {
-      const status = snap.val();
-      if (status === "paid") {
+
+    const unsubscribe = onValue(sessionRef, snap => {
+      const s = snap.val();
+      if (!s) return;
+
+      if (s.refundStatus === 'refunded') {
         settled = true;
-        finish(true, "Your listing has been published. It will appear once approved.");
-      } else if (status === "failed" || status === "cancelled") {
+        unsubscribe();
+        finish(false, "Your listing was not approved and your payment has been refunded. Refunds typically reflect in 5–10 business days.");
+        return;
+      }
+      if (s.status === "paid") {
         settled = true;
+        unsubscribe();
+        finish(true, "Your listing has been submitted. It will appear once approved — usually within 24 hours.");
+      } else if (s.status === "failed" || s.status === "cancelled") {
+        settled = true;
+        unsubscribe();
         finish(false, "The payment was not completed. You can try again from the app.");
       }
     }, () => {
+      if (settled) return;
+      settled = true;
       finish(false, "We could not read the payment status. Please try again later.");
     });
 
-    // Timeout fallback so the page never spins forever.
     setTimeout(() => {
-      if (!settled) finish(false, "We are still waiting for confirmation. Check back shortly or contact support.");
+      if (settled) return;
+      settled = true;
+      unsubscribe();
+      finish(false, "We are still waiting for confirmation. Check back shortly or contact support.");
     }, 60000);
   });
 }
